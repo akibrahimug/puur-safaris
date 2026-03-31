@@ -98,8 +98,7 @@ export function BlogCard({ post }: BlogCardProps) {
                 </span>
                 <div className="flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-all duration-300 group-hover:bg-gold"
                   style={{ border: '1px solid rgba(58,168,118,0.3)' }}>
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-all duration-300 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    style={{ color: '#3aa876' }} />
+                  <ArrowUpRight className="h-3.5 w-3.5 text-gold transition-all duration-300 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>
             </div>
