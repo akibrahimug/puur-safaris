@@ -59,12 +59,12 @@ export default function ContactPage() {
               <div className="space-y-4">
                 {siteSettings.phone && (
                   <div className="flex items-start gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100">
-                      <Phone className="h-5 w-5 text-amber-700" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[rgba(42,125,88,0.12)]">
+                      <Phone className="h-5 w-5 text-gold" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-stone-700">Telefoon</p>
-                      <a href={`tel:${siteSettings.phone}`} className="text-amber-700 hover:text-amber-800 transition-colors">
+                      <a href={`tel:${siteSettings.phone}`} className="text-gold hover:text-gold-dark transition-colors">
                         {siteSettings.phone}
                       </a>
                     </div>
@@ -73,12 +73,12 @@ export default function ContactPage() {
 
                 {siteSettings.contactEmail && (
                   <div className="flex items-start gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100">
-                      <Mail className="h-5 w-5 text-amber-700" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[rgba(42,125,88,0.12)]">
+                      <Mail className="h-5 w-5 text-gold" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-stone-700">E-mail</p>
-                      <a href={`mailto:${siteSettings.contactEmail}`} className="text-amber-700 hover:text-amber-800 transition-colors break-all">
+                      <a href={`mailto:${siteSettings.contactEmail}`} className="text-gold hover:text-gold-dark transition-colors break-all">
                         {siteSettings.contactEmail}
                       </a>
                     </div>
@@ -87,8 +87,8 @@ export default function ContactPage() {
 
                 {siteSettings.address && (
                   <div className="flex items-start gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100">
-                      <MapPin className="h-5 w-5 text-amber-700" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[rgba(42,125,88,0.12)]">
+                      <MapPin className="h-5 w-5 text-gold" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-stone-700">Adres</p>
@@ -98,8 +98,8 @@ export default function ContactPage() {
                 )}
 
                 <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100">
-                    <Clock className="h-5 w-5 text-amber-700" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[rgba(42,125,88,0.12)]">
+                    <Clock className="h-5 w-5 text-gold" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-stone-700">Bereikbaarheid</p>

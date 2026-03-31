@@ -1,7 +1,9 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { ChevronDown } from 'lucide-react'
 import { SectionHeading } from '@/components/shared/section-heading'
 import { formatMonth } from '@/lib/utils'
 import type { Testimonial } from '@/lib/types'
@@ -20,6 +22,11 @@ const cardVariants = {
 }
 
 export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
+  const INITIAL = 3
+  const [expanded, setExpanded] = useState(false)
+  const visible = expanded ? testimonials : testimonials.slice(0, INITIAL)
+  const hasMore = testimonials.length > INITIAL
+
   if (testimonials.length === 0) return null
 
   return (
@@ -40,7 +47,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
           whileInView="show"
           viewport={{ once: true, margin: '-60px' }}
         >
-          {testimonials.map((t, i) => {
+          {visible.map((t, i) => {
             const avatarUrl = t.profilePhoto?.asset?.url ?? null
             return (
               <motion.article
@@ -55,7 +62,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                 whileHover={{
                   y: -4,
                   background: 'rgba(255,255,255,0.06)',
-                  borderColor: 'rgba(58,168,118,0.2)',
+                  borderColor: 'rgba(42,125,88,0.2)',
                   transition: { duration: 0.22 },
                 }}
               >
@@ -77,7 +84,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                 <blockquote className="grow mb-5 relative">
                   <span
                     className="absolute -top-2 -left-1 font-serif leading-none select-none pointer-events-none"
-                    style={{ fontSize: '4rem', color: 'rgba(58,168,118,0.12)', lineHeight: 1 }}
+                    style={{ fontSize: '4rem', color: 'rgba(42,125,88,0.12)', lineHeight: 1 }}
                     aria-hidden="true"
                   >
                     &ldquo;
@@ -125,6 +132,22 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
             )
           })}
         </motion.div>
+
+        {hasMore && (
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium transition-all duration-300 border"
+              style={{ color: 'var(--text-muted)', borderColor: 'var(--border-subtle)' }}
+            >
+              {expanded ? 'Minder weergeven' : `Meer verhalen (${testimonials.length - INITIAL})`}
+              <ChevronDown
+                className="h-4 w-4 transition-transform duration-300"
+                style={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+              />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )

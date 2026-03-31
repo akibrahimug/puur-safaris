@@ -17,7 +17,7 @@ export function StarRating({ rating, max = 5, className, size = 'md' }: StarRati
           className={cn(
             'fill-current',
             size === 'sm' ? 'h-3.5 w-3.5' : 'h-4 w-4',
-            i < rating ? 'text-amber-500' : 'text-stone-300'
+            i < rating ? 'text-gold' : 'text-stone-300'
           )}
         />
       ))}

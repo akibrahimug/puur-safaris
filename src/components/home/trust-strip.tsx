@@ -19,7 +19,7 @@ export function TrustStrip() {
     <div className="relative overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
       {/* Top edge — gold taper */}
       <div className="absolute top-0 inset-x-0 h-px"
-        style={{ background: 'linear-gradient(to right, rgba(58,168,118,0.45), rgba(58,168,118,0.12) 55%, transparent)' }} />
+        style={{ background: 'linear-gradient(to right, rgba(42,125,88,0.45), rgba(42,125,88,0.12) 55%, transparent)' }} />
       {/* Bottom edge — subtle */}
       <div className="absolute bottom-0 inset-x-0 h-px"
         style={{ background: 'var(--border-subtle)' }} />
@@ -37,11 +37,11 @@ export function TrustStrip() {
             >
               {/* Vertical gold accent bar */}
               <div className="shrink-0 mt-0.5 w-0.5 h-8 rounded-full"
-                style={{ background: 'linear-gradient(to bottom, rgba(58,168,118,0.7), rgba(58,168,118,0.15))' }} />
+                style={{ background: 'linear-gradient(to bottom, rgba(42,125,88,0.7), rgba(42,125,88,0.15))' }} />
 
               <div>
                 <p className="font-serif font-bold leading-none mb-1"
-                  style={{ fontSize: '1.35rem', color: '#3aa876' }}>
+                  style={{ fontSize: '1.35rem', color: '#2a7d58' }}>
                   {item.value}
                 </p>
                 <p className="text-[10.5px] font-medium uppercase tracking-wider leading-snug"

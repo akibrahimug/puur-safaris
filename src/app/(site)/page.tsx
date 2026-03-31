@@ -101,12 +101,12 @@ export default function HomePage() {
       <section className="relative overflow-hidden py-28 section-page">
         {/* Centred gold top-border accent only */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px"
-          style={{ background: 'linear-gradient(to right, transparent, rgba(58,168,118,0.5), transparent)' }} />
+          style={{ background: 'linear-gradient(to right, transparent, rgba(42,125,88,0.5), transparent)' }} />
 
         <div className="relative container mx-auto max-w-3xl px-6 lg:px-8 text-center">
           <FadeUp>
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]"
-              style={{ color: '#3aa876' }}>
+              style={{ color: '#2a7d58' }}>
               Begin uw avontuur
             </p>
             <h2 className="font-serif text-heading font-bold mb-5"
@@ -119,7 +119,7 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button asChild size="lg">
-                <Link href="/contact">Offerte aanvragen</Link>
+                <Link href="/eigen-reisschema">Eigen Reisschema</Link>
               </Button>
               <Button asChild size="lg" variant="glass">
                 <Link href="/safari-reizen">Bekijk alle reizen</Link>

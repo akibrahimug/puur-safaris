@@ -84,16 +84,16 @@ export function HeroSection({ settings }: HeroSectionProps) {
         >
           <Link
             href="/safari-reizen"
-            className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-gold-dark hover:shadow-[0_0_40px_rgba(58,168,118,0.4)]"
+            className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-gold-dark hover:shadow-[0_0_40px_rgba(42,125,88,0.4)]"
           >
             Bekijk onze reizen
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
           <Link
-            href="/contact"
+            href="/eigen-reisschema"
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/35"
           >
-            Offerte aanvragen
+            Eigen Reisschema
           </Link>
         </motion.div>
 

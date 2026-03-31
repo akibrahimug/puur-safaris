@@ -1,4 +1,7 @@
-import { Utensils, MapPin } from 'lucide-react'
+'use client'
+
+import { useState } from 'react'
+import { MapPin, Utensils, ChevronDown } from 'lucide-react'
 import type { ItineraryDay } from '@/lib/types'
 
 const MEAL_LABELS: Record<string, string> = {
@@ -12,50 +15,86 @@ interface SafariItineraryProps {
 }
 
 export function SafariItinerary({ itinerary }: SafariItineraryProps) {
+  const [open, setOpen] = useState<number | null>(null)
+
   return (
-    <div className="space-y-4">
-      {itinerary.map((day) => (
-        <details
-          key={day.day}
-          className="group rounded-xl border border-stone-200 bg-white overflow-hidden"
-        >
-          <summary className="flex cursor-pointer items-center gap-4 px-5 py-4 hover:bg-stone-50 transition-colors select-none list-none">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-100 text-sm font-bold text-amber-700">
-              {day.day}
-            </span>
-            <span className="flex-1 font-semibold text-stone-900">{day.title}</span>
-            <svg
-              className="h-4 w-4 text-stone-400 transition-transform group-open:rotate-180"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+    <div
+      className="rounded-2xl overflow-hidden"
+      style={{ background: 'var(--card-strip-bg)', border: '1px solid rgba(42,125,88,0.18)' }}
+    >
+      {itinerary.map((day, i) => {
+        const isOpen = open === day.day
+        const isLast = i === itinerary.length - 1
+
+        return (
+          <div key={day.day}>
+            <button
+              type="button"
+              onClick={() => setOpen(isOpen ? null : day.day)}
+              className="w-full flex items-center gap-4 px-5 py-3.5 text-left transition-colors duration-150"
+              style={{
+                background: isOpen ? 'rgba(42,125,88,0.06)' : 'transparent',
+                borderBottom: isLast && !isOpen ? 'none' : '1px solid rgba(42,125,88,0.08)',
+              }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </summary>
+              {/* Day number — acts as the timeline node */}
+              <div
+                className="shrink-0 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all duration-200"
+                style={{
+                  background: isOpen ? '#2a7d58' : 'rgba(42,125,88,0.1)',
+                  border: `1.5px solid ${isOpen ? '#2a7d58' : 'rgba(42,125,88,0.3)'}`,
+                  color: isOpen ? '#fff' : '#2a7d58',
+                }}
+              >
+                {day.day}
+              </div>
 
-          <div className="px-5 pb-5 pt-2 border-t border-stone-100">
-            {day.description && (
-              <p className="text-stone-600 leading-relaxed text-sm">{day.description}</p>
+              {/* Title + meta */}
+              <div className="flex-1 min-w-0">
+                <span
+                  className="text-sm font-semibold block truncate"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  {day.title}
+                </span>
+                <div className="flex items-center gap-3 mt-0.5">
+                  {day.location && (
+                    <span className="flex items-center gap-1 text-[10px]" style={{ color: 'var(--text-subtle)' }}>
+                      <MapPin className="h-2.5 w-2.5 text-gold shrink-0" />
+                      {day.location}
+                    </span>
+                  )}
+                  {day.meals && day.meals.length > 0 && (
+                    <span className="flex items-center gap-1 text-[10px]" style={{ color: 'var(--text-subtle)' }}>
+                      <Utensils className="h-2.5 w-2.5 text-gold shrink-0" />
+                      {day.meals.map((m) => MEAL_LABELS[m] ?? m).join(' · ')}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <ChevronDown
+                className="h-3.5 w-3.5 shrink-0 transition-transform duration-200"
+                style={{
+                  color: 'var(--text-subtle)',
+                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                }}
+              />
+            </button>
+
+            {isOpen && day.description && (
+              <div
+                className="px-5 pb-4 pt-2"
+                style={{ borderBottom: isLast ? 'none' : '1px solid rgba(42,125,88,0.08)' }}
+              >
+                <p className="text-sm leading-relaxed pl-12" style={{ color: 'var(--text-muted)' }}>
+                  {day.description}
+                </p>
+              </div>
             )}
-
-            <div className="mt-3 flex flex-wrap gap-4">
-              {day.location && (
-                <span className="flex items-center gap-1.5 text-xs text-stone-500">
-                  <MapPin className="h-3.5 w-3.5 text-amber-600" />
-                  {day.location}
-                </span>
-              )}
-              {day.meals && day.meals.length > 0 && (
-                <span className="flex items-center gap-1.5 text-xs text-stone-500">
-                  <Utensils className="h-3.5 w-3.5 text-amber-600" />
-                  {day.meals.map((m) => MEAL_LABELS[m] ?? m).join(' · ')}
-                </span>
-              )}
-            </div>
           </div>
-        </details>
-      ))}
+        )
+      })}
     </div>
   )
 }

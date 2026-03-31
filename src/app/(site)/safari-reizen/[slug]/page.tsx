@@ -9,10 +9,9 @@ import { formatPrice, categoryLabel, difficultyLabel } from '@/lib/utils'
 import { Breadcrumbs } from '@/components/shared/breadcrumbs'
 import { PortableTextRenderer } from '@/components/shared/portable-text-renderer'
 import { SafariItinerary } from '@/components/safari/safari-itinerary'
-import { ContactForm } from '@/components/shared/contact-form'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Clock, MapPin, Users, TrendingUp, CheckCircle2, XCircle } from 'lucide-react'
+import { Clock, MapPin, Users, TrendingUp, CheckCircle2 } from 'lucide-react'
 
 export const revalidate = 300
 
@@ -93,7 +92,7 @@ export default async function SafariDetailPage({ params }: Props) {
       />
 
       {/* Hero */}
-      <div className="relative h-[50vh] min-h-[360px] bg-stone-900">
+      <div className="relative h-[50vh] min-h-[360px] bg-ink">
         {heroUrl && (
           <Image
             src={heroUrl}
@@ -128,35 +127,35 @@ export default async function SafariDetailPage({ params }: Props) {
           <div className="lg:col-span-2 space-y-10">
             {/* Quick stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="rounded-xl bg-amber-50 p-4 text-center">
-                <Clock className="h-5 w-5 text-amber-700 mx-auto mb-1" />
-                <p className="text-xs text-stone-500 mb-0.5">Duur</p>
-                <p className="font-semibold text-stone-900 text-sm">{trip.duration}</p>
+              <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
+                <Clock className="h-5 w-5 text-gold mx-auto mb-1" />
+                <p className="text-xs text-[var(--text-muted)] mb-0.5">Duur</p>
+                <p className="font-semibold text-[var(--text-primary)] text-sm">{trip.duration}</p>
               </div>
               {trip.difficulty && (
-                <div className="rounded-xl bg-amber-50 p-4 text-center">
-                  <TrendingUp className="h-5 w-5 text-amber-700 mx-auto mb-1" />
-                  <p className="text-xs text-stone-500 mb-0.5">Niveau</p>
-                  <p className="font-semibold text-stone-900 text-sm">
+                <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
+                  <TrendingUp className="h-5 w-5 text-gold mx-auto mb-1" />
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">Niveau</p>
+                  <p className="font-semibold text-[var(--text-primary)] text-sm">
                     {difficultyLabel(trip.difficulty)}
                   </p>
                 </div>
               )}
               {trip.minPersons && (
-                <div className="rounded-xl bg-amber-50 p-4 text-center">
-                  <Users className="h-5 w-5 text-amber-700 mx-auto mb-1" />
-                  <p className="text-xs text-stone-500 mb-0.5">Groepsgrootte</p>
-                  <p className="font-semibold text-stone-900 text-sm">
+                <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
+                  <Users className="h-5 w-5 text-gold mx-auto mb-1" />
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">Groepsgrootte</p>
+                  <p className="font-semibold text-[var(--text-primary)] text-sm">
                     {trip.minPersons}
                     {trip.maxPersons && `–${trip.maxPersons}`} pers.
                   </p>
                 </div>
               )}
               {trip.category && (
-                <div className="rounded-xl bg-amber-50 p-4 text-center">
-                  <MapPin className="h-5 w-5 text-amber-700 mx-auto mb-1" />
-                  <p className="text-xs text-stone-500 mb-0.5">Type</p>
-                  <p className="font-semibold text-stone-900 text-sm">
+                <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
+                  <MapPin className="h-5 w-5 text-gold mx-auto mb-1" />
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">Type</p>
+                  <p className="font-semibold text-[var(--text-primary)] text-sm">
                     {categoryLabel(trip.category)}
                   </p>
                 </div>
@@ -166,7 +165,7 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* Description */}
             {trip.fullDescription && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-stone-900 mb-4">Over deze reis</h2>
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">Over deze reis</h2>
                 <PortableTextRenderer value={trip.fullDescription as unknown[]} />
               </section>
             )}
@@ -174,11 +173,11 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* Highlights */}
             {trip.highlights && trip.highlights.length > 0 && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-stone-900 mb-4">Hoogtepunten</h2>
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">Hoogtepunten</h2>
                 <ul className="space-y-2">
                   {trip.highlights.map((h, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-stone-700">
-                      <CheckCircle2 className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+                    <li key={i} className="flex items-start gap-2.5 text-[var(--text-primary)]">
+                      <CheckCircle2 className="h-5 w-5 text-gold shrink-0 mt-0.5" />
                       <span>{h}</span>
                     </li>
                   ))}
@@ -189,7 +188,7 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* Itinerary */}
             {trip.itinerary && trip.itinerary.length > 0 && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-stone-900 mb-4">Dag-tot-dag Reisschema</h2>
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">Dag-tot-dag Reisschema</h2>
                 <SafariItinerary itinerary={trip.itinerary} />
               </section>
             )}
@@ -197,32 +196,32 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* Included / Excluded */}
             {((trip.included?.length ?? 0) > 0 || (trip.excluded?.length ?? 0) > 0) && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-stone-900 mb-4">In- en uitbegrepen</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">In- en uitbegrepen</h2>
+                <div className="rounded-2xl overflow-hidden" style={{ background: 'var(--card-strip-bg)', border: '1px solid rgba(42,125,88,0.18)' }}>
                   {trip.included && trip.included.length > 0 && (
-                    <div>
-                      <h3 className="font-semibold text-green-700 mb-2">Inbegrepen</h3>
-                      <ul className="space-y-1.5">
+                    <div className="px-5 py-4" style={{ borderBottom: (trip.excluded?.length ?? 0) > 0 ? '1px solid rgba(42,125,88,0.1)' : 'none' }}>
+                      <p className="text-[10px] font-semibold uppercase tracking-widest mb-3 text-gold">Inbegrepen</p>
+                      <div className="flex flex-wrap gap-2">
                         {trip.included.map((item, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-stone-700">
-                            <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
-                            {item}
-                          </li>
+                          <span key={i} className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
+                            style={{ background: 'rgba(42,125,88,0.1)', color: 'var(--text-primary)', border: '1px solid rgba(42,125,88,0.2)' }}>
+                            <span className="text-gold text-[10px]">✓</span>{item}
+                          </span>
                         ))}
-                      </ul>
+                      </div>
                     </div>
                   )}
                   {trip.excluded && trip.excluded.length > 0 && (
-                    <div>
-                      <h3 className="font-semibold text-red-700 mb-2">Niet inbegrepen</h3>
-                      <ul className="space-y-1.5">
+                    <div className="px-5 py-4">
+                      <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: '#c0485a' }}>Niet inbegrepen</p>
+                      <div className="flex flex-wrap gap-2">
                         {trip.excluded.map((item, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-stone-700">
-                            <XCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
-                            {item}
-                          </li>
+                          <span key={i} className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
+                            style={{ background: 'rgba(139,28,44,0.08)', color: 'var(--text-primary)', border: '1px solid rgba(139,28,44,0.18)' }}>
+                            <span style={{ color: '#c0485a', fontSize: '10px' }}>✕</span>{item}
+                          </span>
                         ))}
-                      </ul>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -232,11 +231,11 @@ export default async function SafariDetailPage({ params }: Props) {
 
           {/* Sidebar: price + enquiry */}
           <aside className="lg:col-span-1">
-            <div className="sticky top-20 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+            <div className="sticky top-20 rounded-2xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-6 shadow-sm">
               <div className="mb-4">
-                <span className="text-sm text-stone-500">Prijs vanaf</span>
-                <p className="text-4xl font-bold text-amber-700">{formatPrice(trip.price)}</p>
-                <span className="text-sm text-stone-400">
+                <span className="text-sm text-[var(--text-muted)]">Prijs vanaf</span>
+                <p className="text-4xl font-bold text-gold">{formatPrice(trip.price)}</p>
+                <span className="text-sm text-[var(--text-subtle)]">
                   {trip.priceType === 'per_group' ? 'per groep' : 'per persoon'}
                 </span>
               </div>
@@ -244,37 +243,28 @@ export default async function SafariDetailPage({ params }: Props) {
               <div className="space-y-2 mb-6">
                 {trip.duration && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-stone-500">Duur</span>
-                    <span className="font-medium text-stone-800">{trip.duration}</span>
+                    <span className="text-[var(--text-muted)]">Duur</span>
+                    <span className="font-medium text-[var(--text-primary)]">{trip.duration}</span>
                   </div>
                 )}
                 {trip.difficulty && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-stone-500">Niveau</span>
+                    <span className="text-[var(--text-muted)]">Niveau</span>
                     <Badge variant="secondary">{difficultyLabel(trip.difficulty)}</Badge>
                   </div>
                 )}
               </div>
 
               <Button asChild size="lg" className="w-full mb-3">
-                <a href="#offerte">Offerte aanvragen</a>
+                <Link href={`/safari-reizen/${slug}/boeken`}>Boek deze reis</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="w-full">
-                <Link href="/contact">Stel een vraag</Link>
+                <Link href="/eigen-reisschema">Eigen Reisschema</Link>
               </Button>
             </div>
           </aside>
         </div>
 
-        {/* Enquiry form */}
-        <div id="offerte" className="mt-20 scroll-mt-24">
-          <h2 className="font-serif text-2xl font-bold text-stone-900 mb-6">
-            Vraag een offerte aan voor: {trip.title}
-          </h2>
-          <div className="max-w-2xl">
-            <ContactForm prefilledSafari={trip.title} />
-          </div>
-        </div>
       </div>
     </>
   )

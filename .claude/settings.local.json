@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(xargs sed:*)",
+      "Bash(ls /Users/akibrahim/dev/Programming/clients/puur-safaris/src/app/\\\\\\(site\\\\\\)/eigen-reisschema)",
+      "Bash(ls \"/Users/akibrahim/dev/Programming/clients/puur-safaris/src/app/\\(site\\)/safari-reizen/\")",
+      "Bash(ls \"/Users/akibrahim/dev/Programming/clients/puur-safaris/src/app/\\(site\\)/safari-reizen/[slug]/\")",
+      "Bash(grep -n \"text-stone\\\\|prose-stone\\\\|text-stone-900\\\\|text-stone-700\\\\|text-stone-600\\\\|bg-white\\\\|bg-stone\" /Users/akibrahim/dev/Programming/clients/puur-safaris/src/app/\\\\\\(site\\\\\\)/bestemmingen/[slug]/page.tsx /Users/akibrahim/dev/Programming/clients/puur-safaris/src/app/\\\\\\(site\\\\\\)/blog/[slug]/page.tsx /Users/akibrahim/dev/Programming/clients/puur-safaris/src/app/\\\\\\(site\\\\\\)/safari-reizen/[slug]/page.tsx)"
+    ]
+  }
+}

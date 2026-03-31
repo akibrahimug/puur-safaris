@@ -22,7 +22,11 @@ export async function sanityFetch<T>(
   if (!isSanityConfigured()) return null
 
   try {
-    return await client.fetch<T>(query, params, options)
+    const fetchOptions =
+      process.env.NODE_ENV === 'development'
+        ? { cache: 'no-store' as const }
+        : options
+    return await client.fetch<T>(query, params, fetchOptions)
   } catch (err) {
     console.error('[sanityFetch] query failed, falling back to dummy data.', err)
     return null

@@ -85,7 +85,7 @@ export function WhyChooseUsSection() {
                 }}
                 whileHover={{
                   background: 'rgba(255,255,255,0.055)',
-                  borderColor: 'rgba(58,168,118,0.22)',
+                  borderColor: 'rgba(42,125,88,0.22)',
                   y: -3,
                   transition: { duration: 0.22 },
                 }}
@@ -93,15 +93,15 @@ export function WhyChooseUsSection() {
                 {/* Watermark number */}
                 <span
                   className="absolute top-4 right-5 font-serif font-bold select-none pointer-events-none"
-                  style={{ fontSize: '3.5rem', lineHeight: 1, color: 'rgba(58,168,118,0.06)' }}
+                  style={{ fontSize: '3.5rem', lineHeight: 1, color: 'rgba(42,125,88,0.06)' }}
                 >
                   {f.num}
                 </span>
 
                 {/* Icon */}
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-105"
-                  style={{ background: 'rgba(58,168,118,0.1)', border: '1px solid rgba(58,168,118,0.15)' }}>
-                  <Icon className="h-4.5 w-4.5" style={{ color: '#3aa876' }} />
+                  style={{ background: 'rgba(42,125,88,0.1)', border: '1px solid rgba(42,125,88,0.15)' }}>
+                  <Icon className="h-4.5 w-4.5" style={{ color: '#2a7d58' }} />
                 </div>
 
                 <h3 className="font-semibold text-[0.925rem] mb-2" style={{ color: 'var(--text-primary)' }}>

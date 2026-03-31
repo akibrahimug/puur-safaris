@@ -1,14 +1,15 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Fredoka } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { getSiteSettings } from '@/lib/data'
 import { buildMetadata, organizationJsonLd, websiteJsonLd, getBaseUrl } from '@/lib/seo'
 import { ThemeProvider } from '@/providers/theme-provider'
 import './globals.css'
 
-const inter = Inter({
+const fredoka = Fredoka({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-fredoka',
+  weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
 })
 
@@ -26,6 +27,9 @@ export async function generateMetadata(): Promise<Metadata> {
     ),
     metadataBase: new URL(baseUrl),
     applicationName: settings.siteName,
+    icons: settings.logo?.asset?.url
+      ? { icon: settings.logo.asset.url, apple: settings.logo.asset.url }
+      : undefined,
     keywords: ['safari', 'Afrika reizen', 'safari reizen', 'wildlife safari', 'Tanzania safari', 'Kenya safari', 'reisorganisatie'],
     authors: [{ name: settings.siteName }],
     creator: settings.siteName,
@@ -40,7 +44,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const webSchema = websiteJsonLd(settings)
 
   return (
-    <html lang="nl" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="nl" className={`${fredoka.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"

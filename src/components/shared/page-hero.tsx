@@ -29,7 +29,7 @@ export function PageHero({ title, subtitle, image, eyebrow, className, children 
           sizes="100vw"
         />
       ) : (
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1a0d03 0%, #0f0f0d 50%, #0a1a0d 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #030d07 0%, #0f0f0d 50%, #0a1a0d 100%)' }} />
       )}
 
       {/* Overlays */}
@@ -38,7 +38,7 @@ export function PageHero({ title, subtitle, image, eyebrow, className, children 
 
       {/* Gold bottom line */}
       <div className="absolute bottom-0 left-0 right-0 h-px"
-        style={{ background: 'linear-gradient(to right, rgba(58,168,118,0.4), rgba(58,168,118,0.1) 50%, transparent)' }} />
+        style={{ background: 'linear-gradient(to right, rgba(42,125,88,0.4), rgba(42,125,88,0.1) 50%, transparent)' }} />
 
       {/* Content */}
       <div className="relative z-10 w-full container mx-auto max-w-7xl px-6 lg:px-8 pb-12 pt-28">

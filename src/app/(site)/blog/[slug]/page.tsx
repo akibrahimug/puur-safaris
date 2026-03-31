@@ -87,10 +87,10 @@ export default async function BlogDetailPage({ params }: Props) {
               {blogCategoryLabel(post.category)}
             </Badge>
           )}
-          <h1 className="font-serif text-4xl font-bold text-stone-900 leading-tight sm:text-5xl">
+          <h1 className="font-serif text-4xl font-bold text-[var(--text-primary)] leading-tight sm:text-5xl">
             {post.title}
           </h1>
-          <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-stone-500">
+          <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-[var(--text-muted)]">
             <span className="flex items-center gap-1.5">
               <Calendar className="h-4 w-4" />
               {formatDate(post.publishedAt)}
@@ -102,7 +102,7 @@ export default async function BlogDetailPage({ params }: Props) {
               </span>
             )}
           </div>
-          <p className="mt-4 text-lg text-stone-600 leading-relaxed">{post.summary}</p>
+          <p className="mt-4 text-lg text-[var(--text-muted)] leading-relaxed">{post.summary}</p>
         </header>
 
         {/* Hero image */}
@@ -125,8 +125,8 @@ export default async function BlogDetailPage({ params }: Props) {
           <PortableTextRenderer value={post.content as unknown[]} className="prose-lg" />
         )}
 
-        <div className="mt-10 pt-6 border-t border-stone-200">
-          <Link href="/blog" className="text-amber-700 text-sm font-medium hover:text-amber-800 transition-colors">
+        <div className="mt-10 pt-6 border-t border-[rgba(42,125,88,0.18)]">
+          <Link href="/blog" className="text-gold text-sm font-medium hover:text-gold-dark transition-colors">
             ← Terug naar alle blogberichten
           </Link>
         </div>

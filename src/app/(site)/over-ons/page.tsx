@@ -55,19 +55,19 @@ export default function OverOnsPage() {
             <h2 className="font-serif text-3xl font-bold text-stone-900 mt-12 mb-6">Waarom wij?</h2>
             <ul className="space-y-3 text-stone-700">
               <li className="flex items-start gap-2">
-                <span className="text-amber-600 font-bold mt-1">✓</span>
+                <span className="text-gold font-bold mt-1">✓</span>
                 <span><strong>Persoonlijk advies</strong> — elke reis wordt individueel samengesteld</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-amber-600 font-bold mt-1">✓</span>
+                <span className="text-gold font-bold mt-1">✓</span>
                 <span><strong>Jarenlange ervaring</strong> — wij kennen elk land, elk seizoen</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-amber-600 font-bold mt-1">✓</span>
+                <span className="text-gold font-bold mt-1">✓</span>
                 <span><strong>Duurzaam reizen</strong> — wij ondersteunen lokale initiatieven</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-amber-600 font-bold mt-1">✓</span>
+                <span className="text-gold font-bold mt-1">✓</span>
                 <span><strong>24/7 bereikbaar</strong> — ook tijdens uw reis staan wij klaar</span>
               </li>
             </ul>

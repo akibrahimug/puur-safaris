@@ -16,11 +16,11 @@ export function BlogCard({ post }: BlogCardProps) {
     <HoverCard lift={5} className="h-full">
       <Link href={`/blog/${post.slug}`} className="flex flex-col h-full group">
         <article
-          className="flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-500 group-hover:shadow-[0_0_0_1px_rgba(58,168,118,0.35),0_20px_50px_rgba(0,0,0,0.32)]"
+          className="flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-500 border border-[rgba(42,125,88,0.22)] group-hover:border-[rgba(42,125,88,0.55)] group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.32)]"
           style={{ background: 'var(--card-strip-bg)' }}
         >
           {/* ── Image zone ────────────────────────────── */}
-          <div className="relative h-48 shrink-0 overflow-hidden">
+          <div className="relative h-56 shrink-0 overflow-hidden">
             {imageUrl ? (
               <Image
                 src={imageUrl}
@@ -57,7 +57,7 @@ export function BlogCard({ post }: BlogCardProps) {
             {/* Gold accent line */}
             <div style={{
               height: '1px',
-              background: 'linear-gradient(to right, rgba(58,168,118,0.5), rgba(58,168,118,0.12) 65%, transparent)',
+              background: 'linear-gradient(to right, rgba(42,125,88,0.5), rgba(42,125,88,0.12) 65%, transparent)',
             }} />
 
             <div className="flex flex-col grow px-5 pt-4 pb-0">
@@ -96,9 +96,11 @@ export function BlogCard({ post }: BlogCardProps) {
                 <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--card-strip-muted)' }}>
                   Lees artikel
                 </span>
-                <div className="flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-all duration-300 group-hover:bg-gold"
-                  style={{ border: '1px solid rgba(58,168,118,0.3)' }}>
-                  <ArrowUpRight className="h-3.5 w-3.5 text-gold transition-all duration-300 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <div
+                  className="flex items-center gap-1.5 rounded-full px-3.5 py-2 border border-[rgba(42,125,88,0.3)] transition-all duration-300 group-hover:bg-gold group-hover:border-transparent [--c:#2a7d58] group-hover:[--c:#ffffff]"
+                  style={{ color: 'var(--c)' }}
+                >
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>
             </div>

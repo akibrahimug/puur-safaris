@@ -74,7 +74,7 @@ export default async function BestemmingDetailPage({ params }: Props) {
       />
 
       {/* Hero */}
-      <div className="relative h-[50vh] min-h-[360px] bg-stone-900">
+      <div className="relative h-[50vh] min-h-[360px] bg-ink">
         {heroUrl && (
           <Image
             src={heroUrl}
@@ -113,21 +113,21 @@ export default async function BestemmingDetailPage({ params }: Props) {
           {/* Sidebar */}
           <aside className="space-y-4">
             {destination.climate && (
-              <div className="rounded-xl border border-stone-200 bg-white p-5">
+              <div className="rounded-xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-5">
                 <div className="flex items-center gap-2 mb-2">
-                  <Thermometer className="h-4 w-4 text-amber-600" />
-                  <h3 className="font-semibold text-stone-900 text-sm">Klimaat</h3>
+                  <Thermometer className="h-4 w-4 text-gold" />
+                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">Klimaat</h3>
                 </div>
-                <p className="text-sm text-stone-600">{destination.climate}</p>
+                <p className="text-sm text-[var(--text-muted)]">{destination.climate}</p>
               </div>
             )}
             {destination.bestTimeToVisit && (
-              <div className="rounded-xl border border-stone-200 bg-white p-5">
+              <div className="rounded-xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-5">
                 <div className="flex items-center gap-2 mb-2">
-                  <Sun className="h-4 w-4 text-amber-600" />
-                  <h3 className="font-semibold text-stone-900 text-sm">Beste tijd om te bezoeken</h3>
+                  <Sun className="h-4 w-4 text-gold" />
+                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">Beste tijd om te bezoeken</h3>
                 </div>
-                <p className="text-sm text-stone-600">{destination.bestTimeToVisit}</p>
+                <p className="text-sm text-[var(--text-muted)]">{destination.bestTimeToVisit}</p>
               </div>
             )}
           </aside>
