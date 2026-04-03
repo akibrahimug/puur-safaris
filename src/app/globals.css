@@ -1,8 +1,9 @@
 @import "tailwindcss";
+@import "react-day-picker/style.css";
 
 @theme inline {
-  --font-sans: var(--font-fredoka);
-  --font-serif: Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-sora);
+  --font-serif: var(--font-sora), Georgia, "Times New Roman", serif;
 
   /* Primary accent — Bwindi forest green */
   --color-gold: #2a7d58; /* "gold" name kept so class names (text-gold etc.) don't change */
@@ -116,7 +117,7 @@ html {
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-inter, ui-sans-serif, system-ui, sans-serif);
+  font-family: var(--font-sora, ui-sans-serif, system-ui, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -269,6 +270,41 @@ details summary::-webkit-details-marker {
     transparent
   );
   animation: shimmer 2.4s ease-in-out infinite;
+}
+
+/* ─── Date picker calendar ──────────────────────────────────────────────── */
+
+.puur-calendar-dropdown {
+  background: #ffffff;
+  border: 1px solid rgba(42, 125, 88, 0.3);
+}
+
+.puur-calendar-dropdown .rdp-root {
+  --rdp-accent-color: #2a7d58;
+  --rdp-accent-background-color: #ddf0e5;
+  --rdp-range_middle-background-color: #e8f5ee;
+  --rdp-range_middle-color: #0a1f12;
+  --rdp-range_start-color: #fff;
+  --rdp-range_start-date-background-color: #2a7d58;
+  --rdp-range_end-color: #fff;
+  --rdp-range_end-date-background-color: #2a7d58;
+  --rdp-today-color: #2a7d58;
+  --rdp-selected-border: 2px solid #2a7d58;
+  color: #1c1917;
+}
+
+.puur-calendar-dropdown .rdp-weekday {
+  color: #78716c;
+  font-weight: 600;
+}
+
+.puur-calendar-dropdown .rdp-caption_label {
+  color: #1c1917;
+  font-weight: 600;
+}
+
+.puur-calendar-dropdown .rdp-months {
+  flex-wrap: nowrap;
 }
 
 /* ─── Theme transition ───────────────────────────────────────────────────── */

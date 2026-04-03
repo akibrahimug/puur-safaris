@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { destinations } from '@/data/destinations'
-import { trips } from '@/data/trips'
+import { getDestinations, getTrips, getEigenReisschemaPage } from '@/lib/data'
 import { PageHero } from '@/components/shared/page-hero'
 import { TripBuilder } from '@/components/trip-builder/trip-builder'
 
@@ -9,13 +8,15 @@ export const metadata: Metadata = {
   description: 'Stel je eigen droomsafari samen. Kies bestemmingen, reisduur, reisstijl en laat ons een gepersonaliseerd reisschema voor je maken.',
 }
 
-export default function EigenReisschemaPage() {
+export default async function EigenReisschemaPage() {
+  const [destinations, trips, eigenReisschemaPage] = await Promise.all([getDestinations(), getTrips(), getEigenReisschemaPage()])
+
   return (
     <>
       <PageHero
-        title="Eigen Reisschema"
-        subtitle="Stel je droomsafari samen. Wij verwerken je wensen en maken een volledig gepersonaliseerd reisschema voor je."
-        eyebrow="Op maat gemaakt"
+        title={eigenReisschemaPage?.heroTitle ?? 'Eigen Reisschema'}
+        subtitle={eigenReisschemaPage?.heroSubtitle ?? 'Stel je droomsafari samen. Wij verwerken je wensen en maken een volledig gepersonaliseerd reisschema voor je.'}
+        eyebrow={eigenReisschemaPage?.heroEyebrow ?? 'Op maat gemaakt'}
         image={trips[0]?.heroImage}
       />
       <section className="py-16 section-page">

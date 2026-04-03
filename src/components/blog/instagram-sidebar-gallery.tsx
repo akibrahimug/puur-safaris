@@ -9,9 +9,15 @@ interface InstagramSidebarGalleryProps {
   authorName: string
   authorImage: string
   gallery: string[]
+  labels?: {
+    sidebarHeading?: string
+    sidebarDescription?: string
+    viewLabel?: string
+    ctaLabel?: string
+  }
 }
 
-export function InstagramSidebarGallery({ authorName, authorImage, gallery }: InstagramSidebarGalleryProps) {
+export function InstagramSidebarGallery({ authorName, authorImage, gallery, labels }: InstagramSidebarGalleryProps) {
   const [page, setPage] = useState(0)
   const [itemsPerPage, setItemsPerPage] = useState(4) // default to 4 for SSR
 
@@ -56,7 +62,7 @@ export function InstagramSidebarGallery({ authorName, authorImage, gallery }: In
             </div>
           </div>
           <div>
-            <h3 className="font-semibold text-[var(--text-primary)] leading-none mb-1">Favoriete Momenten</h3>
+            <h3 className="font-semibold text-[var(--text-primary)] leading-none mb-1">{labels?.sidebarHeading ?? 'Favoriete Momenten'}</h3>
             <p className="text-xs font-mono text-[var(--text-muted)]">@{authorName.toLowerCase().replace(/\s/g, '') || 'puursafaris'}</p>
           </div>
         </div>
@@ -64,7 +70,7 @@ export function InstagramSidebarGallery({ authorName, authorImage, gallery }: In
       </div>
 
       <p className="text-sm text-[var(--text-muted)] mb-5">
-        Een visuele weergave van de prachtige momenten vastgelegd tijdens deze reis met Puur Safaris.
+        {labels?.sidebarDescription ?? 'Een visuele weergave van de prachtige momenten vastgelegd tijdens deze reis met Puur Safaris.'}
       </p>
 
       {/* Gallery Grid */}
@@ -81,7 +87,7 @@ export function InstagramSidebarGallery({ authorName, authorImage, gallery }: In
                 <Image src={imgUrl} alt={`Safari Memory ${idx + 1}`} fill className="object-cover rounded-xl" />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
                   <div className="scale-75 sm:scale-100 text-white text-[10px] sm:text-xs font-semibold px-3 py-1.5 rounded-full border border-white/30 backdrop-blur-sm">
-                    Bekijk Locatie
+                    {labels?.viewLabel ?? 'Bekijk Locatie'}
                   </div>
                 </div>
               </div>
@@ -123,7 +129,7 @@ export function InstagramSidebarGallery({ authorName, authorImage, gallery }: In
           href="/safari-reizen" 
           className="inline-block w-full rounded-full border border-[var(--border-subtle)] text-[var(--text-primary)] px-4 py-3 sm:py-2 text-sm font-medium hover:bg-[var(--bg-primary)] hover:border-gold/40 transition-colors"
         >
-          Ontdek Al Onze Reizen
+          {labels?.ctaLabel ?? 'Ontdek Al Onze Reizen'}
         </Link>
       </div>
     </div>

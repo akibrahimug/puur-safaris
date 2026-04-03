@@ -1,9 +1,10 @@
+import { stegaClean } from '@sanity/client/stega'
 import { getSiteSettings } from '@/lib/data'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const settings = await getSiteSettings()
+  const settings = stegaClean(await getSiteSettings())
 
   return (
     <>

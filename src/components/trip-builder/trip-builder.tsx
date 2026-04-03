@@ -2,11 +2,39 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Check, ChevronRight, ChevronLeft, Minus, Plus, Send, PartyPopper } from 'lucide-react'
+import { Check, ChevronRight, ChevronLeft, Minus, Plus, Send, PartyPopper, AlertCircle } from 'lucide-react'
 import type { DestinationCard } from '@/lib/types'
 
 interface TripBuilderProps {
   destinations: DestinationCard[]
+}
+
+// ── Validation helpers ─────────────────────────────────────────────────────
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const PHONE_RE = /^[+]?[\d\s\-().]{7,20}$/
+
+type FieldErrors = Record<string, string>
+
+function validateStep1(selectedDests: string[]): FieldErrors {
+  if (selectedDests.length === 0) return { destinations: 'Selecteer minstens één bestemming' }
+  return {}
+}
+
+function validateStep2(period: string, groupSize: string, accommodation: string): FieldErrors {
+  const errs: FieldErrors = {}
+  if (!period) errs.period = 'Kies een reisperiode'
+  if (!groupSize) errs.groupSize = 'Kies een groepsgrootte'
+  if (!accommodation) errs.accommodation = 'Kies een accommodatie voorkeur'
+  return errs
+}
+
+function validateStep3(naam: string, email: string, telefoon: string): FieldErrors {
+  const errs: FieldErrors = {}
+  if (naam.trim().length < 2) errs.naam = 'Vul uw naam in (minimaal 2 tekens)'
+  if (!EMAIL_RE.test(email)) errs.email = 'Vul een geldig e-mailadres in'
+  if (telefoon && !PHONE_RE.test(telefoon)) errs.telefoon = 'Vul een geldig telefoonnummer in'
+  return errs
 }
 
 // ── Step 2 option sets ─────────────────────────────────────────────────────
@@ -92,6 +120,27 @@ function StepBar({ current }: { current: number }) {
   )
 }
 
+// ── Field error display ────────────────────────────────────────────────────
+
+function FieldError({ message }: { message?: string }) {
+  if (!message) return null
+  return <p className="mt-1.5 text-xs text-red-400">{message}</p>
+}
+
+// ── Input styles ───────────────────────────────────────────────────────────
+
+const inputClass = 'w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-200'
+const inputStyle = {
+  background: 'rgba(42,125,88,0.05)',
+  border: '1px solid rgba(42,125,88,0.2)',
+  color: 'var(--text-primary)',
+}
+const inputErrorStyle = {
+  ...inputStyle,
+  border: '1px solid rgba(220,38,38,0.5)',
+  background: 'rgba(220,38,38,0.04)',
+}
+
 // ── Main component ─────────────────────────────────────────────────────────
 
 export function TripBuilder({ destinations }: TripBuilderProps) {
@@ -99,6 +148,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
 
   // Step 1
   const [selectedDests, setSelectedDests] = useState<string[]>([])
@@ -120,6 +170,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
     setSelectedDests(prev =>
       prev.includes(id) ? prev.filter(d => d !== id) : [...prev, id]
     )
+    clearError('destinations')
   }
 
   function toggleStyle(s: string) {
@@ -128,11 +179,29 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
     )
   }
 
-  function canNext() {
-    if (step === 0) return selectedDests.length > 0
-    if (step === 1) return period !== '' && groupSize !== '' && accommodation !== ''
-    if (step === 2) return naam.trim().length >= 2 && /\S+@\S+\.\S+/.test(email)
-    return false
+  function clearError(field: string) {
+    setFieldErrors((prev) => {
+      if (!prev[field]) return prev
+      const next = { ...prev }
+      delete next[field]
+      return next
+    })
+  }
+
+  function tryNext() {
+    let errs: FieldErrors = {}
+    if (step === 0) errs = validateStep1(selectedDests)
+    if (step === 1) errs = validateStep2(period, groupSize, accommodation)
+    if (step === 2) errs = validateStep3(naam, email, telefoon)
+
+    setFieldErrors(errs)
+    if (Object.keys(errs).length > 0) return
+
+    if (step < 2) {
+      setStep((s) => s + 1)
+    } else {
+      handleSubmit()
+    }
   }
 
   async function handleSubmit() {
@@ -213,15 +282,15 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {destinations.map(dest => {
           const selected = selectedDests.includes(dest._id)
-          const imageUrl = dest.heroImage?.asset?.url ?? null
+          const imageUrl = dest.heroImage?.asset?.url || null
           return (
             <button
               key={dest._id}
               type="button"
               onClick={() => toggleDest(dest._id)}
-              className="relative aspect-[4/3] rounded-xl overflow-hidden transition-all duration-300 focus:outline-none"
+              className="relative aspect-4/3 rounded-xl overflow-hidden transition-all duration-300 focus:outline-none"
               style={{
-                border: `2px solid ${selected ? '#2a7d58' : 'rgba(42,125,88,0.15)'}`,
+                border: `2px solid ${selected ? '#2a7d58' : fieldErrors.destinations ? 'rgba(220,38,38,0.4)' : 'rgba(42,125,88,0.15)'}`,
                 boxShadow: selected ? '0 0 0 3px rgba(42,125,88,0.25)' : 'none',
               }}
             >
@@ -241,6 +310,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
           )
         })}
       </div>
+      <FieldError message={fieldErrors.destinations} />
     </div>
   )
 
@@ -293,9 +363,10 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
         </label>
         <div className="flex flex-wrap gap-2">
           {PERIODS.map(p => (
-            <Pill key={p} active={period === p} onClick={() => setPeriod(p)}>{p}</Pill>
+            <Pill key={p} active={period === p} onClick={() => { setPeriod(p); clearError('period') }}>{p}</Pill>
           ))}
         </div>
+        <FieldError message={fieldErrors.period} />
       </div>
 
       {/* Group size */}
@@ -305,9 +376,10 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
         </label>
         <div className="flex flex-wrap gap-2">
           {GROUP_SIZES.map(g => (
-            <Pill key={g.value} active={groupSize === g.value} onClick={() => setGroupSize(g.value)}>{g.label}</Pill>
+            <Pill key={g.value} active={groupSize === g.value} onClick={() => { setGroupSize(g.value); clearError('groupSize') }}>{g.label}</Pill>
           ))}
         </div>
+        <FieldError message={fieldErrors.groupSize} />
       </div>
 
       {/* Travel style */}
@@ -329,21 +401,15 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
         </label>
         <div className="flex flex-wrap gap-2">
           {ACCOMMODATIONS.map(a => (
-            <Pill key={a} active={accommodation === a} onClick={() => setAccommodation(a)}>{a}</Pill>
+            <Pill key={a} active={accommodation === a} onClick={() => { setAccommodation(a); clearError('accommodation') }}>{a}</Pill>
           ))}
         </div>
+        <FieldError message={fieldErrors.accommodation} />
       </div>
     </div>
   )
 
   // ── Step 3: Contact info ──────────────────────────────────────────────────
-
-  const inputClass = 'w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-200'
-  const inputStyle = {
-    background: 'rgba(42,125,88,0.05)',
-    border: '1px solid rgba(42,125,88,0.2)',
-    color: 'var(--text-primary)',
-  }
 
   const step3 = (
     <div className="space-y-6">
@@ -364,11 +430,12 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
           <input
             type="text"
             value={naam}
-            onChange={e => setNaam(e.target.value)}
+            onChange={e => { setNaam(e.target.value); clearError('naam') }}
             placeholder="Jan de Vries"
             className={inputClass}
-            style={inputStyle}
+            style={fieldErrors.naam ? inputErrorStyle : inputStyle}
           />
+          <FieldError message={fieldErrors.naam} />
         </div>
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>
@@ -377,11 +444,12 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
           <input
             type="email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={e => { setEmail(e.target.value); clearError('email') }}
             placeholder="jan@voorbeeld.nl"
             className={inputClass}
-            style={inputStyle}
+            style={fieldErrors.email ? inputErrorStyle : inputStyle}
           />
+          <FieldError message={fieldErrors.email} />
         </div>
       </div>
 
@@ -392,11 +460,12 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
         <input
           type="tel"
           value={telefoon}
-          onChange={e => setTelefoon(e.target.value)}
+          onChange={e => { setTelefoon(e.target.value); clearError('telefoon') }}
           placeholder="+31 6 12 34 56 78"
           className={inputClass}
-          style={inputStyle}
+          style={fieldErrors.telefoon ? inputErrorStyle : inputStyle}
         />
+        <FieldError message={fieldErrors.telefoon} />
       </div>
 
       <div>
@@ -414,9 +483,13 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
       </div>
 
       {error && (
-        <p className="text-sm rounded-xl px-4 py-3" style={{ background: 'rgba(139,28,44,0.12)', color: '#e07080', border: '1px solid rgba(139,28,44,0.25)' }}>
+        <div
+          className="flex items-center gap-3 text-sm rounded-xl px-4 py-3"
+          style={{ background: 'rgba(139,28,44,0.12)', color: '#e07080', border: '1px solid rgba(139,28,44,0.25)' }}
+        >
+          <AlertCircle className="h-4 w-4 shrink-0" />
           {error}
-        </p>
+        </div>
       )}
     </div>
   )
@@ -430,11 +503,26 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
       <div className="rounded-2xl p-6 sm:p-8" style={{ background: 'var(--card-strip-bg)', border: '1px solid rgba(42,125,88,0.18)' }}>
         {steps[step]}
 
+        {/* Validation error summary */}
+        {Object.keys(fieldErrors).length > 0 && (
+          <div
+            className="flex items-center gap-3 mt-6 rounded-xl px-4 py-3 text-sm"
+            style={{
+              background: 'rgba(139,28,44,0.08)',
+              color: '#e07080',
+              border: '1px solid rgba(139,28,44,0.2)',
+            }}
+          >
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            Controleer de gemarkeerde velden hierboven
+          </div>
+        )}
+
         {/* Navigation */}
         <div className="flex items-center justify-between mt-10 pt-6" style={{ borderTop: '1px solid rgba(42,125,88,0.12)' }}>
           <button
             type="button"
-            onClick={() => setStep(s => s - 1)}
+            onClick={() => { setFieldErrors({}); setStep(s => s - 1) }}
             className="flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200"
             style={{
               opacity: step === 0 ? 0 : 1,
@@ -446,36 +534,25 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
             <ChevronLeft className="h-4 w-4" /> Terug
           </button>
 
-          {step < 2 ? (
-            <button
-              type="button"
-              onClick={() => setStep(s => s + 1)}
-              disabled={!canNext()}
-              className="flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-200"
-              style={{
-                background: canNext() ? '#2a7d58' : 'rgba(42,125,88,0.15)',
-                color: canNext() ? '#ffffff' : 'rgba(255,255,255,0.3)',
-                cursor: canNext() ? 'pointer' : 'not-allowed',
-              }}
-            >
-              Volgende <ChevronRight className="h-4 w-4" />
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={!canNext() || submitting}
-              className="flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-200"
-              style={{
-                background: canNext() && !submitting ? '#2a7d58' : 'rgba(42,125,88,0.15)',
-                color: canNext() && !submitting ? '#ffffff' : 'rgba(255,255,255,0.3)',
-                cursor: canNext() && !submitting ? 'pointer' : 'not-allowed',
-              }}
-            >
-              {submitting ? 'Verzenden…' : 'Verstuur aanvraag'}
-              {!submitting && <Send className="h-4 w-4" />}
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={tryNext}
+            disabled={submitting}
+            className="flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-200"
+            style={{
+              background: submitting ? 'rgba(42,125,88,0.4)' : '#2a7d58',
+              color: '#ffffff',
+              cursor: submitting ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {step < 2 ? (
+              <>Volgende <ChevronRight className="h-4 w-4" /></>
+            ) : submitting ? (
+              'Verzenden…'
+            ) : (
+              <>Verstuur aanvraag <Send className="h-4 w-4" /></>
+            )}
+          </button>
         </div>
       </div>
 

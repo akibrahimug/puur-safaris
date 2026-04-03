@@ -1,15 +1,19 @@
 import type { Metadata } from 'next'
-import { Fredoka } from 'next/font/google'
+import { Sora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { draftMode } from 'next/headers'
+import { VisualEditing } from 'next-sanity/visual-editing'
+import { SanityLive } from '@/sanity/live'
+import { stegaClean } from '@sanity/client/stega'
 import { getSiteSettings } from '@/lib/data'
 import { buildMetadata, organizationJsonLd, websiteJsonLd, getBaseUrl } from '@/lib/seo'
 import { ThemeProvider } from '@/providers/theme-provider'
 import './globals.css'
 
-const fredoka = Fredoka({
+const sora = Sora({
   subsets: ['latin'],
-  variable: '--font-fredoka',
-  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-sora',
+  weight: ['300', '400', '500', '600', '700', '800'],
   display: 'swap',
 })
 
@@ -26,14 +30,14 @@ export async function generateMetadata(): Promise<Metadata> {
       settings
     ),
     metadataBase: new URL(baseUrl),
-    applicationName: settings.siteName,
+    applicationName: stegaClean(settings.siteName),
     icons: settings.logo?.asset?.url
-      ? { icon: settings.logo.asset.url, apple: settings.logo.asset.url }
+      ? { icon: stegaClean(settings.logo.asset.url)!, apple: stegaClean(settings.logo.asset.url)! }
       : undefined,
     keywords: ['safari', 'Afrika reizen', 'safari reizen', 'wildlife safari', 'Tanzania safari', 'Kenya safari', 'reisorganisatie'],
-    authors: [{ name: settings.siteName }],
-    creator: settings.siteName,
-    publisher: settings.siteName,
+    authors: [{ name: stegaClean(settings.siteName) }],
+    creator: stegaClean(settings.siteName),
+    publisher: stegaClean(settings.siteName),
     formatDetection: { email: false, telephone: false },
   }
 }
@@ -44,7 +48,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const webSchema = websiteJsonLd(settings)
 
   return (
-    <html lang="nl" className={`${fredoka.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="nl" className={`${sora.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -59,6 +63,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ThemeProvider>
           {children}
         </ThemeProvider>
+        <SanityLive />
+        {(await draftMode()).isEnabled && <VisualEditing />}
         <Analytics />
       </body>
     </html>

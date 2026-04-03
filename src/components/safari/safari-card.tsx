@@ -5,12 +5,21 @@ import { HoverCard } from "@/components/motion/hover-card";
 import { formatPrice, categoryLabel, difficultyLabel } from "@/lib/utils";
 import type { TripCard } from "@/lib/types";
 
-interface SafariCardProps {
-  trip: TripCard;
+export interface SafariCardLabels {
+  featuredBadge?: string;
+  priceFromLabel?: string;
+  pricePerGroup?: string;
+  pricePerPerson?: string;
+  viewLabel?: string;
 }
 
-export function SafariCard({ trip }: SafariCardProps) {
-  const imageUrl = trip.heroImage?.asset?.url ?? null;
+interface SafariCardProps {
+  trip: TripCard;
+  labels?: SafariCardLabels;
+}
+
+export function SafariCard({ trip, labels }: SafariCardProps) {
+  const imageUrl = trip.heroImage?.asset?.url || null;
 
   return (
     <HoverCard lift={5} className="h-full">
@@ -61,7 +70,7 @@ export function SafariCard({ trip }: SafariCardProps) {
                 <span
                   className="rounded-full px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-gold/80 text-white border border-white/20 shadow-sm ml-auto"
                 >
-                  Aanbevolen
+                  {labels?.featuredBadge ?? 'Aanbevolen'}
                 </span>
               )}
             </div>
@@ -149,7 +158,7 @@ export function SafariCard({ trip }: SafariCardProps) {
                     className="text-[9px] font-semibold uppercase tracking-[0.18em] mb-0.5"
                     style={{ color: "var(--card-strip-muted)" }}
                   >
-                    Vanaf
+                    {labels?.priceFromLabel ?? 'Vanaf'}
                   </p>
                   <p
                     className="text-[1.3rem] font-bold leading-none"
@@ -162,15 +171,15 @@ export function SafariCard({ trip }: SafariCardProps) {
                     style={{ color: "var(--card-strip-muted)" }}
                   >
                     {trip.priceType === "per_group"
-                      ? "per groep"
-                      : "per persoon"}
+                      ? (labels?.pricePerGroup ?? "per groep")
+                      : (labels?.pricePerPerson ?? "per persoon")}
                   </p>
                 </div>
 
                 <div
                   className="flex items-center gap-1.5 rounded-full px-4 py-2 border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] backdrop-blur-md transition-all duration-500 ease-out group-hover:bg-gold group-hover:border-transparent group-hover:shadow-[0_8px_20px_rgba(42,125,88,0.25)] text-gold group-hover:text-white"
                 >
-                  <span className="text-[11px] font-semibold">Bekijk</span>
+                  <span className="text-[11px] font-semibold">{labels?.viewLabel ?? 'Bekijk'}</span>
                   <ArrowUpRight className="h-3.5 w-3.5 transition-all duration-500 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>

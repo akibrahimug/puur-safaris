@@ -1,13 +1,15 @@
 import type { MetadataRoute } from 'next'
-import { trips } from '@/data/trips'
-import { destinations } from '@/data/destinations'
-import { blogPosts } from '@/data/blog-posts'
+import { getTrips, getDestinations, getBlogPosts } from '@/lib/data'
 import { getBaseUrl } from '@/lib/seo'
 
-export const revalidate = 3600
-
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getBaseUrl()
+
+  const [trips, destinations, blogPosts] = await Promise.all([
+    getTrips(),
+    getDestinations(),
+    getBlogPosts(),
+  ])
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${baseUrl}/`, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },

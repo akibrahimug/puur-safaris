@@ -9,9 +9,14 @@ import type { FaqItem } from '@/lib/types'
 
 interface FaqClientProps {
   groupedFaqs: Record<string, FaqItem[]>
+  searchPlaceholder?: string
+  categoriesHeading?: string
+  viewAllLabel?: string
+  noResultsText?: string
+  resetSearchLabel?: string
 }
 
-export function FaqClient({ groupedFaqs }: FaqClientProps) {
+export function FaqClient({ groupedFaqs, searchPlaceholder, categoriesHeading, viewAllLabel, noResultsText, resetSearchLabel }: FaqClientProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const [openIds, setOpenIds] = useState<Set<string>>(new Set())
@@ -66,7 +71,7 @@ export function FaqClient({ groupedFaqs }: FaqClientProps) {
           </div>
           <input
             type="text"
-            placeholder="Zoek een vraag..."
+            placeholder={searchPlaceholder ?? "Zoek een vraag..."}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-14 pr-6 py-4 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-secondary)] text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none focus:border-gold/50 focus:ring-2 focus:ring-gold/20 shadow-sm transition-all"
@@ -77,14 +82,14 @@ export function FaqClient({ groupedFaqs }: FaqClientProps) {
           
           {/* Sidebar Menu */}
           <div className="lg:col-span-3 sticky top-32">
-            <h3 className="font-serif text-xl font-bold text-[var(--text-primary)] mb-6">Categorieën</h3>
+            <h3 className="font-serif text-xl font-bold text-[var(--text-primary)] mb-6">{categoriesHeading ?? 'Categorieën'}</h3>
             <ul className="space-y-2">
               <li>
                 <button
                   onClick={() => setActiveCategory('all')}
                   className={`w-full text-left px-5 py-3 rounded-2xl transition-all duration-300 font-medium ${activeCategory === 'all' ? 'bg-gold text-white shadow-md' : 'text-[var(--text-muted)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]'}`}
                 >
-                  Alles Bekijken
+                  {viewAllLabel ?? 'Alles Bekijken'}
                 </button>
               </li>
               {categories.map(cat => (
@@ -107,8 +112,8 @@ export function FaqClient({ groupedFaqs }: FaqClientProps) {
           <div className="lg:col-span-9 space-y-12">
             {Object.keys(displayGroups).length === 0 ? (
               <div className="p-12 text-center rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-secondary)]">
-                <p className="text-lg text-[var(--text-muted)] mb-4">Geen resultaten gevonden voor &quot;{searchQuery}&quot;</p>
-                <button onClick={() => setSearchQuery('')} className="text-gold font-semibold hover:underline">Reset zoekopdracht</button>
+                <p className="text-lg text-[var(--text-muted)] mb-4">{noResultsText ?? 'Geen resultaten gevonden voor'} &quot;{searchQuery}&quot;</p>
+                <button onClick={() => setSearchQuery('')} className="text-gold font-semibold hover:underline">{resetSearchLabel ?? 'Reset zoekopdracht'}</button>
               </div>
             ) : (
               Object.entries(displayGroups).map(([category, items]) => (

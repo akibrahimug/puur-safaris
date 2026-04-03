@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { ChevronDown } from 'lucide-react'
 import { SectionHeading } from '@/components/shared/section-heading'
 import { Button } from '@/components/ui/button'
 import { formatMonth } from '@/lib/utils'
@@ -11,18 +10,15 @@ import type { Testimonial } from '@/lib/types'
 
 interface TestimonialsSectionProps {
   testimonials: Testimonial[]
+  eyebrow?: string
+  title?: string
+  subtitle?: string
+  verifiedLabel?: string
+  moreLabel?: string
+  beginLabel?: string
 }
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 16 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, delay: i * 0.065, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
-  }),
-}
-
-export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
+export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, verifiedLabel, moreLabel, beginLabel }: TestimonialsSectionProps) {
   const INITIAL = 3
   const [page, setPage] = useState(0)
   const totalPages = Math.ceil(testimonials.length / INITIAL)
@@ -35,9 +31,9 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
     <section className="py-28 overflow-hidden section-page">
       <div className="container mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Reizigersverhalen"
-          title="Wat onze reizigers zeggen"
-          subtitle="Elke safari is uniek. Lees hoe anderen Oost-Afrika hebben ervaren."
+          eyebrow={eyebrow ?? 'Reizigersverhalen'}
+          title={title ?? 'Wat onze reizigers zeggen'}
+          subtitle={subtitle ?? 'Elke safari is uniek. Lees hoe anderen Oost-Afrika hebben ervaren.'}
           centered
           light
           className="mb-16 mx-auto max-w-xl"
@@ -49,8 +45,8 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
           whileInView="show"
           viewport={{ once: true, margin: '-60px' }}
         >
-          {visible.map((t, i) => {
-            const avatarUrl = t.profilePhoto?.asset?.url ?? null
+          {visible.map((t) => {
+            const avatarUrl = t.profilePhoto?.asset?.url || null
             return (
               <motion.article
                 key={t._id}
@@ -124,7 +120,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                         color: '#7dcb8e',
                         border: '1px solid rgba(125,203,142,0.2)',
                       }}>
-                      Geverifieerd
+                      {verifiedLabel ?? 'Geverifieerd'}
                     </span>
                   )}
                 </div>
@@ -139,7 +135,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
               onClick={() => setPage((prev) => (prev + 1) % totalPages)}
               className="rounded-full px-8 py-3 transition-all duration-500 ease-out"
             >
-              {page === totalPages - 1 ? 'Begin' : 'Meer verhalen'}
+              {page === totalPages - 1 ? (beginLabel ?? 'Begin') : (moreLabel ?? 'Meer verhalen')}
             </Button>
           </div>
         )}

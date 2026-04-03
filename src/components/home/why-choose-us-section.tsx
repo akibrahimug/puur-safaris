@@ -1,47 +1,33 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Heart, Shield, Users, Star, Globe, Headphones } from 'lucide-react'
+import {
+  Heart, Shield, Users, Star, Globe, Headphones,
+  Map, Compass, Sun, Camera,
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { SectionHeading } from '@/components/shared/section-heading'
+import type { FeatureCard } from '@/lib/types'
 
-const features = [
-  {
-    num: '01',
-    icon: Heart,
-    title: 'Persoonlijk & op maat',
-    description: 'Elke safari wordt speciaal voor u ontworpen. Uw wensen, uw tempo, uw droomreis.',
-  },
-  {
-    num: '02',
-    icon: Shield,
-    title: 'Veiligheid voorop',
-    description: 'Al onze gidsen zijn gecertificeerd en hebben jarenlange ervaring in het veld.',
-  },
-  {
-    num: '03',
-    icon: Users,
-    title: 'Kleine groepen',
-    description: 'Wij werken met kleine, intieme groepen voor een echte en authentieke ervaring.',
-  },
-  {
-    num: '04',
-    icon: Star,
-    title: 'Topkwaliteit',
-    description: 'Zorgvuldig geselecteerde lodges en camps met uitstekende service en comfort.',
-  },
-  {
-    num: '05',
-    icon: Globe,
-    title: 'Lokale expertise',
-    description: 'Onze Afrikaanse partners kennen elk pad, elke schuilplaats en elk seizoen.',
-  },
-  {
-    num: '06',
-    icon: Headphones,
-    title: '24/7 ondersteuning',
-    description: 'Voor, tijdens en na uw reis staat ons team klaar voor vragen en ondersteuning.',
-  },
+const iconMap: Record<string, LucideIcon> = {
+  Heart, Shield, Users, Star, Globe, Headphones,
+  Map, Compass, Sun, Camera,
+}
+
+const defaultFeatures: (FeatureCard & { icon: LucideIcon })[] = [
+  { iconName: 'Heart', icon: Heart, title: 'Persoonlijk & op maat', description: 'Elke safari wordt speciaal voor u ontworpen. Uw wensen, uw tempo, uw droomreis.' },
+  { iconName: 'Shield', icon: Shield, title: 'Veiligheid voorop', description: 'Al onze gidsen zijn gecertificeerd en hebben jarenlange ervaring in het veld.' },
+  { iconName: 'Users', icon: Users, title: 'Kleine groepen', description: 'Wij werken met kleine, intieme groepen voor een echte en authentieke ervaring.' },
+  { iconName: 'Star', icon: Star, title: 'Topkwaliteit', description: 'Zorgvuldig geselecteerde lodges en camps met uitstekende service en comfort.' },
+  { iconName: 'Globe', icon: Globe, title: 'Lokale expertise', description: 'Onze Afrikaanse partners kennen elk pad, elke schuilplaats en elk seizoen.' },
+  { iconName: 'Headphones', icon: Headphones, title: '24/7 ondersteuning', description: 'Voor, tijdens en na uw reis staat ons team klaar voor vragen en ondersteuning.' },
 ]
+
+interface WhyChooseUsSectionProps {
+  eyebrow?: string
+  title?: string
+  features?: FeatureCard[]
+}
 
 const cardVariants = {
   hidden: { opacity: 0, y: 16 },
@@ -52,13 +38,15 @@ const cardVariants = {
   }),
 }
 
-export function WhyChooseUsSection() {
+export function WhyChooseUsSection({ eyebrow, title, features }: WhyChooseUsSectionProps) {
+  const featureList = features?.length ? features : defaultFeatures
+
   return (
     <section className="section-page py-28 relative overflow-hidden">
       <div className="container mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Waarom Puur Safaris"
-          title="Wij geloven in reizen die een indruk achterlaten voor het leven."
+          eyebrow={eyebrow ?? 'Waarom Puur Safaris'}
+          title={title ?? 'Wij geloven in reizen die een indruk achterlaten voor het leven.'}
           light
           centered
           className="mb-16 mx-auto max-w-2xl"
@@ -71,8 +59,9 @@ export function WhyChooseUsSection() {
           whileInView="show"
           viewport={{ once: true, margin: '-60px' }}
         >
-          {features.map((f, i) => {
-            const Icon = f.icon
+          {featureList.map((f, i) => {
+            const Icon = (f.iconName ? iconMap[f.iconName] : undefined) ?? Heart
+            const num = String(i + 1).padStart(2, '0')
             return (
               <motion.div
                 key={f.title}
@@ -92,7 +81,7 @@ export function WhyChooseUsSection() {
                   className="absolute top-4 right-5 font-serif font-bold select-none pointer-events-none"
                   style={{ fontSize: '3.5rem', lineHeight: 1, color: 'rgba(42,125,88,0.06)' }}
                 >
-                  {f.num}
+                  {num}
                 </span>
 
                 {/* Icon */}

@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { Check, ChevronLeft, ChevronRight, Minus, Plus, PartyPopper } from 'lucide-react'
+import { Check, ChevronLeft, ChevronRight, Minus, Plus, PartyPopper, AlertCircle, Shield } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
+import { DateRangePicker, SingleDatePicker } from '@/components/ui/date-picker'
+import { validateStep1, validateStep2, validateStep3, type FieldErrors } from './booking-form.validation'
 
 // ── Props ──────────────────────────────────────────────────────────────────────
 
@@ -144,6 +146,16 @@ const inputStyle = {
   border: '1px solid rgba(42,125,88,0.2)',
   color: 'var(--text-primary)',
 }
+const inputErrorStyle = {
+  ...inputStyle,
+  border: '1px solid rgba(220,38,38,0.5)',
+  background: 'rgba(220,38,38,0.04)',
+}
+
+function FieldError({ message }: { message?: string }) {
+  if (!message) return null
+  return <p className="mt-1.5 text-xs text-red-400">{message}</p>
+}
 
 const FOUND_OPTIONS = ['Google', 'Social Media', 'Vrienden/Familie', 'Blog/Artikel', 'Anders']
 
@@ -161,6 +173,7 @@ export function BookingForm({
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
 
   // Step 1
   const [flexibel, setFlexibel] = useState(false)
@@ -185,19 +198,20 @@ export function BookingForm({
   const [gevonden, setGevonden] = useState('')
   const [terms, setTerms] = useState(false)
 
-  function canNext(): boolean {
-    if (step === 0) return flexibel || vertrekdatum.length > 0
-    if (step === 1) {
-      return (
-        voornaam.trim().length >= 1 &&
-        achternaam.trim().length >= 1 &&
-        /\S+@\S+\.\S+/.test(email) &&
-        telefoon.trim().length > 0 &&
-        geboortedatum.length > 0
-      )
+  function tryNext() {
+    let errs: FieldErrors = {}
+    if (step === 0) errs = validateStep1(flexibel, vertrekdatum, retourdatum)
+    if (step === 1) errs = validateStep2({ voornaam, achternaam, email, telefoon, geboortedatum })
+    if (step === 2) errs = validateStep3(terms)
+
+    setFieldErrors(errs)
+    if (Object.keys(errs).length > 0) return
+
+    if (step < 2) {
+      setStep((s) => s + 1)
+    } else {
+      handleSubmit()
     }
-    if (step === 2) return terms
-    return false
   }
 
   async function handleSubmit() {
@@ -234,6 +248,16 @@ export function BookingForm({
     } finally {
       setSubmitting(false)
     }
+  }
+
+  // Clear specific field error on input change
+  function clearError(field: string) {
+    setFieldErrors((prev) => {
+      if (!prev[field]) return prev
+      const next = { ...prev }
+      delete next[field]
+      return next
+    })
   }
 
   // ── Success screen ────────────────────────────────────────────────────────────
@@ -319,7 +343,10 @@ export function BookingForm({
           type="button"
           role="checkbox"
           aria-checked={flexibel}
-          onClick={() => setFlexibel((v) => !v)}
+          onClick={() => {
+            setFlexibel((v) => !v)
+            clearError('vertrekdatum')
+          }}
           className="flex h-5 w-5 shrink-0 items-center justify-center rounded transition-all duration-200"
           style={{
             background: flexibel ? '#2a7d58' : 'rgba(42,125,88,0.05)',
@@ -345,41 +372,16 @@ export function BookingForm({
           We nemen contact op om de datum af te stemmen
         </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label
-              className="block text-xs font-semibold uppercase tracking-wider mb-2"
-              style={{ color: 'var(--text-muted)' }}
-            >
-              Vertrekdatum <span style={{ color: '#2a7d58' }}>*</span>
-            </label>
-            <input
-              type="date"
-              value={vertrekdatum}
-              onChange={(e) => setVertrekdatum(e.target.value)}
-              className={inputClass}
-              style={inputStyle}
-            />
-          </div>
-          <div>
-            <label
-              className="block text-xs font-semibold uppercase tracking-wider mb-2"
-              style={{ color: 'var(--text-muted)' }}
-            >
-              Retourdatum{' '}
-              <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
-                (optioneel)
-              </span>
-            </label>
-            <input
-              type="date"
-              value={retourdatum}
-              onChange={(e) => setRetourdatum(e.target.value)}
-              className={inputClass}
-              style={inputStyle}
-            />
-          </div>
-        </div>
+        <DateRangePicker
+          startDate={vertrekdatum}
+          endDate={retourdatum}
+          onStartChange={(v) => { setVertrekdatum(v); clearError('vertrekdatum') }}
+          onEndChange={(v) => { setRetourdatum(v); clearError('retourdatum') }}
+          label="Reisdata"
+          required
+          minDate={new Date()}
+          error={fieldErrors.vertrekdatum || fieldErrors.retourdatum}
+        />
       )}
 
       {/* Steppers */}
@@ -426,11 +428,15 @@ export function BookingForm({
           <input
             type="text"
             value={voornaam}
-            onChange={(e) => setVoornaam(e.target.value)}
+            onChange={(e) => {
+              setVoornaam(e.target.value)
+              clearError('voornaam')
+            }}
             placeholder="Jan"
             className={inputClass}
-            style={inputStyle}
+            style={fieldErrors.voornaam ? inputErrorStyle : inputStyle}
           />
+          <FieldError message={fieldErrors.voornaam} />
         </div>
         <div>
           <label
@@ -442,11 +448,15 @@ export function BookingForm({
           <input
             type="text"
             value={achternaam}
-            onChange={(e) => setAchternaam(e.target.value)}
+            onChange={(e) => {
+              setAchternaam(e.target.value)
+              clearError('achternaam')
+            }}
             placeholder="de Vries"
             className={inputClass}
-            style={inputStyle}
+            style={fieldErrors.achternaam ? inputErrorStyle : inputStyle}
           />
+          <FieldError message={fieldErrors.achternaam} />
         </div>
       </div>
 
@@ -460,11 +470,15 @@ export function BookingForm({
         <input
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value)
+            clearError('email')
+          }}
           placeholder="jan@voorbeeld.nl"
           className={inputClass}
-          style={inputStyle}
+          style={fieldErrors.email ? inputErrorStyle : inputStyle}
         />
+        <FieldError message={fieldErrors.email} />
       </div>
 
       <div>
@@ -477,28 +491,26 @@ export function BookingForm({
         <input
           type="tel"
           value={telefoon}
-          onChange={(e) => setTelefoon(e.target.value)}
+          onChange={(e) => {
+            setTelefoon(e.target.value)
+            clearError('telefoon')
+          }}
           placeholder="+31 6 12 34 56 78"
           className={inputClass}
-          style={inputStyle}
+          style={fieldErrors.telefoon ? inputErrorStyle : inputStyle}
         />
+        <FieldError message={fieldErrors.telefoon} />
       </div>
 
-      <div>
-        <label
-          className="block text-xs font-semibold uppercase tracking-wider mb-2"
-          style={{ color: 'var(--text-muted)' }}
-        >
-          Geboortedatum <span style={{ color: '#2a7d58' }}>*</span>
-        </label>
-        <input
-          type="date"
-          value={geboortedatum}
-          onChange={(e) => setGeboortedatum(e.target.value)}
-          className={inputClass}
-          style={inputStyle}
-        />
-      </div>
+      <SingleDatePicker
+        value={geboortedatum}
+        onChange={(v) => { setGeboortedatum(v); clearError('geboortedatum') }}
+        label="Geboortedatum"
+        required
+        placeholder="Selecteer geboortedatum"
+        maxDate={new Date()}
+        error={fieldErrors.geboortedatum}
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -539,6 +551,17 @@ export function BookingForm({
             style={inputStyle}
           />
         </div>
+      </div>
+
+      {/* Privacy note */}
+      <div
+        className="flex items-start gap-3 rounded-xl px-4 py-3"
+        style={{ background: 'rgba(42,125,88,0.05)', border: '1px solid rgba(42,125,88,0.12)' }}
+      >
+        <Shield className="h-4 w-4 shrink-0 mt-0.5 text-gold" />
+        <p className="text-xs leading-relaxed" style={{ color: 'var(--text-subtle)' }}>
+          Uw gegevens worden uitsluitend gebruikt voor het verwerken van deze boekingsaanvraag en worden niet gedeeld met derden.
+        </p>
       </div>
     </div>
   )
@@ -639,38 +662,71 @@ export function BookingForm({
         </div>
       </div>
 
+      {/* Booking summary */}
+      <div
+        className="rounded-xl p-4 space-y-2"
+        style={{ background: 'rgba(42,125,88,0.05)', border: '1px solid rgba(42,125,88,0.15)' }}
+      >
+        <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#2a7d58' }}>
+          Samenvatting
+        </p>
+        <div className="grid grid-cols-2 gap-1 text-sm">
+          <span style={{ color: 'var(--text-subtle)' }}>Reis:</span>
+          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{tripTitle}</span>
+          <span style={{ color: 'var(--text-subtle)' }}>Datum:</span>
+          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
+            {flexibel ? 'Flexibel' : vertrekdatum || '—'}
+          </span>
+          <span style={{ color: 'var(--text-subtle)' }}>Reizigers:</span>
+          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
+            {aantalVolwassenen} volw.{aantalKinderen > 0 ? `, ${aantalKinderen} kind.` : ''}
+          </span>
+          <span style={{ color: 'var(--text-subtle)' }}>Naam:</span>
+          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
+            {voornaam} {achternaam}
+          </span>
+        </div>
+      </div>
+
       {/* Terms */}
       <div className="flex items-start gap-3 pt-2">
         <button
           type="button"
           role="checkbox"
           aria-checked={terms}
-          onClick={() => setTerms((v) => !v)}
+          onClick={() => {
+            setTerms((v) => !v)
+            clearError('terms')
+          }}
           className="flex h-5 w-5 shrink-0 mt-0.5 items-center justify-center rounded transition-all duration-200"
           style={{
             background: terms ? '#2a7d58' : 'rgba(42,125,88,0.05)',
-            border: `2px solid ${terms ? '#2a7d58' : 'rgba(42,125,88,0.3)'}`,
+            border: `2px solid ${fieldErrors.terms ? 'rgba(220,38,38,0.5)' : terms ? '#2a7d58' : 'rgba(42,125,88,0.3)'}`,
           }}
         >
           {terms && <Check className="h-3 w-3 text-white" />}
         </button>
-        <span className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-          Ik ga akkoord met de reisvoorwaarden en het privacybeleid van Puur Safaris{' '}
-          <span style={{ color: '#2a7d58' }}>*</span>
-        </span>
+        <div>
+          <span className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+            Ik ga akkoord met de reisvoorwaarden en het privacybeleid van Puur Safaris{' '}
+            <span style={{ color: '#2a7d58' }}>*</span>
+          </span>
+          <FieldError message={fieldErrors.terms} />
+        </div>
       </div>
 
       {error && (
-        <p
-          className="text-sm rounded-xl px-4 py-3"
+        <div
+          className="flex items-center gap-3 text-sm rounded-xl px-4 py-3"
           style={{
             background: 'rgba(139,28,44,0.12)',
             color: '#e07080',
             border: '1px solid rgba(139,28,44,0.25)',
           }}
         >
+          <AlertCircle className="h-4 w-4 shrink-0" />
           {error}
-        </p>
+        </div>
       )}
     </div>
   )
@@ -687,6 +743,21 @@ export function BookingForm({
       >
         {steps[step]}
 
+        {/* Validation error summary */}
+        {Object.keys(fieldErrors).length > 0 && (
+          <div
+            className="flex items-center gap-3 mt-6 rounded-xl px-4 py-3 text-sm"
+            style={{
+              background: 'rgba(139,28,44,0.08)',
+              color: '#e07080',
+              border: '1px solid rgba(139,28,44,0.2)',
+            }}
+          >
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            Controleer de gemarkeerde velden hierboven
+          </div>
+        )}
+
         {/* Navigation */}
         <div
           className="flex items-center justify-between mt-10 pt-6"
@@ -694,7 +765,10 @@ export function BookingForm({
         >
           <button
             type="button"
-            onClick={() => setStep((s) => s - 1)}
+            onClick={() => {
+              setFieldErrors({})
+              setStep((s) => s - 1)
+            }}
             className="flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200"
             style={{
               opacity: step === 0 ? 0 : 1,
@@ -706,35 +780,27 @@ export function BookingForm({
             <ChevronLeft className="h-4 w-4" /> Terug
           </button>
 
-          {step < 2 ? (
-            <button
-              type="button"
-              onClick={() => setStep((s) => s + 1)}
-              disabled={!canNext()}
-              className="flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-200"
-              style={{
-                background: canNext() ? '#2a7d58' : 'rgba(42,125,88,0.15)',
-                color: canNext() ? '#ffffff' : 'rgba(255,255,255,0.3)',
-                cursor: canNext() ? 'pointer' : 'not-allowed',
-              }}
-            >
-              Volgende <ChevronRight className="h-4 w-4" />
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={!canNext() || submitting}
-              className="flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-200"
-              style={{
-                background: canNext() && !submitting ? '#2a7d58' : 'rgba(42,125,88,0.15)',
-                color: canNext() && !submitting ? '#ffffff' : 'rgba(255,255,255,0.3)',
-                cursor: canNext() && !submitting ? 'pointer' : 'not-allowed',
-              }}
-            >
-              {submitting ? 'Verzenden…' : 'Boeking bevestigen'}
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={tryNext}
+            disabled={submitting}
+            className="flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-200"
+            style={{
+              background: submitting ? 'rgba(42,125,88,0.4)' : '#2a7d58',
+              color: '#ffffff',
+              cursor: submitting ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {step < 2 ? (
+              <>
+                Volgende <ChevronRight className="h-4 w-4" />
+              </>
+            ) : submitting ? (
+              'Verzenden…'
+            ) : (
+              'Boeking bevestigen'
+            )}
+          </button>
         </div>
       </div>
     </div>

@@ -45,7 +45,7 @@ const components: PortableTextComponents = {
   },
   types: {
     image: ({ value }) => {
-      const imageUrl = value?.asset?.url ?? null
+      const imageUrl = value?.asset?.url || null
       if (!imageUrl) return null
       return (
         <figure className="my-10">
@@ -66,18 +66,20 @@ const components: PortableTextComponents = {
       )
     },
     imageGrid: ({ value }) => {
-      const images = value?.images ?? []
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const images = (value?.images ?? []).filter((img: any) => img.asset?.url)
       if (images.length === 0) return null
-      
+
       const gridCols = images.length === 1 ? 'grid-cols-1' : (images.length === 2 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-3')
-      
+
       return (
         <figure className="my-12">
           <div className={`grid gap-4 ${gridCols}`}>
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {images.map((img: any, idx: number) => (
               <div key={idx} className="relative aspect-square sm:aspect-[4/3] overflow-hidden rounded-3xl border border-[var(--border-subtle)] shadow-sm group">
                 <Image
-                  src={img.asset?.url}
+                  src={img.asset.url}
                   alt={img.alt ?? ''}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"

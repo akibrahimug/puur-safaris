@@ -1,9 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { siteSettings } from '@/data/site-settings'
-import { trips } from '@/data/trips'
-import { destinations } from '@/data/destinations'
-import { testimonials } from '@/data/testimonials'
+import { getSiteSettings, getTrips, getDestinations, getTestimonials, getHomePage } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
 import { HeroSection } from '@/components/home/hero-section'
 import { TrustStrip } from '@/components/home/trust-strip'
@@ -16,28 +13,35 @@ import { Button } from '@/components/ui/button'
 import { FadeUp } from '@/components/motion/fade-up'
 import { ArrowRight } from 'lucide-react'
 
-export const revalidate = 3600
-
-export function generateMetadata(): Metadata {
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings()
   return buildMetadata(
     {
-      title: siteSettings.defaultSeoTitle ?? siteSettings.siteName,
-      description: siteSettings.defaultSeoDescription,
+      title: settings.defaultSeoTitle ?? settings.siteName,
+      description: settings.defaultSeoDescription,
       canonical: '/',
     },
-    siteSettings
+    settings
   )
 }
 
-export default function HomePage() {
-  const featuredTrips = trips.filter((t) => t.featured)
+export default async function HomePage() {
+  const [settings, allTrips, destinations, testimonials, homePage] = await Promise.all([
+    getSiteSettings(),
+    getTrips(),
+    getDestinations(),
+    getTestimonials(),
+    getHomePage(),
+  ])
+
+  const featuredTrips = allTrips.filter((t) => t.featured)
 
   return (
     <>
-      <HeroSection settings={siteSettings} />
+      <HeroSection settings={settings} homePage={homePage} />
 
       {/* ── Trust strip — credibility before the trips ───────── */}
-      <TrustStrip />
+      <TrustStrip items={homePage?.trustItems} />
 
       {/* ── Featured safaris ─────────────────────────────────── */}
       {featuredTrips.length > 0 && (
@@ -46,14 +50,14 @@ export default function HomePage() {
             <FadeUp>
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
                 <SectionHeading
-                  eyebrow="Uitgelichte Reizen"
-                  title="Safari Reizen"
-                  subtitle="Handpicked avonturen voor een onvergetelijke ervaring in Oost-Afrika."
+                  eyebrow={homePage?.featuredTripsEyebrow ?? 'Uitgelichte Reizen'}
+                  title={homePage?.featuredTripsTitle ?? 'Safari Reizen'}
+                  subtitle={homePage?.featuredTripsSubtitle ?? 'Handpicked avonturen voor een onvergetelijke ervaring in Oost-Afrika.'}
                   light
                 />
                 <Button asChild variant="glass">
                   <Link href="/safari-reizen">
-                    Alle reizen <ArrowRight className="h-4 w-4" />
+                    {homePage?.featuredTripsCtaLabel ?? 'Alle reizen'} <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
@@ -64,7 +68,11 @@ export default function HomePage() {
       )}
 
       {/* ── Why choose us ────────────────────────────────────── */}
-      <WhyChooseUsSection />
+      <WhyChooseUsSection
+        eyebrow={homePage?.featuresEyebrow}
+        title={homePage?.featuresTitle}
+        features={homePage?.features}
+      />
 
       {/* ── Destinations ─────────────────────────────────────── */}
       {destinations.length > 0 && (
@@ -73,14 +81,14 @@ export default function HomePage() {
             <FadeUp>
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
                 <SectionHeading
-                  eyebrow="Bestemmingen"
-                  title="Ontdek Oost-Afrika"
-                  subtitle="Elk land een ander avontuur. Van Ugandese gorilla treks tot de serengeti vlakten."
+                  eyebrow={homePage?.destinationsEyebrow ?? 'Bestemmingen'}
+                  title={homePage?.destinationsTitle ?? 'Ontdek Oost-Afrika'}
+                  subtitle={homePage?.destinationsSubtitle ?? 'Elk land een ander avontuur. Van Ugandese gorilla treks tot de serengeti vlakten.'}
                   light
                 />
                 <Button asChild variant="glass">
                   <Link href="/bestemmingen">
-                    Alle bestemmingen <ArrowRight className="h-4 w-4" />
+                    {homePage?.destinationsCtaLabel ?? 'Alle bestemmingen'} <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
@@ -95,7 +103,15 @@ export default function HomePage() {
       )}
 
       {/* ── Testimonials ─────────────────────────────────────── */}
-      <TestimonialsSection testimonials={testimonials} />
+      <TestimonialsSection
+        testimonials={testimonials}
+        eyebrow={homePage?.testimonialsEyebrow}
+        title={homePage?.testimonialsTitle}
+        subtitle={homePage?.testimonialsSubtitle}
+        verifiedLabel={homePage?.testimonialsVerifiedLabel}
+        moreLabel={homePage?.testimonialsMoreLabel}
+        beginLabel={homePage?.testimonialsBeginLabel}
+      />
 
       {/* ── CTA banner ───────────────────────────────────────── */}
       <section className="relative overflow-hidden py-28 section-page">
@@ -107,22 +123,22 @@ export default function HomePage() {
           <FadeUp>
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]"
               style={{ color: '#2a7d58' }}>
-              Begin uw avontuur
+              {homePage?.ctaEyebrow ?? 'Begin uw avontuur'}
             </p>
             <h2 className="font-serif text-heading font-bold mb-5"
               style={{ color: 'var(--text-primary)' }}>
-              Klaar voor uw droomsafari?
+              {homePage?.ctaTitle ?? 'Klaar voor uw droomsafari?'}
             </h2>
             <p className="text-base leading-relaxed mb-10 max-w-xl mx-auto"
               style={{ color: 'var(--text-muted)' }}>
-              Laat ons een gepersonaliseerde offerte voor u samenstellen. Gratis en vrijblijvend — wij kennen elk pad in Oost-Afrika.
+              {homePage?.ctaSubtitle ?? 'Laat ons een gepersonaliseerde offerte voor u samenstellen. Gratis en vrijblijvend — wij kennen elk pad in Oost-Afrika.'}
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button asChild size="lg">
-                <Link href="/eigen-reisschema">Eigen Reisschema</Link>
+                <Link href={homePage?.ctaButton1Link ?? '/eigen-reisschema'}>{homePage?.ctaButton1Label ?? 'Eigen Reisschema'}</Link>
               </Button>
               <Button asChild size="lg" variant="glass">
-                <Link href="/safari-reizen">Bekijk alle reizen</Link>
+                <Link href={homePage?.ctaButton2Link ?? '/safari-reizen'}>{homePage?.ctaButton2Label ?? 'Bekijk alle reizen'}</Link>
               </Button>
             </div>
           </FadeUp>

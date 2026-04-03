@@ -12,23 +12,27 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { _type } = body as { _type?: string }
 
-    if (_type === 'safari') {
+    if (_type === 'trip') {
       revalidatePath('/safari-reizen', 'page')
       revalidatePath('/safari-reizen/[slug]', 'page')
       revalidatePath('/', 'page')
-    } else if (_type === 'bestemming') {
+    } else if (_type === 'destination') {
       revalidatePath('/bestemmingen', 'page')
       revalidatePath('/bestemmingen/[slug]', 'page')
       revalidatePath('/', 'page')
-    } else if (_type === 'blogBericht') {
+    } else if (_type === 'blogPost') {
       revalidatePath('/blog', 'page')
       revalidatePath('/blog/[slug]', 'page')
-    } else if (_type === 'getuigenis') {
+    } else if (_type === 'testimonial') {
       revalidatePath('/', 'page')
-    } else if (_type === 'veelgesteldeVraag') {
+    } else if (_type === 'faqItem') {
       revalidatePath('/faq', 'page')
-    } else if (_type === 'siteInstellingen') {
+    } else if (_type === 'siteSettings') {
       revalidatePath('/', 'layout')
+    } else if (_type === 'homePage') {
+      revalidatePath('/', 'page')
+    } else if (_type === 'aboutPage') {
+      revalidatePath('/over-ons', 'page')
     }
 
     return NextResponse.json({ revalidated: true, type: _type })

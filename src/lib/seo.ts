@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { stegaClean } from '@sanity/client/stega'
 import type { SanityImage, SeoFields, SiteSettings } from './types'
 
 export function getBaseUrl(): string {
@@ -41,10 +42,12 @@ export function buildMetadata(
     modifiedTime,
   } = options
 
-  const siteName = settings?.siteName ?? 'Puur Safaris'
-  const fullTitle = title === siteName ? title : `${title} | ${siteName}`
-  const metaDescription =
+  const siteName = stegaClean(settings?.siteName ?? 'Puur Safaris')
+  const cleanTitle = stegaClean(title)
+  const fullTitle = cleanTitle === siteName ? siteName : `${cleanTitle} | ${siteName}`
+  const metaDescription = stegaClean(
     description ?? settings?.defaultSeoDescription ?? 'Ontdek authentieke safari ervaringen op maat.'
+  )
 
   const ogImage = image ?? settings?.defaultOgImage
   const ogImageUrl = ogImage?.asset?.url ?? undefined
@@ -98,16 +101,16 @@ export function organizationJsonLd(settings?: SiteSettings | null) {
   return {
     '@context': 'https://schema.org',
     '@type': 'TravelAgency',
-    name: settings?.siteName ?? 'Puur Safaris',
+    name: stegaClean(settings?.siteName ?? 'Puur Safaris'),
     url: baseUrl,
-    ...(settings?.contactEmail && { email: settings.contactEmail }),
-    ...(settings?.phone && { telephone: settings.phone }),
-    ...(settings?.address && { address: settings.address }),
+    ...(settings?.contactEmail && { email: stegaClean(settings.contactEmail) }),
+    ...(settings?.phone && { telephone: stegaClean(settings.phone) }),
+    ...(settings?.address && { address: stegaClean(settings.address) }),
     ...(settings?.socialMedia?.instagram && {
       sameAs: [
-        settings.socialMedia.instagram,
-        settings.socialMedia.facebook,
-        settings.socialMedia.youtube,
+        stegaClean(settings.socialMedia.instagram),
+        stegaClean(settings.socialMedia.facebook),
+        stegaClean(settings.socialMedia.youtube),
       ].filter(Boolean),
     }),
   }
@@ -118,7 +121,7 @@ export function websiteJsonLd(settings?: SiteSettings | null) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: settings?.siteName ?? 'Puur Safaris',
+    name: stegaClean(settings?.siteName ?? 'Puur Safaris'),
     url: baseUrl,
     inLanguage: 'nl',
     potentialAction: {

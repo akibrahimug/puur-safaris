@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import Image from 'next/image'
-import { Calendar, User, UploadCloud, CheckCircle2, X, Camera, Pencil } from 'lucide-react'
+import { Calendar, User, CheckCircle2, X, Camera, Pencil } from 'lucide-react'
 
 /* ── Sample content pre-filled — mirrors the gorilla trekking blog post ── */
 const SAMPLE = {
@@ -24,7 +24,7 @@ const SAMPLE = {
   section3Body: 'Een gorilla trekking permit kost $1500 per persoon. Dit draagt direct bij aan de bescherming van de gorilla\'s en de lokale gemeenschap. De trekking duurt 2-8 uur afhankelijk van waar de gorilla\'s zich bevinden. Goede conditie is een vereiste.',
   gallery: [
     'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=80',
-    'https://images.unsplash.com/photo-1600029801831-29eb510cb101?w=400&q=80',
+    'https://images.unsplash.com/photo-1504006833117-8886a355efbf?w=400&q=80',
     'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=400&q=80',
     'https://images.unsplash.com/photo-1535941339077-2dd1c7963098?w=400&q=80',
   ],
@@ -48,7 +48,25 @@ function EditBtn({ active, onClick }: { active: boolean; onClick: () => void }) 
   )
 }
 
-export function BlogSubmissionForm() {
+interface BlogSubmissionFormProps {
+  labels?: {
+    successHeading?: string
+    successBody?: string
+    successResetLabel?: string
+    submitLabel?: string
+    submitLoadingLabel?: string
+    verificationLabel?: string
+    writtenByPrefix?: string
+    gallerySidebarHeading?: string
+    gallerySidebarDescription?: string
+    galleryAddLabel?: string
+    galleryOverflowLabel?: string
+    legalConsent1?: string
+    legalConsent2?: string
+  }
+}
+
+export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
@@ -108,12 +126,12 @@ export function BlogSubmissionForm() {
         <div className="mx-auto w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mb-6">
           <CheckCircle2 className="w-10 h-10 text-gold" />
         </div>
-        <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-4">Bedankt voor het delen!</h2>
+        <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-4">{labels?.successHeading ?? 'Bedankt voor het delen!'}</h2>
         <p className="text-[var(--text-muted)] text-lg mb-8 max-w-xl mx-auto">
-          Je reisverslag is ontvangen. Onze redactie neemt het zorgvuldig door — dit duurt gemiddeld 5 tot 7 werkdagen. We nemen contact op zodra je artikel live staat!
+          {labels?.successBody ?? 'Je reisverslag is ontvangen. Onze redactie neemt het zorgvuldig door — dit duurt gemiddeld 5 tot 7 werkdagen. We nemen contact op zodra je artikel live staat!'}
         </p>
         <button onClick={() => window.location.reload()} className="rounded-full bg-[var(--bg-secondary)] border border-[var(--border-subtle)] px-8 py-3 font-medium text-[var(--text-primary)] transition-colors">
-          Nog een verhaal insturen
+          {labels?.successResetLabel ?? 'Nog een verhaal insturen'}
         </button>
       </div>
     )
@@ -142,7 +160,7 @@ export function BlogSubmissionForm() {
 
       {/* ── Verification bar ── */}
       <div className="mb-12 p-6 sm:p-8 rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-sm">
-        <p className="text-sm font-medium text-[var(--text-primary)] mb-4">Bevestig je boeking om verder te gaan</p>
+        <p className="text-sm font-medium text-[var(--text-primary)] mb-4">{labels?.verificationLabel ?? 'Bevestig je boeking om verder te gaan'}</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input required value={bookingNumber} onChange={e => setBookingNumber(e.target.value)} type="text" placeholder="Boekingsnummer (bijv. PS-2024-XXXX)"
             className="bg-[var(--bg-primary)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/40 focus:outline-none focus:ring-2 focus:ring-gold/50 text-sm" />
@@ -223,7 +241,7 @@ export function BlogSubmissionForm() {
               ) : (
                 <>
                   <h3 className="font-serif text-xl font-bold text-[var(--text-primary)] mb-2">
-                    Geschreven door {authorName}
+                    {labels?.writtenByPrefix ?? 'Geschreven door'} {authorName}
                   </h3>
                   <p className="text-[var(--text-muted)] leading-relaxed italic">
                     &quot;{authorBio}&quot;
@@ -351,9 +369,9 @@ export function BlogSubmissionForm() {
           <div className="sticky top-32 space-y-8">
             <div className="relative p-6 sm:p-8 rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-sm">
               <EditBtn active={false} onClick={() => galleryRef.current?.click()} />
-              <h3 className="font-semibold text-[var(--text-primary)] mb-2">Favoriete Momenten</h3>
+              <h3 className="font-semibold text-[var(--text-primary)] mb-2">{labels?.gallerySidebarHeading ?? 'Favoriete Momenten'}</h3>
               <p className="text-sm text-[var(--text-muted)] mb-5">
-                Vervang deze foto&apos;s door jouw eigen favoriete reisfoto&apos;s.
+                {labels?.gallerySidebarDescription ?? "Vervang deze foto's door jouw eigen favoriete reisfoto's."}
               </p>
 
               <div className="grid grid-cols-2 gap-2">
@@ -370,14 +388,14 @@ export function BlogSubmissionForm() {
                   <button type="button" onClick={() => galleryRef.current?.click()}
                     className="aspect-square rounded-xl border-2 border-dashed border-[var(--border-subtle)] flex flex-col items-center justify-center gap-1 text-[var(--text-muted)] hover:text-gold hover:border-gold/40 transition-colors">
                     <Camera className="w-6 h-6" />
-                    <span className="text-[10px] font-medium">Toevoegen</span>
+                    <span className="text-[10px] font-medium">{labels?.galleryAddLabel ?? 'Toevoegen'}</span>
                   </button>
                 )}
               </div>
 
               {gallery.length > 4 && (
                 <p className="mt-3 text-xs text-center text-[var(--text-muted)]">
-                  +{gallery.length - 4} meer foto&apos;s geüpload
+                  +{gallery.length - 4} {labels?.galleryOverflowLabel ?? "meer foto's geüpload"}
                 </p>
               )}
             </div>
@@ -391,21 +409,21 @@ export function BlogSubmissionForm() {
           <label className="flex items-start gap-3 cursor-pointer">
             <input required type="checkbox" className="mt-1 w-4 h-4 accent-[var(--color-gold)] rounded" />
             <span className="text-sm text-[var(--text-primary)] leading-relaxed">
-              Ik begrijp dat Puur Safaris mijn verhaal en foto&apos;s mag redigeren en indelen. Goedkeuring duurt gemiddeld meer dan één week.
+              {labels?.legalConsent1 ?? "Ik begrijp dat Puur Safaris mijn verhaal en foto's mag redigeren en indelen. Goedkeuring duurt gemiddeld meer dan één week."}
             </span>
           </label>
           <label className="flex items-start gap-3 cursor-pointer">
             <input required type="checkbox" className="mt-1 w-4 h-4 accent-[var(--color-gold)] rounded" />
             <span className="text-sm text-[var(--text-primary)] leading-relaxed">
-              Ik bevestig dat deze teksten en foto&apos;s mijn eigendom zijn en geef Puur Safaris toestemming deze te gebruiken voor marketing en website-inhoud.
+              {labels?.legalConsent2 ?? "Ik bevestig dat deze teksten en foto's mijn eigendom zijn en geef Puur Safaris toestemming deze te gebruiken voor marketing en website-inhoud."}
             </span>
           </label>
         </div>
         <button type="submit" disabled={isSubmitting}
           className="w-full sm:w-auto flex justify-center items-center gap-3 rounded-full bg-gold text-white px-10 py-4 font-semibold hover:bg-gold-dark hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed transition-all">
           {isSubmitting ? (
-            <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Bezig met uploaden...</>
-          ) : 'Verstuur Jouw Verhaal'}
+            <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> {labels?.submitLoadingLabel ?? 'Bezig met uploaden...'}</>
+          ) : (labels?.submitLabel ?? 'Verstuur Jouw Verhaal')}
         </button>
       </div>
     </form>

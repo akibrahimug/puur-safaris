@@ -1,29 +1,28 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { siteSettings } from '@/data/site-settings'
-import { destinationDetails } from '@/data/destinations'
-import { trips } from '@/data/trips'
+import { getSiteSettings, getDestinationDetail, getDestinationSlugs } from '@/lib/data'
 import { buildMetadata, mergeWithSeoFields, getBaseUrl } from '@/lib/seo'
 import { Breadcrumbs } from '@/components/shared/breadcrumbs'
 import { PortableTextRenderer } from '@/components/shared/portable-text-renderer'
 import { SectionHeading } from '@/components/shared/section-heading'
 import { SafariGrid } from '@/components/safari/safari-grid'
+import { stegaClean } from '@sanity/client/stega'
 import { Sun, Thermometer, MapPin } from 'lucide-react'
-
-export const revalidate = 3600
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
-export function generateStaticParams() {
-  return Object.keys(destinationDetails).map((slug) => ({ slug }))
+export async function generateStaticParams() {
+  const slugs = await getDestinationSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const destination = destinationDetails[slug]
+  const settings = await getSiteSettings()
+  const destination = await getDestinationDetail(slug)
 
   if (!destination) return {}
 
@@ -37,32 +36,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
       destination.seo
     ),
-    siteSettings
+    settings
   )
 }
 
 export default async function BestemmingDetailPage({ params }: Props) {
   const { slug } = await params
-  const destination = destinationDetails[slug]
+  const [destination, settings] = await Promise.all([getDestinationDetail(slug), getSiteSettings()])
+  const labels = settings?.destinationDetailLabels
 
   if (!destination) notFound()
 
   const baseUrl = getBaseUrl()
-  const heroUrl = destination.heroImage?.asset?.url ?? null
+  const heroUrl = destination.heroImage?.asset?.url || null
 
-  // Filter trips for this destination
-  const relatedTrips = trips.filter((t) => t.destination?.slug === slug)
+  const relatedTrips = destination.relatedTrips ?? []
 
   const destinationSchema = {
     '@context': 'https://schema.org',
     '@type': 'TouristDestination',
-    name: destination.name,
-    description: destination.excerpt,
-    url: `${baseUrl}/bestemmingen/${slug}`,
-    ...(heroUrl && { image: heroUrl }),
+    name: stegaClean(destination.name),
+    description: stegaClean(destination.excerpt),
+    url: `${baseUrl}/bestemmingen/${stegaClean(slug)}`,
+    ...(heroUrl && { image: stegaClean(heroUrl) }),
     containedInPlace: {
       '@type': 'Country',
-      name: destination.country,
+      name: stegaClean(destination.country),
     },
   }
 
@@ -116,7 +115,7 @@ export default async function BestemmingDetailPage({ params }: Props) {
               <div className="rounded-xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Thermometer className="h-4 w-4 text-gold" />
-                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">Klimaat</h3>
+                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">{labels?.climateHeading ?? 'Klimaat'}</h3>
                 </div>
                 <p className="text-sm text-[var(--text-muted)]">{destination.climate}</p>
               </div>
@@ -125,7 +124,7 @@ export default async function BestemmingDetailPage({ params }: Props) {
               <div className="rounded-xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Sun className="h-4 w-4 text-gold" />
-                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">Beste tijd om te bezoeken</h3>
+                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">{labels?.bestTimeHeading ?? 'Beste tijd om te bezoeken'}</h3>
                 </div>
                 <p className="text-sm text-[var(--text-muted)]">{destination.bestTimeToVisit}</p>
               </div>
@@ -137,7 +136,7 @@ export default async function BestemmingDetailPage({ params }: Props) {
         {relatedTrips.length > 0 && (
           <section className="mt-16">
             <SectionHeading
-              title={`Safari reizen in ${destination.name}`}
+              title={`${labels?.relatedTripsHeadingPrefix ?? 'Safari reizen in'} ${destination.name}`}
               subtitle={`${relatedTrips.length} reis${relatedTrips.length !== 1 ? 'en' : ''} beschikbaar`}
               className="mb-8"
             />

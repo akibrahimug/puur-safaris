@@ -4,32 +4,39 @@ import { useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import { stegaClean } from '@sanity/client/stega'
 import { ArrowRight, ChevronDown } from 'lucide-react'
-import type { SiteSettings } from '@/lib/types'
+import type { SiteSettings, HomePage } from '@/lib/types'
 
 interface HeroSectionProps {
   settings?: SiteSettings | null
+  homePage?: HomePage | null
 }
 
-export function HeroSection({ settings }: HeroSectionProps) {
+export function HeroSection({ homePage }: HeroSectionProps) {
   const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
   const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
   const contentY = useTransform(scrollYProgress, [0, 0.6], ['0%', '-8%'])
 
+  const heroImageUrl = homePage?.heroImage?.asset?.url
+  const heroImageAlt = homePage?.heroImage?.alt ?? 'Safari in Africa'
+
   return (
     <section ref={ref} className="relative flex min-h-screen items-center overflow-hidden bg-ink grain">
       {/* Parallax background image */}
       <motion.div className="absolute inset-0 scale-110" style={{ y: imageY }}>
-        <Image
-          src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=2000&q=85"
-          alt="Safari in Africa"
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
+        {heroImageUrl && (
+          <Image
+            src={heroImageUrl}
+            alt={heroImageAlt}
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        )}
       </motion.div>
 
       {/* Layered overlays for cinematic depth */}
@@ -49,7 +56,7 @@ export function HeroSection({ settings }: HeroSectionProps) {
           className="mb-7"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-xs font-medium tracking-[0.2em] uppercase text-gold backdrop-blur-sm">
-            Authentieke Safari Ervaringen
+            {homePage?.heroEyebrow ?? 'Authentieke Safari Ervaringen'}
           </span>
         </motion.div>
 
@@ -60,9 +67,9 @@ export function HeroSection({ settings }: HeroSectionProps) {
           transition={{ duration: 0.9, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="font-serif text-display font-bold text-white max-w-3xl"
         >
-          Ontdek Afrika
+          {homePage?.heroHeadline ?? 'Ontdek Afrika'}
           <br />
-          <span className="text-gold">op zijn puurste</span>
+          <span className="text-gold">{homePage?.heroHeadlineAccent ?? 'op zijn puurste'}</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -72,7 +79,7 @@ export function HeroSection({ settings }: HeroSectionProps) {
           transition={{ duration: 0.7, delay: 0.65 }}
           className="mt-7 max-w-lg text-lg leading-relaxed text-white/65"
         >
-          Persoonlijke safari reizen op maat, afgestemd op uw wensen. Van wildlife in Kenya tot bergklimmen in Tanzania.
+          {homePage?.heroSubtitle ?? 'Persoonlijke safari reizen op maat, afgestemd op uw wensen. Van wildlife in Kenya tot bergklimmen in Tanzania.'}
         </motion.p>
 
         {/* CTAs */}
@@ -83,17 +90,17 @@ export function HeroSection({ settings }: HeroSectionProps) {
           className="mt-10 flex flex-wrap items-center gap-4"
         >
           <Link
-            href="/safari-reizen"
+            href={stegaClean(homePage?.heroCta1Link) ?? '/safari-reizen'}
             className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-gold-dark hover:shadow-[0_0_40px_rgba(42,125,88,0.4)]"
           >
-            Bekijk onze reizen
+            {homePage?.heroCta1Text ?? 'Bekijk onze reizen'}
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
           <Link
-            href="/eigen-reisschema"
+            href={stegaClean(homePage?.heroCta2Link) ?? '/eigen-reisschema'}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/35"
           >
-            Eigen Reisschema
+            {homePage?.heroCta2Text ?? 'Eigen Reisschema'}
           </Link>
         </motion.div>
 
@@ -121,7 +128,7 @@ export function HeroSection({ settings }: HeroSectionProps) {
                 </svg>
               ))}
             </div>
-            <p className="text-xs text-white/50">500+ tevreden reizigers</p>
+            <p className="text-xs text-white/50">{homePage?.heroSocialProofText ?? '500+ tevreden reizigers'}</p>
           </div>
         </motion.div>
       </motion.div>

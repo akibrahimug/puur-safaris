@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { MapPin, Utensils, ChevronDown } from 'lucide-react'
 import type { ItineraryDay } from '@/lib/types'
 
-const MEAL_LABELS: Record<string, string> = {
+const DEFAULT_MEAL_LABELS: Record<string, string> = {
   breakfast: 'Ontbijt',
   lunch: 'Lunch',
   dinner: 'Diner',
@@ -12,9 +12,10 @@ const MEAL_LABELS: Record<string, string> = {
 
 interface SafariItineraryProps {
   itinerary: ItineraryDay[]
+  mealLabels?: { breakfast?: string; lunch?: string; dinner?: string }
 }
 
-export function SafariItinerary({ itinerary }: SafariItineraryProps) {
+export function SafariItinerary({ itinerary, mealLabels }: SafariItineraryProps) {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
@@ -67,7 +68,12 @@ export function SafariItinerary({ itinerary }: SafariItineraryProps) {
                   {day.meals && day.meals.length > 0 && (
                     <span className="flex items-center gap-1 text-[10px]" style={{ color: 'var(--text-subtle)' }}>
                       <Utensils className="h-2.5 w-2.5 text-gold shrink-0" />
-                      {day.meals.map((m) => MEAL_LABELS[m] ?? m).join(' · ')}
+                      {day.meals.map((m) => {
+                        if (m === 'breakfast') return mealLabels?.breakfast ?? DEFAULT_MEAL_LABELS[m]
+                        if (m === 'lunch') return mealLabels?.lunch ?? DEFAULT_MEAL_LABELS[m]
+                        if (m === 'dinner') return mealLabels?.dinner ?? DEFAULT_MEAL_LABELS[m]
+                        return DEFAULT_MEAL_LABELS[m] ?? m
+                      }).join(' · ')}
                     </span>
                   )}
                 </div>
