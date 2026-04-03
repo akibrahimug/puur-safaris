@@ -6,7 +6,7 @@ import { ArrowUpRight, Calendar, User } from 'lucide-react'
 import { PageHero } from '@/components/shared/page-hero'
 import { BlogCard } from '@/components/blog/blog-card'
 import { getSiteSettings, getBlogPosts, getBlogPage } from '@/lib/data'
-import { buildMetadata } from '@/lib/seo'
+import { buildMetadata, getBaseUrl } from '@/lib/seo'
 import { formatDate } from '@/lib/utils'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -32,8 +32,30 @@ export default async function BlogIndexPage() {
   const featuredStory = stories[0]
   const otherStories = stories.slice(1)
 
+  const baseUrl = getBaseUrl()
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Blog & Reisverhalen',
+    url: `${baseUrl}/blog`,
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: blogPosts.length,
+      itemListElement: blogPosts.map((post, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: stegaClean(post.title),
+        url: `${baseUrl}/blog/${stegaClean(post.slug)}`,
+      })),
+    },
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       <PageHero
         title={blogPage?.heroTitle ?? 'Safari Verhalen & Gidsen'}
         subtitle={blogPage?.heroSubtitle ?? 'Duik in onze avonturen. Van persoonlijke reisverslagen tot dierengidsen en handige inpaktips voor jouw volgende safari.'}

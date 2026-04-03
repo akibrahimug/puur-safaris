@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getSiteSettings, getDestinations, getDestinationListingPage } from '@/lib/data'
-import { buildMetadata } from '@/lib/seo'
+import { buildMetadata, getBaseUrl } from '@/lib/seo'
 import { PageHero } from '@/components/shared/page-hero'
 import { DestinationCard } from '@/components/destination/destination-card'
 
@@ -19,8 +19,26 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function BestemmingListPage() {
   const [destinations, destinationListingPage] = await Promise.all([getDestinations(), getDestinationListingPage()])
 
+  const baseUrl = getBaseUrl()
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Bestemmingen',
+    numberOfItems: destinations.length,
+    itemListElement: destinations.map((d, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: d.name,
+      url: `${baseUrl}/bestemmingen/${d.slug}`,
+    })),
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
       <PageHero
         title={destinationListingPage?.heroTitle ?? 'Bestemmingen'}
         subtitle={destinationListingPage?.heroSubtitle ?? 'Elk land een uniek avontuur. Kies uw volgende bestemming.'}
