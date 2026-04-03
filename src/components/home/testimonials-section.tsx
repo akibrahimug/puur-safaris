@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { SectionHeading } from '@/components/shared/section-heading'
+import { Button } from '@/components/ui/button'
 import { formatMonth } from '@/lib/utils'
 import type { Testimonial } from '@/lib/types'
 
@@ -23,8 +24,9 @@ const cardVariants = {
 
 export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
   const INITIAL = 3
-  const [expanded, setExpanded] = useState(false)
-  const visible = expanded ? testimonials : testimonials.slice(0, INITIAL)
+  const [page, setPage] = useState(0)
+  const totalPages = Math.ceil(testimonials.length / INITIAL)
+  const visible = testimonials.slice(page * INITIAL, (page + 1) * INITIAL)
   const hasMore = testimonials.length > INITIAL
 
   if (testimonials.length === 0) return null
@@ -52,18 +54,17 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
             return (
               <motion.article
                 key={t._id}
-                custom={i}
-                variants={cardVariants}
-                className="group flex flex-col rounded-2xl p-6 transition-shadow duration-300"
-                style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="group flex flex-col h-[360px] rounded-3xl p-8 transition-all duration-500 ease-out border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-lg shadow-black/5"
                 whileHover={{
-                  y: -4,
-                  background: 'rgba(255,255,255,0.06)',
-                  borderColor: 'rgba(42,125,88,0.2)',
-                  transition: { duration: 0.22 },
+                  y: -6,
+                  background: 'rgba(255,255,255,0.08)',
+                  borderColor: 'rgba(255,255,255,0.15)',
+                  boxShadow: '0 20px 40px -10px rgba(0,0,0,0.3)',
+                  transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] },
                 }}
               >
                 {/* Stars */}
@@ -89,7 +90,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                   >
                     &ldquo;
                   </span>
-                  <p className="relative text-sm leading-relaxed pl-4" style={{ color: 'var(--text-muted)' }}>
+                  <p className="relative text-sm leading-relaxed pl-4 line-clamp-[9]" style={{ color: 'var(--text-muted)' }}>
                     {t.quote}
                   </p>
                 </blockquote>
@@ -102,8 +103,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                       <Image src={avatarUrl} alt={t.name} fill className="object-cover" />
                     </div>
                   ) : (
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                      style={{ background: 'linear-gradient(135deg, #5aad7e, #8b1c2c)' }}>
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white bg-gold">
                       {t.name.charAt(0)}
                     </div>
                   )}
@@ -135,17 +135,12 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
 
         {hasMore && (
           <div className="mt-8 flex justify-center">
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium transition-all duration-300 border"
-              style={{ color: 'var(--text-muted)', borderColor: 'var(--border-subtle)' }}
+            <Button
+              onClick={() => setPage((prev) => (prev + 1) % totalPages)}
+              className="rounded-full px-8 py-3 transition-all duration-500 ease-out"
             >
-              {expanded ? 'Minder weergeven' : `Meer verhalen (${testimonials.length - INITIAL})`}
-              <ChevronDown
-                className="h-4 w-4 transition-transform duration-300"
-                style={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
-              />
-            </button>
+              {page === totalPages - 1 ? 'Begin' : 'Meer verhalen'}
+            </Button>
           </div>
         )}
       </div>

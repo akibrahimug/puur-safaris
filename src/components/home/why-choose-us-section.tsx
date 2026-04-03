@@ -78,16 +78,13 @@ export function WhyChooseUsSection() {
                 key={f.title}
                 custom={i}
                 variants={cardVariants}
-                className="group relative p-6 rounded-2xl overflow-hidden cursor-default transition-all duration-300"
-                style={{
-                  background: 'rgba(255,255,255,0.035)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                }}
+                className="group relative p-6 rounded-3xl overflow-hidden cursor-default transition-all duration-500 ease-out border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-lg shadow-black/5"
                 whileHover={{
-                  background: 'rgba(255,255,255,0.055)',
-                  borderColor: 'rgba(42,125,88,0.22)',
-                  y: -3,
-                  transition: { duration: 0.22 },
+                  y: -6,
+                  background: 'rgba(255,255,255,0.08)',
+                  borderColor: 'rgba(255,255,255,0.15)',
+                  boxShadow: '0 20px 40px -10px rgba(0,0,0,0.3)',
+                  transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] },
                 }}
               >
                 {/* Watermark number */}
@@ -99,9 +96,9 @@ export function WhyChooseUsSection() {
                 </span>
 
                 {/* Icon */}
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-105"
-                  style={{ background: 'rgba(42,125,88,0.1)', border: '1px solid rgba(42,125,88,0.15)' }}>
-                  <Icon className="h-4.5 w-4.5" style={{ color: '#2a7d58' }} />
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-500 ease-out group-hover:scale-110 shadow-inner"
+                  style={{ background: 'rgba(42,125,88,0.15)', border: '1px solid rgba(42,125,88,0.2)' }}>
+                  <Icon className="h-5 w-5" style={{ color: '#5aad7e' }} />
                 </div>
 
                 <h3 className="font-semibold text-[0.925rem] mb-2" style={{ color: 'var(--text-primary)' }}>

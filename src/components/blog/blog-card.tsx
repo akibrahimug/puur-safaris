@@ -16,7 +16,7 @@ export function BlogCard({ post }: BlogCardProps) {
     <HoverCard lift={5} className="h-full">
       <Link href={`/blog/${post.slug}`} className="flex flex-col h-full group">
         <article
-          className="flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-500 border border-[rgba(42,125,88,0.22)] group-hover:border-[rgba(42,125,88,0.55)] group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.32)]"
+          className="flex flex-col h-full rounded-3xl overflow-hidden transition-all duration-500 ease-out border border-[var(--border-subtle)] shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_80px_-15px_rgba(0,0,0,0.15)] group-hover:-translate-y-1"
           style={{ background: 'var(--card-strip-bg)' }}
         >
           {/* ── Image zone ────────────────────────────── */}
@@ -39,13 +39,8 @@ export function BlogCard({ post }: BlogCardProps) {
 
             {/* Category badge — appears on hover */}
             {post.category && (
-              <div className="absolute top-3.5 left-3.5 pointer-events-none group-hover:pointer-events-auto opacity-0 -translate-y-1.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out">
-                <span className="rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-md"
-                  style={{
-                    background: 'rgba(12, 7, 30, 0.82)',
-                    color: 'rgba(200,190,255,0.9)',
-                    border: '1px solid rgba(160,150,240,0.25)',
-                  }}>
+              <div className="absolute top-4 left-4 pointer-events-none group-hover:pointer-events-auto opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
+                <span className="rounded-full px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-black/40 text-white/95 border border-white/10 shadow-sm">
                   {blogCategoryLabel(post.category)}
                 </span>
               </div>
@@ -97,10 +92,9 @@ export function BlogCard({ post }: BlogCardProps) {
                   Lees artikel
                 </span>
                 <div
-                  className="flex items-center gap-1.5 rounded-full px-3.5 py-2 border border-[rgba(42,125,88,0.3)] transition-all duration-300 group-hover:bg-gold group-hover:border-transparent [--c:#2a7d58] group-hover:[--c:#ffffff]"
-                  style={{ color: 'var(--c)' }}
+                  className="flex items-center gap-1.5 rounded-full px-4 py-2 border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] backdrop-blur-md transition-all duration-500 ease-out group-hover:bg-gold group-hover:border-transparent group-hover:shadow-[0_8px_20px_rgba(42,125,88,0.25)] text-gold group-hover:text-white"
                 >
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-all duration-500 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>
             </div>

@@ -94,13 +94,40 @@ const heading = (key: string, content: string) => ({
   markDefs: [],
 })
 
+const image = (key: string, id: string, alt: string, caption?: string) => ({
+  _type: 'image' as const,
+  _key: key,
+  asset: {
+    _id: id,
+    url: `https://images.unsplash.com/${id}?w=1200&q=80`,
+  },
+  alt,
+  caption,
+})
+
+const imageGrid = (key: string, items: Array<{ id: string, alt: string }>, caption?: string) => ({
+  _type: 'imageGrid' as const,
+  _key: key,
+  images: items.map((item, idx) => ({
+    _key: `${key}-${idx}`,
+    asset: { _id: item.id, url: `https://images.unsplash.com/${item.id}?w=800&q=80` },
+    alt: item.alt,
+  })),
+  caption,
+})
+
 export const blogPostDetails: Record<string, BlogPostDetail> = {
   'de-grote-trek-alles-wat-je-moet-weten': {
     ...blogPosts[0],
     content: [
       text('p1', 'De Grote Trek is het grootste landdier migratiespektakel op aarde. Elk jaar trekken meer dan 1,5 miljoen gnoes, samen met honderdduizenden zebra\'s en gazellen, in een grote cirkel door de Serengeti in Tanzania en de Maasai Mara in Kenya.'),
+      image('img1', 'photo-1516426122078-c23e76319801', 'Gnoes tijdens de grote trek crossen een rivier', 'De pure chaos en oerkracht van tienduizenden gnoes die zich in de kolkende Mara rivier storten.'),
       heading('h1', 'Wanneer vindt de Grote Trek plaats?'),
       text('p2', 'De Trek is een cyclisch fenomeen dat het hele jaar door plaatsvindt. De meest spectaculaire momenten zijn de rivieroversteken van de Mara rivier, die plaatsvinden van juli tot oktober. Dit is het moment waarop gnoes letterlijk kopje-onder gaan terwijl krokodillen wachten.'),
+      imageGrid('imgGrid1', [
+        { id: 'photo-1549366021-9f1d07c3be09', alt: 'Savanne' },
+        { id: 'photo-1504173010664-32509ceebb18', alt: 'Leeuwen in de bush' }
+      ], 'De uitgestrekte vlaktes zorgen voor ongeëvenaarde fotomomenten en contrasten.'),
       heading('h2', 'Maasai Mara vs. Serengeti'),
       text('p3', 'Hoewel de trek de grens tussen Kenya en Tanzania overschrijdt, zijn er significante verschillen. De Serengeti is groter en je ziet hier de kalvertijd (februari) en de trek naar het noorden. In de Maasai Mara zie je de dramatische rivieroversteken.'),
       heading('h3', 'Praktische tips'),
@@ -112,10 +139,15 @@ export const blogPostDetails: Record<string, BlogPostDetail> = {
     ...blogPosts[1],
     content: [
       text('p1', 'Het was vroeg in de ochtend toen we het Volcanoes National Park in betraden. De mist hing nog laag over de heuvels terwijl onze ranger ons de richting wees van de Susa groep — een van de grootste gorilla families in Rwanda.'),
+      image('img1', 'photo-1516026672322-bc52d61a55d5', 'Gorilla in het oerwoud', 'Oog in oog staan met deze majestueuze wezens was een nederig, emotioneel moment dat alles in perspectief plaatste.'),
       heading('h1', 'De trekking'),
       text('p2', 'Na twee uur lopen door dicht bamboe bos, plotseling een geluid vlak naast het pad. Onze gids legde zijn hand op mijn arm en wees. Daar, op slechts drie meter afstand, zat een jonge gorilla rustig bladeren te eten. Mijn hart stond stil.'),
       heading('h2', 'Het uur met de gorilla\'s'),
       text('p3', 'Je hebt precies één uur in de aanwezigheid van de gorilla\'s. Het leek zowel een eeuwigheid als een seconde. De silverback lag lui op zijn rug terwijl de jongen over hem heen klauterden. Geen enkele dierentuin, geen enkele documentaire kan dit voorbereiden.'),
+      imageGrid('imgGrid2', [
+        { id: 'photo-1493246507139-91e8fad9978e', alt: 'Dicht oerwoud' },
+        { id: 'photo-1600029801831-29eb510cb101', alt: 'Wandelaars in de wildernis' }
+      ], 'Het ruige landschap van Volcanoes National Park is puur, donker en adembenemend.'),
       heading('h3', 'Praktische informatie'),
       text('p4', 'Een gorilla trekking permit kost $1500 per persoon. Dit draagt direct bij aan de bescherming van de gorilla\'s en de lokale gemeenschap. De trekking duurt 2-8 uur afhankelijk van waar de gorilla\'s zich bevinden. Goede conditie is een vereiste.'),
     ],
@@ -127,6 +159,11 @@ export const blogPostDetails: Record<string, BlogPostDetail> = {
       text('p1', 'Kenya heeft een gevarieerd klimaat dat sterk afhankelijk is van de regio. De hoogte, nabijheid van de oceaan en seizoenen bepalen allemaal wanneer het beste moment is voor jouw specifieke interesses.'),
       heading('h1', 'De droge seizoenen: ideaal voor safari'),
       text('p2', 'Het lange droge seizoen loopt van juni tot oktober en is de populairste tijd voor safari. De vegetatie is dun, waardoor wildlife makkelijker te spotten is. Dit is ook de tijd van de Grote Trek in de Maasai Mara.'),
+      imageGrid('imgGrid1', [
+        { id: 'photo-1547471080-7cc2caa01a7e', alt: 'Savanne in Kenya' },
+        { id: 'photo-1516426122078-c23e76319801', alt: 'Gnoes op de vlakte' },
+        { id: 'photo-1521651201144-634f700b36ef', alt: 'Olifanten en baobabs' }
+      ], 'Kenya in zijn volle, ongefilterde droge glorie levert de meest iconische safari beelden op.'),
       text('p3', 'Het korte droge seizoen (januari-februari) is uitstekend voor baby dieren, met name in Amboseli en de Maasai Mara. Minder toeristen en goedkopere prijzen zijn extra voordelen.'),
       heading('h2', 'De regenseizoenen: voor de avonturiers'),
       text('p4', 'Tijdens het lange regenseizoen (maart-mei) is Kenya op zijn groenst. Vogel liefhebbers zijn dol op deze periode — migrerende vogels zijn overal aanwezig. Prijzen zijn laag en kampen bijna leeg. De wegen kunnen modderig zijn, maar dat hoort bij het avontuur.'),
@@ -139,10 +176,15 @@ export const blogPostDetails: Record<string, BlogPostDetail> = {
     ...blogPosts[3],
     content: [
       text('p1', 'Vanuit de lucht ziet het Okavango Delta eruit als een groene hand die zich uitspreidt over het bruine tapijt van de Kalahari. Het is een van de meest bijzondere geografische fenomenen op aarde.'),
+      image('img1', 'photo-1535941339077-2dd1c7963098', 'Okavango Delta van boven', 'De eindeloze rivieren storten zich rechtstreeks in de droge woestijn zand gronden van de Kalahari.'),
       heading('h1', 'Hoe het delta werkt'),
       text('p2', 'Het water van de Okavango rivier komt uit de Angolese hooglanden en bereikt het delta in Botswana na een reis van meer dan 1.000 kilometer. Hier spreidt het water zich uit over een gebied ter grootte van Nederland voordat het langzaam verdampt.'),
       heading('h2', 'Wildlife in het delta'),
       text('p3', 'Het Okavango herbergt een indrukwekkende diversiteit. Olifanten zwemmen door de kanalen, nijlpaarden liggen lui in het water, en luipaarden verstoppen zich in de vijgenbomen. Dit is ook een van de beste plaatsen in Afrika om wilde honden te zien.'),
+      imageGrid('imgGrid2', [
+        { id: 'photo-1504173010664-32509ceebb18', alt: 'Leeuwen troep in Okavango' },
+        { id: 'photo-1521651201144-634f700b36ef', alt: 'Olifant in weelderig water' }
+      ], 'De perfecte synergie tussen eindeloze zandvlaktes en weelderige rivieren trekt enorm veel wild aan.'),
       heading('h3', 'Hoe te bezoeken'),
       text('p4', 'Het delta is alleen per bootje, mokoro (dugout kano) of vliegtuig bereikbaar. De meeste lodges zijn exclusief en prijzig — maar de ervaring is onvergelijkbaar. Kies voor een combinatie van fly-in lodge en mokoro safari voor het complete delta gevoel.'),
     ],
@@ -152,6 +194,11 @@ export const blogPostDetails: Record<string, BlogPostDetail> = {
     ...blogPosts[4],
     content: [
       text('p1', 'De juiste uitrusting kan het verschil maken tussen een prettige en een minder comfortabele safari. Hieronder vind je onze complete packinglist, gebaseerd op tientallen jaren safari ervaring.'),
+      imageGrid('imgGrid1', [
+        { id: 'photo-1528543606781-2f6e6857f318', alt: 'Safari uitrusting koffers' },
+        { id: 'photo-1534142499878-f3b1add7b5d1', alt: 'Camera op een safari trip' },
+        { id: 'photo-1600029801831-29eb510cb101', alt: 'Man op de rotsen' }
+      ], 'Zorg dat je alleen de essentie pakt. De hitte, regenval, en zware ritten eisen praktische keuzes.'),
       heading('h1', 'Kleding'),
       text('p2', 'Neutrale kleuren (kaki, olijfgroen, beige) zijn essentieel — felle kleuren schrikken wildlife af. Laagjes zijn het sleutelwoord: ochtenden in de bush kunnen fris zijn terwijl middagen heet zijn. Neem altijd een lichte regenjas mee, ook in het droge seizoen.'),
       heading('h2', 'Elektronica'),
@@ -167,6 +214,10 @@ export const blogPostDetails: Record<string, BlogPostDetail> = {
       text('p1', 'Op 5.895 meter is de Kilimanjaro de hoogste vrij staande berg ter wereld en het hoogste punt van Afrika. Anders dan de Rocky Mountains of de Alpen vereist de Kili geen technische klimervaring — maar onderschat hem niet.'),
       heading('h1', 'Mijn route: Lemosho'),
       text('p2', 'Na veel onderzoek koos ik voor de Lemosho route — de langste en daarmee de route met de beste acclimatisatiemogelijkheden. 8 dagen totaal, met een succespercentage van meer dan 90%. De extra kosten zijn het zeker waard.'),
+      imageGrid('imgGrid1', [
+        { id: 'photo-1551632811-561732d1e306', alt: 'Uitzicht over de Kilimanjaro top' },
+        { id: 'photo-1600029801831-29eb510cb101', alt: 'Wandelaar kijkt over de vallei in the wild' }
+      ], 'De uitzichten transformeren volledig van weelderig groen beneden tot grimmig vriesweer op 5800m.'),
       heading('h2', 'De nacht naar de top'),
       text('p3', 'Middernacht beginnen we de beklimming naar Uhuru Peak. Het is -15 graden en de wind is genadeloos. Stap voor stap, "pole pole" (langzaam langzaam in Swahili), klimmen we omhoog. Bij zonsopgang bereikten we de top. De tranen bevroren op mijn wangen.'),
       heading('h3', 'Tips voor jouw beklimming'),

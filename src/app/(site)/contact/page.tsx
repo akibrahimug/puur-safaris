@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { siteSettings } from '@/data/site-settings'
+import { trips } from '@/data/trips'
 import { buildMetadata, getBaseUrl } from '@/lib/seo'
 import { PageHero } from '@/components/shared/page-hero'
 import { ContactForm } from '@/components/shared/contact-form'
@@ -38,6 +39,7 @@ export default function ContactPage() {
       <PageHero
         title="Contact"
         subtitle="Neem contact op voor een vrijblijvende offerte of stel uw vraag."
+        image={trips[1]?.heroImage}
       />
       <section className="py-16">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
