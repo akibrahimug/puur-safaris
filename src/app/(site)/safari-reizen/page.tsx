@@ -41,6 +41,7 @@ export default function SafariReizenPage() {
       <PageHero
         title="Safari Reizen"
         subtitle={`Ontdek ${trips.length > 0 ? `${trips.length} ` : ''}handgepickte safari reizen op maat.`}
+        image={trips[1]?.heroImage}
       />
       <section className="section-page py-16">
         <div className="container mx-auto max-w-7xl px-6 lg:px-8">

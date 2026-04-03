@@ -19,7 +19,7 @@ export function SafariCard({ trip }: SafariCardProps) {
         className="flex flex-col h-full group"
       >
         <article
-          className="flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-500 border border-[rgba(42,125,88,0.22)] group-hover:border-[rgba(42,125,88,0.55)] group-hover:shadow-[0_20px_56px_rgba(0,0,0,0.38)]"
+          className="flex flex-col h-full rounded-3xl overflow-hidden transition-all duration-500 ease-out border border-[var(--border-subtle)] shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_80px_-15px_rgba(0,0,0,0.15)] group-hover:-translate-y-1"
           style={{ background: "var(--card-strip-bg)" }}
         >
           {/* ── Image zone ────────────────────────────── */}
@@ -49,27 +49,17 @@ export function SafariCard({ trip }: SafariCardProps) {
             />
 
             {/* Badges — hidden by default, slide in on group hover */}
-            <div className="absolute top-3.5 left-3.5 right-3.5 flex items-start justify-between gap-2 pointer-events-none group-hover:pointer-events-auto opacity-0 -translate-y-1.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out">
+            <div className="absolute top-4 left-4 right-4 flex items-start justify-between gap-2 pointer-events-none group-hover:pointer-events-auto opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
               {trip.category && (
                 <span
-                  className="rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-md"
-                  style={{
-                    background: "rgba(29, 76, 47, 0.82)",
-                    color: "#a8d8b2",
-                    border: "1px solid rgba(125, 203, 142, 0.2)",
-                  }}
+                  className="rounded-full px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-black/40 text-white/95 border border-white/10 shadow-sm"
                 >
                   {categoryLabel(trip.category)}
                 </span>
               )}
               {trip.featured && (
                 <span
-                  className="rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-md ml-auto"
-                  style={{
-                    background: "rgba(139, 28, 44, 0.92)",
-                    color: "#fde8c8",
-                    border: "1px solid rgba(232, 197, 71, 0.22)",
-                  }}
+                  className="rounded-full px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-gold/80 text-white border border-white/20 shadow-sm ml-auto"
                 >
                   Aanbevolen
                 </span>
@@ -178,11 +168,10 @@ export function SafariCard({ trip }: SafariCardProps) {
                 </div>
 
                 <div
-                  className="flex items-center gap-1.5 rounded-full px-3.5 py-2 border border-[rgba(42,125,88,0.35)] transition-all duration-300 group-hover:bg-gold group-hover:border-transparent [--c:#2a7d58] group-hover:[--c:#ffffff]"
-                  style={{ color: 'var(--c)' }}
+                  className="flex items-center gap-1.5 rounded-full px-4 py-2 border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] backdrop-blur-md transition-all duration-500 ease-out group-hover:bg-gold group-hover:border-transparent group-hover:shadow-[0_8px_20px_rgba(42,125,88,0.25)] text-gold group-hover:text-white"
                 >
                   <span className="text-[11px] font-semibold">Bekijk</span>
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-all duration-500 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>
             </div>

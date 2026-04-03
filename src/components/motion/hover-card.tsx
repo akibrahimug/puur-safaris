@@ -13,7 +13,7 @@ export function HoverCard({ children, className, lift = 6 }: HoverCardProps) {
     <motion.div
       className={className}
       style={{ display: 'flex', flexDirection: 'column' }}
-      whileHover={{ y: -lift, transition: { duration: 0.26, ease: 'easeOut' } }}
+      whileHover={{ y: -lift, transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] } }}
     >
       {children}
     </motion.div>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import type { SiteSettings } from "@/lib/types";
 
 interface FooterProps {
@@ -12,38 +12,36 @@ export function Footer({ settings }: FooterProps) {
 
   return (
     <footer
-      className="bg-warm-black border-t border-white/6"
-      style={{ backgroundColor: "#0a0a08" }}
+      className="bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]"
     >
       <div className="container mx-auto max-w-7xl px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block mb-4">
-              <span className="font-serif text-xl font-bold tracking-tight text-white">
-                Puur<span className="text-gold"> Safaris</span>
-              </span>
-            </Link>
-            {settings?.logo?.asset?.url && (
-              <div className="mb-4 flex ml-4">
+            <Link href="/" className="inline-block mb-6">
+              {settings?.logo?.asset?.url ? (
                 <Image
                   src={settings.logo.asset.url}
                   alt={
                     settings.logo.alt ?? settings?.siteName ?? "Puur Safaris"
                   }
-                  width={220}
-                  height={80}
-                  className="h-20 w-auto object-contain rounded-2xl"
+                  width={280}
+                  height={120}
+                  className="h-28 w-auto object-contain rounded-2xl"
                 />
-              </div>
-            )}
+              ) : (
+                <span className="font-serif text-xl font-bold tracking-tight text-[var(--text-primary)]">
+                  Puur<span className="text-gold"> Safaris</span>
+                </span>
+              )}
+            </Link>
             {settings?.tagline && (
-              <p className="text-sm text-white/35 italic mb-4">
+              <p className="text-sm text-[var(--text-muted)] italic mb-4">
                 {settings.tagline}
               </p>
             )}
             {settings?.footerText && (
-              <p className="text-sm text-white/40 leading-relaxed">
+              <p className="text-sm text-[var(--text-subtle)] leading-relaxed">
                 {settings.footerText}
               </p>
             )}
@@ -57,7 +55,7 @@ export function Footer({ settings }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Instagram"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-gold/40 hover:text-gold transition-all duration-300"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
                   >
                     <svg
                       className="h-4 w-4"
@@ -74,7 +72,7 @@ export function Footer({ settings }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Facebook"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-gold/40 hover:text-gold transition-all duration-300"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
                   >
                     <svg
                       className="h-4 w-4"
@@ -91,7 +89,7 @@ export function Footer({ settings }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="YouTube"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-gold/40 hover:text-gold transition-all duration-300"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
                   >
                     <svg
                       className="h-4 w-4"
@@ -108,7 +106,7 @@ export function Footer({ settings }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="WhatsApp"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/40 hover:border-gold/40 hover:text-gold transition-all duration-300"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
                   >
                     <svg
                       className="h-4 w-4"
@@ -125,7 +123,7 @@ export function Footer({ settings }: FooterProps) {
 
           {/* Safari Reizen */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40 mb-5">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
               Safari Reizen
             </h3>
             <ul className="space-y-3 text-sm">
@@ -148,7 +146,7 @@ export function Footer({ settings }: FooterProps) {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-white/45 hover:text-white transition-colors duration-200"
+                    className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-200"
                   >
                     {label}
                   </Link>
@@ -159,7 +157,7 @@ export function Footer({ settings }: FooterProps) {
 
           {/* Over ons */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40 mb-5">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
               Over Ons
             </h3>
             <ul className="space-y-3 text-sm">
@@ -172,7 +170,7 @@ export function Footer({ settings }: FooterProps) {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-white/45 hover:text-white transition-colors duration-200"
+                    className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-200"
                   >
                     {label}
                   </Link>
@@ -183,46 +181,55 @@ export function Footer({ settings }: FooterProps) {
 
           {/* Contact */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40 mb-5">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
               Contact
             </h3>
             <ul className="space-y-3.5 text-sm">
-              {settings?.phone && (
-                <li>
-                  <a
-                    href={`tel:${settings.phone}`}
-                    className="flex items-center gap-2.5 text-white/45 hover:text-white transition-colors"
-                  >
-                    <Phone className="h-3.5 w-3.5 text-gold/60 shrink-0" />
-                    {settings.phone}
-                  </a>
-                </li>
-              )}
-              {settings?.contactEmail && (
-                <li>
-                  <a
-                    href={`mailto:${settings.contactEmail}`}
-                    className="flex items-center gap-2.5 text-white/45 hover:text-white transition-colors break-all"
-                  >
-                    <Mail className="h-3.5 w-3.5 text-gold/60 shrink-0" />
-                    {settings.contactEmail}
-                  </a>
-                </li>
-              )}
-              {settings?.address && (
-                <li className="flex items-start gap-2.5 text-white/45">
-                  <MapPin className="h-3.5 w-3.5 text-gold/60 shrink-0 mt-0.5" />
-                  <span className="whitespace-pre-line">
-                    {settings.address}
-                  </span>
-                </li>
-              )}
+              <li>
+                <a
+                  href={`tel:${settings?.phone ?? "+256787222728"}`}
+                  className="flex items-center gap-2.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                >
+                  <Phone className="h-3.5 w-3.5 text-gold/60 shrink-0" />
+                  {settings?.phone ?? "+256 787 222 728"}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${settings?.contactEmail ?? "info@puursafaris.nl"}`}
+                  className="flex items-center gap-2.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors break-all"
+                >
+                  <Mail className="h-3.5 w-3.5 text-gold/60 shrink-0" />
+                  {settings?.contactEmail ?? "info@puursafaris.nl"}
+                </a>
+              </li>
+              <li className="flex items-start gap-2.5 text-[var(--text-muted)]">
+                <MapPin className="h-3.5 w-3.5 text-gold/60 shrink-0 mt-0.5" />
+                <span>
+                  {settings?.address ?? "Kampala, Uganda"}
+                </span>
+              </li>
+              <li className="flex items-start gap-2.5 text-[var(--text-muted)]">
+                <MapPin className="h-3.5 w-3.5 text-gold/60 shrink-0 mt-0.5" />
+                <span>Nederland</span>
+              </li>
+              <li>
+                <a
+                  href={`https://wa.me/${(settings?.socialMedia?.whatsapp ?? "+256787222728").replace(/\D/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                >
+                  <MessageCircle className="h-3.5 w-3.5 text-gold/60 shrink-0" />
+                  WhatsApp
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 pt-8 border-t border-white/6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/25">
+        <div className="mt-14 pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-subtle)]">
           <p>
             &copy; {year} {settings?.siteName ?? "Puur Safaris"}. Alle rechten
             voorbehouden.
@@ -232,13 +239,13 @@ export function Footer({ settings }: FooterProps) {
           <div className="flex gap-6">
             <Link
               href="/privacybeleid"
-              className="hover:text-white/60 transition-colors"
+              className="hover:text-[var(--text-muted)] transition-colors"
             >
               Privacybeleid
             </Link>
             <Link
               href="/algemene-voorwaarden"
-              className="hover:text-white/60 transition-colors"
+              className="hover:text-[var(--text-muted)] transition-colors"
             >
               Algemene Voorwaarden
             </Link>
