@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getSiteSettings, getTripDetail, getTripSlugs } from '@/lib/data'
-import { buildMetadata, mergeWithSeoFields, getBaseUrl } from '@/lib/seo'
+import { buildMetadata, mergeWithSeoFields, getBaseUrl, breadcrumbJsonLd } from '@/lib/seo'
 import { formatPrice, categoryLabel, difficultyLabel } from '@/lib/utils'
 import { Breadcrumbs } from '@/components/shared/breadcrumbs'
 import { PortableTextRenderer } from '@/components/shared/portable-text-renderer'
@@ -53,6 +53,12 @@ export default async function SafariDetailPage({ params }: Props) {
   const baseUrl = getBaseUrl()
   const heroUrl = trip.heroImage?.asset?.url || null
 
+  const breadcrumbSchema = breadcrumbJsonLd([
+    { name: 'Home', path: '/' },
+    { name: 'Safari Reizen', path: '/safari-reizen' },
+    { name: stegaClean(trip.title)!, path: `/safari-reizen/${stegaClean(slug)}` },
+  ])
+
   const tourSchema = {
     '@context': 'https://schema.org',
     '@type': 'TouristTrip',
@@ -90,6 +96,10 @@ export default async function SafariDetailPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(tourSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* Hero */}

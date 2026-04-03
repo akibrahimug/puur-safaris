@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { getSiteSettings, getDestinationDetail, getDestinationSlugs } from '@/lib/data'
-import { buildMetadata, mergeWithSeoFields, getBaseUrl } from '@/lib/seo'
+import { buildMetadata, mergeWithSeoFields, getBaseUrl, breadcrumbJsonLd } from '@/lib/seo'
 import { Breadcrumbs } from '@/components/shared/breadcrumbs'
 import { PortableTextRenderer } from '@/components/shared/portable-text-renderer'
 import { SectionHeading } from '@/components/shared/section-heading'
@@ -52,6 +52,12 @@ export default async function BestemmingDetailPage({ params }: Props) {
 
   const relatedTrips = destination.relatedTrips ?? []
 
+  const breadcrumbSchema = breadcrumbJsonLd([
+    { name: 'Home', path: '/' },
+    { name: 'Bestemmingen', path: '/bestemmingen' },
+    { name: stegaClean(destination.name)!, path: `/bestemmingen/${stegaClean(slug)}` },
+  ])
+
   const destinationSchema = {
     '@context': 'https://schema.org',
     '@type': 'TouristDestination',
@@ -70,6 +76,10 @@ export default async function BestemmingDetailPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(destinationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* Hero */}

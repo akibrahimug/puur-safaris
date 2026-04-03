@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getSiteSettings, getBlogPostDetail, getBlogPostSlugs } from '@/lib/data'
-import { buildMetadata, mergeWithSeoFields, getBaseUrl } from '@/lib/seo'
+import { buildMetadata, mergeWithSeoFields, getBaseUrl, breadcrumbJsonLd } from '@/lib/seo'
 import { formatDate, blogCategoryLabel } from '@/lib/utils'
 import { PageHero } from '@/components/shared/page-hero'
 import { PortableTextRenderer } from '@/components/shared/portable-text-renderer'
@@ -52,6 +52,12 @@ export default async function BlogDetailPage({ params }: Props) {
   const baseUrl = getBaseUrl()
   const imageUrl = post.featuredImage?.asset?.url || null
 
+  const breadcrumbSchema = breadcrumbJsonLd([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    { name: stegaClean(post.title)!, path: `/blog/${stegaClean(slug)}` },
+  ])
+
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -75,6 +81,10 @@ export default async function BlogDetailPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <PageHero
