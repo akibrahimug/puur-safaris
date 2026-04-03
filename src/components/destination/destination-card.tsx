@@ -4,12 +4,19 @@ import { MapPin, ArrowUpRight } from 'lucide-react'
 import { HoverCard } from '@/components/motion/hover-card'
 import type { DestinationCard as DestinationCardType } from '@/lib/types'
 
-interface DestinationCardProps {
-  destination: DestinationCardType
+export interface DestinationCardLabels {
+  tripSingularLabel?: string
+  tripPluralLabel?: string
+  availableLabel?: string
 }
 
-export function DestinationCard({ destination }: DestinationCardProps) {
-  const imageUrl = destination.heroImage?.asset?.url ?? null
+interface DestinationCardProps {
+  destination: DestinationCardType
+  labels?: DestinationCardLabels
+}
+
+export function DestinationCard({ destination, labels }: DestinationCardProps) {
+  const imageUrl = destination.heroImage?.asset?.url || null
 
   return (
     <HoverCard>
@@ -49,7 +56,7 @@ export function DestinationCard({ destination }: DestinationCardProps) {
               )}
               {destination.tripCount !== undefined && destination.tripCount > 0 && (
                 <p className="mt-1 text-xs text-white/50">
-                  {destination.tripCount} {destination.tripCount === 1 ? 'reis' : 'reizen'} beschikbaar
+                  {destination.tripCount} {destination.tripCount === 1 ? (labels?.tripSingularLabel ?? 'reis') : (labels?.tripPluralLabel ?? 'reizen')} {labels?.availableLabel ?? 'beschikbaar'}
                 </p>
               )}
             </div>

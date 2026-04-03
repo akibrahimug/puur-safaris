@@ -1,20 +1,22 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import type { TrustItem } from '@/lib/types'
 
-/*
-  Trust strip — sits between hero and trips.
-  Editorial "expedition manifest" format: inline number within a short phrase.
-  Not the generic "big centered number + label" — these read as field notes.
-*/
-const trustItems = [
+const defaultItems: TrustItem[] = [
   { value: '500+', phrase: 'reizigers vonden hun droomsafari' },
   { value: '12',   phrase: 'landen actief in Oost-Afrika' },
   { value: '15',   phrase: 'jaar veldervaring met de wildernis' },
   { value: '4.9★', phrase: 'gemiddeld beoordeeld door reizigers' },
 ]
 
-export function TrustStrip() {
+interface TrustStripProps {
+  items?: TrustItem[]
+}
+
+export function TrustStrip({ items }: TrustStripProps) {
+  const trustItems = items?.length ? items : defaultItems
+
   return (
     <div className="relative overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
       {/* Top edge — gold taper */}

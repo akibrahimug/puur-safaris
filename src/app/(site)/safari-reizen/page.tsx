@@ -1,24 +1,25 @@
 import type { Metadata } from 'next'
-import { siteSettings } from '@/data/site-settings'
-import { trips } from '@/data/trips'
+import { getSiteSettings, getTrips, getSafariListingPage } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
+import { stegaClean } from '@sanity/client/stega'
 import { PageHero } from '@/components/shared/page-hero'
 import { SafariGrid } from '@/components/safari/safari-grid'
 
-export const revalidate = 3600
-
-export function generateMetadata(): Metadata {
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings()
   return buildMetadata(
     {
       title: 'Safari Reizen',
       description: 'Bekijk ons complete aanbod van handgepickte safari reizen. Van wildlife safaris in Kenya tot bergklimmen in Tanzania.',
       canonical: '/safari-reizen',
     },
-    siteSettings
+    settings
   )
 }
 
-export default function SafariReizenPage() {
+export default async function SafariReizenPage() {
+  const [trips, safariListingPage] = await Promise.all([getTrips(), getSafariListingPage()])
+
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -27,8 +28,8 @@ export default function SafariReizenPage() {
     itemListElement: trips.map((t, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      name: t.title,
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/safari-reizen/${t.slug}`,
+      name: stegaClean(t.title),
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/safari-reizen/${stegaClean(t.slug)}`,
     })),
   }
 
@@ -39,8 +40,8 @@ export default function SafariReizenPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
       <PageHero
-        title="Safari Reizen"
-        subtitle={`Ontdek ${trips.length > 0 ? `${trips.length} ` : ''}handgepickte safari reizen op maat.`}
+        title={safariListingPage?.heroTitle ?? 'Safari Reizen'}
+        subtitle={safariListingPage?.heroSubtitle ?? `Ontdek ${trips.length > 0 ? `${trips.length} ` : ''}handgepickte safari reizen op maat.`}
         image={trips[1]?.heroImage}
       />
       <section className="section-page py-16">

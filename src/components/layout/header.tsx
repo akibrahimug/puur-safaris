@@ -3,13 +3,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { stegaClean } from "@sanity/client/stega";
 import { Menu, X, Phone } from "lucide-react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import type { SiteSettings } from "@/lib/types";
+import type { SiteSettings, NavLink } from "@/lib/types";
 
-const navLinks = [
+const defaultNavLinks: NavLink[] = [
   { href: "/safari-reizen", label: "Safari Reizen" },
   { href: "/bestemmingen", label: "Bestemmingen" },
   { href: "/blog", label: "Blog" },
@@ -26,6 +27,7 @@ export function Header({ settings }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const navLinks = settings?.mainNavigation?.length ? settings.mainNavigation : defaultNavLinks;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -77,8 +79,8 @@ export function Header({ settings }: HeaderProps) {
           <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
-                key={link.href}
-                href={link.href}
+                key={stegaClean(link.href)}
+                href={stegaClean(link.href)}
                 className={`relative text-sm font-medium tracking-wide transition-colors duration-300 group ${
                   scrolled && !isDark
                     ? "text-stone-600 hover:text-stone-900"
@@ -95,7 +97,7 @@ export function Header({ settings }: HeaderProps) {
           <div className="hidden lg:flex items-center gap-3">
             {settings?.phone && (
               <a
-                href={`tel:${settings.phone.replace(/\s/g, "")}`}
+                href={`tel:${stegaClean(settings.phone)?.replace(/\s/g, "")}`}
                 className={`flex items-center gap-1.5 text-sm font-medium transition-colors duration-300 ${
                   scrolled && !isDark
                     ? "text-stone-600 hover:text-stone-900"
@@ -108,14 +110,14 @@ export function Header({ settings }: HeaderProps) {
             )}
             <ThemeToggle scrolled={scrolled} />
             <Link
-              href="/eigen-reisschema"
+              href={settings?.headerCtaLink ?? "/eigen-reisschema"}
               className={`rounded-full border px-5 py-2 text-sm font-medium transition-all duration-300 ${
                 scrolled && !isDark
                   ? "border-stone-900/20 text-stone-900 hover:bg-stone-900 hover:text-white"
                   : "border-white/25 text-white hover:bg-white/10"
               }`}
             >
-              Eigen Reisschema
+              {settings?.headerCtaLabel ?? 'Eigen Reisschema'}
             </Link>
           </div>
 
@@ -156,8 +158,8 @@ export function Header({ settings }: HeaderProps) {
             <nav className="flex flex-col px-6 py-4 gap-1">
               {navLinks.map((link) => (
                 <Link
-                  key={link.href}
-                  href={link.href}
+                  key={stegaClean(link.href)}
+                  href={stegaClean(link.href)}
                   className={`rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                     isDark
                       ? "text-white/70 hover:bg-white/6 hover:text-white"
@@ -172,7 +174,7 @@ export function Header({ settings }: HeaderProps) {
                 className={`mt-3 pt-3 border-t ${isDark ? "border-white/8" : "border-stone-200"}`}
               >
                 <Link
-                  href="/eigen-reisschema"
+                  href={settings?.headerCtaLink ?? "/eigen-reisschema"}
                   className={`block w-full rounded-full px-5 py-2.5 text-center text-sm font-medium transition-colors ${
                     isDark
                       ? "bg-gold text-white hover:bg-gold-dark"
@@ -180,7 +182,7 @@ export function Header({ settings }: HeaderProps) {
                   }`}
                   onClick={() => setMenuOpen(false)}
                 >
-                  Eigen Reisschema
+                  {settings?.headerCtaLabel ?? 'Eigen Reisschema'}
                 </Link>
               </div>
             </nav>

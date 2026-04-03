@@ -2,8 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { siteSettings } from '@/data/site-settings'
-import { tripDetails } from '@/data/trips'
+import { getSiteSettings, getTripDetail, getTripSlugs } from '@/lib/data'
 import { buildMetadata, mergeWithSeoFields, getBaseUrl } from '@/lib/seo'
 import { formatPrice, categoryLabel, difficultyLabel } from '@/lib/utils'
 import { Breadcrumbs } from '@/components/shared/breadcrumbs'
@@ -11,21 +10,22 @@ import { PortableTextRenderer } from '@/components/shared/portable-text-renderer
 import { SafariItinerary } from '@/components/safari/safari-itinerary'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { stegaClean } from '@sanity/client/stega'
 import { Clock, MapPin, Users, TrendingUp, CheckCircle2 } from 'lucide-react'
-
-export const revalidate = 300
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
-export function generateStaticParams() {
-  return Object.keys(tripDetails).map((slug) => ({ slug }))
+export async function generateStaticParams() {
+  const slugs = await getTripSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const trip = tripDetails[slug]
+  const settings = await getSiteSettings()
+  const trip = await getTripDetail(slug)
 
   if (!trip) return {}
 
@@ -39,35 +39,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
       trip.seo
     ),
-    siteSettings
+    settings
   )
 }
 
 export default async function SafariDetailPage({ params }: Props) {
   const { slug } = await params
-  const trip = tripDetails[slug]
+  const [trip, settings] = await Promise.all([getTripDetail(slug), getSiteSettings()])
+  const labels = settings?.safariDetailLabels
 
   if (!trip) notFound()
 
   const baseUrl = getBaseUrl()
-  const heroUrl = trip.heroImage?.asset?.url ?? null
+  const heroUrl = trip.heroImage?.asset?.url || null
 
   const tourSchema = {
     '@context': 'https://schema.org',
     '@type': 'TouristTrip',
-    name: trip.title,
-    description: trip.excerpt,
-    url: `${baseUrl}/safari-reizen/${slug}`,
-    ...(heroUrl && { image: heroUrl }),
+    name: stegaClean(trip.title),
+    description: stegaClean(trip.excerpt),
+    url: `${baseUrl}/safari-reizen/${stegaClean(slug)}`,
+    ...(heroUrl && { image: stegaClean(heroUrl) }),
     ...(trip.destination && {
-      touristType: trip.category ? categoryLabel(trip.category) : undefined,
+      touristType: trip.category ? categoryLabel(stegaClean(trip.category)!) : undefined,
       itinerary: {
         '@type': 'ItemList',
         itemListElement: trip.itinerary?.map((day, i) => ({
           '@type': 'ListItem',
           position: i + 1,
-          name: day.title,
-          description: day.description,
+          name: stegaClean(day.title),
+          description: stegaClean(day.description),
         })),
       },
     }),
@@ -129,13 +130,13 @@ export default async function SafariDetailPage({ params }: Props) {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
                 <Clock className="h-5 w-5 text-gold mx-auto mb-1" />
-                <p className="text-xs text-[var(--text-muted)] mb-0.5">Duur</p>
+                <p className="text-xs text-[var(--text-muted)] mb-0.5">{labels?.durationLabel ?? 'Duur'}</p>
                 <p className="font-semibold text-[var(--text-primary)] text-sm">{trip.duration}</p>
               </div>
               {trip.difficulty && (
                 <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
                   <TrendingUp className="h-5 w-5 text-gold mx-auto mb-1" />
-                  <p className="text-xs text-[var(--text-muted)] mb-0.5">Niveau</p>
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">{labels?.levelLabel ?? 'Niveau'}</p>
                   <p className="font-semibold text-[var(--text-primary)] text-sm">
                     {difficultyLabel(trip.difficulty)}
                   </p>
@@ -144,7 +145,7 @@ export default async function SafariDetailPage({ params }: Props) {
               {trip.minPersons && (
                 <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
                   <Users className="h-5 w-5 text-gold mx-auto mb-1" />
-                  <p className="text-xs text-[var(--text-muted)] mb-0.5">Groepsgrootte</p>
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">{labels?.groupSizeLabel ?? 'Groepsgrootte'}</p>
                   <p className="font-semibold text-[var(--text-primary)] text-sm">
                     {trip.minPersons}
                     {trip.maxPersons && `–${trip.maxPersons}`} pers.
@@ -154,7 +155,7 @@ export default async function SafariDetailPage({ params }: Props) {
               {trip.category && (
                 <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
                   <MapPin className="h-5 w-5 text-gold mx-auto mb-1" />
-                  <p className="text-xs text-[var(--text-muted)] mb-0.5">Type</p>
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">{labels?.typeLabel ?? 'Type'}</p>
                   <p className="font-semibold text-[var(--text-primary)] text-sm">
                     {categoryLabel(trip.category)}
                   </p>
@@ -165,7 +166,7 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* Description */}
             {trip.fullDescription && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">Over deze reis</h2>
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{labels?.aboutTripHeading ?? 'Over deze reis'}</h2>
                 <PortableTextRenderer value={trip.fullDescription as unknown[]} />
               </section>
             )}
@@ -173,7 +174,7 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* Highlights */}
             {trip.highlights && trip.highlights.length > 0 && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">Hoogtepunten</h2>
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{labels?.highlightsHeading ?? 'Hoogtepunten'}</h2>
                 <ul className="space-y-2">
                   {trip.highlights.map((h, i) => (
                     <li key={i} className="flex items-start gap-2.5 text-[var(--text-primary)]">
@@ -188,19 +189,19 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* Itinerary */}
             {trip.itinerary && trip.itinerary.length > 0 && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">Dag-tot-dag Reisschema</h2>
-                <SafariItinerary itinerary={trip.itinerary} />
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{labels?.itineraryHeading ?? 'Dag-tot-dag Reisschema'}</h2>
+                <SafariItinerary itinerary={trip.itinerary} mealLabels={{ breakfast: labels?.breakfastLabel, lunch: labels?.lunchLabel, dinner: labels?.dinnerLabel }} />
               </section>
             )}
 
             {/* Included / Excluded */}
             {((trip.included?.length ?? 0) > 0 || (trip.excluded?.length ?? 0) > 0) && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">In- en uitbegrepen</h2>
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{labels?.includedExcludedHeading ?? 'In- en uitbegrepen'}</h2>
                 <div className="rounded-2xl overflow-hidden" style={{ background: 'var(--card-strip-bg)', border: '1px solid rgba(42,125,88,0.18)' }}>
                   {trip.included && trip.included.length > 0 && (
                     <div className="px-5 py-4" style={{ borderBottom: (trip.excluded?.length ?? 0) > 0 ? '1px solid rgba(42,125,88,0.1)' : 'none' }}>
-                      <p className="text-[10px] font-semibold uppercase tracking-widest mb-3 text-gold">Inbegrepen</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-widest mb-3 text-gold">{labels?.includedLabel ?? 'Inbegrepen'}</p>
                       <div className="flex flex-wrap gap-2">
                         {trip.included.map((item, i) => (
                           <span key={i} className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
@@ -213,7 +214,7 @@ export default async function SafariDetailPage({ params }: Props) {
                   )}
                   {trip.excluded && trip.excluded.length > 0 && (
                     <div className="px-5 py-4">
-                      <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: '#c0485a' }}>Niet inbegrepen</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: '#c0485a' }}>{labels?.excludedLabel ?? 'Niet inbegrepen'}</p>
                       <div className="flex flex-wrap gap-2">
                         {trip.excluded.map((item, i) => (
                           <span key={i} className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
@@ -233,33 +234,33 @@ export default async function SafariDetailPage({ params }: Props) {
           <aside className="lg:col-span-1">
             <div className="sticky top-20 rounded-2xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-6 shadow-sm">
               <div className="mb-4">
-                <span className="text-sm text-[var(--text-muted)]">Prijs vanaf</span>
+                <span className="text-sm text-[var(--text-muted)]">{labels?.priceFromSidebarLabel ?? 'Prijs vanaf'}</span>
                 <p className="text-4xl font-bold text-gold">{formatPrice(trip.price)}</p>
                 <span className="text-sm text-[var(--text-subtle)]">
-                  {trip.priceType === 'per_group' ? 'per groep' : 'per persoon'}
+                  {trip.priceType === 'per_group' ? (settings?.cardLabels?.pricePerGroup ?? 'per groep') : (settings?.cardLabels?.pricePerPerson ?? 'per persoon')}
                 </span>
               </div>
 
               <div className="space-y-2 mb-6">
                 {trip.duration && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-[var(--text-muted)]">Duur</span>
+                    <span className="text-[var(--text-muted)]">{labels?.durationLabel ?? 'Duur'}</span>
                     <span className="font-medium text-[var(--text-primary)]">{trip.duration}</span>
                   </div>
                 )}
                 {trip.difficulty && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-[var(--text-muted)]">Niveau</span>
+                    <span className="text-[var(--text-muted)]">{labels?.levelLabel ?? 'Niveau'}</span>
                     <Badge variant="secondary">{difficultyLabel(trip.difficulty)}</Badge>
                   </div>
                 )}
               </div>
 
               <Button asChild size="lg" className="w-full mb-3">
-                <Link href={`/safari-reizen/${slug}/boeken`}>Boek deze reis</Link>
+                <Link href={`/safari-reizen/${slug}/boeken`}>{labels?.bookTripCtaLabel ?? 'Boek deze reis'}</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="w-full">
-                <Link href="/eigen-reisschema">Eigen Reisschema</Link>
+                <Link href="/eigen-reisschema">{labels?.eigenReisschemaCtaLabel ?? 'Eigen Reisschema'}</Link>
               </Button>
             </div>
           </aside>

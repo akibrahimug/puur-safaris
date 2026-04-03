@@ -14,7 +14,7 @@ interface PageHeroProps {
 }
 
 export function PageHero({ title, subtitle, image, eyebrow, className, children }: PageHeroProps) {
-  const imageUrl = image?.asset?.url ?? null
+  const imageUrl = image?.asset?.url || null
 
   return (
     <section className={cn('relative flex min-h-[46vh] items-end overflow-hidden bg-ink', className)}>

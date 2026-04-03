@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { tripDetails } from '@/data/trips'
+import { getTripDetail, getBookingPage } from '@/lib/data'
 import { PageHero } from '@/components/shared/page-hero'
 import { BookingForm } from '@/components/booking/booking-form'
 
@@ -10,7 +10,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const trip = tripDetails[slug]
+  const trip = await getTripDetail(slug)
   if (!trip) return {}
   return {
     title: `Boek ${trip.title} — Puur Safaris`,
@@ -20,15 +20,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BookingPage({ params }: Props) {
   const { slug } = await params
-  const trip = tripDetails[slug]
+  const [trip, bookingPage] = await Promise.all([getTripDetail(slug), getBookingPage()])
   if (!trip) notFound()
 
   return (
     <>
       <PageHero
         title={`Boek: ${trip.title}`}
-        subtitle="Vul uw gegevens in en wij bevestigen uw boeking binnen 2 werkdagen."
-        eyebrow="Boeking"
+        subtitle={bookingPage?.heroSubtitle ?? 'Vul uw gegevens in en wij bevestigen uw boeking binnen 2 werkdagen.'}
+        eyebrow={bookingPage?.heroEyebrow ?? 'Boeking'}
         image={trip.heroImage}
       />
       <section className="py-16 section-page">

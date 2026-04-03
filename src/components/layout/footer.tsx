@@ -7,6 +7,21 @@ interface FooterProps {
   settings?: SiteSettings | null;
 }
 
+const defaultColumn1Links = [
+  { href: "/safari-reizen", label: "Alle safari reizen" },
+  { href: "/safari-reizen?category=wildlife", label: "Wildlife Safaris" },
+  { href: "/safari-reizen?category=hiking", label: "Berg & Trekking" },
+  { href: "/safari-reizen?category=culture", label: "Cultuur & Gemeenschap" },
+  { href: "/bestemmingen", label: "Bestemmingen" },
+]
+
+const defaultColumn2Links = [
+  { href: "/over-ons", label: "Over Puur Safaris" },
+  { href: "/blog", label: "Reisblog" },
+  { href: "/faq", label: "Veelgestelde vragen" },
+  { href: "/contact", label: "Contact" },
+]
+
 export function Footer({ settings }: FooterProps) {
   const year = new Date().getFullYear();
 
@@ -124,25 +139,10 @@ export function Footer({ settings }: FooterProps) {
           {/* Safari Reizen */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              Safari Reizen
+              {settings?.footerColumn1Heading ?? 'Safari Reizen'}
             </h3>
             <ul className="space-y-3 text-sm">
-              {[
-                { href: "/safari-reizen", label: "Alle safari reizen" },
-                {
-                  href: "/safari-reizen?category=wildlife",
-                  label: "Wildlife Safaris",
-                },
-                {
-                  href: "/safari-reizen?category=hiking",
-                  label: "Berg & Trekking",
-                },
-                {
-                  href: "/safari-reizen?category=culture",
-                  label: "Cultuur & Gemeenschap",
-                },
-                { href: "/bestemmingen", label: "Bestemmingen" },
-              ].map(({ href, label }) => (
+              {(settings?.footerColumn1Links ?? defaultColumn1Links).map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
@@ -158,15 +158,10 @@ export function Footer({ settings }: FooterProps) {
           {/* Over ons */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              Over Ons
+              {settings?.footerColumn2Heading ?? 'Over Ons'}
             </h3>
             <ul className="space-y-3 text-sm">
-              {[
-                { href: "/over-ons", label: "Over Puur Safaris" },
-                { href: "/blog", label: "Reisblog" },
-                { href: "/faq", label: "Veelgestelde vragen" },
-                { href: "/contact", label: "Contact" },
-              ].map(({ href, label }) => (
+              {(settings?.footerColumn2Links ?? defaultColumn2Links).map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
@@ -182,7 +177,7 @@ export function Footer({ settings }: FooterProps) {
           {/* Contact */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              Contact
+              {settings?.footerColumn3Heading ?? 'Contact'}
             </h3>
             <ul className="space-y-3.5 text-sm">
               <li>
@@ -231,23 +226,22 @@ export function Footer({ settings }: FooterProps) {
         {/* Bottom bar */}
         <div className="mt-14 pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-subtle)]">
           <p>
-            &copy; {year} {settings?.siteName ?? "Puur Safaris"}. Alle rechten
-            voorbehouden.
+            &copy; {year} {settings?.siteName ?? "Puur Safaris"}. {settings?.copyrightText ?? 'Alle rechten voorbehouden.'}
             {settings?.chamberOfCommerceNumber &&
               ` · KvK: ${settings.chamberOfCommerceNumber}`}
           </p>
           <div className="flex gap-6">
             <Link
-              href="/privacybeleid"
+              href={settings?.privacyLink ?? "/privacybeleid"}
               className="hover:text-[var(--text-muted)] transition-colors"
             >
-              Privacybeleid
+              {settings?.privacyLabel ?? 'Privacybeleid'}
             </Link>
             <Link
-              href="/algemene-voorwaarden"
+              href={settings?.termsLink ?? "/algemene-voorwaarden"}
               className="hover:text-[var(--text-muted)] transition-colors"
             >
-              Algemene Voorwaarden
+              {settings?.termsLabel ?? 'Algemene Voorwaarden'}
             </Link>
           </div>
         </div>

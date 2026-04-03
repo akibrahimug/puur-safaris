@@ -1,14 +1,8 @@
 /**
- * Data access layer — each function tries Sanity first, falls back to dummy data.
- *
- * Migrate one function at a time by updating its Sanity query block.
- * Dummy data is imported statically; Sanity data is fetched at runtime.
- *
- * To skip Sanity for a specific resource while still having others live,
- * simply return the dummy import directly instead of calling sanityFetch().
+ * Data access layer — all content fetched from Sanity CMS via defineLive.
  */
 
-import { sanityFetch } from './sanity-fetch'
+import { sanityFetch } from '@/sanity/live'
 import {
   siteSettingsQuery,
   tripListQuery,
@@ -21,14 +15,18 @@ import {
   blogPostDetailQuery,
   blogPostSlugsQuery,
   faqQuery,
+  testimonialListQuery,
+  homePageQuery,
+  aboutPageQuery,
+  contactPageQuery,
+  safariListingPageQuery,
+  destinationListingPageQuery,
+  faqPageQuery,
+  blogPageQuery,
+  eigenReisschemaPageQuery,
+  blogSubmissionPageQuery,
+  bookingPageQuery,
 } from '@/sanity/queries'
-
-// ─── Dummy data fallbacks ─────────────────────────────────────────────────────
-import { siteSettings as dummySiteSettings } from '@/data/site-settings'
-import { trips as dummyTrips } from '@/data/trips'
-import { destinations as dummyDestinations } from '@/data/destinations'
-import { blogPosts as dummyBlogPosts, blogPostDetails as dummyBlogPostDetails } from '@/data/blog-posts'
-import { faqItems as dummyFaqItems } from '@/data/faq'
 
 import type {
   SiteSettings,
@@ -39,99 +37,156 @@ import type {
   BlogPostCard,
   BlogPostDetail,
   FaqItem,
+  Testimonial,
+  HomePage,
+  AboutPage,
+  ContactPage,
+  SimpleHeroPage,
+  FaqPage,
+  BlogPage,
+  EigenReisschemaPage,
+  BlogSubmissionPage,
+  BookingPage,
 } from './types'
 
 // ─── Site Settings ────────────────────────────────────────────────────────────
 
 export async function getSiteSettings(): Promise<SiteSettings> {
-  const data = await sanityFetch<SiteSettings>(
-    siteSettingsQuery,
-    {},
-    { next: { revalidate: 3600 } },
-  )
-  return data ?? dummySiteSettings
+  const { data } = await sanityFetch({ query: siteSettingsQuery })
+  return data ?? { siteName: 'Puur Safaris' } as SiteSettings
 }
 
 // ─── Trips ────────────────────────────────────────────────────────────────────
-// Still on dummy data — uncomment Sanity fetch when ready to migrate
 
 export async function getTrips(): Promise<TripCard[]> {
-  // SANITY: uncomment when trips are entered in the Studio
-  // const data = await sanityFetch<TripCard[]>(tripListQuery, {}, { next: { revalidate: 300 } })
-  // return data?.length ? data : dummyTrips
-  void tripListQuery // keep import live until migration
-  return dummyTrips
+  const { data } = await sanityFetch({ query: tripListQuery })
+  return data ?? []
 }
 
 export async function getTripDetail(slug: string): Promise<TripDetail | null> {
-  // SANITY: uncomment when trips are entered in the Studio
-  // return sanityFetch<TripDetail>(tripDetailQuery, { slug }, { next: { revalidate: 300 } })
-  void tripDetailQuery
-  void slug
-  return null // pages fall back to dummy lookup themselves
+  const { data } = await sanityFetch({ query: tripDetailQuery, params: { slug } })
+  return data ?? null
 }
 
 export async function getTripSlugs(): Promise<string[]> {
-  // SANITY: uncomment when trips are entered in the Studio
-  // const data = await sanityFetch<{ slug: string }[]>(tripSlugsQuery)
-  // return data?.map((d) => d.slug) ?? []
-  void tripSlugsQuery
-  return dummyTrips.map((t) => t.slug)
+  const { data } = await sanityFetch({ query: tripSlugsQuery, perspective: 'published', stega: false })
+  return data?.map((d: { slug: string }) => d.slug) ?? []
 }
 
 // ─── Destinations ─────────────────────────────────────────────────────────────
 
 export async function getDestinations(): Promise<DestinationCard[]> {
-  // SANITY: uncomment when destinations are entered in the Studio
-  // const data = await sanityFetch<DestinationCard[]>(destinationListQuery, {}, { next: { revalidate: 3600 } })
-  // return data?.length ? data : dummyDestinations
-  void destinationListQuery
-  return dummyDestinations
+  const { data } = await sanityFetch({ query: destinationListQuery })
+  return data ?? []
 }
 
 export async function getDestinationDetail(slug: string): Promise<DestinationDetail | null> {
-  void destinationDetailQuery
-  void slug
-  return null
+  const { data } = await sanityFetch({ query: destinationDetailQuery, params: { slug } })
+  return data ?? null
 }
 
 export async function getDestinationSlugs(): Promise<string[]> {
-  void destinationSlugsQuery
-  return dummyDestinations.map((d) => d.slug)
+  const { data } = await sanityFetch({ query: destinationSlugsQuery, perspective: 'published', stega: false })
+  return data?.map((d: { slug: string }) => d.slug) ?? []
 }
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────
 
 export async function getBlogPosts(): Promise<BlogPostCard[]> {
-  // SANITY: uncomment when blog posts are entered in the Studio
-  // const data = await sanityFetch<BlogPostCard[]>(blogListQuery, {}, { next: { revalidate: 600 } })
-  // return data?.length ? data : dummyBlogPosts
-  void blogListQuery
-  return dummyBlogPosts
+  const { data } = await sanityFetch({ query: blogListQuery })
+  return data ?? []
 }
 
 export async function getBlogPostDetail(slug: string): Promise<BlogPostDetail | null> {
-  void blogPostDetailQuery
-  void slug
-  return null
+  const { data } = await sanityFetch({ query: blogPostDetailQuery, params: { slug } })
+  return data ?? null
 }
 
 export async function getBlogPostSlugs(): Promise<string[]> {
-  void blogPostSlugsQuery
-  return dummyBlogPosts.map((p) => p.slug)
+  const { data } = await sanityFetch({ query: blogPostSlugsQuery, perspective: 'published', stega: false })
+  return data?.map((d: { slug: string }) => d.slug) ?? []
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 
 export async function getFaqItems(): Promise<FaqItem[]> {
-  // SANITY: uncomment when FAQ items are entered in the Studio
-  // const data = await sanityFetch<FaqItem[]>(faqQuery, {}, { next: { revalidate: 3600 } })
-  // return data?.length ? data : dummyFaqItems
-  void faqQuery
-  return dummyFaqItems
+  const { data } = await sanityFetch({ query: faqQuery })
+  return data ?? []
 }
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
-// (no separate query file — included in homepageQuery when ready)
-// Dummy import kept here so the dummy data file stays referenced.
-export { dummyBlogPostDetails }
+
+export async function getTestimonials(): Promise<Testimonial[]> {
+  const { data } = await sanityFetch({ query: testimonialListQuery })
+  return data ?? []
+}
+
+// ─── Homepage ─────────────────────────────────────────────────────────────────
+
+export async function getHomePage(): Promise<HomePage | null> {
+  const { data } = await sanityFetch({ query: homePageQuery })
+  return data ?? null
+}
+
+// ─── About Page ───────────────────────────────────────────────────────────────
+
+export async function getAboutPage(): Promise<AboutPage | null> {
+  const { data } = await sanityFetch({ query: aboutPageQuery })
+  return data ?? null
+}
+
+// ─── Contact Page ────────────────────────────────────────────────────────────
+
+export async function getContactPage(): Promise<ContactPage | null> {
+  const { data } = await sanityFetch({ query: contactPageQuery })
+  return data ?? null
+}
+
+// ─── Safari Listing Page ─────────────────────────────────────────────────────
+
+export async function getSafariListingPage(): Promise<SimpleHeroPage | null> {
+  const { data } = await sanityFetch({ query: safariListingPageQuery })
+  return data ?? null
+}
+
+// ─── Destination Listing Page ────────────────────────────────────────────────
+
+export async function getDestinationListingPage(): Promise<SimpleHeroPage | null> {
+  const { data } = await sanityFetch({ query: destinationListingPageQuery })
+  return data ?? null
+}
+
+// ─── FAQ Page ────────────────────────────────────────────────────────────────
+
+export async function getFaqPage(): Promise<FaqPage | null> {
+  const { data } = await sanityFetch({ query: faqPageQuery })
+  return data ?? null
+}
+
+// ─── Blog Page ───────────────────────────────────────────────────────────────
+
+export async function getBlogPage(): Promise<BlogPage | null> {
+  const { data } = await sanityFetch({ query: blogPageQuery })
+  return data ?? null
+}
+
+// ─── Eigen Reisschema Page ───────────────────────────────────────────────────
+
+export async function getEigenReisschemaPage(): Promise<EigenReisschemaPage | null> {
+  const { data } = await sanityFetch({ query: eigenReisschemaPageQuery })
+  return data ?? null
+}
+
+// ─── Blog Submission Page ────────────────────────────────────────────────────
+
+export async function getBlogSubmissionPage(): Promise<BlogSubmissionPage | null> {
+  const { data } = await sanityFetch({ query: blogSubmissionPageQuery })
+  return data ?? null
+}
+
+// ─── Booking Page ────────────────────────────────────────────────────────────
+
+export async function getBookingPage(): Promise<BookingPage | null> {
+  const { data } = await sanityFetch({ query: bookingPageQuery })
+  return data ?? null
+}
