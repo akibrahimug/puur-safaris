@@ -27,7 +27,7 @@ export function validateStep2(fields: {
   if (fields.voornaam.trim().length < 2) errs.voornaam = 'Voornaam is verplicht (minimaal 2 tekens)'
   if (fields.achternaam.trim().length < 2) errs.achternaam = 'Achternaam is verplicht (minimaal 2 tekens)'
   if (!EMAIL_RE.test(fields.email)) errs.email = 'Vul een geldig e-mailadres in'
-  if (!PHONE_RE.test(fields.telefoon)) errs.telefoon = 'Vul een geldig telefoonnummer in'
+  if (fields.telefoon && !PHONE_RE.test(fields.telefoon)) errs.telefoon = 'Vul een geldig telefoonnummer in'
   if (!fields.geboortedatum) errs.geboortedatum = 'Geboortedatum is verplicht'
   return errs
 }

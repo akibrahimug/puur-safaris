@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Calendar, User, ArrowUpRight } from 'lucide-react'
+import { stegaClean } from '@sanity/client/stega'
 import { HoverCard } from '@/components/motion/hover-card'
 import { formatDate, blogCategoryLabel } from '@/lib/utils'
+import { BlogTags } from '@/components/blog/blog-tags'
 import type { BlogPostCard } from '@/lib/types'
 
 interface BlogCardProps {
@@ -11,11 +13,12 @@ interface BlogCardProps {
 }
 
 export function BlogCard({ post, labels }: BlogCardProps) {
-  const imageUrl = post.featuredImage?.asset?.url || null
+  const clean = stegaClean(post)
+  const imageUrl = clean.featuredImage?.asset?.url || null
 
   return (
     <HoverCard lift={5} className="h-full">
-      <Link href={`/blog/${post.slug}`} className="flex flex-col h-full group">
+      <Link href={`/blog/${clean.slug}`} className="flex flex-col h-full group">
         <article
           className="flex flex-col h-full rounded-3xl overflow-hidden transition-all duration-500 ease-out border border-[var(--border-subtle)] shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_80px_-15px_rgba(0,0,0,0.15)] group-hover:-translate-y-1"
           style={{ background: 'var(--card-strip-bg)' }}
@@ -25,7 +28,7 @@ export function BlogCard({ post, labels }: BlogCardProps) {
             {imageUrl ? (
               <Image
                 src={imageUrl}
-                alt={post.featuredImage?.alt ?? post.title}
+                alt={clean.featuredImage?.alt ?? clean.title}
                 fill
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -39,11 +42,18 @@ export function BlogCard({ post, labels }: BlogCardProps) {
               style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, transparent 40%, rgba(0,0,0,0.15) 100%)' }} />
 
             {/* Category badge — appears on hover */}
-            {post.category && (
+            {clean.category && (
               <div className="absolute top-4 left-4 pointer-events-none group-hover:pointer-events-auto opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
                 <span className="rounded-full px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-black/40 text-white/95 border border-white/10 shadow-sm">
-                  {blogCategoryLabel(post.category)}
+                  {blogCategoryLabel(clean.category)}
                 </span>
+              </div>
+            )}
+
+            {/* Hero tags */}
+            {clean.tags && clean.tags.length > 0 && (
+              <div className="absolute bottom-3 left-4">
+                <BlogTags tags={clean.tags} placement="hero" variant="hero" />
               </div>
             )}
           </div>
@@ -61,25 +71,32 @@ export function BlogCard({ post, labels }: BlogCardProps) {
               <div className="flex flex-wrap gap-3 mb-3 text-[10px]" style={{ color: 'var(--card-strip-muted)' }}>
                 <span className="flex items-center gap-1">
                   <Calendar className="h-2.5 w-2.5" />
-                  {formatDate(post.publishedAt)}
+                  {formatDate(clean.publishedAt)}
                 </span>
-                {post.author && (
+                {clean.author && (
                   <span className="flex items-center gap-1">
                     <User className="h-2.5 w-2.5" />
-                    {post.author}
+                    {clean.author}
                   </span>
                 )}
               </div>
 
               <h2 className="font-serif text-[1.03rem] font-semibold leading-snug mb-2.5 transition-colors duration-200 group-hover:text-gold"
                 style={{ color: 'var(--card-strip-text)' }}>
-                {post.title}
+                {clean.title}
               </h2>
 
-              <p className="text-sm leading-relaxed line-clamp-2 mb-4"
+              <p className="text-sm leading-relaxed line-clamp-2 mb-3"
                 style={{ color: 'var(--card-strip-muted)' }}>
-                {post.summary}
+                {clean.summary}
               </p>
+
+              {/* Sidebar tags */}
+              {clean.tags && clean.tags.length > 0 && (
+                <div className="mb-3">
+                  <BlogTags tags={clean.tags} placement="sidebar" />
+                </div>
+              )}
 
               {/* Spacer pushes CTA to bottom */}
               <div className="grow" />

@@ -23,8 +23,6 @@ const defaultColumn2Links = [
 ]
 
 export function Footer({ settings }: FooterProps) {
-  const year = new Date().getFullYear();
-
   return (
     <footer
       className="bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]"
@@ -226,7 +224,7 @@ export function Footer({ settings }: FooterProps) {
         {/* Bottom bar */}
         <div className="mt-14 pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-subtle)]">
           <p>
-            &copy; {year} {settings?.siteName ?? "Puur Safaris"}. {settings?.copyrightText ?? 'Alle rechten voorbehouden.'}
+            &copy; 2025 {settings?.siteName ?? "Puur Safaris"}. {settings?.copyrightText ?? 'Alle rechten voorbehouden.'}
             {settings?.chamberOfCommerceNumber &&
               ` · KvK: ${settings.chamberOfCommerceNumber}`}
           </p>

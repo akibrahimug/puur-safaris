@@ -44,6 +44,54 @@ export const resolve: PresentationPluginOptions['resolve'] = {
         locations: [{ title: 'Over Ons', href: '/over-ons' }],
       }),
     }),
+    blogPage: defineLocations({
+      select: { title: 'heroTitle' },
+      resolve: () => ({
+        locations: [{ title: 'Blog Overzicht', href: '/blog' }],
+      }),
+    }),
+    contactPage: defineLocations({
+      select: { title: 'heroTitle' },
+      resolve: () => ({
+        locations: [{ title: 'Contact', href: '/contact' }],
+      }),
+    }),
+    safariListingPage: defineLocations({
+      select: { title: 'heroTitle' },
+      resolve: () => ({
+        locations: [{ title: 'Safari Reizen', href: '/safari-reizen' }],
+      }),
+    }),
+    destinationListingPage: defineLocations({
+      select: { title: 'heroTitle' },
+      resolve: () => ({
+        locations: [{ title: 'Bestemmingen', href: '/bestemmingen' }],
+      }),
+    }),
+    faqPage: defineLocations({
+      select: { title: 'heroTitle' },
+      resolve: () => ({
+        locations: [{ title: 'FAQ', href: '/faq' }],
+      }),
+    }),
+    eigenReisschemaPage: defineLocations({
+      select: { title: 'heroTitle' },
+      resolve: () => ({
+        locations: [{ title: 'Eigen Reisschema', href: '/eigen-reisschema' }],
+      }),
+    }),
+    blogSubmissionPage: defineLocations({
+      select: { title: 'heroTitle' },
+      resolve: () => ({
+        locations: [{ title: 'Blog Inzenden', href: '/blog/inzenden' }],
+      }),
+    }),
+    bookingPage: defineLocations({
+      select: { title: 'heroTitle' },
+      resolve: () => ({
+        locations: [{ title: 'Boeken', href: '/boeken' }],
+      }),
+    }),
     siteSettings: defineLocations({
       select: { title: 'siteName' },
       resolve: () => ({

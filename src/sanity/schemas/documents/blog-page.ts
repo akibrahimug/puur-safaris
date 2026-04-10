@@ -28,6 +28,21 @@ export default defineType({
       rows: 2,
       group: 'hero',
     }),
+    defineField({
+      name: 'heroImage',
+      title: 'Hero Afbeelding',
+      type: 'image',
+      options: { hotspot: true },
+      group: 'hero',
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt tekst',
+          type: 'string',
+        }),
+      ],
+      description: 'Achtergrondafbeelding voor de hero sectie van de blog pagina.',
+    }),
 
     // ─── STORIES SECTION ───────────────────────────────────────────
     defineField({
@@ -139,6 +154,12 @@ export default defineType({
       title: 'SEO',
       type: 'seoFields',
       group: 'seo',
+    }),
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
     }),
   ],
   preview: {

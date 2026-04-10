@@ -6,6 +6,35 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'status',
+      title: 'Status',
+      type: 'string',
+      options: {
+        list: [
+          { value: 'submitted', title: 'Ingediend' },
+          { value: 'pending_review', title: 'Wacht op beoordeling' },
+          { value: 'published', title: 'Gepubliceerd' },
+          { value: 'rejected', title: 'Afgewezen' },
+        ],
+      },
+      initialValue: 'published',
+    }),
+    defineField({
+      name: 'submitterEmail',
+      title: 'E-mail inzender',
+      type: 'string',
+      description: 'E-mailadres van de persoon die het reisverslag heeft ingediend.',
+      readOnly: true,
+    }),
+    defineField({
+      name: 'submitterBooking',
+      title: 'Gekoppelde boeking',
+      type: 'reference',
+      to: [{ type: 'booking' }],
+      description: 'De boeking waarmee dit reisverslag is geverifieerd.',
+      readOnly: true,
+    }),
+    defineField({
       name: 'title',
       title: 'Titel',
       type: 'string',
@@ -122,6 +151,68 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'label',
+              title: 'Label',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            }),
+            {
+              name: 'placement',
+              title: 'Plaatsing',
+              type: 'string',
+              options: {
+                list: [
+                  { value: 'hero', title: 'Hero (bovenaan bij afbeelding)' },
+                  { value: 'sidebar', title: 'Zijbalk / onder meta' },
+                  { value: 'bottom', title: 'Onderaan artikel' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'hero',
+            },
+            {
+              name: 'color',
+              title: 'Kleur',
+              type: 'string',
+              options: {
+                list: [
+                  { value: 'gold', title: 'Goud' },
+                  { value: 'green', title: 'Groen' },
+                  { value: 'blue', title: 'Blauw' },
+                  { value: 'red', title: 'Rood' },
+                  { value: 'neutral', title: 'Neutraal' },
+                ],
+              },
+              initialValue: 'gold',
+            },
+          ],
+          preview: {
+            select: { title: 'label', subtitle: 'placement' },
+            prepare({ title, subtitle }: { title?: string; subtitle?: string }) {
+              const placements: Record<string, string> = {
+                hero: 'Hero',
+                sidebar: 'Zijbalk',
+                bottom: 'Onderaan',
+              }
+              return {
+                title: title ?? 'Tag',
+                subtitle: subtitle ? placements[subtitle] ?? subtitle : '',
+              }
+            },
+          },
+        },
+      ],
+      description: 'Voeg tags toe en kies waar ze op de pagina verschijnen.',
+    }),
+    defineField({
       name: 'relatedTrips',
       title: 'Gerelateerde Reizen',
       type: 'array',
@@ -133,12 +224,33 @@ export default defineType({
       title: 'SEO Instellingen',
       type: 'seoFields',
     }),
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+    }),
   ],
   preview: {
     select: {
       title: 'title',
-      subtitle: 'publishedAt',
+      publishedAt: 'publishedAt',
+      status: 'status',
       media: 'featuredImage',
+    },
+    prepare({ title, publishedAt, status, media }) {
+      const statusLabels: Record<string, string> = {
+        submitted: 'Ingediend',
+        pending_review: 'Wacht op beoordeling',
+        published: 'Gepubliceerd',
+        rejected: 'Afgewezen',
+      }
+      const statusText = status ? ` [${statusLabels[status] ?? status}]` : ''
+      return {
+        title,
+        subtitle: `${publishedAt ?? ''}${statusText}`,
+        media,
+      }
     },
   },
   orderings: [

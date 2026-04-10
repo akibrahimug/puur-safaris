@@ -212,20 +212,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
       .map(d => d.name)
       .join(', ')
 
-    const bericht = [
-      '=== EIGEN REISSCHEMA AANVRAAG ===',
-      '',
-      `BESTEMMINGEN: ${destNames}`,
-      '',
-      'REISDETAILS:',
-      `• Aantal dagen: ${days}`,
-      `• Reisperiode: ${period}`,
-      `• Groepsgrootte: ${groupSize}`,
-      `• Reisstijl: ${travelStyles.length ? travelStyles.join(', ') : 'Geen voorkeur'}`,
-      `• Accommodatie: ${accommodation}`,
-      '',
-      ...(wensen.trim() ? [`EXTRA WENSEN:\n${wensen.trim()}`] : []),
-    ].join('\n')
+    const bericht = wensen.trim() || 'Geen extra wensen opgegeven.'
 
     try {
       const res = await fetch('/api/contact', {
@@ -237,6 +224,10 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
           telefoon: telefoon || undefined,
           onderwerp: 'Eigen Reisschema Aanvraag',
           bericht,
+          voorkeursContact: destNames,
+          aantalReizigers: `${groupSize} personen`,
+          voorkeursPeriode: `${period} · ${days} dagen`,
+          budgetIndicatie: `${travelStyles.length ? travelStyles.join(', ') : 'Geen voorkeur'} · ${accommodation}`,
         }),
       })
       if (!res.ok) throw new Error('Versturen mislukt')

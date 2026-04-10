@@ -486,7 +486,7 @@ export function BookingForm({
           className="block text-xs font-semibold uppercase tracking-wider mb-2"
           style={{ color: 'var(--text-muted)' }}
         >
-          Telefoon <span style={{ color: '#2a7d58' }}>*</span>
+          Telefoon <span style={{ color: 'var(--text-muted)', fontWeight: 400, textTransform: 'none' }}>(optioneel)</span>
         </label>
         <input
           type="tel"

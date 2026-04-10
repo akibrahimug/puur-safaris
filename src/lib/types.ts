@@ -36,10 +36,43 @@ export interface DestinationCard {
   tripCount?: number
 }
 
+export interface GalleryItem {
+  asset: { _id: string; url: string; metadata?: { dimensions?: { width: number; height: number }; lqip?: string } }
+  hotspot?: { x: number; y: number }
+  crop?: { top: number; bottom: number; left: number; right: number }
+  alt?: string
+  caption?: string
+}
+
+export interface WildlifeHighlight {
+  name: string
+  description?: string
+  image?: SanityImage
+}
+
+export interface Accommodation {
+  name: string
+  type?: 'lodge' | 'camp' | 'hotel' | 'guesthouse' | 'luxury'
+  description?: string
+  image?: SanityImage
+  coordinates?: { lat: number; lng: number }
+}
+
 export interface DestinationDetail extends DestinationCard {
   description?: unknown[]
   climate?: string
   bestTimeToVisit?: string
+  gallery?: GalleryItem[]
+  wildlifeHeading?: string
+  wildlifeDescription?: string
+  wildlifeHighlights?: WildlifeHighlight[]
+  communityHeading?: string
+  communityDescription?: unknown[]
+  communityImage?: SanityImage
+  accommodationsHeading?: string
+  accommodations?: Accommodation[]
+  coordinates?: { lat: number; lng: number }
+  mapZoom?: number
   relatedTrips?: TripCard[]
   seo?: SeoFields
 }
@@ -90,6 +123,12 @@ export interface TripDetail extends TripCard {
 
 // ─── BLOG ─────────────────────────────────────────────────────────────────────
 
+export interface BlogTag {
+  label: string
+  placement: 'hero' | 'sidebar' | 'bottom'
+  color?: 'gold' | 'green' | 'blue' | 'red' | 'neutral'
+}
+
 export interface BlogPostCard {
   _id: string
   title: string
@@ -99,6 +138,7 @@ export interface BlogPostCard {
   category?: string
   summary: string
   featuredImage: SanityImage
+  tags?: BlogTag[]
 }
 
 export interface BlogPostDetail extends BlogPostCard {
@@ -310,6 +350,7 @@ export interface AboutPage {
 
 export interface ContactPage {
   heroTitle?: string
+  heroImage?: SanityImage
   heroSubtitle?: string
   sidebarHeading?: string
   sidebarDescription?: string
@@ -326,6 +367,7 @@ export interface ContactPage {
 
 export interface SimpleHeroPage {
   heroTitle?: string
+  heroImage?: SanityImage
   heroSubtitle?: string
   seo?: SeoFields
 }
@@ -345,6 +387,7 @@ export interface FaqPage extends SimpleHeroPage {
 export interface BlogPage {
   heroTitle?: string
   heroSubtitle?: string
+  heroImage?: SanityImage
   storiesSectionHeading?: string
   featuredBadgeText?: string
   readArticleLabel?: string
@@ -367,6 +410,7 @@ export interface BlogPage {
 export interface EigenReisschemaPage {
   heroEyebrow?: string
   heroTitle?: string
+  heroImage?: SanityImage
   heroSubtitle?: string
   seo?: SeoFields
 }
