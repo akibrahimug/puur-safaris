@@ -15,13 +15,16 @@ interface BookingFormProps {
   tripPriceType: 'per_person' | 'per_group'
   tripDuration: string
   tripDestination?: { name: string; country: string } | null
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dict?: Record<string, any>
 }
 
 // ── Step bar ───────────────────────────────────────────────────────────────────
 
-const STEPS = ['Reis & Data', 'Reiziger', 'Bevestiging']
+const DEFAULT_STEPS = ['Reis & Data', 'Reiziger', 'Bevestiging']
 
-function StepBar({ current }: { current: number }) {
+function StepBar({ current, labels }: { current: number; labels?: string[] }) {
+  const STEPS = labels ?? DEFAULT_STEPS
   return (
     <div className="flex items-center justify-center gap-0 mb-12">
       {STEPS.map((label, i) => {
@@ -168,7 +171,9 @@ export function BookingForm({
   tripPriceType,
   tripDuration,
   tripDestination,
+  dict,
 }: BookingFormProps) {
+  const d = dict?.booking
   const [step, setStep] = useState(0)
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -200,9 +205,9 @@ export function BookingForm({
 
   function tryNext() {
     let errs: FieldErrors = {}
-    if (step === 0) errs = validateStep1(flexibel, vertrekdatum, retourdatum)
-    if (step === 1) errs = validateStep2({ voornaam, achternaam, email, telefoon, geboortedatum })
-    if (step === 2) errs = validateStep3(terms)
+    if (step === 0) errs = validateStep1(flexibel, vertrekdatum, retourdatum, d)
+    if (step === 1) errs = validateStep2({ voornaam, achternaam, email, telefoon, geboortedatum }, d)
+    if (step === 2) errs = validateStep3(terms, d)
 
     setFieldErrors(errs)
     if (Object.keys(errs).length > 0) return
@@ -241,10 +246,10 @@ export function BookingForm({
           gevonden: gevonden || undefined,
         }),
       })
-      if (!res.ok) throw new Error('Versturen mislukt')
+      if (!res.ok) throw new Error(d?.errorSend ?? 'Versturen mislukt')
       setSubmitted(true)
     } catch {
-      setError('Er is iets misgegaan. Probeer het opnieuw of neem contact met ons op.')
+      setError(d?.errorMessage ?? 'Er is iets misgegaan. Probeer het opnieuw of neem contact met ons op.')
     } finally {
       setSubmitting(false)
     }
@@ -272,7 +277,7 @@ export function BookingForm({
           <PartyPopper className="h-9 w-9 text-gold" />
         </div>
         <h2 className="font-serif text-3xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
-          Boeking aangevraagd!
+          {d?.successHeading ?? 'Boeking aangevraagd!'}
         </h2>
         <p className="text-base max-w-md leading-relaxed" style={{ color: 'var(--text-muted)' }}>
           Bedankt {voornaam}. We hebben uw boekingsaanvraag voor{' '}
@@ -289,10 +294,10 @@ export function BookingForm({
     <div className="space-y-8">
       <div>
         <h2 className="font-serif text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-          Reis & Data
+          {d?.step1Heading ?? 'Reis & Data'}
         </h2>
         <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-          Controleer de reisgegevens en kies uw gewenste reisdata.
+          {d?.step1Desc ?? 'Controleer de reisgegevens en kies uw gewenste reisdata.'}
         </p>
       </div>
 
@@ -308,7 +313,7 @@ export function BookingForm({
           className="text-[10px] font-semibold uppercase tracking-widest mb-2"
           style={{ color: '#2a7d58' }}
         >
-          Geselecteerde reis
+          {d?.selectedTrip ?? 'Geselecteerde reis'}
         </p>
         <p className="font-serif text-xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
           {tripTitle}
@@ -356,7 +361,7 @@ export function BookingForm({
           {flexibel && <Check className="h-3 w-3 text-white" />}
         </button>
         <span className="text-sm" style={{ color: 'var(--text-muted)' }}>
-          Flexibele datum
+          {d?.flexibleDate ?? 'Flexibele datum'}
         </span>
       </div>
 
@@ -369,7 +374,7 @@ export function BookingForm({
             color: 'var(--text-muted)',
           }}
         >
-          We nemen contact op om de datum af te stemmen
+          {d?.flexibleDateInfo ?? 'We nemen contact op om de datum af te stemmen'}
         </p>
       ) : (
         <DateRangePicker
@@ -377,7 +382,7 @@ export function BookingForm({
           endDate={retourdatum}
           onStartChange={(v) => { setVertrekdatum(v); clearError('vertrekdatum') }}
           onEndChange={(v) => { setRetourdatum(v); clearError('retourdatum') }}
-          label="Reisdata"
+          label={d?.dateRange ?? "Reisdata"}
           required
           minDate={new Date()}
           error={fieldErrors.vertrekdatum || fieldErrors.retourdatum}
@@ -391,14 +396,14 @@ export function BookingForm({
           min={1}
           max={20}
           onChange={setAantalVolwassenen}
-          label="Aantal volwassenen *"
+          label={d?.adultsLabel ?? "Aantal volwassenen *"}
         />
         <Stepper
           value={aantalKinderen}
           min={0}
           max={10}
           onChange={setAantalKinderen}
-          label="Aantal kinderen"
+          label={d?.childrenLabel ?? "Aantal kinderen"}
         />
       </div>
     </div>
@@ -410,10 +415,10 @@ export function BookingForm({
     <div className="space-y-6">
       <div>
         <h2 className="font-serif text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-          Reizigersinformatie
+          {d?.step2Heading ?? 'Reizigersinformatie'}
         </h2>
         <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-          Vul uw persoonlijke gegevens in. Wij behandelen deze vertrouwelijk.
+          {d?.step2Desc ?? 'Vul uw persoonlijke gegevens in. Wij behandelen deze vertrouwelijk.'}
         </p>
       </div>
 
@@ -423,7 +428,7 @@ export function BookingForm({
             className="block text-xs font-semibold uppercase tracking-wider mb-2"
             style={{ color: 'var(--text-muted)' }}
           >
-            Voornaam <span style={{ color: '#2a7d58' }}>*</span>
+            {d?.fieldFirstname ?? 'Voornaam'} <span style={{ color: '#2a7d58' }}>*</span>
           </label>
           <input
             type="text"
@@ -432,7 +437,7 @@ export function BookingForm({
               setVoornaam(e.target.value)
               clearError('voornaam')
             }}
-            placeholder="Jan"
+            placeholder={d?.placeholderFirstname ?? "Jan"}
             className={inputClass}
             style={fieldErrors.voornaam ? inputErrorStyle : inputStyle}
           />
@@ -443,7 +448,7 @@ export function BookingForm({
             className="block text-xs font-semibold uppercase tracking-wider mb-2"
             style={{ color: 'var(--text-muted)' }}
           >
-            Achternaam <span style={{ color: '#2a7d58' }}>*</span>
+            {d?.fieldLastname ?? 'Achternaam'} <span style={{ color: '#2a7d58' }}>*</span>
           </label>
           <input
             type="text"
@@ -452,7 +457,7 @@ export function BookingForm({
               setAchternaam(e.target.value)
               clearError('achternaam')
             }}
-            placeholder="de Vries"
+            placeholder={d?.placeholderLastname ?? "de Vries"}
             className={inputClass}
             style={fieldErrors.achternaam ? inputErrorStyle : inputStyle}
           />
@@ -465,7 +470,7 @@ export function BookingForm({
           className="block text-xs font-semibold uppercase tracking-wider mb-2"
           style={{ color: 'var(--text-muted)' }}
         >
-          E-mail <span style={{ color: '#2a7d58' }}>*</span>
+          {d?.fieldEmail ?? 'E-mail'} <span style={{ color: '#2a7d58' }}>*</span>
         </label>
         <input
           type="email"
@@ -474,7 +479,7 @@ export function BookingForm({
             setEmail(e.target.value)
             clearError('email')
           }}
-          placeholder="jan@voorbeeld.nl"
+          placeholder={d?.placeholderEmail ?? "jan@voorbeeld.nl"}
           className={inputClass}
           style={fieldErrors.email ? inputErrorStyle : inputStyle}
         />
@@ -486,7 +491,7 @@ export function BookingForm({
           className="block text-xs font-semibold uppercase tracking-wider mb-2"
           style={{ color: 'var(--text-muted)' }}
         >
-          Telefoon <span style={{ color: '#2a7d58' }}>*</span>
+          {d?.fieldPhone ?? 'Telefoon (optioneel)'}
         </label>
         <input
           type="tel"
@@ -495,7 +500,7 @@ export function BookingForm({
             setTelefoon(e.target.value)
             clearError('telefoon')
           }}
-          placeholder="+31 6 12 34 56 78"
+          placeholder={d?.placeholderPhone ?? "+31 6 12 34 56 78"}
           className={inputClass}
           style={fieldErrors.telefoon ? inputErrorStyle : inputStyle}
         />
@@ -505,9 +510,9 @@ export function BookingForm({
       <SingleDatePicker
         value={geboortedatum}
         onChange={(v) => { setGeboortedatum(v); clearError('geboortedatum') }}
-        label="Geboortedatum"
+        label={d?.fieldBirthdate ?? "Geboortedatum"}
         required
-        placeholder="Selecteer geboortedatum"
+        placeholder={d?.fieldBirthdate ?? "Selecteer geboortedatum"}
         maxDate={new Date()}
         error={fieldErrors.geboortedatum}
       />
@@ -518,7 +523,7 @@ export function BookingForm({
             className="block text-xs font-semibold uppercase tracking-wider mb-2"
             style={{ color: 'var(--text-muted)' }}
           >
-            Nationaliteit{' '}
+            {d?.fieldNationality ?? 'Nationaliteit'}{' '}
             <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
               (optioneel)
             </span>
@@ -537,7 +542,7 @@ export function BookingForm({
             className="block text-xs font-semibold uppercase tracking-wider mb-2"
             style={{ color: 'var(--text-muted)' }}
           >
-            Paspoortnummer{' '}
+            {d?.fieldPassport ?? 'Paspoortnummer'}{' '}
             <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
               (optioneel)
             </span>
@@ -633,7 +638,7 @@ export function BookingForm({
           value={specialeVerzoeken}
           onChange={(e) => setSpecialeVerzoeken(e.target.value)}
           rows={3}
-          placeholder="Speciale gelegenheden, kamerindeling, overige wensen…"
+          placeholder={d?.specialRequestsPlaceholder ?? "Speciale gelegenheden, kamerindeling, overige wensen\u2026"}
           className={`${inputClass} resize-none`}
           style={inputStyle}
         />
@@ -735,7 +740,7 @@ export function BookingForm({
 
   return (
     <div className="max-w-2xl mx-auto">
-      <StepBar current={step} />
+      <StepBar current={step} labels={d ? [d.step1Label, d.step2Label, d.step3Label] : undefined} />
 
       <div
         className="rounded-2xl p-6 sm:p-8"
@@ -796,9 +801,9 @@ export function BookingForm({
                 Volgende <ChevronRight className="h-4 w-4" />
               </>
             ) : submitting ? (
-              'Verzenden…'
+              'Verzenden\u2026'
             ) : (
-              'Boeking bevestigen'
+              d?.confirmButton ?? 'Boeking bevestigen'
             )}
           </button>
         </div>

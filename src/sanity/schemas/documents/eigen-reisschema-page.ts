@@ -24,6 +24,17 @@ export default defineType({
       description: 'Bijv. "Eigen Reisschema".',
     }),
     defineField({
+      name: 'heroImage',
+      title: 'Hero Afbeelding',
+      type: 'image',
+      options: { hotspot: true },
+      group: 'hero',
+      fields: [
+        defineField({ name: 'alt', title: 'Alt tekst', type: 'string' }),
+      ],
+      description: 'Achtergrondafbeelding voor de hero sectie.',
+    }),
+    defineField({
       name: 'heroSubtitle',
       title: 'Hero Ondertitel',
       type: 'text',
@@ -35,6 +46,12 @@ export default defineType({
       title: 'SEO',
       type: 'seoFields',
       group: 'seo',
+    }),
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
     }),
   ],
   preview: {

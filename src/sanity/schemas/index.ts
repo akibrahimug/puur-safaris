@@ -13,6 +13,7 @@ import faqPage from './documents/faq-page'
 import blogPage from './documents/blog-page'
 import eigenReisschemaPage from './documents/eigen-reisschema-page'
 import blogSubmissionPage from './documents/blog-submission-page'
+import booking from './documents/booking'
 import bookingPage from './documents/booking-page'
 import itineraryDay from './objects/itinerary-day'
 import galleryImage from './objects/gallery-image'
@@ -23,6 +24,7 @@ export const schemaTypes = [
   trip,
   destination,
   blogPost,
+  booking,
   testimonial,
   faqItem,
   siteSettings,

@@ -10,24 +10,46 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import type { SiteSettings, NavLink } from "@/lib/types";
 
-const defaultNavLinks: NavLink[] = [
-  { href: "/safari-reizen", label: "Safari Reizen" },
-  { href: "/bestemmingen", label: "Bestemmingen" },
-  { href: "/blog", label: "Blog" },
-  { href: "/over-ons", label: "Over Ons" },
-  { href: "/faq", label: "FAQ" },
+const defaultNavLinksNl: NavLink[] = [
+  { href: "/nl/safari-reizen", label: "Safari Reizen" },
+  { href: "/nl/bestemmingen", label: "Bestemmingen" },
+  { href: "/nl/blog", label: "Blog" },
+  { href: "/nl/over-ons", label: "Over Ons" },
+  { href: "/nl/faq", label: "FAQ" },
+  { href: "/nl/contact", label: "Contact" },
+];
+
+const defaultNavLinksEn: NavLink[] = [
+  { href: "/en/safaris", label: "Safaris" },
+  { href: "/en/destinations", label: "Destinations" },
+  { href: "/en/blog", label: "Blog" },
+  { href: "/en/about", label: "About Us" },
+  { href: "/en/faq", label: "FAQ" },
+  { href: "/en/contact", label: "Contact" },
 ];
 
 interface HeaderProps {
   settings?: SiteSettings | null;
+  locale?: string;
 }
 
-export function Header({ settings }: HeaderProps) {
+export function Header({ settings, locale = "nl" }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const navLinks = settings?.mainNavigation?.length ? settings.mainNavigation : defaultNavLinks;
+  const isDark = mounted ? theme === "dark" : false;
+  const defaultNavLinks = locale === "en" ? defaultNavLinksEn : defaultNavLinksNl;
+  // Use CMS nav only when it matches the current locale (Dutch nav shouldn't show on /en)
+  const cmsNavMatchesLocale = settings?.mainNavigation?.length && locale === "nl";
+  const navLinks = cmsNavMatchesLocale
+    ? settings!.mainNavigation!.map((link) => ({
+        ...link,
+        href: `/${locale}${stegaClean(link.href)}`,
+      }))
+    : defaultNavLinks;
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -48,7 +70,7 @@ export function Header({ settings }: HeaderProps) {
       <div className="container mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href={`/${locale}`} className="flex items-center gap-2">
             {settings?.logo?.asset?.url ? (
               <div
                 className={`rounded-lg px-2 py-1 transition-colors duration-300 ${
@@ -76,12 +98,12 @@ export function Header({ settings }: HeaderProps) {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-3 xl:gap-8">
             {navLinks.map((link) => (
               <Link
                 key={stegaClean(link.href)}
                 href={stegaClean(link.href)}
-                className={`relative text-sm font-medium tracking-wide transition-colors duration-300 group ${
+                className={`relative text-xs xl:text-sm font-medium tracking-wide transition-colors duration-300 group whitespace-nowrap ${
                   scrolled && !isDark
                     ? "text-stone-600 hover:text-stone-900"
                     : "text-white/70 hover:text-white"
@@ -94,11 +116,11 @@ export function Header({ settings }: HeaderProps) {
           </nav>
 
           {/* Right controls */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-3">
             {settings?.phone && (
               <a
                 href={`tel:${stegaClean(settings.phone)?.replace(/\s/g, "")}`}
-                className={`flex items-center gap-1.5 text-sm font-medium transition-colors duration-300 ${
+                className={`flex items-center gap-1.5 text-xs xl:text-sm font-medium transition-colors duration-300 ${
                   scrolled && !isDark
                     ? "text-stone-600 hover:text-stone-900"
                     : "text-white/70 hover:text-white"
@@ -110,14 +132,14 @@ export function Header({ settings }: HeaderProps) {
             )}
             <ThemeToggle scrolled={scrolled} />
             <Link
-              href={settings?.headerCtaLink ?? "/eigen-reisschema"}
-              className={`rounded-full border px-5 py-2 text-sm font-medium transition-all duration-300 ${
+              href={settings?.headerCtaLink ? `/${locale}${stegaClean(settings.headerCtaLink)}` : `/${locale}/eigen-reisschema`}
+              className={`rounded-full border px-3 xl:px-5 py-1.5 xl:py-2 text-xs xl:text-sm font-medium whitespace-nowrap transition-all duration-300 ${
                 scrolled && !isDark
                   ? "border-stone-900/20 text-stone-900 hover:bg-stone-900 hover:text-white"
                   : "border-white/25 text-white hover:bg-white/10"
               }`}
             >
-              {settings?.headerCtaLabel ?? 'Eigen Reisschema'}
+              {settings?.headerCtaLabel ?? (locale === 'en' ? 'Custom Itinerary' : 'Eigen Reisschema')}
             </Link>
           </div>
 
@@ -174,7 +196,7 @@ export function Header({ settings }: HeaderProps) {
                 className={`mt-3 pt-3 border-t ${isDark ? "border-white/8" : "border-stone-200"}`}
               >
                 <Link
-                  href={settings?.headerCtaLink ?? "/eigen-reisschema"}
+                  href={settings?.headerCtaLink ? `/${locale}${stegaClean(settings.headerCtaLink)}` : `/${locale}/eigen-reisschema`}
                   className={`block w-full rounded-full px-5 py-2.5 text-center text-sm font-medium transition-colors ${
                     isDark
                       ? "bg-gold text-white hover:bg-gold-dark"
@@ -182,7 +204,7 @@ export function Header({ settings }: HeaderProps) {
                   }`}
                   onClick={() => setMenuOpen(false)}
                 >
-                  {settings?.headerCtaLabel ?? 'Eigen Reisschema'}
+                  {settings?.headerCtaLabel ?? (locale === 'en' ? 'Custom Itinerary' : 'Eigen Reisschema')}
                 </Link>
               </div>
             </nav>

@@ -33,7 +33,32 @@
       "Bash(curl -s http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0jzwh8u._.css)",
       "Bash(ls /Users/akibrahim/dev/Programming/clients/puur-safaris/jest.config* /Users/akibrahim/dev/Programming/clients/puur-safaris/vitest.config*)",
       "Bash(npx vitest:*)",
-      "Bash(grep -l \"HoverCard\" /Users/akibrahim/dev/Programming/clients/puur-safaris/src/components/*/\\\\*.test.tsx)"
+      "Bash(grep -l \"HoverCard\" /Users/akibrahim/dev/Programming/clients/puur-safaris/src/components/*/\\\\*.test.tsx)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(npx sanity:*)",
+      "Bash(node:*)",
+      "Bash(npx tsx:*)",
+      "Bash(lsof -i :3000 -sTCP:LISTEN)",
+      "Bash(curl -s http://localhost:3000/blog)",
+      "Bash(curl -s \"https://68gnvrgl.api.sanity.io/v2025-01-01/data/query/production?query=*%5B_type%20%3D%3D%20%22blogPage%22%5D%5B0%5D%7BheroTitle%2CheroImage%7Basset-%3E%7B_id%2Curl%7D%2Chotspot%2Ccrop%2Calt%7D%7D\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(grep -E \"\\\\.\\(md|markdown\\)$\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/Users/akibrahim/dev/Programming/clients/puur-safaris/src/i18n/dictionaries/nl.json'\\)\\); print\\('nl.json: valid'\\)\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/Users/akibrahim/dev/Programming/clients/puur-safaris/src/i18n/dictionaries/en.json'\\)\\); print\\('en.json: valid'\\)\")",
+      "WebFetch(domain:www.oliotyaugandasafaris.com)",
+      "Bash(mkdir -p \"src/app/[lang]\")",
+      "Bash(mv \"src/app/\\(site\\)\" \"src/app/[lang]/\\(site\\)\")",
+      "Bash(curl -s http://localhost:3000/nl)",
+      "Bash(curl -s http://localhost:3000/en)",
+      "Bash(curl -sI http://localhost:3000/en)",
+      "Bash(npm view:*)",
+      "Bash(grep -B 20 '_temp2$z\\(\\)' /Users/akibrahim/dev/Programming/clients/puur-safaris/node_modules/sanity/lib/index.js)",
+      "Bash(grep -B 50 '_temp2$z\\(\\)' /Users/akibrahim/dev/Programming/clients/puur-safaris/node_modules/sanity/lib/index.js)",
+      "Bash(npx patch-package:*)",
+      "Bash(wc -l /private/tmp/claude-501/-Users-akibrahim-dev-Programming-clients-puur-safaris/c2ec3846-f54d-498f-87b6-a6c3db8835a7/tasks/*.output)",
+      "Bash(curl -s http://localhost:3000/en/bestemmingen)",
+      "Bash(curl -s \"http://localhost:3000/en/bestemmingen\")"
     ]
   }
 }

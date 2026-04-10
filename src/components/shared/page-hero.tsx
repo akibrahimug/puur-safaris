@@ -45,15 +45,15 @@ export function PageHero({ title, subtitle, image, eyebrow, className, children 
         <FadeUp>
           <Breadcrumbs />
           {eyebrow && (
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gold" suppressHydrationWarning>
               {eyebrow}
             </p>
           )}
-          <h1 className="font-serif text-heading font-bold text-white tracking-tight">
+          <h1 className="font-serif text-heading font-bold text-white tracking-tight" suppressHydrationWarning>
             {title}
           </h1>
           {subtitle && (
-            <p className="mt-4 text-base leading-relaxed max-w-xl" style={{ color: 'rgba(255,255,255,0.52)' }}>
+            <p className="mt-4 text-base leading-relaxed max-w-xl" suppressHydrationWarning style={{ color: 'rgba(255,255,255,0.52)' }}>
               {subtitle}
             </p>
           )}

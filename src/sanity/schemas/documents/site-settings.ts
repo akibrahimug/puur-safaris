@@ -333,6 +333,12 @@ export default defineType({
         defineField({ name: 'galleryCtaLabel', title: 'Galerij CTA Label', type: 'string', description: 'Bijv. "Ontdek Al Onze Reizen".' }),
       ],
     }),
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+    }),
   ],
   preview: {
     select: { title: 'siteName', media: 'logo' },

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { z } from 'zod'
+import { ContactAdminEmail } from '@/emails/contact-admin'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -29,58 +30,34 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const data = schema.parse(body)
 
-    const toEmail = process.env.CONTACT_FORM_TO_EMAIL
-    if (!toEmail) {
+    const toEmail = process.env.ADMIN_EMAIL
+    const fromEmail = process.env.EMAIL_FROM
+    if (!toEmail || !fromEmail) {
       return NextResponse.json({ error: 'Server niet geconfigureerd' }, { status: 500 })
     }
 
-    const contextLines: string[] = []
-    if (data.voorkeursContact) contextLines.push(`Voorkeur contact: ${data.voorkeursContact}`)
-    if (data.aantalReizigers) contextLines.push(`Aantal reizigers: ${data.aantalReizigers}`)
-    if (data.voorkeursPeriode) contextLines.push(`Reisperiode: ${data.voorkeursPeriode}`)
-    if (data.budgetIndicatie) contextLines.push(`Budget: ${BUDGET_LABELS[data.budgetIndicatie] ?? data.budgetIndicatie}`)
-
-    const contextBlock = contextLines.length > 0
-      ? `\nReiscontext:\n${contextLines.map((l) => `  ${l}`).join('\n')}\n`
-      : ''
-
-    const contextHtml = contextLines.length > 0
-      ? `<h3>Reiscontext</h3><table cellpadding="4">${contextLines
-          .map((l) => {
-            const [label, ...rest] = l.split(': ')
-            return `<tr><td><strong>${label}:</strong></td><td>${rest.join(': ')}</td></tr>`
-          })
-          .join('')}</table>`
-      : ''
+    const isEigenReisschema = data.onderwerp === 'Eigen Reisschema Aanvraag'
+    const reiscontext: { label: string; value: string }[] = []
+    if (data.voorkeursContact) reiscontext.push({ label: isEigenReisschema ? 'Bestemmingen' : 'Voorkeur contact', value: data.voorkeursContact })
+    if (data.aantalReizigers) reiscontext.push({ label: isEigenReisschema ? 'Groepsgrootte' : 'Aantal reizigers', value: data.aantalReizigers })
+    if (data.voorkeursPeriode) reiscontext.push({ label: isEigenReisschema ? 'Periode & duur' : 'Reisperiode', value: data.voorkeursPeriode })
+    if (data.budgetIndicatie) reiscontext.push({ label: isEigenReisschema ? 'Stijl & accommodatie' : 'Budget', value: BUDGET_LABELS[data.budgetIndicatie] ?? data.budgetIndicatie })
 
     await resend.emails.send({
-      from: 'Puur Safaris Website <noreply@puursafaris.nl>',
+      from: fromEmail,
       to: toEmail,
       replyTo: data.email,
       subject: `Nieuw bericht: ${data.onderwerp}`,
-      text: `
-Nieuw contactformulier bericht ontvangen via puursafaris.nl
-
-Naam: ${data.naam}
-E-mail: ${data.email}
-${data.telefoon ? `Telefoon: ${data.telefoon}` : ''}
-Onderwerp: ${data.onderwerp}
-${contextBlock}
-Bericht:
-${data.bericht}
-      `.trim(),
-      html: `
-<h2>Nieuw contactformulier bericht</h2>
-<table cellpadding="4">
-  <tr><td><strong>Naam:</strong></td><td>${data.naam}</td></tr>
-  <tr><td><strong>E-mail:</strong></td><td><a href="mailto:${data.email}">${data.email}</a></td></tr>
-  ${data.telefoon ? `<tr><td><strong>Telefoon:</strong></td><td>${data.telefoon}</td></tr>` : ''}
-  <tr><td><strong>Onderwerp:</strong></td><td>${data.onderwerp}</td></tr>
-</table>
-${contextHtml}
-<h3>Bericht:</h3>
-<p>${data.bericht.replace(/\n/g, '<br>')}</p>
-      `,
+      react: ContactAdminEmail({
+        naam: data.naam,
+        email: data.email,
+        telefoon: data.telefoon,
+        onderwerp: data.onderwerp,
+        bericht: data.bericht,
+        reiscontext: reiscontext.length > 0 ? reiscontext : undefined,
+        reiscontextTitle: isEigenReisschema ? 'Reisdetails' : undefined,
+        berichtTitle: isEigenReisschema ? 'Extra wensen' : undefined,
+      }),
     })
 
     return NextResponse.json({ success: true })

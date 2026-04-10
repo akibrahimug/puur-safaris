@@ -59,6 +59,12 @@ export default defineType({
       description: 'Lagere nummers worden eerder getoond.',
       initialValue: 99,
     }),
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+    }),
   ],
   orderings: [
     {

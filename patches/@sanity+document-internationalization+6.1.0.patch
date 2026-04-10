@@ -1,0 +1,13 @@
+diff --git a/node_modules/@sanity/document-internationalization/dist/index.js b/node_modules/@sanity/document-internationalization/dist/index.js
+index 2b3d66c..47fef95 100644
+--- a/node_modules/@sanity/document-internationalization/dist/index.js
++++ b/node_modules/@sanity/document-internationalization/dist/index.js
+@@ -1116,7 +1116,7 @@ function ReferencePatcher(props) {
+       const referencePathBase = ["translations", {
+         _key: translation._key
+       }, "value"];
+-      onChange(new PatchEvent([unset([...referencePathBase, "_weak"]), unset([...referencePathBase, "_strengthenOnPublish"])]));
++      try { onChange(new PatchEvent([unset([...referencePathBase, "_weak"]), unset([...referencePathBase, "_strengthenOnPublish"])])); } catch (_e) {}
+     }
+   }, $[1] = editState, $[2] = onChange, $[3] = translation._key, $[4] = translation.value._ref, $[5] = translation.value._strengthenOnPublish, $[6] = translation.value._weak, $[7] = t1) : t1 = $[7];
+   let t2;

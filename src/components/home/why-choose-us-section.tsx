@@ -6,6 +6,7 @@ import {
   Map, Compass, Sun, Camera,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { cmsText } from '@/i18n/config'
 import { SectionHeading } from '@/components/shared/section-heading'
 import type { FeatureCard } from '@/lib/types'
 
@@ -23,10 +24,14 @@ const defaultFeatures: (FeatureCard & { icon: LucideIcon })[] = [
   { iconName: 'Headphones', icon: Headphones, title: '24/7 ondersteuning', description: 'Voor, tijdens en na uw reis staat ons team klaar voor vragen en ondersteuning.' },
 ]
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Dict = Record<string, any>
+
 interface WhyChooseUsSectionProps {
   eyebrow?: string
   title?: string
   features?: FeatureCard[]
+  dict?: Dict
 }
 
 const cardVariants = {
@@ -38,15 +43,16 @@ const cardVariants = {
   }),
 }
 
-export function WhyChooseUsSection({ eyebrow, title, features }: WhyChooseUsSectionProps) {
+export function WhyChooseUsSection({ eyebrow, title, features, dict }: WhyChooseUsSectionProps) {
+  const d = dict?.home
   const featureList = features?.length ? features : defaultFeatures
 
   return (
     <section className="section-page py-28 relative overflow-hidden">
       <div className="container mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeading
-          eyebrow={eyebrow ?? 'Waarom Puur Safaris'}
-          title={title ?? 'Wij geloven in reizen die een indruk achterlaten voor het leven.'}
+          eyebrow={eyebrow ?? d?.whyEyebrow ?? 'Waarom Puur Safaris'}
+          title={title ?? d?.whyTitle ?? 'Wij geloven in reizen die een indruk achterlaten voor het leven.'}
           light
           centered
           className="mb-16 mx-auto max-w-2xl"

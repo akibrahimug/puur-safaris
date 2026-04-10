@@ -7,6 +7,7 @@ import type { DestinationCard } from '@/lib/types'
 
 interface TripBuilderProps {
   destinations: DestinationCard[]
+  dict?: Record<string, any>
 }
 
 // ── Validation helpers ─────────────────────────────────────────────────────
@@ -16,45 +17,26 @@ const PHONE_RE = /^[+]?[\d\s\-().]{7,20}$/
 
 type FieldErrors = Record<string, string>
 
-function validateStep1(selectedDests: string[]): FieldErrors {
-  if (selectedDests.length === 0) return { destinations: 'Selecteer minstens één bestemming' }
+function validateStep1(selectedDests: string[], d?: Record<string, any>): FieldErrors {
+  if (selectedDests.length === 0) return { destinations: d?.validationDestinationsRequired ?? 'Selecteer minstens één bestemming' }
   return {}
 }
 
-function validateStep2(period: string, groupSize: string, accommodation: string): FieldErrors {
+function validateStep2(period: string, groupSize: string, accommodation: string, d?: Record<string, any>): FieldErrors {
   const errs: FieldErrors = {}
-  if (!period) errs.period = 'Kies een reisperiode'
-  if (!groupSize) errs.groupSize = 'Kies een groepsgrootte'
-  if (!accommodation) errs.accommodation = 'Kies een accommodatie voorkeur'
+  if (!period) errs.period = d?.validationPeriodRequired ?? 'Kies een reisperiode'
+  if (!groupSize) errs.groupSize = d?.validationGroupSizeRequired ?? 'Kies een groepsgrootte'
+  if (!accommodation) errs.accommodation = d?.validationAccommodationRequired ?? 'Kies een accommodatie voorkeur'
   return errs
 }
 
-function validateStep3(naam: string, email: string, telefoon: string): FieldErrors {
+function validateStep3(naam: string, email: string, telefoon: string, d?: Record<string, any>): FieldErrors {
   const errs: FieldErrors = {}
-  if (naam.trim().length < 2) errs.naam = 'Vul uw naam in (minimaal 2 tekens)'
-  if (!EMAIL_RE.test(email)) errs.email = 'Vul een geldig e-mailadres in'
-  if (telefoon && !PHONE_RE.test(telefoon)) errs.telefoon = 'Vul een geldig telefoonnummer in'
+  if (naam.trim().length < 2) errs.naam = d?.validationNameRequired ?? 'Vul uw naam in (minimaal 2 tekens)'
+  if (!EMAIL_RE.test(email)) errs.email = d?.validationEmailInvalid ?? 'Vul een geldig e-mailadres in'
+  if (telefoon && !PHONE_RE.test(telefoon)) errs.telefoon = d?.validationPhoneInvalid ?? 'Vul een geldig telefoonnummer in'
   return errs
 }
-
-// ── Step 2 option sets ─────────────────────────────────────────────────────
-
-const PERIODS = [
-  'Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni',
-  'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December', 'Flexibel',
-]
-
-const GROUP_SIZES = [
-  { label: 'Solo', value: '1' },
-  { label: '2 personen', value: '2' },
-  { label: '3–5', value: '3-5' },
-  { label: '6–10', value: '6-10' },
-  { label: '10+', value: '10+' },
-]
-
-const STYLES = ['Avontuur', 'Luxe', 'Familie', 'Huwelijksreis', 'Fotosafari', 'Cultureel', 'Walking Safari']
-
-const ACCOMMODATIONS = ['Budget', 'Middenklasse', 'Luxe', 'Ultra-luxe', 'Geen voorkeur']
 
 // ── Pill toggle helper ─────────────────────────────────────────────────────
 
@@ -79,12 +61,10 @@ function Pill({
 
 // ── Step indicators ────────────────────────────────────────────────────────
 
-const STEPS = ['Bestemmingen', 'Reisdetails', 'Uw Gegevens']
-
-function StepBar({ current }: { current: number }) {
+function StepBar({ current, labels }: { current: number; labels: string[] }) {
   return (
     <div className="flex items-center justify-center gap-0 mb-12">
-      {STEPS.map((label, i) => {
+      {labels.map((label, i) => {
         const done = i < current
         const active = i === current
         return (
@@ -107,7 +87,7 @@ function StepBar({ current }: { current: number }) {
                 {label}
               </span>
             </div>
-            {i < STEPS.length - 1 && (
+            {i < labels.length - 1 && (
               <div
                 className="w-16 sm:w-24 h-px mx-2 mb-5 transition-all duration-500"
                 style={{ background: i < current ? '#2a7d58' : 'rgba(255,255,255,0.1)' }}
@@ -143,7 +123,46 @@ const inputErrorStyle = {
 
 // ── Main component ─────────────────────────────────────────────────────────
 
-export function TripBuilder({ destinations }: TripBuilderProps) {
+export function TripBuilder({ destinations, dict }: TripBuilderProps) {
+  const d = dict?.customItinerary
+  const c = dict?.common
+
+  const months = c?.months ?? ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December']
+
+  const PERIODS = [...months, d?.periodFlexible ?? 'Flexibel']
+
+  const GROUP_SIZES = [
+    { label: d?.groupSolo ?? 'Solo', value: '1' },
+    { label: d?.group2 ?? '2 personen', value: '2' },
+    { label: d?.group3to5 ?? '3–5', value: '3-5' },
+    { label: d?.group6to10 ?? '6–10', value: '6-10' },
+    { label: d?.group10plus ?? '10+', value: '10+' },
+  ]
+
+  const STYLES = [
+    d?.styleAdventure ?? 'Avontuur',
+    d?.styleLuxury ?? 'Luxe',
+    d?.styleFamily ?? 'Familie',
+    d?.styleHoneymoon ?? 'Huwelijksreis',
+    d?.stylePhoto ?? 'Fotosafari',
+    d?.styleCultural ?? 'Cultureel',
+    d?.styleWalking ?? 'Walking Safari',
+  ]
+
+  const ACCOMMODATIONS = [
+    d?.accommodationBudget ?? 'Budget',
+    d?.accommodationMid ?? 'Middenklasse',
+    d?.accommodationLuxury ?? 'Luxe',
+    d?.accommodationUltra ?? 'Ultra-luxe',
+    d?.accommodationNoPreference ?? 'Geen voorkeur',
+  ]
+
+  const STEP_LABELS = [
+    d?.step1Label ?? 'Bestemmingen',
+    d?.step2Label ?? 'Reisdetails',
+    d?.step3Label ?? 'Uw Gegevens',
+  ]
+
   const [step, setStep] = useState(0)
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -190,9 +209,9 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
 
   function tryNext() {
     let errs: FieldErrors = {}
-    if (step === 0) errs = validateStep1(selectedDests)
-    if (step === 1) errs = validateStep2(period, groupSize, accommodation)
-    if (step === 2) errs = validateStep3(naam, email, telefoon)
+    if (step === 0) errs = validateStep1(selectedDests, d)
+    if (step === 1) errs = validateStep2(period, groupSize, accommodation, d)
+    if (step === 2) errs = validateStep3(naam, email, telefoon, d)
 
     setFieldErrors(errs)
     if (Object.keys(errs).length > 0) return
@@ -212,20 +231,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
       .map(d => d.name)
       .join(', ')
 
-    const bericht = [
-      '=== EIGEN REISSCHEMA AANVRAAG ===',
-      '',
-      `BESTEMMINGEN: ${destNames}`,
-      '',
-      'REISDETAILS:',
-      `• Aantal dagen: ${days}`,
-      `• Reisperiode: ${period}`,
-      `• Groepsgrootte: ${groupSize}`,
-      `• Reisstijl: ${travelStyles.length ? travelStyles.join(', ') : 'Geen voorkeur'}`,
-      `• Accommodatie: ${accommodation}`,
-      '',
-      ...(wensen.trim() ? [`EXTRA WENSEN:\n${wensen.trim()}`] : []),
-    ].join('\n')
+    const bericht = wensen.trim() || (d?.noWishes ?? 'Geen extra wensen opgegeven.')
 
     try {
       const res = await fetch('/api/contact', {
@@ -235,14 +241,18 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
           naam,
           email,
           telefoon: telefoon || undefined,
-          onderwerp: 'Eigen Reisschema Aanvraag',
+          onderwerp: d?.submitSubject ?? 'Eigen Reisschema Aanvraag',
           bericht,
+          voorkeursContact: destNames,
+          aantalReizigers: `${groupSize} personen`,
+          voorkeursPeriode: `${period} · ${days} dagen`,
+          budgetIndicatie: `${travelStyles.length ? travelStyles.join(', ') : (d?.noStylePreference ?? 'Geen voorkeur')} · ${accommodation}`,
         }),
       })
-      if (!res.ok) throw new Error('Versturen mislukt')
+      if (!res.ok) throw new Error(d?.errorSend ?? 'Versturen mislukt')
       setSubmitted(true)
     } catch {
-      setError('Er is iets misgegaan. Probeer het opnieuw of stuur ons een e-mail.')
+      setError(d?.errorGeneric ?? 'Er is iets misgegaan. Probeer het opnieuw of stuur ons een e-mail.')
     } finally {
       setSubmitting(false)
     }
@@ -251,6 +261,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
   // ── Success screen ────────────────────────────────────────────────────────
 
   if (submitted) {
+    const successMsg = (d?.successMessage ?? 'Dank je wel, {name}. We hebben je reisschema aanvraag ontvangen en nemen binnen 2 werkdagen contact met je op.').replace('{name}', naam)
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
         <div
@@ -260,10 +271,10 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
           <PartyPopper className="h-9 w-9 text-gold" />
         </div>
         <h2 className="font-serif text-3xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
-          Aanvraag ontvangen!
+          {d?.successHeading ?? 'Aanvraag ontvangen!'}
         </h2>
         <p className="text-base max-w-md leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-          Dank je wel, {naam}. We hebben je reisschema aanvraag ontvangen en nemen binnen 2 werkdagen contact met je op.
+          {successMsg}
         </p>
       </div>
     )
@@ -274,10 +285,10 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
   const step1 = (
     <div>
       <h2 className="font-serif text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-        Waar wil je naartoe?
+        {d?.step1Heading ?? 'Waar wil je naartoe?'}
       </h2>
       <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>
-        Selecteer één of meerdere bestemmingen. We combineren ze tot de perfecte route.
+        {d?.step1Description ?? 'Selecteer één of meerdere bestemmingen. We combineren ze tot de perfecte route.'}
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {destinations.map(dest => {
@@ -320,17 +331,17 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
     <div className="space-y-8">
       <div>
         <h2 className="font-serif text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-          Vertel ons over je reis
+          {d?.step2Heading ?? 'Vertel ons over je reis'}
         </h2>
         <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-          Hoe meer we weten, hoe beter we je reisschema kunnen samenstellen.
+          {d?.step2Description ?? 'Hoe meer we weten, hoe beter we je reisschema kunnen samenstellen.'}
         </p>
       </div>
 
       {/* Days */}
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
-          Aantal dagen
+          {d?.daysLabel ?? 'Aantal dagen'}
         </label>
         <div className="flex items-center gap-4">
           <button
@@ -352,14 +363,14 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
           >
             <Plus className="h-4 w-4" />
           </button>
-          <span className="text-sm" style={{ color: 'var(--text-subtle)' }}>dagen (3–30)</span>
+          <span className="text-sm" style={{ color: 'var(--text-subtle)' }}>{d?.daysRange ?? 'dagen (3–30)'}</span>
         </div>
       </div>
 
       {/* Period */}
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
-          Wanneer wil je reizen? <span style={{ color: '#2a7d58' }}>*</span>
+          {d?.periodLabel ?? 'Wanneer wil je reizen?'} <span style={{ color: '#2a7d58' }}>*</span>
         </label>
         <div className="flex flex-wrap gap-2">
           {PERIODS.map(p => (
@@ -372,7 +383,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
       {/* Group size */}
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
-          Groepsgrootte <span style={{ color: '#2a7d58' }}>*</span>
+          {d?.groupSizeLabel ?? 'Groepsgrootte'} <span style={{ color: '#2a7d58' }}>*</span>
         </label>
         <div className="flex flex-wrap gap-2">
           {GROUP_SIZES.map(g => (
@@ -385,7 +396,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
       {/* Travel style */}
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
-          Reisstijl <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>(meerdere mogelijk)</span>
+          {d?.travelStyleLabel ?? 'Reisstijl'} <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>{d?.travelStyleHint ?? '(meerdere mogelijk)'}</span>
         </label>
         <div className="flex flex-wrap gap-2">
           {STYLES.map(s => (
@@ -397,7 +408,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
       {/* Accommodation */}
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
-          Accommodatie voorkeur <span style={{ color: '#2a7d58' }}>*</span>
+          {d?.accommodationLabel ?? 'Accommodatie voorkeur'} <span style={{ color: '#2a7d58' }}>*</span>
         </label>
         <div className="flex flex-wrap gap-2">
           {ACCOMMODATIONS.map(a => (
@@ -415,23 +426,23 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
     <div className="space-y-6">
       <div>
         <h2 className="font-serif text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-          Uw gegevens
+          {d?.step3Heading ?? 'Uw gegevens'}
         </h2>
         <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-          We gebruiken deze gegevens alleen om contact met u op te nemen over uw reisschema.
+          {d?.step3Description ?? 'We gebruiken deze gegevens alleen om contact met u op te nemen over uw reisschema.'}
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>
-            Naam <span style={{ color: '#2a7d58' }}>*</span>
+            {d?.nameLabel ?? 'Naam'} <span style={{ color: '#2a7d58' }}>*</span>
           </label>
           <input
             type="text"
             value={naam}
             onChange={e => { setNaam(e.target.value); clearError('naam') }}
-            placeholder="Jan de Vries"
+            placeholder={d?.placeholderName ?? 'Jan de Vries'}
             className={inputClass}
             style={fieldErrors.naam ? inputErrorStyle : inputStyle}
           />
@@ -439,13 +450,13 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
         </div>
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>
-            E-mail <span style={{ color: '#2a7d58' }}>*</span>
+            {d?.emailLabel ?? 'E-mail'} <span style={{ color: '#2a7d58' }}>*</span>
           </label>
           <input
             type="email"
             value={email}
             onChange={e => { setEmail(e.target.value); clearError('email') }}
-            placeholder="jan@voorbeeld.nl"
+            placeholder={d?.placeholderEmail ?? 'jan@voorbeeld.nl'}
             className={inputClass}
             style={fieldErrors.email ? inputErrorStyle : inputStyle}
           />
@@ -455,13 +466,13 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
 
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>
-          Telefoon <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>(optioneel)</span>
+          {d?.phoneLabel ?? 'Telefoon'} <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>{d?.phoneHint ?? '(optioneel)'}</span>
         </label>
         <input
           type="tel"
           value={telefoon}
           onChange={e => { setTelefoon(e.target.value); clearError('telefoon') }}
-          placeholder="+31 6 12 34 56 78"
+          placeholder={d?.placeholderPhone ?? '+31 6 12 34 56 78'}
           className={inputClass}
           style={fieldErrors.telefoon ? inputErrorStyle : inputStyle}
         />
@@ -470,13 +481,13 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
 
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>
-          Extra wensen <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>(optioneel)</span>
+          {d?.wishesLabel ?? 'Extra wensen'} <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>{d?.wishesHint ?? '(optioneel)'}</span>
         </label>
         <textarea
           value={wensen}
           onChange={e => setWensen(e.target.value)}
           rows={4}
-          placeholder="Zijn er specifieke dieren die u wilt zien, bijzondere gelegenheden, of andere wensen die we moeten weten?"
+          placeholder={d?.placeholderWishes ?? 'Zijn er specifieke dieren die u wilt zien, bijzondere gelegenheden, of andere wensen die we moeten weten?'}
           className={`${inputClass} resize-none`}
           style={inputStyle}
         />
@@ -498,7 +509,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <StepBar current={step} />
+      <StepBar current={step} labels={STEP_LABELS} />
 
       <div className="rounded-2xl p-6 sm:p-8" style={{ background: 'var(--card-strip-bg)', border: '1px solid rgba(42,125,88,0.18)' }}>
         {steps[step]}
@@ -514,7 +525,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
             }}
           >
             <AlertCircle className="h-4 w-4 shrink-0" />
-            Controleer de gemarkeerde velden hierboven
+            {d?.fieldErrorSummary ?? 'Controleer de gemarkeerde velden hierboven'}
           </div>
         )}
 
@@ -531,7 +542,7 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
               border: '1px solid rgba(42,125,88,0.2)',
             }}
           >
-            <ChevronLeft className="h-4 w-4" /> Terug
+            <ChevronLeft className="h-4 w-4" /> {d?.backButton ?? 'Terug'}
           </button>
 
           <button
@@ -546,11 +557,11 @@ export function TripBuilder({ destinations }: TripBuilderProps) {
             }}
           >
             {step < 2 ? (
-              <>Volgende <ChevronRight className="h-4 w-4" /></>
+              <>{d?.nextButton ?? 'Volgende'} <ChevronRight className="h-4 w-4" /></>
             ) : submitting ? (
-              'Verzenden…'
+              d?.submittingButton ?? 'Verzenden…'
             ) : (
-              <>Verstuur aanvraag <Send className="h-4 w-4" /></>
+              <>{d?.submitButton ?? 'Verstuur aanvraag'} <Send className="h-4 w-4" /></>
             )}
           </button>
         </div>
