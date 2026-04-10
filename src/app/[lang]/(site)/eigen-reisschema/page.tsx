@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { hasLocale, type Locale } from '@/i18n/config'
+import { hasLocale, type Locale, cmsText } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { getDestinations, getTrips, getEigenReisschemaPage, getSiteSettings } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
@@ -34,17 +34,19 @@ export default async function EigenReisschemaPage({ params }: Props) {
 
   const [destinations, trips, eigenReisschemaPage] = await Promise.all([getDestinations(lang), getTrips(lang), getEigenReisschemaPage(lang)])
 
+  const cms = <T,>(v: T | null | undefined) => cmsText(v, (eigenReisschemaPage as any)?.language, locale)
+
   return (
     <>
       <PageHero
-        title={eigenReisschemaPage?.heroTitle ?? dict.customItinerary.heroTitle}
-        subtitle={eigenReisschemaPage?.heroSubtitle ?? dict.customItinerary.heroSubtitle}
-        eyebrow={eigenReisschemaPage?.heroEyebrow ?? dict.customItinerary.heroEyebrow}
+        title={cms(eigenReisschemaPage?.heroTitle) ?? dict.customItinerary.heroTitle}
+        subtitle={cms(eigenReisschemaPage?.heroSubtitle) ?? dict.customItinerary.heroSubtitle}
+        eyebrow={cms(eigenReisschemaPage?.heroEyebrow) ?? dict.customItinerary.heroEyebrow}
         image={eigenReisschemaPage?.heroImage ?? trips[0]?.heroImage}
       />
       <section className="py-16 section-page">
         <div className="container mx-auto max-w-7xl px-6 lg:px-8">
-          <TripBuilder destinations={destinations} />
+          <TripBuilder destinations={destinations} dict={dict} />
         </div>
       </section>
     </>

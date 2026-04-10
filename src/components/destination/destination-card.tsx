@@ -13,15 +13,16 @@ export interface DestinationCardLabels {
 interface DestinationCardProps {
   destination: DestinationCardType
   labels?: DestinationCardLabels
+  locale?: string
 }
 
-export function DestinationCard({ destination, labels }: DestinationCardProps) {
+export function DestinationCard({ destination, labels, locale = "nl" }: DestinationCardProps) {
   const imageUrl = destination.heroImage?.asset?.url || null
 
   return (
     <HoverCard>
       <Link
-        href={`/bestemmingen/${destination.slug}`}
+        href={`/${locale}/bestemmingen/${destination.slug}`}
         className="group relative block overflow-hidden rounded-3xl bg-stone-900 aspect-4/3 transition-all duration-500 ease-out border border-[var(--border-subtle)] shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_80px_-15px_rgba(0,0,0,0.2)] hover:-translate-y-1"
       >
         {imageUrl && (

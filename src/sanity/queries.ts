@@ -2,6 +2,9 @@ import { groq } from 'next-sanity'
 
 // ─── COMMON PROJECTIONS ───────────────────────────────────────────────────────
 
+/** Included in every singleton / detail query so the app can detect fallback docs. */
+const LANG_FIELD = `language,`
+
 const IMAGE_PROJECTION = `{
   asset->{ _id, url, metadata{ dimensions, lqip } },
   hotspot,
@@ -36,6 +39,7 @@ const TRIP_CARD_PROJECTION = `{
 
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    ${LANG_FIELD}
     siteName,
     tagline,
     logo ${IMAGE_PROJECTION},
@@ -340,7 +344,8 @@ export const testimonialListQuery = groq`
 // ─── HOMEPAGE (SINGLETON) ─────────────────────────────────────────────────────
 
 export const homePageQuery = groq`
-  *[_type == "homePage" && language == $language][0] {
+  *[_type == "homePage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    language,
     heroEyebrow,
     heroHeadline,
     heroHeadlineAccent,
@@ -383,7 +388,8 @@ export const homePageQuery = groq`
 // ─── ABOUT PAGE (SINGLETON) ──────────────────────────────────────────────────
 
 export const aboutPageQuery = groq`
-  *[_type == "aboutPage" && language == $language][0] {
+  *[_type == "aboutPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    ${LANG_FIELD}
     heroTitle,
     heroSubtitle,
     heroImage ${IMAGE_PROJECTION},
@@ -411,7 +417,8 @@ export const aboutPageQuery = groq`
 // ─── CONTACT PAGE (SINGLETON) ────────────────────────────────────────────────
 
 export const contactPageQuery = groq`
-  *[_type == "contactPage" && language == $language][0] {
+  *[_type == "contactPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    ${LANG_FIELD}
     heroTitle,
     heroImage ${IMAGE_PROJECTION},
     heroSubtitle,
@@ -430,23 +437,24 @@ export const contactPageQuery = groq`
 // ─── SAFARI LISTING PAGE (SINGLETON) ─────────────────────────────────────────
 
 export const safariListingPageQuery = groq`
-  *[_type == "safariListingPage" && language == $language][0] {
-    heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
+  *[_type == "safariListingPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    ${LANG_FIELD} heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
   }
 `
 
 // ─── DESTINATION LISTING PAGE (SINGLETON) ────────────────────────────────────
 
 export const destinationListingPageQuery = groq`
-  *[_type == "destinationListingPage" && language == $language][0] {
-    heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
+  *[_type == "destinationListingPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    ${LANG_FIELD} heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
   }
 `
 
 // ─── FAQ PAGE (SINGLETON) ────────────────────────────────────────────────────
 
 export const faqPageQuery = groq`
-  *[_type == "faqPage" && language == $language][0] {
+  *[_type == "faqPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    ${LANG_FIELD}
     heroTitle,
     heroImage ${IMAGE_PROJECTION},
     heroSubtitle,
@@ -462,7 +470,8 @@ export const faqPageQuery = groq`
 // ─── BLOG PAGE (SINGLETON) ───────────────────────────────────────────────────
 
 export const blogPageQuery = groq`
-  *[_type == "blogPage" && language == $language][0] {
+  *[_type == "blogPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    ${LANG_FIELD}
     heroTitle,
     heroSubtitle,
     heroImage ${IMAGE_PROJECTION},
@@ -487,15 +496,16 @@ export const blogPageQuery = groq`
 // ─── EIGEN REISSCHEMA PAGE (SINGLETON) ───────────────────────────────────────
 
 export const eigenReisschemaPageQuery = groq`
-  *[_type == "eigenReisschemaPage" && language == $language][0] {
-    heroEyebrow, heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
+  *[_type == "eigenReisschemaPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    ${LANG_FIELD} heroEyebrow, heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
   }
 `
 
 // ─── BLOG SUBMISSION PAGE (SINGLETON) ────────────────────────────────────────
 
 export const blogSubmissionPageQuery = groq`
-  *[_type == "blogSubmissionPage" && language == $language][0] {
+  *[_type == "blogSubmissionPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    ${LANG_FIELD}
     heroTitle,
     heroSubtitle,
     heroImage ${IMAGE_PROJECTION},
@@ -514,7 +524,8 @@ export const blogSubmissionPageQuery = groq`
 // ─── BOOKING PAGE (SINGLETON) ────────────────────────────────────────────────
 
 export const bookingPageQuery = groq`
-  *[_type == "bookingPage" && language == $language][0] {
+  *[_type == "bookingPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    ${LANG_FIELD}
     heroEyebrow,
     heroSubtitle
   }

@@ -6,14 +6,16 @@ import type { TripCard } from '@/lib/types'
 interface SafariGridProps {
   trips: TripCard[]
   labels?: SafariCardLabels
+  locale?: string
+  emptyMessage?: string
 }
 
-export function SafariGrid({ trips, labels }: SafariGridProps) {
+export function SafariGrid({ trips, labels, locale = "nl", emptyMessage }: SafariGridProps) {
   if (trips.length === 0) {
     return (
       <div className="py-20 text-center">
         <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
-          Geen safari reizen gevonden.
+          {emptyMessage ?? 'Geen safari reizen gevonden.'}
         </p>
       </div>
     )
@@ -23,7 +25,7 @@ export function SafariGrid({ trips, labels }: SafariGridProps) {
     <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       {trips.map((trip) => (
         <StaggerItem key={trip._id}>
-          <SafariCard trip={trip} labels={labels} />
+          <SafariCard trip={trip} labels={labels} locale={locale} />
         </StaggerItem>
       ))}
     </StaggerContainer>

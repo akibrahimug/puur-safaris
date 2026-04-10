@@ -5,8 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatPrice(price: number): string {
-  return new Intl.NumberFormat('nl-NL', {
+const INTL_LOCALE: Record<string, string> = { nl: 'nl-NL', en: 'en-GB' }
+
+export function formatPrice(price: number, locale = 'nl'): string {
+  return new Intl.NumberFormat(INTL_LOCALE[locale] ?? 'nl-NL', {
     style: 'currency',
     currency: 'EUR',
     minimumFractionDigits: 0,
@@ -14,16 +16,16 @@ export function formatPrice(price: number): string {
   }).format(price)
 }
 
-export function formatDate(date: string): string {
-  return new Intl.DateTimeFormat('nl-NL', {
+export function formatDate(date: string, locale = 'nl'): string {
+  return new Intl.DateTimeFormat(INTL_LOCALE[locale] ?? 'nl-NL', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   }).format(new Date(date))
 }
 
-export function formatMonth(date: string): string {
-  return new Intl.DateTimeFormat('nl-NL', {
+export function formatMonth(date: string, locale = 'nl'): string {
+  return new Intl.DateTimeFormat(INTL_LOCALE[locale] ?? 'nl-NL', {
     year: 'numeric',
     month: 'long',
   }).format(new Date(date))
@@ -34,46 +36,56 @@ export function truncate(str: string, length: number): string {
   return str.slice(0, length).trim() + '…'
 }
 
-export function categoryLabel(category: string): string {
-  const labels: Record<string, string> = {
-    wildlife: 'Wildlife Safari',
-    hiking: 'Berg & Trekking',
-    culture: 'Cultuur & Gemeenschap',
-    beach: 'Strand & Ontspanning',
-    combined: 'Combinatiereis',
-  }
-  return labels[category] ?? category
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type CatDict = Record<string, any> | undefined
+
+const defaultCategoryLabels: Record<string, string> = {
+  wildlife: 'Wildlife Safari',
+  hiking: 'Berg & Trekking',
+  culture: 'Cultuur & Gemeenschap',
+  beach: 'Strand & Ontspanning',
+  combined: 'Combinatiereis',
 }
 
-export function difficultyLabel(difficulty: string): string {
-  const labels: Record<string, string> = {
-    easy: 'Makkelijk',
-    moderate: 'Gemiddeld',
-    challenging: 'Uitdagend',
-  }
-  return labels[difficulty] ?? difficulty
+export function categoryLabel(category: string, cats?: CatDict): string {
+  return cats?.[category] ?? defaultCategoryLabels[category] ?? category
 }
 
-export function blogCategoryLabel(category: string): string {
-  const labels: Record<string, string> = {
-    stories: 'Reisverhalen',
-    tips: 'Tips & Advies',
-    wildlife: 'Wildlife',
-    culture: 'Cultuur',
-    guides: 'Bestemmingsgidsen',
-    news: 'Nieuws',
-  }
-  return labels[category] ?? category
+const defaultDifficultyLabels: Record<string, string> = {
+  easy: 'Makkelijk',
+  moderate: 'Gemiddeld',
+  challenging: 'Uitdagend',
 }
 
-export function faqCategoryLabel(category: string): string {
-  const labels: Record<string, string> = {
-    general: 'Algemeen',
-    booking: 'Boeking & Betaling',
-    travel: 'Reizen & Visa',
-    accommodation: 'Accommodatie',
-    safety: 'Veiligheid & Gezondheid',
-    packing: 'Inpakken & Voorbereiding',
-  }
-  return labels[category] ?? category
+export function difficultyLabel(difficulty: string, cats?: CatDict): string {
+  const key = `difficulty${difficulty.charAt(0).toUpperCase()}${difficulty.slice(1)}`
+  return cats?.[key] ?? defaultDifficultyLabels[difficulty] ?? difficulty
+}
+
+const defaultBlogCategoryLabels: Record<string, string> = {
+  stories: 'Reisverhalen',
+  tips: 'Tips & Advies',
+  wildlife: 'Wildlife',
+  culture: 'Cultuur',
+  guides: 'Bestemmingsgidsen',
+  news: 'Nieuws',
+}
+
+export function blogCategoryLabel(category: string, cats?: CatDict): string {
+  const key = `blog${category.charAt(0).toUpperCase()}${category.slice(1)}`
+  return cats?.[key] ?? defaultBlogCategoryLabels[category] ?? category
+}
+
+const defaultFaqCategoryLabels: Record<string, string> = {
+  general: 'Algemeen',
+  booking: 'Boeking & Betaling',
+  travel: 'Reizen & Visa',
+  accommodation: 'Accommodatie',
+  safety: 'Veiligheid & Gezondheid',
+  packing: 'Inpakken & Voorbereiding',
+}
+
+export function faqCategoryLabel(category: string, cats?: CatDict): string {
+  const key = `faq${category.charAt(0).toUpperCase()}${category.slice(1)}`
+  return cats?.[key] ?? defaultFaqCategoryLabels[category] ?? category
 }

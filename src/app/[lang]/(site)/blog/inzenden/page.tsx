@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { hasLocale, type Locale } from '@/i18n/config'
+import { hasLocale, type Locale, cmsText } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { PageHero } from '@/components/shared/page-hero'
 import { BlogSubmissionForm } from '@/components/blog/blog-submission-form'
@@ -33,11 +33,13 @@ export default async function BlogSubmissionRoute({ params }: Props) {
   const dict = await getDictionary(locale)
 
   const page = await getBlogSubmissionPage(lang)
+  const cms = <T,>(v: T | null | undefined) => cmsText(v, (page as any)?.language, locale)
+
   return (
     <>
       <PageHero
-        title={page?.heroTitle ?? dict.blogSubmit.formHeading}
-        subtitle={page?.heroSubtitle ?? dict.blogSubmit.formSubtitle}
+        title={cms(page?.heroTitle) ?? dict.blogSubmit.formHeading}
+        subtitle={cms(page?.heroSubtitle) ?? dict.blogSubmit.formSubtitle}
         image={page?.heroImage ?? {
           asset: {
             _id: 'photo-1516426122078-c23e76319801',
@@ -53,20 +55,20 @@ export default async function BlogSubmissionRoute({ params }: Props) {
         <div className="mb-12 p-8 rounded-3xl border border-gold/30 bg-gold/5 flex flex-col sm:flex-row gap-6 relative overflow-hidden">
           <div className="flex-1">
             <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">
-              {page?.instructionsHeading ?? dict.blogSubmit.instructionsHeading}
+              {cms(page?.instructionsHeading) ?? dict.blogSubmit.instructionsHeading}
             </h2>
             <ul className="space-y-4 text-[var(--text-muted)] text-sm sm:text-base leading-relaxed">
                <li className="flex gap-3">
                  <span className="shrink-0 text-gold font-bold">1.</span>
-                 <span>{page?.step1Text ?? dict.blogSubmit.step1}</span>
+                 <span>{cms(page?.step1Text) ?? dict.blogSubmit.step1}</span>
                </li>
                <li className="flex gap-3">
                  <span className="shrink-0 text-gold font-bold">2.</span>
-                 <span>{page?.step2Text ?? dict.blogSubmit.step2}</span>
+                 <span>{cms(page?.step2Text) ?? dict.blogSubmit.step2}</span>
                </li>
                <li className="flex gap-3">
                  <span className="shrink-0 text-gold font-bold">3.</span>
-                 <span>{page?.step3Text ?? dict.blogSubmit.step3}</span>
+                 <span>{cms(page?.step3Text) ?? dict.blogSubmit.step3}</span>
                </li>
             </ul>
           </div>
@@ -74,20 +76,20 @@ export default async function BlogSubmissionRoute({ params }: Props) {
 
         {/* Client side interactive submission machinery */}
         <BlogSubmissionForm labels={page ? {
-          successHeading: page.successHeading,
-          successBody: page.successBody,
-          successResetLabel: page.successResetLabel,
-          submitLabel: page.submitLabel,
-          submitLoadingLabel: page.submitLoadingLabel,
-          verificationLabel: page.verificationLabel,
-          writtenByPrefix: page.writtenByPrefix,
-          gallerySidebarHeading: page.gallerySidebarHeading,
-          gallerySidebarDescription: page.gallerySidebarDescription,
-          galleryAddLabel: page.galleryAddLabel,
-          galleryOverflowLabel: page.galleryOverflowLabel,
-          legalConsent1: page.legalConsent1,
-          legalConsent2: page.legalConsent2,
-        } : undefined} />
+          successHeading: cms(page.successHeading),
+          successBody: cms(page.successBody),
+          successResetLabel: cms(page.successResetLabel),
+          submitLabel: cms(page.submitLabel),
+          submitLoadingLabel: cms(page.submitLoadingLabel),
+          verificationLabel: cms(page.verificationLabel),
+          writtenByPrefix: cms(page.writtenByPrefix),
+          gallerySidebarHeading: cms(page.gallerySidebarHeading),
+          gallerySidebarDescription: cms(page.gallerySidebarDescription),
+          galleryAddLabel: cms(page.galleryAddLabel),
+          galleryOverflowLabel: cms(page.galleryOverflowLabel),
+          legalConsent1: cms(page.legalConsent1),
+          legalConsent2: cms(page.legalConsent2),
+        } : undefined} dict={dict} />
       </div>
     </>
   )

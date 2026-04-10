@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -8,81 +8,86 @@ import { CheckCircle2, AlertCircle, Send, ChevronDown } from 'lucide-react'
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 
-const schema = z.object({
-  naam: z.string().min(2, 'Vul uw volledige naam in (minimaal 2 tekens)'),
-  email: z.string().email('Vul een geldig e-mailadres in'),
-  telefoon: z
-    .string()
-    .optional()
-    .refine(
-      (val) => !val || /^[+]?[\d\s\-().]{7,20}$/.test(val),
-      'Vul een geldig telefoonnummer in'
-    ),
-  voorkeursContact: z.string().optional(),
-  aantalReizigers: z.string().optional(),
-  voorkeursPeriode: z.string().optional(),
-  budgetIndicatie: z.string().optional(),
-  onderwerp: z.string().min(1, 'Kies een onderwerp'),
-  bericht: z
-    .string()
-    .min(20, 'Uw bericht moet minimaal 20 tekens zijn')
-    .max(2000, 'Uw bericht mag maximaal 2000 tekens zijn'),
-})
+function createSchema(f?: Record<string, any>) {
+  return z.object({
+    naam: z.string().min(2, f?.validationNameRequired ?? 'Vul uw volledige naam in (minimaal 2 tekens)'),
+    email: z.string().email(f?.validationEmailInvalid ?? 'Vul een geldig e-mailadres in'),
+    telefoon: z
+      .string()
+      .optional()
+      .refine(
+        (val) => !val || /^[+]?[\d\s\-().]{7,20}$/.test(val),
+        f?.validationPhoneInvalid ?? 'Vul een geldig telefoonnummer in'
+      ),
+    voorkeursContact: z.string().optional(),
+    aantalReizigers: z.string().optional(),
+    voorkeursPeriode: z.string().optional(),
+    budgetIndicatie: z.string().optional(),
+    onderwerp: z.string().min(1, f?.validationSubjectRequired ?? 'Kies een onderwerp'),
+    bericht: z
+      .string()
+      .min(20, f?.validationMessageMin ?? 'Uw bericht moet minimaal 20 tekens zijn')
+      .max(2000, f?.validationMessageMax ?? 'Uw bericht mag maximaal 2000 tekens zijn'),
+  })
+}
 
-type FormData = z.infer<typeof schema>
+type FormData = z.infer<ReturnType<typeof createSchema>>
 
-// ── Constants ─────────────────────────────────────────────────────────────────
+// ── Option builders ──────────────────────────────────────────────────────────
 
-const ONDERWERP_OPTIONS = [
-  { value: '', label: 'Kies een onderwerp' },
-  { value: 'Offerte aanvraag', label: 'Offerte aanvraag' },
-  { value: 'Informatie over safari', label: 'Informatie over een safari' },
-  { value: 'Bestaande boeking', label: 'Vraag over bestaande boeking' },
-  { value: 'Samenwerking', label: 'Samenwerking / Zakelijk' },
-  { value: 'Overig', label: 'Overig' },
-]
+function getOnderwerpOptions(f?: Record<string, any>) {
+  return [
+    { value: '', label: f?.subjectPlaceholder ?? 'Kies een onderwerp' },
+    { value: 'Offerte aanvraag', label: f?.subjectQuote ?? 'Offerte aanvraag' },
+    { value: 'Informatie over safari', label: f?.subjectInfo ?? 'Informatie over een safari' },
+    { value: 'Bestaande boeking', label: f?.subjectBooking ?? 'Vraag over bestaande boeking' },
+    { value: 'Samenwerking', label: f?.subjectPartnership ?? 'Samenwerking / Zakelijk' },
+    { value: 'Overig', label: f?.subjectOther ?? 'Overig' },
+  ]
+}
 
-const CONTACT_METHODS = [
-  { value: '', label: 'Geen voorkeur' },
-  { value: 'email', label: 'E-mail' },
-  { value: 'telefoon', label: 'Telefoon' },
-  { value: 'whatsapp', label: 'WhatsApp' },
-]
+function getContactMethods(f?: Record<string, any>) {
+  return [
+    { value: '', label: f?.methodNoPreference ?? 'Geen voorkeur' },
+    { value: 'email', label: f?.methodEmail ?? 'E-mail' },
+    { value: 'telefoon', label: f?.methodPhone ?? 'Telefoon' },
+    { value: 'whatsapp', label: f?.methodWhatsApp ?? 'WhatsApp' },
+  ]
+}
 
-const REIZIGERS_OPTIONS = [
-  { value: '', label: 'Selecteer' },
-  { value: '1', label: '1 persoon' },
-  { value: '2', label: '2 personen' },
-  { value: '3-5', label: '3–5 personen' },
-  { value: '6-10', label: '6–10 personen' },
-  { value: '10+', label: '10+ personen' },
-]
+function getReizigersOptions(f?: Record<string, any>) {
+  return [
+    { value: '', label: f?.travelersSelect ?? 'Selecteer' },
+    { value: '1', label: f?.travelers1 ?? '1 persoon' },
+    { value: '2', label: f?.travelers2 ?? '2 personen' },
+    { value: '3-5', label: f?.travelers3to5 ?? '3–5 personen' },
+    { value: '6-10', label: f?.travelers6to10 ?? '6–10 personen' },
+    { value: '10+', label: f?.travelers10plus ?? '10+ personen' },
+  ]
+}
 
-const PERIODE_OPTIONS = [
-  { value: '', label: 'Selecteer' },
-  { value: 'Januari', label: 'Januari' },
-  { value: 'Februari', label: 'Februari' },
-  { value: 'Maart', label: 'Maart' },
-  { value: 'April', label: 'April' },
-  { value: 'Mei', label: 'Mei' },
-  { value: 'Juni', label: 'Juni' },
-  { value: 'Juli', label: 'Juli' },
-  { value: 'Augustus', label: 'Augustus' },
-  { value: 'September', label: 'September' },
-  { value: 'Oktober', label: 'Oktober' },
-  { value: 'November', label: 'November' },
-  { value: 'December', label: 'December' },
-  { value: 'Flexibel', label: 'Flexibel / Weet ik nog niet' },
-]
+function getPeriodeOptions(f?: Record<string, any>, months?: string[]) {
+  const m = months ?? [
+    'Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni',
+    'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December',
+  ]
+  return [
+    { value: '', label: f?.periodSelect ?? 'Selecteer' },
+    ...m.map((month) => ({ value: month, label: month })),
+    { value: 'Flexibel', label: f?.periodFlexible ?? 'Flexibel / Weet ik nog niet' },
+  ]
+}
 
-const BUDGET_OPTIONS = [
-  { value: '', label: 'Selecteer' },
-  { value: 'tot-2000', label: 'Tot €2.000 p.p.' },
-  { value: '2000-4000', label: '€2.000 – €4.000 p.p.' },
-  { value: '4000-6000', label: '€4.000 – €6.000 p.p.' },
-  { value: '6000-plus', label: '€6.000+ p.p.' },
-  { value: 'onbekend', label: 'Weet ik nog niet' },
-]
+function getBudgetOptions(f?: Record<string, any>) {
+  return [
+    { value: '', label: f?.budgetSelect ?? 'Selecteer' },
+    { value: 'tot-2000', label: f?.budgetTo2000 ?? 'Tot €2.000 p.p.' },
+    { value: '2000-4000', label: f?.budget2000to4000 ?? '€2.000 – €4.000 p.p.' },
+    { value: '4000-6000', label: f?.budget4000to6000 ?? '€4.000 – €6.000 p.p.' },
+    { value: '6000-plus', label: f?.budget6000plus ?? '€6.000+ p.p.' },
+    { value: 'onbekend', label: f?.budgetUnknown ?? 'Weet ik nog niet' },
+  ]
+}
 
 const MESSAGE_MAX = 2000
 
@@ -107,10 +112,21 @@ const labelStyle = { color: 'var(--text-muted)' }
 
 interface ContactFormProps {
   prefilledSafari?: string
+  dict?: Record<string, any>
 }
 
-export function ContactForm({ prefilledSafari }: ContactFormProps) {
+export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  const f = dict?.contact?.form
+  const months = dict?.common?.months
+
+  const schema = useMemo(() => createSchema(f), [f])
+  const onderwerpOptions = useMemo(() => getOnderwerpOptions(f), [f])
+  const contactMethods = useMemo(() => getContactMethods(f), [f])
+  const reizigersOptions = useMemo(() => getReizigersOptions(f), [f])
+  const periodeOptions = useMemo(() => getPeriodeOptions(f, months), [f, months])
+  const budgetOptions = useMemo(() => getBudgetOptions(f), [f])
 
   const {
     register,
@@ -136,7 +152,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      if (!res.ok) throw new Error('Fout bij versturen')
+      if (!res.ok) throw new Error(f?.errorSend ?? 'Fout bij versturen')
       setStatus('success')
       reset()
     } catch {
@@ -159,10 +175,10 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
           className="font-serif text-2xl font-bold mb-2"
           style={{ color: 'var(--text-primary)' }}
         >
-          Bericht ontvangen!
+          {f?.successHeading ?? 'Bericht ontvangen!'}
         </h3>
         <p className="text-sm max-w-md leading-relaxed mb-6" style={{ color: 'var(--text-muted)' }}>
-          Bedankt voor uw bericht. We nemen binnen 24 uur contact met u op.
+          {f?.successMessage ?? 'Bedankt voor uw bericht. We nemen binnen 24 uur contact met u op.'}
         </p>
         <button
           type="button"
@@ -170,7 +186,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
           className="rounded-full px-6 py-2.5 text-sm font-medium transition-all duration-200"
           style={{ color: 'var(--text-muted)', border: '1px solid rgba(42,125,88,0.25)' }}
         >
-          Nieuw bericht sturen
+          {f?.successNewButton ?? 'Nieuw bericht sturen'}
         </button>
       </div>
     )
@@ -183,10 +199,10 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
       {/* Section: Personal info */}
       <div>
         <h3 className="font-serif text-lg font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
-          Uw gegevens
+          {f?.sectionPersonal ?? 'Uw gegevens'}
         </h3>
         <p className="text-xs mb-5" style={{ color: 'var(--text-subtle)' }}>
-          Zodat we u persoonlijk kunnen bereiken.
+          {f?.sectionPersonalDesc ?? 'Zodat we u persoonlijk kunnen bereiken.'}
         </p>
 
         <div className="space-y-4">
@@ -194,11 +210,11 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
             {/* Naam */}
             <div>
               <label className={labelClass} style={labelStyle}>
-                Naam <span style={{ color: '#2a7d58' }}>*</span>
+                {f?.fieldName ?? 'Naam'} <span style={{ color: '#2a7d58' }}>*</span>
               </label>
               <input
                 type="text"
-                placeholder="Jan de Vries"
+                placeholder={f?.placeholderName ?? 'Jan de Vries'}
                 className={inputClass}
                 style={errors.naam ? inputErrorStyle : inputStyle}
                 {...register('naam')}
@@ -211,11 +227,11 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
             {/* E-mail */}
             <div>
               <label className={labelClass} style={labelStyle}>
-                E-mailadres <span style={{ color: '#2a7d58' }}>*</span>
+                {f?.fieldEmail ?? 'E-mailadres'} <span style={{ color: '#2a7d58' }}>*</span>
               </label>
               <input
                 type="email"
-                placeholder="jan@voorbeeld.nl"
+                placeholder={f?.placeholderEmail ?? 'jan@voorbeeld.nl'}
                 className={inputClass}
                 style={errors.email ? inputErrorStyle : inputStyle}
                 {...register('email')}
@@ -230,14 +246,14 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
             {/* Telefoon */}
             <div>
               <label className={labelClass} style={labelStyle}>
-                Telefoonnummer{' '}
+                {f?.fieldPhone ?? 'Telefoonnummer'}{' '}
                 <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
                   (optioneel)
                 </span>
               </label>
               <input
                 type="tel"
-                placeholder="+31 6 12 34 56 78"
+                placeholder={f?.placeholderPhone ?? '+31 6 12 34 56 78'}
                 className={inputClass}
                 style={errors.telefoon ? inputErrorStyle : inputStyle}
                 {...register('telefoon')}
@@ -250,7 +266,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
             {/* Voorkeur contact */}
             <div>
               <label className={labelClass} style={labelStyle}>
-                Voorkeur contact{' '}
+                {f?.fieldPreference ?? 'Voorkeur contact'}{' '}
                 <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
                   (optioneel)
                 </span>
@@ -261,7 +277,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
                   style={inputStyle}
                   {...register('voorkeursContact')}
                 >
-                  {CONTACT_METHODS.map((opt) => (
+                  {contactMethods.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
@@ -280,17 +296,17 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
       {/* Section: Trip context */}
       <div>
         <h3 className="font-serif text-lg font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
-          Over uw reis
+          {f?.sectionTrip ?? 'Over uw reis'}
         </h3>
         <p className="text-xs mb-5" style={{ color: 'var(--text-subtle)' }}>
-          Optioneel, maar helpt ons u sneller een passend antwoord te geven.
+          {f?.sectionTripDesc ?? 'Optioneel, maar helpt ons u sneller een passend antwoord te geven.'}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {/* Aantal reizigers */}
           <div>
             <label className={labelClass} style={labelStyle}>
-              Aantal reizigers
+              {f?.fieldTravelers ?? 'Aantal reizigers'}
             </label>
             <div className="relative">
               <select
@@ -298,7 +314,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
                 style={inputStyle}
                 {...register('aantalReizigers')}
               >
-                {REIZIGERS_OPTIONS.map((opt) => (
+                {reizigersOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
                   </option>
@@ -314,7 +330,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
           {/* Voorkeurs periode */}
           <div>
             <label className={labelClass} style={labelStyle}>
-              Reisperiode
+              {f?.fieldPeriod ?? 'Reisperiode'}
             </label>
             <div className="relative">
               <select
@@ -322,7 +338,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
                 style={inputStyle}
                 {...register('voorkeursPeriode')}
               >
-                {PERIODE_OPTIONS.map((opt) => (
+                {periodeOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
                   </option>
@@ -338,7 +354,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
           {/* Budget */}
           <div>
             <label className={labelClass} style={labelStyle}>
-              Budget indicatie
+              {f?.fieldBudget ?? 'Budget indicatie'}
             </label>
             <div className="relative">
               <select
@@ -346,7 +362,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
                 style={inputStyle}
                 {...register('budgetIndicatie')}
               >
-                {BUDGET_OPTIONS.map((opt) => (
+                {budgetOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
                   </option>
@@ -364,17 +380,17 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
       {/* Section: Message */}
       <div>
         <h3 className="font-serif text-lg font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
-          Uw bericht
+          {f?.sectionMessage ?? 'Uw bericht'}
         </h3>
         <p className="text-xs mb-5" style={{ color: 'var(--text-subtle)' }}>
-          Vertel ons hoe we u kunnen helpen.
+          {f?.sectionMessageDesc ?? 'Vertel ons hoe we u kunnen helpen.'}
         </p>
 
         <div className="space-y-4">
           {/* Onderwerp */}
           <div>
             <label className={labelClass} style={labelStyle}>
-              Onderwerp <span style={{ color: '#2a7d58' }}>*</span>
+              {f?.fieldSubject ?? 'Onderwerp'} <span style={{ color: '#2a7d58' }}>*</span>
             </label>
             <div className="relative">
               <select
@@ -382,7 +398,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
                 style={errors.onderwerp ? inputErrorStyle : inputStyle}
                 {...register('onderwerp')}
               >
-                {ONDERWERP_OPTIONS.map((opt) => (
+                {onderwerpOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
                   </option>
@@ -401,11 +417,11 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
           {/* Bericht */}
           <div>
             <label className={labelClass} style={labelStyle}>
-              Bericht <span style={{ color: '#2a7d58' }}>*</span>
+              {f?.fieldMessage ?? 'Bericht'} <span style={{ color: '#2a7d58' }}>*</span>
             </label>
             <textarea
               rows={6}
-              placeholder="Vertel ons over uw droomsafari, vragen, of hoe we u kunnen helpen..."
+              placeholder={f?.placeholderMessage ?? 'Vertel ons over uw droomsafari, vragen, of hoe we u kunnen helpen...'}
               className={`${inputClass} resize-none`}
               style={errors.bericht ? inputErrorStyle : inputStyle}
               {...register('bericht')}
@@ -440,7 +456,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
           }}
         >
           <AlertCircle className="h-4 w-4 shrink-0" />
-          Er is iets misgegaan. Probeer het opnieuw of stuur ons direct een e-mail.
+          {f?.errorMessage ?? 'Er is iets misgegaan. Probeer het opnieuw of stuur ons direct een e-mail.'}
         </div>
       )}
 
@@ -455,7 +471,7 @@ export function ContactForm({ prefilledSafari }: ContactFormProps) {
           cursor: status === 'loading' ? 'not-allowed' : 'pointer',
         }}
       >
-        {status === 'loading' ? 'Versturen…' : 'Bericht versturen'}
+        {status === 'loading' ? (f?.submitLoading ?? 'Versturen…') : (f?.submitButton ?? 'Bericht versturen')}
         {status !== 'loading' && <Send className="h-4 w-4" />}
       </button>
     </form>

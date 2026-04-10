@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { hasLocale, type Locale } from '@/i18n/config'
+import { hasLocale, cmsText, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { localePath } from '@/i18n/routes'
 import { getSiteSettings, getDestinationDetail, getDestinationSlugs } from '@/lib/data'
@@ -51,6 +51,7 @@ export default async function DestinationDetailPage({ params }: Props) {
 
   const [destination, settings] = await Promise.all([getDestinationDetail(slug, lang), getSiteSettings(lang)])
   const labels = settings?.destinationDetailLabels
+  const cmsLabel = <T,>(v: T | null | undefined) => cmsText(v, (settings as any)?.language, locale)
 
   if (!destination) notFound()
 
@@ -142,7 +143,7 @@ export default async function DestinationDetailPage({ params }: Props) {
               <div className="rounded-xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Thermometer className="h-4 w-4 text-gold" />
-                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">{labels?.climateHeading ?? dict.destinations.climateHeading}</h3>
+                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">{cmsLabel(labels?.climateHeading) ?? dict.destinations.climateHeading}</h3>
                 </div>
                 <p className="text-sm text-[var(--text-muted)]">{destination.climate}</p>
               </div>
@@ -151,7 +152,7 @@ export default async function DestinationDetailPage({ params }: Props) {
               <div className="rounded-xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Sun className="h-4 w-4 text-gold" />
-                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">{labels?.bestTimeHeading ?? dict.destinations.bestTimeHeading}</h3>
+                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">{cmsLabel(labels?.bestTimeHeading) ?? dict.destinations.bestTimeHeading}</h3>
                 </div>
                 <p className="text-sm text-[var(--text-muted)]">{destination.bestTimeToVisit}</p>
               </div>
@@ -330,11 +331,17 @@ export default async function DestinationDetailPage({ params }: Props) {
         {relatedTrips.length > 0 && (
           <section>
             <SectionHeading
-              title={`${labels?.relatedTripsHeadingPrefix ?? dict.destinations.relatedTripsPrefix} ${destination.name}`}
+              title={`${cmsLabel(labels?.relatedTripsHeadingPrefix) ?? dict.destinations.relatedTripsPrefix} ${destination.name}`}
               subtitle={`${relatedTrips.length} ${relatedTrips.length !== 1 ? dict.destinations.tripsAvailablePlural : dict.destinations.tripsAvailableSingular}`}
               className="mb-8"
             />
-            <SafariGrid trips={relatedTrips} />
+            <SafariGrid trips={relatedTrips} locale={locale} labels={{
+              featuredBadge: dict.cards.featuredBadge,
+              priceFromLabel: dict.cards.priceFrom,
+              pricePerGroup: dict.cards.pricePerGroup,
+              pricePerPerson: dict.cards.pricePerPerson,
+              viewLabel: dict.cards.viewLabel,
+            }} />
           </section>
         )}
       </div>

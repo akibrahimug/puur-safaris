@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { hasLocale, type Locale } from '@/i18n/config'
+import { hasLocale, type Locale, cmsText } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { getSiteSettings, getDestinations, getDestinationListingPage } from '@/lib/data'
 import { buildMetadata, getBaseUrl } from '@/lib/seo'
@@ -34,6 +34,8 @@ export default async function BestemmingListPage({ params }: Props) {
 
   const [destinations, destinationListingPage] = await Promise.all([getDestinations(lang), getDestinationListingPage(lang)])
 
+  const cms = <T,>(v: T | null | undefined) => cmsText(v, (destinationListingPage as any)?.language, locale)
+
   const baseUrl = getBaseUrl()
   const itemListSchema = {
     '@context': 'https://schema.org',
@@ -55,15 +57,19 @@ export default async function BestemmingListPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
       <PageHero
-        title={destinationListingPage?.heroTitle ?? dict.destinations.heroTitle}
-        subtitle={destinationListingPage?.heroSubtitle ?? dict.destinations.heroSubtitle}
+        title={cms(destinationListingPage?.heroTitle) ?? dict.destinations.heroTitle}
+        subtitle={cms(destinationListingPage?.heroSubtitle) ?? dict.destinations.heroSubtitle}
         image={destinationListingPage?.heroImage ?? destinations[0]?.heroImage}
       />
       <section className="py-16">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {destinations.map((d) => (
-              <DestinationCard key={d._id} destination={d} />
+              <DestinationCard key={d._id} destination={d} locale={locale} labels={{
+                tripSingularLabel: dict.cards.tripSingular,
+                tripPluralLabel: dict.cards.tripPlural,
+                availableLabel: dict.cards.available,
+              }} />
             ))}
           </div>
         </div>

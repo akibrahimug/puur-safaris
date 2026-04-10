@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { hasLocale, type Locale } from '@/i18n/config'
+import { hasLocale, cmsText, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { localePath } from '@/i18n/routes'
 import { getSiteSettings, getAboutPage } from '@/lib/data'
@@ -44,6 +44,7 @@ export default async function OverOnsPage({ params }: Props) {
   const dict = await getDictionary(locale)
 
   const [siteSettings, aboutPage] = await Promise.all([getSiteSettings(lang), getAboutPage(lang)])
+  const cmsLabel = <T,>(v: T | null | undefined) => cmsText(v, (aboutPage as any)?.language ?? (siteSettings as any)?.language, locale)
 
   const baseUrl = getBaseUrl()
   const aboutSchema = {
@@ -63,8 +64,8 @@ export default async function OverOnsPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
       />
       <PageHero
-        title={aboutPage?.heroTitle ?? dict.about.heroTitle}
-        subtitle={aboutPage?.heroSubtitle ?? dict.about.heroSubtitle}
+        title={cmsLabel(aboutPage?.heroTitle) ?? dict.about.heroTitle}
+        subtitle={cmsLabel(aboutPage?.heroSubtitle) ?? dict.about.heroSubtitle}
         image={aboutPage?.heroImage}
       />
 
@@ -78,7 +79,7 @@ export default async function OverOnsPage({ params }: Props) {
               {/* Onze Achtergrond */}
               <div className="prose prose-stone max-w-none">
                 <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-6">
-                  {aboutPage?.backgroundTitle ?? dict.about.backgroundTitle}
+                  {cmsLabel(aboutPage?.backgroundTitle) ?? dict.about.backgroundTitle}
                 </h2>
                 {aboutPage?.backgroundText ? (
                   <PortableTextRenderer value={aboutPage.backgroundText as unknown[]} />
@@ -92,7 +93,7 @@ export default async function OverOnsPage({ params }: Props) {
               {/* Onze Missie */}
               <div className="prose prose-stone max-w-none">
                 <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-6">
-                  {aboutPage?.missionTitle ?? dict.about.missionTitle}
+                  {cmsLabel(aboutPage?.missionTitle) ?? dict.about.missionTitle}
                 </h2>
                 {aboutPage?.missionText ? (
                   <PortableTextRenderer value={aboutPage.missionText as unknown[]} />
@@ -111,7 +112,7 @@ export default async function OverOnsPage({ params }: Props) {
               {/* Waarom Wij (Unique) */}
               <div>
                 <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-8">
-                  {aboutPage?.uniquePointsTitle ?? dict.about.uniqueTitle}
+                  {cmsLabel(aboutPage?.uniquePointsTitle) ?? dict.about.uniqueTitle}
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {uniquePoints.map((point) => {
@@ -132,7 +133,7 @@ export default async function OverOnsPage({ params }: Props) {
               {/* Het Team */}
               <div>
                 <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-8">
-                  {aboutPage?.teamTitle ?? dict.about.teamTitle}
+                  {cmsLabel(aboutPage?.teamTitle) ?? dict.about.teamTitle}
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   {team.map((member) => {
@@ -163,7 +164,7 @@ export default async function OverOnsPage({ params }: Props) {
                   <Heart className="w-48 h-48 text-gold" />
                 </div>
                 <h2 className="relative font-serif text-3xl font-bold text-[var(--text-primary)] mb-4">
-                  {aboutPage?.communityTitle ?? dict.about.communityTitle}
+                  {cmsLabel(aboutPage?.communityTitle) ?? dict.about.communityTitle}
                 </h2>
                 {aboutPage?.communityText ? (
                   <div className="relative text-[var(--text-muted)] text-lg leading-relaxed mb-8 max-w-2xl">
@@ -176,7 +177,7 @@ export default async function OverOnsPage({ params }: Props) {
                 )}
                 <Button className="relative bg-gold hover:bg-gold-dark text-white rounded-full" asChild>
                   <Link href={stegaClean(aboutPage?.communityCtaLink) ?? '#'}>
-                    {aboutPage?.communityCtaText ?? 'Ontdek Onze Impact'}
+                    {cmsLabel(aboutPage?.communityCtaText) ?? 'Ontdek Onze Impact'}
                   </Link>
                 </Button>
               </div>

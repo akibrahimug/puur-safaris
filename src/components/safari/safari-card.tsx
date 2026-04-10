@@ -16,15 +16,16 @@ export interface SafariCardLabels {
 interface SafariCardProps {
   trip: TripCard;
   labels?: SafariCardLabels;
+  locale?: string;
 }
 
-export function SafariCard({ trip, labels }: SafariCardProps) {
+export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
   const imageUrl = trip.heroImage?.asset?.url || null;
 
   return (
     <HoverCard lift={5} className="h-full">
       <Link
-        href={`/safari-reizen/${trip.slug}`}
+        href={`/${locale}/safari-reizen/${trip.slug}`}
         className="flex flex-col h-full group"
       >
         <article

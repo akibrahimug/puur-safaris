@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { hasLocale, type Locale } from '@/i18n/config'
+import { hasLocale, cmsText, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { getTripDetail, getBookingPage, getSiteSettings } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
@@ -33,15 +33,17 @@ export default async function BookingPage({ params }: Props) {
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
   const dict = await getDictionary(locale)
 
-  const [trip, bookingPage] = await Promise.all([getTripDetail(slug, lang), getBookingPage(lang)])
+  const [trip, bookingPage, settings] = await Promise.all([getTripDetail(slug, lang), getBookingPage(lang), getSiteSettings(lang)])
   if (!trip) notFound()
+
+  const cmsLabel = <T,>(v: T | null | undefined) => cmsText(v, (settings as any)?.language, locale)
 
   return (
     <>
       <PageHero
         title={`${dict.booking.heroEyebrow}: ${trip.title}`}
-        subtitle={bookingPage?.heroSubtitle ?? dict.booking.heroSubtitle}
-        eyebrow={bookingPage?.heroEyebrow ?? dict.booking.heroEyebrow}
+        subtitle={cmsLabel(bookingPage?.heroSubtitle) ?? dict.booking.heroSubtitle}
+        eyebrow={cmsLabel(bookingPage?.heroEyebrow) ?? dict.booking.heroEyebrow}
         image={trip.heroImage}
       />
       <section className="py-16 section-page">
@@ -53,6 +55,7 @@ export default async function BookingPage({ params }: Props) {
             tripPriceType={trip.priceType}
             tripDuration={trip.duration}
             tripDestination={trip.destination ?? null}
+            dict={dict}
           />
         </div>
       </section>

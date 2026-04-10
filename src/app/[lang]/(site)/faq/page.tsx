@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { hasLocale, type Locale } from '@/i18n/config'
+import { hasLocale, type Locale, cmsText } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { getSiteSettings, getFaqItems, getTrips, getFaqPage } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
@@ -47,6 +47,8 @@ export default async function FaqPage({ params }: Props) {
 
   const [faqItems, trips, faqPage] = await Promise.all([getFaqItems(lang), getTrips(lang), getFaqPage(lang)])
 
+  const cms = <T,>(v: T | null | undefined) => cmsText(v, (faqPage as any)?.language, locale)
+
   const grouped = faqItems.reduce<Record<string, FaqItem[]>>((acc, faq) => {
     const cat = stegaClean(faq.category) ?? 'general'
     if (!acc[cat]) acc[cat] = []
@@ -74,17 +76,17 @@ export default async function FaqPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <PageHero
-        title={faqPage?.heroTitle ?? dict.faq.heroTitle}
-        subtitle={faqPage?.heroSubtitle ?? dict.faq.heroSubtitle}
+        title={cms(faqPage?.heroTitle) ?? dict.faq.heroTitle}
+        subtitle={cms(faqPage?.heroSubtitle) ?? dict.faq.heroSubtitle}
         image={faqPage?.heroImage ?? trips[3]?.heroImage}
       />
       <FaqClient
         groupedFaqs={grouped}
-        searchPlaceholder={faqPage?.searchPlaceholder}
-        categoriesHeading={faqPage?.categoriesHeading}
-        viewAllLabel={faqPage?.viewAllLabel}
-        noResultsText={faqPage?.noResultsText}
-        resetSearchLabel={faqPage?.resetSearchLabel}
+        searchPlaceholder={cms(faqPage?.searchPlaceholder)}
+        categoriesHeading={cms(faqPage?.categoriesHeading)}
+        viewAllLabel={cms(faqPage?.viewAllLabel)}
+        noResultsText={cms(faqPage?.noResultsText)}
+        resetSearchLabel={cms(faqPage?.resetSearchLabel)}
       />
     </>
   )

@@ -1,28 +1,45 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { cmsText } from "@/i18n/config";
 import type { SiteSettings } from "@/lib/types";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Dict = Record<string, any>
 
 interface FooterProps {
   settings?: SiteSettings | null;
+  locale?: string;
+  dict?: Dict;
 }
 
-const defaultColumn1Links = [
-  { href: "/safari-reizen", label: "Alle safari reizen" },
-  { href: "/safari-reizen?category=wildlife", label: "Wildlife Safaris" },
-  { href: "/safari-reizen?category=hiking", label: "Berg & Trekking" },
-  { href: "/safari-reizen?category=culture", label: "Cultuur & Gemeenschap" },
-  { href: "/bestemmingen", label: "Bestemmingen" },
-]
+function defaultColumn1Links(locale: string, dict?: Dict) {
+  const prefix = `/${locale}`
+  const f = dict?.footer
+  return [
+    { href: `${prefix}/safari-reizen`, label: f?.allSafaris ?? "Alle safari reizen" },
+    { href: `${prefix}/safari-reizen?category=wildlife`, label: f?.wildlifeSafaris ?? "Wildlife Safaris" },
+    { href: `${prefix}/safari-reizen?category=hiking`, label: f?.hikingTrekking ?? "Berg & Trekking" },
+    { href: `${prefix}/safari-reizen?category=culture`, label: f?.cultureCommunity ?? "Cultuur & Gemeenschap" },
+    { href: `${prefix}/bestemmingen`, label: f?.destinations ?? "Bestemmingen" },
+  ]
+}
 
-const defaultColumn2Links = [
-  { href: "/over-ons", label: "Over Puur Safaris" },
-  { href: "/blog", label: "Reisblog" },
-  { href: "/faq", label: "Veelgestelde vragen" },
-  { href: "/contact", label: "Contact" },
-]
+function defaultColumn2Links(locale: string, dict?: Dict) {
+  const prefix = `/${locale}`
+  const f = dict?.footer
+  return [
+    { href: `${prefix}/over-ons`, label: f?.aboutUs ?? "Over Puur Safaris" },
+    { href: `${prefix}/blog`, label: f?.travelBlog ?? "Reisblog" },
+    { href: `${prefix}/faq`, label: f?.faqLink ?? "Veelgestelde vragen" },
+    { href: `${prefix}/contact`, label: f?.contactLink ?? "Contact" },
+  ]
+}
 
-export function Footer({ settings }: FooterProps) {
+export function Footer({ settings, locale = "nl", dict }: FooterProps) {
+  const f = dict?.footer
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const cms = <T,>(v: T | null | undefined) => cmsText(v, (settings as any)?.language, locale)
   return (
     <footer
       className="bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]"
@@ -48,14 +65,14 @@ export function Footer({ settings }: FooterProps) {
                 </span>
               )}
             </Link>
-            {settings?.tagline && (
+            {cms(settings?.tagline) && (
               <p className="text-sm text-[var(--text-muted)] italic mb-4">
-                {settings.tagline}
+                {cms(settings?.tagline)}
               </p>
             )}
-            {settings?.footerText && (
+            {cms(settings?.footerText) && (
               <p className="text-sm text-[var(--text-subtle)] leading-relaxed">
-                {settings.footerText}
+                {cms(settings?.footerText)}
               </p>
             )}
 
@@ -137,10 +154,10 @@ export function Footer({ settings }: FooterProps) {
           {/* Safari Reizen */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              {settings?.footerColumn1Heading ?? 'Safari Reizen'}
+              {cms(settings?.footerColumn1Heading) ?? f?.col1Heading ?? 'Safari Reizen'}
             </h3>
             <ul className="space-y-3 text-sm">
-              {(settings?.footerColumn1Links ?? defaultColumn1Links).map(({ href, label }) => (
+              {(cms(settings?.footerColumn1Links) ?? defaultColumn1Links(locale, dict)).map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
@@ -156,10 +173,10 @@ export function Footer({ settings }: FooterProps) {
           {/* Over ons */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              {settings?.footerColumn2Heading ?? 'Over Ons'}
+              {cms(settings?.footerColumn2Heading) ?? f?.col2Heading ?? 'Over Ons'}
             </h3>
             <ul className="space-y-3 text-sm">
-              {(settings?.footerColumn2Links ?? defaultColumn2Links).map(({ href, label }) => (
+              {(cms(settings?.footerColumn2Links) ?? defaultColumn2Links(locale, dict)).map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
@@ -175,7 +192,7 @@ export function Footer({ settings }: FooterProps) {
           {/* Contact */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              {settings?.footerColumn3Heading ?? 'Contact'}
+              {cms(settings?.footerColumn3Heading) ?? f?.col3Heading ?? 'Contact'}
             </h3>
             <ul className="space-y-3.5 text-sm">
               <li>
@@ -204,7 +221,7 @@ export function Footer({ settings }: FooterProps) {
               </li>
               <li className="flex items-start gap-2.5 text-[var(--text-muted)]">
                 <MapPin className="h-3.5 w-3.5 text-gold/60 shrink-0 mt-0.5" />
-                <span>Nederland</span>
+                <span>{f?.netherlands ?? 'Nederland'}</span>
               </li>
               <li>
                 <a
@@ -224,7 +241,7 @@ export function Footer({ settings }: FooterProps) {
         {/* Bottom bar */}
         <div className="mt-14 pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-subtle)]">
           <p>
-            &copy; 2025 {settings?.siteName ?? "Puur Safaris"}. {settings?.copyrightText ?? 'Alle rechten voorbehouden.'}
+            &copy; 2025 {settings?.siteName ?? "Puur Safaris"}. {cms(settings?.copyrightText) ?? f?.copyright ?? 'Alle rechten voorbehouden.'}
             {settings?.chamberOfCommerceNumber &&
               ` · KvK: ${settings.chamberOfCommerceNumber}`}
           </p>
@@ -233,13 +250,13 @@ export function Footer({ settings }: FooterProps) {
               href={settings?.privacyLink ?? "/privacybeleid"}
               className="hover:text-[var(--text-muted)] transition-colors"
             >
-              {settings?.privacyLabel ?? 'Privacybeleid'}
+              {cms(settings?.privacyLabel) ?? f?.privacyLabel ?? 'Privacybeleid'}
             </Link>
             <Link
               href={settings?.termsLink ?? "/algemene-voorwaarden"}
               className="hover:text-[var(--text-muted)] transition-colors"
             >
-              {settings?.termsLabel ?? 'Algemene Voorwaarden'}
+              {cms(settings?.termsLabel) ?? f?.termsLabel ?? 'Algemene Voorwaarden'}
             </Link>
           </div>
         </div>

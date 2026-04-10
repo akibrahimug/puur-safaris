@@ -54,7 +54,11 @@
       "Bash(curl -sI http://localhost:3000/en)",
       "Bash(npm view:*)",
       "Bash(grep -B 20 '_temp2$z\\(\\)' /Users/akibrahim/dev/Programming/clients/puur-safaris/node_modules/sanity/lib/index.js)",
-      "Bash(grep -B 50 '_temp2$z\\(\\)' /Users/akibrahim/dev/Programming/clients/puur-safaris/node_modules/sanity/lib/index.js)"
+      "Bash(grep -B 50 '_temp2$z\\(\\)' /Users/akibrahim/dev/Programming/clients/puur-safaris/node_modules/sanity/lib/index.js)",
+      "Bash(npx patch-package:*)",
+      "Bash(wc -l /private/tmp/claude-501/-Users-akibrahim-dev-Programming-clients-puur-safaris/c2ec3846-f54d-498f-87b6-a6c3db8835a7/tasks/*.output)",
+      "Bash(curl -s http://localhost:3000/en/bestemmingen)",
+      "Bash(curl -s \"http://localhost:3000/en/bestemmingen\")"
     ]
   }
 }

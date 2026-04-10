@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { hasLocale, type Locale } from '@/i18n/config'
+import { hasLocale, cmsText, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { localePath } from '@/i18n/routes'
 import { getSiteSettings, getTripDetail, getTripSlugs } from '@/lib/data'
@@ -56,6 +56,7 @@ export default async function SafariDetailPage({ params }: Props) {
 
   const [trip, settings] = await Promise.all([getTripDetail(slug, lang), getSiteSettings(lang)])
   const labels = settings?.safariDetailLabels
+  const cmsLabel = <T,>(v: T | null | undefined) => cmsText(v, (settings as any)?.language, locale)
 
   if (!trip) notFound()
 
@@ -149,13 +150,13 @@ export default async function SafariDetailPage({ params }: Props) {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
                 <Clock className="h-5 w-5 text-gold mx-auto mb-1" />
-                <p className="text-xs text-[var(--text-muted)] mb-0.5">{labels?.durationLabel ?? dict.safari.durationLabel}</p>
+                <p className="text-xs text-[var(--text-muted)] mb-0.5">{cmsLabel(labels?.durationLabel) ?? dict.safari.durationLabel}</p>
                 <p className="font-semibold text-[var(--text-primary)] text-sm">{trip.duration}</p>
               </div>
               {trip.difficulty && (
                 <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
                   <TrendingUp className="h-5 w-5 text-gold mx-auto mb-1" />
-                  <p className="text-xs text-[var(--text-muted)] mb-0.5">{labels?.levelLabel ?? dict.safari.levelLabel}</p>
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">{cmsLabel(labels?.levelLabel) ?? dict.safari.levelLabel}</p>
                   <p className="font-semibold text-[var(--text-primary)] text-sm">
                     {difficultyLabel(trip.difficulty)}
                   </p>
@@ -164,7 +165,7 @@ export default async function SafariDetailPage({ params }: Props) {
               {trip.minPersons && (
                 <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
                   <Users className="h-5 w-5 text-gold mx-auto mb-1" />
-                  <p className="text-xs text-[var(--text-muted)] mb-0.5">{labels?.groupSizeLabel ?? dict.safari.groupSizeLabel}</p>
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">{cmsLabel(labels?.groupSizeLabel) ?? dict.safari.groupSizeLabel}</p>
                   <p className="font-semibold text-[var(--text-primary)] text-sm">
                     {trip.minPersons}
                     {trip.maxPersons && `–${trip.maxPersons}`} pers.
@@ -174,7 +175,7 @@ export default async function SafariDetailPage({ params }: Props) {
               {trip.category && (
                 <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
                   <MapPin className="h-5 w-5 text-gold mx-auto mb-1" />
-                  <p className="text-xs text-[var(--text-muted)] mb-0.5">{labels?.typeLabel ?? dict.safari.typeLabel}</p>
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">{cmsLabel(labels?.typeLabel) ?? dict.safari.typeLabel}</p>
                   <p className="font-semibold text-[var(--text-primary)] text-sm">
                     {categoryLabel(trip.category)}
                   </p>
@@ -185,7 +186,7 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* Description */}
             {trip.fullDescription && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{labels?.aboutTripHeading ?? dict.safari.aboutHeading}</h2>
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{cmsLabel(labels?.aboutTripHeading) ?? dict.safari.aboutHeading}</h2>
                 <PortableTextRenderer value={trip.fullDescription as unknown[]} />
               </section>
             )}
@@ -193,7 +194,7 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* Highlights */}
             {trip.highlights && trip.highlights.length > 0 && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{labels?.highlightsHeading ?? dict.safari.highlightsHeading}</h2>
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{cmsLabel(labels?.highlightsHeading) ?? dict.safari.highlightsHeading}</h2>
                 <ul className="space-y-2">
                   {trip.highlights.map((h, i) => (
                     <li key={i} className="flex items-start gap-2.5 text-[var(--text-primary)]">
@@ -208,7 +209,7 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* Itinerary */}
             {trip.itinerary && trip.itinerary.length > 0 && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{labels?.itineraryHeading ?? dict.safari.itineraryHeading}</h2>
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{cmsLabel(labels?.itineraryHeading) ?? dict.safari.itineraryHeading}</h2>
                 <SafariItinerary itinerary={trip.itinerary} mealLabels={{ breakfast: labels?.breakfastLabel, lunch: labels?.lunchLabel, dinner: labels?.dinnerLabel }} />
               </section>
             )}
@@ -216,11 +217,11 @@ export default async function SafariDetailPage({ params }: Props) {
             {/* Included / Excluded */}
             {((trip.included?.length ?? 0) > 0 || (trip.excluded?.length ?? 0) > 0) && (
               <section>
-                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{labels?.includedExcludedHeading ?? dict.safari.includedHeading}</h2>
+                <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">{cmsLabel(labels?.includedExcludedHeading) ?? dict.safari.includedHeading}</h2>
                 <div className="rounded-2xl overflow-hidden" style={{ background: 'var(--card-strip-bg)', border: '1px solid rgba(42,125,88,0.18)' }}>
                   {trip.included && trip.included.length > 0 && (
                     <div className="px-5 py-4" style={{ borderBottom: (trip.excluded?.length ?? 0) > 0 ? '1px solid rgba(42,125,88,0.1)' : 'none' }}>
-                      <p className="text-[10px] font-semibold uppercase tracking-widest mb-3 text-gold">{labels?.includedLabel ?? dict.safari.includedLabel}</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-widest mb-3 text-gold">{cmsLabel(labels?.includedLabel) ?? dict.safari.includedLabel}</p>
                       <div className="flex flex-wrap gap-2">
                         {trip.included.map((item, i) => (
                           <span key={i} className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
@@ -233,7 +234,7 @@ export default async function SafariDetailPage({ params }: Props) {
                   )}
                   {trip.excluded && trip.excluded.length > 0 && (
                     <div className="px-5 py-4">
-                      <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: '#c0485a' }}>{labels?.excludedLabel ?? dict.safari.excludedLabel}</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: '#c0485a' }}>{cmsLabel(labels?.excludedLabel) ?? dict.safari.excludedLabel}</p>
                       <div className="flex flex-wrap gap-2">
                         {trip.excluded.map((item, i) => (
                           <span key={i} className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
@@ -253,33 +254,33 @@ export default async function SafariDetailPage({ params }: Props) {
           <aside className="lg:col-span-1">
             <div className="sticky top-20 rounded-2xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-6 shadow-sm">
               <div className="mb-4">
-                <span className="text-sm text-[var(--text-muted)]">{labels?.priceFromSidebarLabel ?? dict.safari.priceLabel}</span>
+                <span className="text-sm text-[var(--text-muted)]">{cmsLabel(labels?.priceFromSidebarLabel) ?? dict.safari.priceLabel}</span>
                 <p className="text-4xl font-bold text-gold">{formatPrice(trip.price)}</p>
                 <span className="text-sm text-[var(--text-subtle)]">
-                  {trip.priceType === 'per_group' ? (settings?.cardLabels?.pricePerGroup ?? dict.safari.pricePerGroup) : (settings?.cardLabels?.pricePerPerson ?? dict.safari.pricePerPerson)}
+                  {trip.priceType === 'per_group' ? (cmsLabel(settings?.cardLabels?.pricePerGroup) ?? dict.safari.pricePerGroup) : (cmsLabel(settings?.cardLabels?.pricePerPerson) ?? dict.safari.pricePerPerson)}
                 </span>
               </div>
 
               <div className="space-y-2 mb-6">
                 {trip.duration && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-[var(--text-muted)]">{labels?.durationLabel ?? dict.safari.durationLabel}</span>
+                    <span className="text-[var(--text-muted)]">{cmsLabel(labels?.durationLabel) ?? dict.safari.durationLabel}</span>
                     <span className="font-medium text-[var(--text-primary)]">{trip.duration}</span>
                   </div>
                 )}
                 {trip.difficulty && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-[var(--text-muted)]">{labels?.levelLabel ?? dict.safari.levelLabel}</span>
+                    <span className="text-[var(--text-muted)]">{cmsLabel(labels?.levelLabel) ?? dict.safari.levelLabel}</span>
                     <Badge variant="secondary">{difficultyLabel(trip.difficulty)}</Badge>
                   </div>
                 )}
               </div>
 
               <Button asChild size="lg" className="w-full mb-3">
-                <Link href={`/${lang}/safari-reizen/${slug}/boeken`}>{labels?.bookTripCtaLabel ?? dict.safari.bookCta}</Link>
+                <Link href={`/${lang}/safari-reizen/${slug}/boeken`}>{cmsLabel(labels?.bookTripCtaLabel) ?? dict.safari.bookCta}</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="w-full">
-                <Link href={localePath(locale, 'customItinerary')}>{labels?.eigenReisschemaCtaLabel ?? dict.safari.customScheduleCta}</Link>
+                <Link href={localePath(locale, 'customItinerary')}>{cmsLabel(labels?.eigenReisschemaCtaLabel) ?? dict.safari.customScheduleCta}</Link>
               </Button>
             </div>
           </aside>

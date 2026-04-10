@@ -10,15 +10,16 @@ import type { BlogPostCard } from '@/lib/types'
 interface BlogCardProps {
   post: BlogPostCard
   labels?: { readArticleLabel?: string }
+  locale?: string
 }
 
-export function BlogCard({ post, labels }: BlogCardProps) {
+export function BlogCard({ post, labels, locale = "nl" }: BlogCardProps) {
   const clean = stegaClean(post)
   const imageUrl = clean.featuredImage?.asset?.url || null
 
   return (
     <HoverCard lift={5} className="h-full">
-      <Link href={`/blog/${clean.slug}`} className="flex flex-col h-full group">
+      <Link href={`/${locale}/blog/${clean.slug}`} className="flex flex-col h-full group">
         <article
           className="flex flex-col h-full rounded-3xl overflow-hidden transition-all duration-500 ease-out border border-[var(--border-subtle)] shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_80px_-15px_rgba(0,0,0,0.15)] group-hover:-translate-y-1"
           style={{ background: 'var(--card-strip-bg)' }}

@@ -37,7 +37,7 @@ function FieldError({ message }: { message?: string }) {
 }
 
 /* ── Edit button ── */
-function EditBtn({ active, onClick }: { active: boolean; onClick: () => void }) {
+function EditBtn({ active, onClick, editDoneLabel, editLabel }: { active: boolean; onClick: () => void; editDoneLabel?: string; editLabel?: string }) {
   return (
     <button
       type="button"
@@ -47,7 +47,7 @@ function EditBtn({ active, onClick }: { active: boolean; onClick: () => void }) 
           ? 'bg-gold text-white border-gold shadow-lg shadow-gold/20'
           : 'bg-white/80 dark:bg-black/40 text-[var(--text-muted)] border-[var(--border-subtle)] hover:bg-gold/10 hover:text-gold hover:border-gold/40'
       }`}
-      title={active ? 'Klaar met bewerken' : 'Bewerken'}
+      title={active ? (editDoneLabel ?? 'Klaar met bewerken') : (editLabel ?? 'Bewerken')}
     >
       <Pencil className="w-3.5 h-3.5" />
     </button>
@@ -58,14 +58,20 @@ function EditBtn({ active, onClick }: { active: boolean; onClick: () => void }) 
 function ImageLayoutPicker({
   value,
   onChange,
+  labelNone,
+  labelSingle,
+  labelGrid,
 }: {
   value: ImageLayout
   onChange: (v: ImageLayout) => void
+  labelNone?: string
+  labelSingle?: string
+  labelGrid?: string
 }) {
   const options: { key: ImageLayout; icon: React.ReactNode; label: string }[] = [
-    { key: 'none', icon: <X className="w-4 h-4" />, label: 'Geen' },
-    { key: 'single', icon: <ImageIcon className="w-4 h-4" />, label: 'Enkele foto' },
-    { key: 'grid', icon: <LayoutGrid className="w-4 h-4" />, label: 'Fotogrid' },
+    { key: 'none', icon: <X className="w-4 h-4" />, label: labelNone ?? 'Geen' },
+    { key: 'single', icon: <ImageIcon className="w-4 h-4" />, label: labelSingle ?? 'Enkele foto' },
+    { key: 'grid', icon: <LayoutGrid className="w-4 h-4" />, label: labelGrid ?? 'Fotogrid' },
   ]
 
   return (
@@ -94,9 +100,19 @@ function ImageLayoutPicker({
 function SectionImages({
   section,
   onUpdate,
+  captionSinglePlaceholder,
+  captionGalleryPlaceholder,
+  uploadPhotoLabel,
+  uploadPhotosLabel,
+  addLabel,
 }: {
   section: Section
   onUpdate: (updates: Partial<Section>) => void
+  captionSinglePlaceholder?: string
+  captionGalleryPlaceholder?: string
+  uploadPhotoLabel?: string
+  uploadPhotosLabel?: string
+  addLabel?: string
 }) {
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -146,7 +162,7 @@ function SectionImages({
             type="text"
             value={section.caption}
             onChange={(e) => onUpdate({ caption: e.target.value })}
-            placeholder="Bijschrift voor deze foto..."
+            placeholder={captionSinglePlaceholder ?? "Bijschrift voor deze foto..."}
             className="w-full mt-3 bg-[var(--bg-secondary)] border border-gold/30 rounded-xl outline-none text-center text-sm italic text-[var(--text-muted)] py-2 px-4 focus:border-gold/60 focus:ring-1 focus:ring-gold/20 transition-all"
           />
         </div>
@@ -166,7 +182,7 @@ function SectionImages({
               <button type="button" onClick={() => fileRef.current?.click()}
                 className="aspect-square rounded-2xl border-2 border-dashed border-[var(--border-subtle)] flex flex-col items-center justify-center gap-1.5 text-[var(--text-muted)] hover:text-gold hover:border-gold/40 transition-colors">
                 <Camera className="w-6 h-6" />
-                <span className="text-[10px] font-medium">Toevoegen</span>
+                <span className="text-[10px] font-medium">{addLabel ?? 'Toevoegen'}</span>
               </button>
             )}
           </div>
@@ -174,7 +190,7 @@ function SectionImages({
             type="text"
             value={section.caption}
             onChange={(e) => onUpdate({ caption: e.target.value })}
-            placeholder="Bijschrift voor de foto's..."
+            placeholder={captionGalleryPlaceholder ?? "Bijschrift voor de foto's..."}
             className="w-full mt-3 bg-[var(--bg-secondary)] border border-gold/30 rounded-xl outline-none text-center text-sm italic text-[var(--text-muted)] py-2 px-4 focus:border-gold/60 focus:ring-1 focus:ring-gold/20 transition-all"
           />
         </div>
@@ -186,7 +202,7 @@ function SectionImages({
           className="w-full aspect-video rounded-3xl border-2 border-dashed border-[var(--border-subtle)] flex flex-col items-center justify-center gap-2 text-[var(--text-muted)] hover:text-gold hover:border-gold/40 transition-colors">
           <Camera className="w-8 h-8" />
           <span className="text-sm font-medium">
-            {section.imageLayout === 'single' ? 'Upload een foto' : 'Upload foto\'s (max. 4)'}
+            {section.imageLayout === 'single' ? (uploadPhotoLabel ?? 'Upload een foto') : (uploadPhotosLabel ?? 'Upload foto\'s (max. 4)')}
           </span>
         </button>
       )}
@@ -211,9 +227,11 @@ interface BlogSubmissionFormProps {
     legalConsent1?: string
     legalConsent2?: string
   }
+  dict?: Record<string, any>
 }
 
-export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
+export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
+  const d = dict?.blogSubmit
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -277,20 +295,20 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
     const errors: Record<string, string> = {}
 
     // Verification fields
-    if (!bookingNumber.trim()) errors.bookingNumber = 'Boekingsnummer is verplicht'
-    else if (!/^PS-\d{4}-[A-Z0-9]{4}$/.test(bookingNumber.trim())) errors.bookingNumber = 'Ongeldig formaat (bijv. PS-2024-AB12)'
-    if (!email.trim()) errors.email = 'E-mailadres is verplicht'
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errors.email = 'Ongeldig e-mailadres'
-    if (telefoon && !/^[+]?[\d\s\-().]{7,20}$/.test(telefoon)) errors.telefoon = 'Ongeldig telefoonnummer'
+    if (!bookingNumber.trim()) errors.bookingNumber = d?.validationBookingRequired ?? 'Boekingsnummer is verplicht'
+    else if (!/^PS-\d{4}-[A-Z0-9]{4}$/.test(bookingNumber.trim())) errors.bookingNumber = d?.validationBookingFormat ?? 'Ongeldig formaat (bijv. PS-2024-AB12)'
+    if (!email.trim()) errors.email = d?.validationEmailRequired ?? 'E-mailadres is verplicht'
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errors.email = d?.validationEmailInvalid ?? 'Ongeldig e-mailadres'
+    if (telefoon && !/^[+]?[\d\s\-().]{7,20}$/.test(telefoon)) errors.telefoon = d?.validationPhoneInvalid ?? 'Ongeldig telefoonnummer'
 
     // Blog content
-    if (!heroImage) errors.heroImage = 'Upload een omslagfoto'
-    if (!title.trim()) errors.title = 'Titel is verplicht'
-    if (!authorName.trim()) errors.authorName = 'Auteur naam is verplicht'
-    if (!authorBio.trim()) errors.authorBio = 'Een korte bio is verplicht'
-    if (!authorPhoto) errors.authorPhoto = 'Upload een profielfoto'
-    if (!intro.trim()) errors.intro = 'Introductie is verplicht'
-    if (gallery.length === 0) errors.gallery = 'Upload minimaal één foto voor de galerij'
+    if (!heroImage) errors.heroImage = d?.validationHeroImageRequired ?? 'Upload een omslagfoto'
+    if (!title.trim()) errors.title = d?.validationTitleRequired ?? 'Titel is verplicht'
+    if (!authorName.trim()) errors.authorName = d?.validationAuthorNameRequired ?? 'Auteur naam is verplicht'
+    if (!authorBio.trim()) errors.authorBio = d?.validationAuthorBioRequired ?? 'Een korte bio is verplicht'
+    if (!authorPhoto) errors.authorPhoto = d?.validationAuthorPhotoRequired ?? 'Upload een profielfoto'
+    if (!intro.trim()) errors.intro = d?.validationIntroRequired ?? 'Introductie is verplicht'
+    if (gallery.length === 0) errors.gallery = d?.validationGalleryRequired ?? 'Upload minimaal één foto voor de galerij'
 
     // Sections — at least 3 must be filled
     let filledCount = 0
@@ -301,7 +319,7 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
       if (s.imageLayout !== 'none' && s.images.length === 0) errors[`section_${i}_images`] = 'Upload minimaal één foto of kies "Geen"'
       if (s.title.trim() && s.body.trim()) filledCount++
     })
-    if (filledCount < 3) errors.sections = 'Je verhaal moet minimaal 3 volledige secties bevatten (titel + tekst)'
+    if (filledCount < 3) errors.sections = d?.validationSectionsRequired ?? 'Je verhaal moet minimaal 3 volledige secties bevatten (titel + tekst)'
 
     setFieldErrors(errors)
 
@@ -428,17 +446,17 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
         <p className="text-sm font-medium text-[var(--text-primary)] mb-4">{labels?.verificationLabel ?? 'Bevestig je boeking om verder te gaan'}</p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div data-field="bookingNumber">
-            <input value={bookingNumber} onChange={(e) => { setBookingNumber(e.target.value); clearFieldError('bookingNumber') }} type="text" placeholder="Boekingsnummer (bijv. PS-2024-XXXX)"
+            <input value={bookingNumber} onChange={(e) => { setBookingNumber(e.target.value); clearFieldError('bookingNumber') }} type="text" placeholder={d?.placeholderBookingNumber ?? "Boekingsnummer (bijv. PS-2024-XXXX)"}
               className={`w-full bg-[var(--bg-primary)] border rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/40 focus:outline-none focus:ring-2 focus:ring-gold/50 text-sm ${fieldErrors.bookingNumber ? 'border-red-400' : 'border-[var(--border-subtle)]'}`} />
             <FieldError message={fieldErrors.bookingNumber} />
           </div>
           <div data-field="email">
-            <input value={email} onChange={(e) => { setEmail(e.target.value); clearFieldError('email') }} type="email" placeholder="E-mailadres van je boeking"
+            <input value={email} onChange={(e) => { setEmail(e.target.value); clearFieldError('email') }} type="email" placeholder={d?.placeholderBookingEmail ?? "E-mailadres van je boeking"}
               className={`w-full bg-[var(--bg-primary)] border rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/40 focus:outline-none focus:ring-2 focus:ring-gold/50 text-sm ${fieldErrors.email ? 'border-red-400' : 'border-[var(--border-subtle)]'}`} />
             <FieldError message={fieldErrors.email} />
           </div>
           <div data-field="telefoon">
-            <input value={telefoon} onChange={(e) => { setTelefoon(e.target.value); clearFieldError('telefoon') }} type="tel" placeholder="Telefoonnummer (optioneel)"
+            <input value={telefoon} onChange={(e) => { setTelefoon(e.target.value); clearFieldError('telefoon') }} type="tel" placeholder={d?.placeholderPhone ?? "Telefoonnummer (optioneel)"}
               className={`w-full bg-[var(--bg-primary)] border rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/40 focus:outline-none focus:ring-2 focus:ring-gold/50 text-sm ${fieldErrors.telefoon ? 'border-red-400' : 'border-[var(--border-subtle)]'}`} />
             <FieldError message={fieldErrors.telefoon} />
           </div>
@@ -453,7 +471,7 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
 
           {/* Hero cover image */}
           <div className="relative mb-8 group" data-field="heroImage">
-            <EditBtn active={false} onClick={() => heroRef.current?.click()} />
+            <EditBtn active={false} onClick={() => heroRef.current?.click()} editDoneLabel={d?.editDone} editLabel={d?.editButton} />
             {heroImage ? (
               <div className="relative aspect-[2/1] overflow-hidden rounded-3xl border border-[var(--border-subtle)]">
                 <Image src={heroImage.preview} alt="Cover" fill className="object-cover" />
@@ -462,7 +480,7 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
               <button type="button" onClick={() => heroRef.current?.click()}
                 className={`w-full aspect-[2/1] rounded-3xl border-2 border-dashed flex flex-col items-center justify-center gap-2 text-[var(--text-muted)] hover:text-gold hover:border-gold/40 transition-colors ${fieldErrors.heroImage ? 'border-red-400' : 'border-[var(--border-subtle)]'}`}>
                 <Camera className="w-10 h-10" />
-                <span className="text-sm font-medium">Upload omslagfoto</span>
+                <span className="text-sm font-medium">{dict?.common?.uploadPhoto ?? 'Upload omslagfoto'}</span>
               </button>
             )}
             <FieldError message={fieldErrors.heroImage} />
@@ -470,9 +488,9 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
 
           {/* Title */}
           <div className="relative mb-4" data-field="title">
-            <EditBtn active={editing.title ?? false} onClick={() => toggle('title')} />
+            <EditBtn active={editing.title ?? false} onClick={() => toggle('title')} editDoneLabel={d?.editDone} editLabel={d?.editButton} />
             {editing.title ? (
-              <input type="text" value={title} onChange={(e) => { setTitle(e.target.value); clearFieldError('title') }} placeholder="Je verhaal titel..."
+              <input type="text" value={title} onChange={(e) => { setTitle(e.target.value); clearFieldError('title') }} placeholder={d?.placeholderTitle ?? "Je verhaal titel..."}
                 className="w-full bg-transparent border-b-2 border-gold/30 outline-none font-serif text-3xl sm:text-4xl font-bold text-[var(--text-primary)] pb-2 placeholder:text-[var(--text-muted)]/30 focus:border-gold/60 transition-colors" autoFocus />
             ) : (
               <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[var(--text-primary)]">{title || <span className="text-[var(--text-muted)]/30">Klik om een titel toe te voegen...</span>}</h1>
@@ -482,7 +500,7 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
 
           {/* Meta line */}
           <div className="relative mb-10" data-field="authorName">
-            <EditBtn active={editing.author ?? false} onClick={() => toggle('author')} />
+            <EditBtn active={editing.author ?? false} onClick={() => toggle('author')} editDoneLabel={d?.editDone} editLabel={d?.editButton} />
             <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--text-muted)]">
               <span className="flex items-center gap-1.5">
                 <Calendar className="h-4 w-4 text-gold" />
@@ -502,7 +520,7 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
 
           {/* Author intro card */}
           <div className={`relative mb-12 p-8 rounded-3xl border bg-[var(--bg-secondary)] flex flex-col sm:flex-row gap-6 items-start sm:items-center ${fieldErrors.authorPhoto || fieldErrors.authorName || fieldErrors.authorBio ? 'border-red-300 dark:border-red-500/30' : 'border-[var(--border-subtle)]'}`} data-field="authorPhoto">
-            <EditBtn active={editing.authorCard ?? false} onClick={() => toggle('authorCard')} />
+            <EditBtn active={editing.authorCard ?? false} onClick={() => toggle('authorCard')} editDoneLabel={d?.editDone} editLabel={d?.editButton} />
             <div className="flex flex-col items-center gap-1.5">
               <button type="button" onClick={() => authorRef.current?.click()}
                 className={`relative h-24 w-24 shrink-0 rounded-full overflow-hidden border-2 cursor-pointer group/avatar ${fieldErrors.authorPhoto ? 'border-red-400' : 'border-gold/20'}`}>
@@ -517,12 +535,12 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
               {editing.authorCard ? (
                 <>
                   <label className="text-xs font-medium text-[var(--text-muted)] mb-1.5 block uppercase tracking-wider">Naam</label>
-                  <input type="text" value={authorName} onChange={(e) => { setAuthorName(e.target.value); clearFieldError('authorName') }} autoFocus placeholder="Je volledige naam"
+                  <input type="text" value={authorName} onChange={(e) => { setAuthorName(e.target.value); clearFieldError('authorName') }} autoFocus placeholder={d?.placeholderAuthorName ?? "Je volledige naam"}
                     className={`w-full bg-transparent border-b-2 outline-none font-serif text-xl font-bold text-[var(--text-primary)] pb-1 mb-1 focus:border-gold/60 transition-colors ${fieldErrors.authorName ? 'border-red-400' : 'border-gold/30'}`} />
                   <FieldError message={fieldErrors.authorName} />
                   <div className="mb-3" />
                   <label className="text-xs font-medium text-[var(--text-muted)] mb-1.5 block uppercase tracking-wider">Korte bio</label>
-                  <textarea value={authorBio} onChange={(e) => { setAuthorBio(e.target.value); clearFieldError('authorBio') }} rows={3} placeholder="Vertel iets over jezelf en waarom je dit verhaal deelt..."
+                  <textarea value={authorBio} onChange={(e) => { setAuthorBio(e.target.value); clearFieldError('authorBio') }} rows={3} placeholder={d?.placeholderAuthorBio ?? "Vertel iets over jezelf en waarom je dit verhaal deelt..."}
                     className={`w-full bg-[var(--bg-primary)] border rounded-xl outline-none resize-none text-[var(--text-muted)] leading-relaxed italic p-3 text-sm focus:border-gold/60 focus:ring-1 focus:ring-gold/20 transition-all ${fieldErrors.authorBio ? 'border-red-400' : 'border-gold/30'}`} />
                   <FieldError message={fieldErrors.authorBio} />
                 </>
@@ -544,11 +562,11 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
 
           {/* ── Intro ── */}
           <div className="relative mb-6" data-field="intro">
-            <EditBtn active={editing.intro ?? false} onClick={() => toggle('intro')} />
+            <EditBtn active={editing.intro ?? false} onClick={() => toggle('intro')} editDoneLabel={d?.editDone} editLabel={d?.editButton} />
             {editing.intro ? (
               <textarea value={intro} onChange={(e) => { setIntro(e.target.value); clearFieldError('intro') }} rows={6} autoFocus
                 className="w-full bg-[var(--bg-secondary)] border border-gold/30 rounded-2xl outline-none resize-none text-[var(--text-muted)] leading-[1.9] p-5 text-base focus:border-gold/60 focus:ring-1 focus:ring-gold/20 transition-all"
-                placeholder="Begin je verhaal met een pakkende introductie..." />
+                placeholder={d?.placeholderIntro ?? "Begin je verhaal met een pakkende introductie..."} />
             ) : (
               <p className="text-[var(--text-muted)] leading-[1.9]">{intro || <span className="opacity-30">Klik om je introductie te schrijven...</span>}</p>
             )}
@@ -590,10 +608,10 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
 
                 {/* Title */}
                 <div className="relative mb-5">
-                  <EditBtn active={editing[titleKey] ?? false} onClick={() => toggle(titleKey)} />
+                  <EditBtn active={editing[titleKey] ?? false} onClick={() => toggle(titleKey)} editDoneLabel={d?.editDone} editLabel={d?.editButton} />
                   {editing[titleKey] ? (
                     <input type="text" value={section.title} onChange={(e) => { updateSection(idx, { title: e.target.value }); clearFieldError(`section_${idx}_title`) }} autoFocus
-                      placeholder="Sectie titel..."
+                      placeholder={d?.placeholderSectionTitle ?? "Sectie titel..."}
                       className={`w-full bg-transparent border-b-2 outline-none font-serif text-2xl font-bold text-[var(--text-primary)] pb-2 placeholder:text-[var(--text-muted)]/30 focus:border-gold/60 transition-colors ${hasTitleErr ? 'border-red-400' : 'border-gold/30'}`} />
                   ) : (
                     <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)]">
@@ -605,10 +623,10 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
 
                 {/* Body */}
                 <div className="relative mb-4">
-                  <EditBtn active={editing[bodyKey] ?? false} onClick={() => toggle(bodyKey)} />
+                  <EditBtn active={editing[bodyKey] ?? false} onClick={() => toggle(bodyKey)} editDoneLabel={d?.editDone} editLabel={d?.editButton} />
                   {editing[bodyKey] ? (
                     <textarea value={section.body} onChange={(e) => { updateSection(idx, { body: e.target.value }); clearFieldError(`section_${idx}_body`) }} rows={6} autoFocus
-                      placeholder="Schrijf hier je verhaal..."
+                      placeholder={d?.placeholderSectionBody ?? "Schrijf hier je verhaal..."}
                       className={`w-full bg-[var(--bg-secondary)] border rounded-2xl outline-none resize-none text-[var(--text-muted)] leading-[1.9] p-5 text-base focus:border-gold/60 focus:ring-1 focus:ring-gold/20 transition-all ${hasBodyErr ? 'border-red-400' : 'border-gold/30'}`} />
                   ) : (
                     <p className="text-[var(--text-muted)] leading-[1.9]">
@@ -622,6 +640,9 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
                 <ImageLayoutPicker
                   value={section.imageLayout}
                   onChange={(layout) => { updateSection(idx, { imageLayout: layout, images: layout === 'none' ? [] : section.images }); clearFieldError(`section_${idx}_images`) }}
+                  labelNone={d?.layoutNone}
+                  labelSingle={d?.layoutSingle}
+                  labelGrid={d?.layoutGrid}
                 />
                 <FieldError message={hasImgErr ? fieldErrors[`section_${idx}_images`] : undefined} />
 
@@ -629,6 +650,11 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
                 <SectionImages
                   section={section}
                   onUpdate={(updates) => updateSection(idx, updates)}
+                  captionSinglePlaceholder={d?.captionSingle}
+                  captionGalleryPlaceholder={d?.captionGallery}
+                  uploadPhotoLabel={dict?.common?.uploadPhoto}
+                  uploadPhotosLabel={dict?.common?.uploadPhotos}
+                  addLabel={dict?.common?.addPhoto}
                 />
               </div>
             )
@@ -647,7 +673,7 @@ export function BlogSubmissionForm({ labels }: BlogSubmissionFormProps) {
         <div className="lg:col-span-4 mt-8 lg:mt-0">
           <div className="sticky top-32 space-y-8">
             <div className={`relative p-6 sm:p-8 rounded-3xl border bg-[var(--bg-secondary)] shadow-sm ${fieldErrors.gallery ? 'border-red-300 dark:border-red-500/30' : 'border-[var(--border-subtle)]'}`} data-field="gallery">
-              <EditBtn active={false} onClick={() => galleryRef.current?.click()} />
+              <EditBtn active={false} onClick={() => galleryRef.current?.click()} editDoneLabel={d?.editDone} editLabel={d?.editButton} />
               <h3 className="font-semibold text-[var(--text-primary)] mb-2">{labels?.gallerySidebarHeading ?? 'Favoriete Momenten'}</h3>
               <p className="text-sm text-[var(--text-muted)] mb-5">
                 {labels?.gallerySidebarDescription ?? "Upload jouw favoriete reisfoto's."}
