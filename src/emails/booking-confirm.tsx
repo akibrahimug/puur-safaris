@@ -47,7 +47,7 @@ export function BookingConfirmEmail({
       </Text>
 
       <Section style={ctaContainer}>
-        <CtaButton href={`${siteUrl}/safari-reizen`}>
+        <CtaButton href={`${siteUrl}/safaris`}>
           Bekijk onze reizen
         </CtaButton>
       </Section>

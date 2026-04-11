@@ -10,6 +10,17 @@ export default defineType({
   ],
   fields: [
     defineField({
+      name: 'heroImage',
+      title: 'Hero Afbeelding',
+      type: 'image',
+      options: { hotspot: true },
+      group: 'hero',
+      fields: [
+        defineField({ name: 'alt', title: 'Alt tekst', type: 'string' }),
+      ],
+      description: 'Achtergrondafbeelding voor de hero sectie.',
+    }),
+    defineField({
       name: 'heroEyebrow',
       title: 'Hero Eyebrow',
       type: 'string',
@@ -22,17 +33,6 @@ export default defineType({
       type: 'string',
       group: 'hero',
       description: 'Bijv. "Eigen Reisschema".',
-    }),
-    defineField({
-      name: 'heroImage',
-      title: 'Hero Afbeelding',
-      type: 'image',
-      options: { hotspot: true },
-      group: 'hero',
-      fields: [
-        defineField({ name: 'alt', title: 'Alt tekst', type: 'string' }),
-      ],
-      description: 'Achtergrondafbeelding voor de hero sectie.',
     }),
     defineField({
       name: 'heroSubtitle',

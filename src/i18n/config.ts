@@ -10,9 +10,14 @@ export function hasLocale(value: unknown): value is Locale {
  * Returns a CMS value only when the document's language matches the requested locale.
  * When the CMS doc is a Dutch fallback on an English route, returns `undefined`
  * so the dictionary string is used instead.
+ *
+ * The docLang is stripped of stega encoding (zero-width chars) before comparison
+ * so visual editing in the Presentation Tool is not broken.
  */
 export function cmsText<T>(value: T | null | undefined, docLang: string | null | undefined, locale: string): T | undefined {
-  if (!docLang || docLang === locale) return value ?? undefined
+  // Strip zero-width stega characters from the language field before comparing
+  const cleanLang = docLang?.replace(/[\u200B-\u200F\u2028-\u202F\uFEFF\uFE00-\uFE0F]/g, '')
+  if (!cleanLang || cleanLang === locale) return value ?? undefined
   return undefined
 }
 

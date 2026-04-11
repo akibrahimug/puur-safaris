@@ -42,8 +42,9 @@ export default async function BlogIndexPage({ params }: Props) {
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
   const dict = await getDictionary(locale)
 
-  const [blogPosts, blogPage] = await Promise.all([getBlogPosts(lang), getBlogPage(lang)])
+  const [blogPosts, blogPage, settings] = await Promise.all([getBlogPosts(lang), getBlogPage(lang), getSiteSettings(lang)])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cms = <T,>(v: T | null | undefined) => cmsText(v, (blogPage as any)?.language, locale)
 
   const stories = blogPosts.filter(p => stegaClean(p.category) === 'stories')
@@ -138,7 +139,7 @@ export default async function BlogIndexPage({ params }: Props) {
                {/* Remaining Stories */}
                <div className="flex flex-col gap-8">
                  {otherStories.map(post => (
-                   <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: cms(blogPage?.readArticleLabel) ?? dict.cards.readArticle }} />
+                   <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: cms(blogPage?.readArticleLabel) ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
                  ))}
                </div>
              </div>
@@ -161,7 +162,7 @@ export default async function BlogIndexPage({ params }: Props) {
 
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                {wildlife.map(post => (
-                 <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: cms(blogPage?.readArticleLabel) ?? dict.cards.readArticle }} />
+                 <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: cms(blogPage?.readArticleLabel) ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
                ))}
              </div>
           </section>
@@ -198,7 +199,7 @@ export default async function BlogIndexPage({ params }: Props) {
                 {/* Guide Cards */}
                 <div className="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
                    {guides.map(post => (
-                     <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: cms(blogPage?.readArticleLabel) ?? dict.cards.readArticle }} />
+                     <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: cms(blogPage?.readArticleLabel) ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
                    ))}
                 </div>
              </div>

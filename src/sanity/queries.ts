@@ -84,10 +84,10 @@ export const siteSettingsQuery = groq`
 // ─── HOMEPAGE ─────────────────────────────────────────────────────────────────
 
 export const homepageQuery = groq`{
-  "featuredTrips": *[_type == "trip" && featured == true && active == true && language in [$language, "nl"]]
+  "featuredTrips": *[_type == "trip" && featured == true && active == true && language == $language]
     | order(_createdAt asc)[0...6] ${TRIP_CARD_PROJECTION},
 
-  "destinations": *[_type == "destination" && language in [$language, "nl"]] | order(displayOrder asc)[0...6] {
+  "destinations": *[_type == "destination" && language == $language] | order(displayOrder asc)[0...6] {
     _id,
     name,
     "slug": slug.current,
@@ -97,7 +97,7 @@ export const homepageQuery = groq`{
     heroImage ${IMAGE_PROJECTION}
   },
 
-  "testimonials": *[_type == "testimonial" && visible == true && language in [$language, "nl"]]
+  "testimonials": *[_type == "testimonial" && visible == true && language == $language]
     | order(_createdAt desc)[0...6] {
     _id,
     name,
@@ -121,7 +121,7 @@ export const homepageQuery = groq`{
 // ─── TRIP LISTING ─────────────────────────────────────────────────────────────
 
 export const tripListQuery = groq`
-  *[_type == "trip" && active == true && language in [$language, "nl"]]
+  *[_type == "trip" && active == true && language == $language]
   | order(featured desc, _createdAt asc)
   ${TRIP_CARD_PROJECTION}
 `
@@ -165,13 +165,13 @@ export const tripDetailQuery = groq`
 `
 
 export const tripSlugsQuery = groq`
-  *[_type == "trip" && active == true && language in [$language, "nl"]]{ "slug": slug.current }
+  *[_type == "trip" && active == true && language == $language]{ "slug": slug.current }
 `
 
 // ─── DESTINATION LISTING ──────────────────────────────────────────────────────
 
 export const destinationListQuery = groq`
-  *[_type == "destination" && language in [$language, "nl"]] | order(displayOrder asc) {
+  *[_type == "destination" && language == $language] | order(displayOrder asc) {
     _id,
     name,
     "slug": slug.current,
@@ -179,7 +179,7 @@ export const destinationListQuery = groq`
     continent,
     excerpt,
     heroImage ${IMAGE_PROJECTION},
-    "tripCount": count(*[_type == "trip" && active == true && language in [$language, "nl"] && references(^._id)])
+    "tripCount": count(*[_type == "trip" && active == true && language == $language && references(^._id)])
   }
 `
 
@@ -221,7 +221,7 @@ export const destinationDetailQuery = groq`
     },
     coordinates,
     mapZoom,
-    "relatedTrips": *[_type == "trip" && active == true && language in [$language, "nl"] && references(^._id)]
+    "relatedTrips": *[_type == "trip" && active == true && language == $language && references(^._id)]
       | order(featured desc)
       ${TRIP_CARD_PROJECTION},
     ${SEO_PROJECTION}
@@ -229,13 +229,13 @@ export const destinationDetailQuery = groq`
 `
 
 export const destinationSlugsQuery = groq`
-  *[_type == "destination" && language in [$language, "nl"]]{ "slug": slug.current }
+  *[_type == "destination" && language == $language]{ "slug": slug.current }
 `
 
 // ─── BLOG LISTING ─────────────────────────────────────────────────────────────
 
 export const blogListQuery = groq`
-  *[_type == "blogPost" && status == "published" && language in [$language, "nl"]] | order(publishedAt desc) {
+  *[_type == "blogPost" && status == "published" && language == $language] | order(publishedAt desc) {
     _id,
     title,
     "slug": slug.current,
@@ -280,7 +280,7 @@ export const blogPostDetailQuery = groq`
 `
 
 export const blogPostSlugsQuery = groq`
-  *[_type == "blogPost" && status == "published" && language in [$language, "nl"]]{ "slug": slug.current }
+  *[_type == "blogPost" && status == "published" && language == $language]{ "slug": slug.current }
 `
 
 // Preview query — no status filter, includes status + submitterEmail for admin preview
@@ -318,7 +318,7 @@ export const blogPostPreviewQuery = groq`
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 
 export const faqQuery = groq`
-  *[_type == "faqItem" && language in [$language, "nl"]] | order(category asc, order asc) {
+  *[_type == "faqItem" && language == $language] | order(category asc, order asc) {
     _id,
     question,
     answer,
@@ -329,7 +329,7 @@ export const faqQuery = groq`
 // ─── TESTIMONIALS ─────────────────────────────────────────────────────────────
 
 export const testimonialListQuery = groq`
-  *[_type == "testimonial" && visible == true && language in [$language, "nl"]] | order(_createdAt desc)[0...12] {
+  *[_type == "testimonial" && visible == true && language == $language] | order(_createdAt desc)[0...12] {
     _id,
     name,
     country,
@@ -355,6 +355,7 @@ export const homePageQuery = groq`
     heroCta1Link,
     heroCta2Text,
     heroCta2Link,
+    heroSocialProofAvatars[] { asset->{ _id, url }, alt },
     heroSocialProofText,
     trustItems[] { value, phrase },
     featuresEyebrow,
@@ -521,12 +522,26 @@ export const blogSubmissionPageQuery = groq`
   }
 `
 
+// ─── LEGAL PAGE ─────────────────────────────────────────────────────────────
+
+export const legalPageQuery = groq`
+  *[_type == "legalPage" && slug.current in $slugs && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
+    ${LANG_FIELD}
+    title,
+    "slug": slug.current,
+    heroImage ${IMAGE_PROJECTION},
+    body[] { ..., _type == "image" => { ..., asset->{ _id, url, metadata{ dimensions, lqip } } } },
+    ${SEO_PROJECTION}
+  }
+`
+
 // ─── BOOKING PAGE (SINGLETON) ────────────────────────────────────────────────
 
 export const bookingPageQuery = groq`
   *[_type == "bookingPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
     ${LANG_FIELD}
     heroEyebrow,
+    heroImage ${IMAGE_PROJECTION},
     heroSubtitle
   }
 `

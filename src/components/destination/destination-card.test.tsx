@@ -17,10 +17,10 @@ const baseDestination = {
 }
 
 describe('DestinationCard', () => {
-  it('links to /bestemmingen/{slug}', () => {
+  it('links to destination detail page', () => {
     render(<DestinationCard destination={baseDestination} />)
     const link = screen.getByRole('link')
-    expect(link).toHaveAttribute('href', '/bestemmingen/kenya')
+    expect(link).toHaveAttribute('href', '/nl/bestemmingen/kenya')
   })
 
   it('renders destination name', () => {

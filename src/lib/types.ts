@@ -283,6 +283,7 @@ export interface HomePage {
   heroCta1Link?: string
   heroCta2Text?: string
   heroCta2Link?: string
+  heroSocialProofAvatars?: { asset?: { _id?: string; url?: string }; alt?: string }[]
   heroSocialProofText?: string
   trustItems?: TrustItem[]
   featuresEyebrow?: string
@@ -445,5 +446,6 @@ export interface BlogSubmissionPage {
 
 export interface BookingPage {
   heroEyebrow?: string
+  heroImage?: SanityImage
   heroSubtitle?: string
 }

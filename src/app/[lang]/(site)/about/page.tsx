@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: dict.about.heroTitle,
       description: dict.about.heroSubtitle,
-      canonical: `/${lang}/over-ons`,
+      canonical: `/${lang}/about`,
       locale,
       alternates: { nl: '/nl/over-ons', en: '/en/about' },
     },
@@ -44,13 +44,14 @@ export default async function OverOnsPage({ params }: Props) {
   const dict = await getDictionary(locale)
 
   const [siteSettings, aboutPage] = await Promise.all([getSiteSettings(lang), getAboutPage(lang)])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cmsLabel = <T,>(v: T | null | undefined) => cmsText(v, (aboutPage as any)?.language ?? (siteSettings as any)?.language, locale)
 
   const baseUrl = getBaseUrl()
   const aboutSchema = {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
-    url: `${baseUrl}/${lang}/over-ons`,
+    url: `${baseUrl}/${lang}/about`,
     name: `${dict.about.heroTitle}`,
   }
 

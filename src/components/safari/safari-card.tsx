@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Clock, MapPin, TrendingUp, ArrowUpRight } from "lucide-react";
 import { HoverCard } from "@/components/motion/hover-card";
+import { localePath } from "@/i18n/routes";
+import type { Locale } from "@/i18n/config";
 import { formatPrice, categoryLabel, difficultyLabel } from "@/lib/utils";
 import type { TripCard } from "@/lib/types";
 
@@ -25,7 +27,7 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
   return (
     <HoverCard lift={5} className="h-full">
       <Link
-        href={`/${locale}/safari-reizen/${trip.slug}`}
+        href={localePath(locale as Locale, 'safariDetail', trip.slug)}
         className="flex flex-col h-full group"
       >
         <article

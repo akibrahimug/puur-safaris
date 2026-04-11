@@ -38,8 +38,8 @@ describe('Breadcrumbs', () => {
     expect(screen.getByText('Blog')).toBeDefined()
   })
 
-  it('renders breadcrumbs for /safari-reizen/my-trip with correct labels', () => {
-    mockUsePathname.mockReturnValue('/safari-reizen/my-trip')
+  it('renders breadcrumbs for /nl/safaris/my-trip with correct labels', () => {
+    mockUsePathname.mockReturnValue('/nl/safaris/my-trip')
     render(<Breadcrumbs />)
     expect(screen.getByText('Home')).toBeDefined()
     expect(screen.getByText('Safari Reizen')).toBeDefined()

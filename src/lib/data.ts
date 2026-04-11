@@ -4,7 +4,7 @@
  */
 
 import { sanityFetch } from '@/sanity/live'
-import { defaultLocale, type Locale } from '@/i18n/config'
+import { defaultLocale } from '@/i18n/config'
 import {
   siteSettingsQuery,
   tripListQuery,
@@ -29,6 +29,7 @@ import {
   eigenReisschemaPageQuery,
   blogSubmissionPageQuery,
   bookingPageQuery,
+  legalPageQuery,
 } from '@/sanity/queries'
 
 import type {
@@ -189,6 +190,13 @@ export async function getEigenReisschemaPage(language: string = defaultLocale): 
 
 export async function getBlogSubmissionPage(language: string = defaultLocale): Promise<BlogSubmissionPage | null> {
   const { data } = await sanityFetch({ query: blogSubmissionPageQuery, params: { language } })
+  return data ?? null
+}
+
+// ─── Legal Page ─────────────────────────────────────────────────────────────
+
+export async function getLegalPage(slugs: string[], language: string = defaultLocale) {
+  const { data } = await sanityFetch({ query: legalPageQuery, params: { slugs, language } })
   return data ?? null
 }
 

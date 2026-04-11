@@ -6,6 +6,13 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'heroImage',
+      title: 'Hero Afbeelding',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
+    }),
+    defineField({
       name: 'heroEyebrow',
       title: 'Hero Eyebrow',
       type: 'string',

@@ -30,6 +30,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
   const contentY = useTransform(scrollYProgress, [0, 0.6], ['0%', '-8%'])
 
   const heroImageUrl = homePage?.heroImage?.asset?.url
+  const heroLqip = homePage?.heroImage?.asset?.metadata?.lqip
   const heroImageAlt = homePage?.heroImage?.alt ?? d?.heroImageAlt ?? 'Safari in Africa'
 
   return (
@@ -42,8 +43,11 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
             alt={heroImageAlt}
             fill
             priority
+            fetchPriority="high"
             className="object-cover"
             sizes="100vw"
+            placeholder={heroLqip ? 'blur' : 'empty'}
+            blurDataURL={heroLqip}
           />
         )}
       </motion.div>
@@ -99,14 +103,14 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           className="mt-10 flex flex-wrap items-center gap-4"
         >
           <Link
-            href={stegaClean(homePage?.heroCta1Link) ?? '/safari-reizen'}
+            href={stegaClean(homePage?.heroCta1Link) ?? '/safaris'}
             className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-gold-dark hover:shadow-[0_0_40px_rgba(42,125,88,0.4)]"
           >
             {cms(homePage?.heroCta1Text) ?? d?.heroCta1 ?? 'Bekijk onze reizen'}
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
           <Link
-            href={stegaClean(homePage?.heroCta2Link) ?? '/eigen-reisschema'}
+            href={stegaClean(homePage?.heroCta2Link) ?? '/custom-itinerary'}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/35"
           >
             {cms(homePage?.heroCta2Text) ?? d?.heroCta2 ?? 'Eigen Reisschema'}
@@ -121,11 +125,14 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           className="mt-14 flex items-center gap-6"
         >
           <div className="flex -space-x-2">
-            {[1, 2, 3, 4].map((i) => (
+            {(homePage?.heroSocialProofAvatars?.length
+              ? homePage.heroSocialProofAvatars
+              : [{ asset: { url: 'https://i.pravatar.cc/32?img=11' } }, { asset: { url: 'https://i.pravatar.cc/32?img=12' } }, { asset: { url: 'https://i.pravatar.cc/32?img=13' } }, { asset: { url: 'https://i.pravatar.cc/32?img=14' } }]
+            ).map((avatar: { asset?: { url?: string }; alt?: string }, i: number) => (
               <div
                 key={i}
                 className="h-8 w-8 rounded-full border-2 border-white/20 bg-stone-700 ring-0"
-                style={{ backgroundImage: `url(https://i.pravatar.cc/32?img=${i + 10})`, backgroundSize: 'cover' }}
+                style={{ backgroundImage: `url(${avatar.asset?.url})`, backgroundSize: 'cover' }}
               />
             ))}
           </div>

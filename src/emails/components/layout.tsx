@@ -8,7 +8,6 @@ import {
   Section,
   Text,
   Hr,
-  Img,
   Font,
 } from '@react-email/components'
 import * as React from 'react'
@@ -104,7 +103,7 @@ export function EmailLayout({
                       Website
                     </Link>
                     {'  ·  '}
-                    <Link href={`${siteUrl}/safari-reizen`} style={footerLink}>
+                    <Link href={`${siteUrl}/safaris`} style={footerLink}>
                       Safari Reizen
                     </Link>
                     {'  ·  '}

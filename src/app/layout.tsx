@@ -1,10 +1,11 @@
 import { Sora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
-import { draftMode } from 'next/headers'
+import { headers, draftMode } from 'next/headers'
 import { VisualEditing } from 'next-sanity/visual-editing'
 import { SanityLive } from '@/sanity/live'
 import { ThemeProvider } from '@/providers/theme-provider'
 import { SuppressHydrationWarnings } from '@/components/shared/suppress-hydration-warnings'
+import { defaultLocale } from '@/i18n/config'
 import './globals.css'
 
 const sora = Sora({
@@ -15,8 +16,11 @@ const sora = Sora({
 })
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const hdrs = await headers()
+  const lang = hdrs.get('x-locale') ?? defaultLocale
+
   return (
-    <html className={`${sora.variable} h-full antialiased`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={lang} className={`${sora.variable} h-full antialiased`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         <ThemeProvider>
           {children}

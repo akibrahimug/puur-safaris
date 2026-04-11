@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: dict.destinations.heroTitle,
       description: dict.destinations.heroSubtitle,
-      canonical: `/${lang}/bestemmingen`,
+      canonical: `/${lang}/destinations`,
       locale,
       alternates: { nl: '/nl/bestemmingen', en: '/en/destinations' },
     },
@@ -32,8 +32,9 @@ export default async function BestemmingListPage({ params }: Props) {
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
   const dict = await getDictionary(locale)
 
-  const [destinations, destinationListingPage] = await Promise.all([getDestinations(lang), getDestinationListingPage(lang)])
+  const [destinations, destinationListingPage, settings] = await Promise.all([getDestinations(lang), getDestinationListingPage(lang), getSiteSettings(lang)])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cms = <T,>(v: T | null | undefined) => cmsText(v, (destinationListingPage as any)?.language, locale)
 
   const baseUrl = getBaseUrl()
@@ -46,7 +47,7 @@ export default async function BestemmingListPage({ params }: Props) {
       '@type': 'ListItem',
       position: i + 1,
       name: d.name,
-      url: `${baseUrl}/${lang}/bestemmingen/${d.slug}`,
+      url: `${baseUrl}/${lang}/destinations/${d.slug}`,
     })),
   }
 
@@ -66,9 +67,9 @@ export default async function BestemmingListPage({ params }: Props) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {destinations.map((d) => (
               <DestinationCard key={d._id} destination={d} locale={locale} labels={{
-                tripSingularLabel: dict.cards.tripSingular,
-                tripPluralLabel: dict.cards.tripPlural,
-                availableLabel: dict.cards.available,
+                tripSingularLabel: settings?.cardLabels?.tripSingularLabel ?? dict.cards.tripSingular,
+                tripPluralLabel: settings?.cardLabels?.tripPluralLabel ?? dict.cards.tripPlural,
+                availableLabel: settings?.cardLabels?.availableLabel ?? dict.cards.available,
               }} />
             ))}
           </div>

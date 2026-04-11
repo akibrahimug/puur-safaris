@@ -5,7 +5,7 @@ import { hasLocale, cmsText, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { localePath } from '@/i18n/routes'
 import { getSiteSettings, getBlogPostDetail, getBlogPostSlugs } from '@/lib/data'
-import { buildMetadata, autoSeo, getBaseUrl, breadcrumbJsonLd, blogArticleJsonLd } from '@/lib/seo'
+import { buildMetadata, autoSeo, breadcrumbJsonLd, blogArticleJsonLd } from '@/lib/seo'
 import { formatDate, blogCategoryLabel } from '@/lib/utils'
 import { PageHero } from '@/components/shared/page-hero'
 import { PortableTextRenderer } from '@/components/shared/portable-text-renderer'
@@ -54,6 +54,7 @@ export default async function BlogDetailPage({ params }: Props) {
 
   const [post, settings] = await Promise.all([getBlogPostDetail(slug, lang), getSiteSettings(lang)])
   const labels = settings?.blogDetailLabels
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cmsLabel = <T,>(v: T | null | undefined) => cmsText(v, (settings as any)?.language, locale)
 
   if (!post) notFound()

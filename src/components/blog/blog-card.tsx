@@ -2,6 +2,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Calendar, User, ArrowUpRight } from 'lucide-react'
 import { stegaClean } from '@sanity/client/stega'
+import { localePath } from '@/i18n/routes'
+import type { Locale } from '@/i18n/config'
 import { HoverCard } from '@/components/motion/hover-card'
 import { formatDate, blogCategoryLabel } from '@/lib/utils'
 import { BlogTags } from '@/components/blog/blog-tags'
@@ -19,7 +21,7 @@ export function BlogCard({ post, labels, locale = "nl" }: BlogCardProps) {
 
   return (
     <HoverCard lift={5} className="h-full">
-      <Link href={`/${locale}/blog/${clean.slug}`} className="flex flex-col h-full group">
+      <Link href={localePath(locale as Locale, 'blogDetail', clean.slug)} className="flex flex-col h-full group">
         <article
           className="flex flex-col h-full rounded-3xl overflow-hidden transition-all duration-500 ease-out border border-[var(--border-subtle)] shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_80px_-15px_rgba(0,0,0,0.15)] group-hover:-translate-y-1"
           style={{ background: 'var(--card-strip-bg)' }}

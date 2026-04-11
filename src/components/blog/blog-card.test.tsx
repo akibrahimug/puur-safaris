@@ -17,10 +17,16 @@ const basePost = {
 }
 
 describe('BlogCard', () => {
-  it('links to /blog/{slug}', () => {
+  it('links to /{locale}/blog/{slug}', () => {
     render(<BlogCard post={basePost} />)
     const link = screen.getByRole('link')
-    expect(link).toHaveAttribute('href', '/blog/test-post')
+    expect(link).toHaveAttribute('href', '/nl/blog/test-post')
+  })
+
+  it('uses English path when locale is en', () => {
+    render(<BlogCard post={basePost} locale="en" />)
+    const link = screen.getByRole('link')
+    expect(link).toHaveAttribute('href', '/en/blog/test-post')
   })
 
   it('renders title', () => {

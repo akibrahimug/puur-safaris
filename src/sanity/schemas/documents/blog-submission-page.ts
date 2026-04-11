@@ -13,6 +13,14 @@ export default defineType({
   fields: [
     // ─── HERO ──────────────────────────────────────────────────────
     defineField({
+      name: 'heroImage',
+      title: 'Hero Afbeelding',
+      type: 'image',
+      options: { hotspot: true },
+      group: 'hero',
+      fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
+    }),
+    defineField({
       name: 'heroTitle',
       title: 'Hero Titel',
       type: 'string',
@@ -25,14 +33,6 @@ export default defineType({
       type: 'text',
       rows: 2,
       group: 'hero',
-    }),
-    defineField({
-      name: 'heroImage',
-      title: 'Hero Afbeelding',
-      type: 'image',
-      options: { hotspot: true },
-      group: 'hero',
-      fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
     }),
 
     // ─── INSTRUCTIONS ──────────────────────────────────────────────

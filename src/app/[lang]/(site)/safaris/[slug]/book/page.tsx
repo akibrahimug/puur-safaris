@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: `${dict.booking.heroEyebrow}: ${trip.title}`,
       description: dict.booking.heroSubtitle,
-      canonical: `/${lang}/safari-reizen/${slug}/boeken`,
+      canonical: `/${lang}/safaris/${slug}/book`,
       locale,
     },
     settings,
@@ -36,6 +36,7 @@ export default async function BookingPage({ params }: Props) {
   const [trip, bookingPage, settings] = await Promise.all([getTripDetail(slug, lang), getBookingPage(lang), getSiteSettings(lang)])
   if (!trip) notFound()
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cmsLabel = <T,>(v: T | null | undefined) => cmsText(v, (settings as any)?.language, locale)
 
   return (
@@ -44,7 +45,7 @@ export default async function BookingPage({ params }: Props) {
         title={`${dict.booking.heroEyebrow}: ${trip.title}`}
         subtitle={cmsLabel(bookingPage?.heroSubtitle) ?? dict.booking.heroSubtitle}
         eyebrow={cmsLabel(bookingPage?.heroEyebrow) ?? dict.booking.heroEyebrow}
-        image={trip.heroImage}
+        image={bookingPage?.heroImage ?? trip.heroImage}
       />
       <section className="py-16 section-page">
         <div className="container mx-auto max-w-7xl px-6 lg:px-8">

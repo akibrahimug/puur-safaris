@@ -15,20 +15,6 @@ export default defineType({
   fields: [
     // ─── HERO ──────────────────────────────────────────────────────
     defineField({
-      name: 'heroTitle',
-      title: 'Hero Titel',
-      type: 'string',
-      group: 'hero',
-      description: 'Bijv. "Safari Verhalen & Gidsen".',
-    }),
-    defineField({
-      name: 'heroSubtitle',
-      title: 'Hero Ondertitel',
-      type: 'text',
-      rows: 2,
-      group: 'hero',
-    }),
-    defineField({
       name: 'heroImage',
       title: 'Hero Afbeelding',
       type: 'image',
@@ -42,6 +28,20 @@ export default defineType({
         }),
       ],
       description: 'Achtergrondafbeelding voor de hero sectie van de blog pagina.',
+    }),
+    defineField({
+      name: 'heroTitle',
+      title: 'Hero Titel',
+      type: 'string',
+      group: 'hero',
+      description: 'Bijv. "Safari Verhalen & Gidsen".',
+    }),
+    defineField({
+      name: 'heroSubtitle',
+      title: 'Hero Ondertitel',
+      type: 'text',
+      rows: 2,
+      group: 'hero',
     }),
 
     // ─── STORIES SECTION ───────────────────────────────────────────

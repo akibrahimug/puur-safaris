@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         { title: destination.name, subtitle: destination.excerpt, image: destination.heroImage },
         destination.seo,
       ),
-      canonical: `/${lang}/bestemmingen/${slug}`,
+      canonical: `/${lang}/destinations/${slug}`,
       locale,
       alternates: { nl: `/nl/bestemmingen/${slug}`, en: `/en/destinations/${slug}` },
     },
@@ -51,6 +51,7 @@ export default async function DestinationDetailPage({ params }: Props) {
 
   const [destination, settings] = await Promise.all([getDestinationDetail(slug, lang), getSiteSettings(lang)])
   const labels = settings?.destinationDetailLabels
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cmsLabel = <T,>(v: T | null | undefined) => cmsText(v, (settings as any)?.language, locale)
 
   if (!destination) notFound()
@@ -65,7 +66,7 @@ export default async function DestinationDetailPage({ params }: Props) {
   const breadcrumbSchema = breadcrumbJsonLd([
     { name: dict.common.home, path: `/${lang}` },
     { name: dict.nav.destinations, path: localePath(locale, 'destinations') },
-    { name: stegaClean(destination.name)!, path: `/${lang}/bestemmingen/${stegaClean(slug)}` },
+    { name: stegaClean(destination.name)!, path: `/${lang}/destinations/${stegaClean(slug)}` },
   ])
 
   const destinationSchema = {
@@ -73,7 +74,7 @@ export default async function DestinationDetailPage({ params }: Props) {
     '@type': 'TouristDestination',
     name: stegaClean(destination.name),
     description: stegaClean(destination.excerpt),
-    url: `${baseUrl}/${lang}/bestemmingen/${stegaClean(slug)}`,
+    url: `${baseUrl}/${lang}/destinations/${stegaClean(slug)}`,
     inLanguage: lang,
     ...(heroUrl && { image: stegaClean(heroUrl) }),
     ...(destination.coordinates && {
@@ -128,14 +129,44 @@ export default async function DestinationDetailPage({ params }: Props) {
         </div>
       </div>
 
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 space-y-12 lg:space-y-16">
 
-        {/* ── Description + Sidebar ─────────────────────────── */}
+        {/* ── Description + Gallery + Sidebar ────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           <div className="lg:col-span-2">
-            {destination.description && (
-              <PortableTextRenderer value={destination.description as unknown[]} />
-            )}
+            <div>
+              {destination.description && (
+                <PortableTextRenderer value={destination.description as unknown[]} />
+              )}
+               {gallery.length > 0 && (
+                <section>
+                  <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-6">{dict.destinations.galleryHeading}</h2>
+                  <div className="grid gap-3 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
+                    {gallery.map((img, i) => (
+                      <div
+                        key={i}
+                        className={`relative overflow-hidden rounded-2xl border border-[var(--border-subtle)] group ${
+                          i === 0 && gallery.length > 2 ? 'sm:col-span-2 sm:row-span-2 aspect-square' : 'aspect-[4/3]'
+                        }`}
+                      >
+                        <Image
+                          src={img.asset.url}
+                          alt={img.alt ?? destination.name}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                          sizes={i === 0 && gallery.length > 2 ? '50vw' : '25vw'}
+                        />
+                        {img.caption && (
+                          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                            <p className="text-xs text-white/90">{img.caption}</p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </div>
           </div>
 
           <aside className="space-y-4">
@@ -177,41 +208,6 @@ export default async function DestinationDetailPage({ params }: Props) {
             )}
           </aside>
         </div>
-
-        {/* ── Photo Gallery ─────────────────────────────────── */}
-        {gallery.length > 0 && (
-          <section>
-            <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-6">{dict.destinations.galleryHeading}</h2>
-            <div className={`grid gap-3 ${
-              gallery.length === 1 ? 'grid-cols-1' :
-              gallery.length === 2 ? 'grid-cols-1 sm:grid-cols-2' :
-              gallery.length <= 4 ? 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-4' :
-              'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'
-            }`}>
-              {gallery.map((img, i) => (
-                <div
-                  key={i}
-                  className={`relative overflow-hidden rounded-2xl border border-[var(--border-subtle)] group ${
-                    i === 0 && gallery.length > 2 ? 'sm:col-span-2 sm:row-span-2 aspect-square' : 'aspect-[4/3]'
-                  }`}
-                >
-                  <Image
-                    src={img.asset.url}
-                    alt={img.alt ?? destination.name}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes={i === 0 && gallery.length > 2 ? '50vw' : '25vw'}
-                  />
-                  {img.caption && (
-                    <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-3">
-                      <p className="text-xs text-white/90">{img.caption}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
 
         {/* ── Wildlife & Nature ─────────────────────────────── */}
         {(destination.wildlifeDescription || wildlife.length > 0) && (
@@ -336,11 +332,11 @@ export default async function DestinationDetailPage({ params }: Props) {
               className="mb-8"
             />
             <SafariGrid trips={relatedTrips} locale={locale} labels={{
-              featuredBadge: dict.cards.featuredBadge,
-              priceFromLabel: dict.cards.priceFrom,
-              pricePerGroup: dict.cards.pricePerGroup,
-              pricePerPerson: dict.cards.pricePerPerson,
-              viewLabel: dict.cards.viewLabel,
+              featuredBadge: settings?.cardLabels?.featuredBadge ?? dict.cards.featuredBadge,
+              priceFromLabel: settings?.cardLabels?.priceFromLabel ?? dict.cards.priceFrom,
+              pricePerGroup: settings?.cardLabels?.pricePerGroup ?? dict.cards.pricePerGroup,
+              pricePerPerson: settings?.cardLabels?.pricePerPerson ?? dict.cards.pricePerPerson,
+              viewLabel: settings?.cardLabels?.viewLabel ?? dict.cards.viewLabel,
             }} />
           </section>
         )}

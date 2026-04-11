@@ -15,6 +15,7 @@ import eigenReisschemaPage from './documents/eigen-reisschema-page'
 import blogSubmissionPage from './documents/blog-submission-page'
 import booking from './documents/booking'
 import bookingPage from './documents/booking-page'
+import legalPage from './documents/legal-page'
 import itineraryDay from './objects/itinerary-day'
 import galleryImage from './objects/gallery-image'
 import seoFields from './objects/seo-fields'
@@ -38,6 +39,7 @@ export const schemaTypes = [
   eigenReisschemaPage,
   blogSubmissionPage,
   bookingPage,
+  legalPage,
   // Objects
   itineraryDay,
   galleryImage,

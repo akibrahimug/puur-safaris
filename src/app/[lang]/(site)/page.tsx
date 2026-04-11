@@ -48,6 +48,7 @@ export default async function HomePage({ params }: Props) {
     getHomePage(lang),
   ])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cms = <T,>(v: T | null | undefined) => cmsText(v, (homePage as any)?.language, locale)
 
   const featuredTrips = allTrips.filter((t) => t.featured).slice(0, 3)
@@ -80,11 +81,11 @@ export default async function HomePage({ params }: Props) {
               </div>
             </FadeUp>
             <SafariGrid trips={featuredTrips} locale={locale} labels={{
-              featuredBadge: dict.cards.featuredBadge,
-              priceFromLabel: dict.cards.priceFrom,
-              pricePerGroup: dict.cards.pricePerGroup,
-              pricePerPerson: dict.cards.pricePerPerson,
-              viewLabel: dict.cards.viewLabel,
+              featuredBadge: settings?.cardLabels?.featuredBadge ?? dict.cards.featuredBadge,
+              priceFromLabel: settings?.cardLabels?.priceFromLabel ?? dict.cards.priceFrom,
+              pricePerGroup: settings?.cardLabels?.pricePerGroup ?? dict.cards.pricePerGroup,
+              pricePerPerson: settings?.cardLabels?.pricePerPerson ?? dict.cards.pricePerPerson,
+              viewLabel: settings?.cardLabels?.viewLabel ?? dict.cards.viewLabel,
             }} />
           </div>
         </section>
@@ -120,9 +121,9 @@ export default async function HomePage({ params }: Props) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {displayDestinations.map((d) => (
                 <DestinationCard key={d._id} destination={d} locale={locale} labels={{
-                  tripSingularLabel: dict.cards.tripSingular,
-                  tripPluralLabel: dict.cards.tripPlural,
-                  availableLabel: dict.cards.available,
+                  tripSingularLabel: settings?.cardLabels?.tripSingularLabel ?? dict.cards.tripSingular,
+                  tripPluralLabel: settings?.cardLabels?.tripPluralLabel ?? dict.cards.tripPlural,
+                  availableLabel: settings?.cardLabels?.availableLabel ?? dict.cards.available,
                 }} />
               ))}
             </div>

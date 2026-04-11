@@ -47,6 +47,7 @@ export default async function FaqPage({ params }: Props) {
 
   const [faqItems, trips, faqPage] = await Promise.all([getFaqItems(lang), getTrips(lang), getFaqPage(lang)])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cms = <T,>(v: T | null | undefined) => cmsText(v, (faqPage as any)?.language, locale)
 
   const grouped = faqItems.reduce<Record<string, FaqItem[]>>((acc, faq) => {
@@ -82,11 +83,12 @@ export default async function FaqPage({ params }: Props) {
       />
       <FaqClient
         groupedFaqs={grouped}
-        searchPlaceholder={cms(faqPage?.searchPlaceholder)}
-        categoriesHeading={cms(faqPage?.categoriesHeading)}
-        viewAllLabel={cms(faqPage?.viewAllLabel)}
-        noResultsText={cms(faqPage?.noResultsText)}
-        resetSearchLabel={cms(faqPage?.resetSearchLabel)}
+        searchPlaceholder={cms(faqPage?.searchPlaceholder) ?? dict.faq.searchPlaceholder}
+        categoriesHeading={cms(faqPage?.categoriesHeading) ?? dict.faq.categoriesHeading}
+        viewAllLabel={cms(faqPage?.viewAllLabel) ?? dict.faq.viewAll}
+        noResultsText={cms(faqPage?.noResultsText) ?? dict.faq.noResults}
+        resetSearchLabel={cms(faqPage?.resetSearchLabel) ?? dict.faq.resetSearch}
+        dict={dict}
       />
     </>
   )

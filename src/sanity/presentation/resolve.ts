@@ -14,8 +14,8 @@ export const resolve: PresentationPluginOptions['resolve'] = {
       select: { title: 'title', slug: 'slug.current', language: 'language' },
       resolve: (doc) => ({
         locations: [
-          { title: doc?.title || 'Safari Reis', href: `${prefix(doc)}/safari-reizen/${doc?.slug}` },
-          { title: 'Alle Safari Reizen', href: `${prefix(doc)}/safari-reizen` },
+          { title: doc?.title || 'Safari Reis', href: `${prefix(doc)}/safaris/${doc?.slug}` },
+          { title: 'Alle Safari Reizen', href: `${prefix(doc)}/safaris` },
         ],
       }),
     }),
@@ -23,8 +23,8 @@ export const resolve: PresentationPluginOptions['resolve'] = {
       select: { title: 'name', slug: 'slug.current', language: 'language' },
       resolve: (doc) => ({
         locations: [
-          { title: doc?.title || 'Bestemming', href: `${prefix(doc)}/bestemmingen/${doc?.slug}` },
-          { title: 'Alle Bestemmingen', href: `${prefix(doc)}/bestemmingen` },
+          { title: doc?.title || 'Bestemming', href: `${prefix(doc)}/destinations/${doc?.slug}` },
+          { title: 'Alle Bestemmingen', href: `${prefix(doc)}/destinations` },
         ],
       }),
     }),
@@ -46,7 +46,7 @@ export const resolve: PresentationPluginOptions['resolve'] = {
     aboutPage: defineLocations({
       select: { title: 'heroTitle', language: 'language' },
       resolve: (doc) => ({
-        locations: [{ title: 'Over Ons', href: `${prefix(doc)}/over-ons` }],
+        locations: [{ title: 'Over Ons', href: `${prefix(doc)}/about` }],
       }),
     }),
     blogPage: defineLocations({
@@ -64,13 +64,13 @@ export const resolve: PresentationPluginOptions['resolve'] = {
     safariListingPage: defineLocations({
       select: { title: 'heroTitle', language: 'language' },
       resolve: (doc) => ({
-        locations: [{ title: 'Safari Reizen', href: `${prefix(doc)}/safari-reizen` }],
+        locations: [{ title: 'Safari Reizen', href: `${prefix(doc)}/safaris` }],
       }),
     }),
     destinationListingPage: defineLocations({
       select: { title: 'heroTitle', language: 'language' },
       resolve: (doc) => ({
-        locations: [{ title: 'Bestemmingen', href: `${prefix(doc)}/bestemmingen` }],
+        locations: [{ title: 'Bestemmingen', href: `${prefix(doc)}/destinations` }],
       }),
     }),
     faqPage: defineLocations({
@@ -82,19 +82,19 @@ export const resolve: PresentationPluginOptions['resolve'] = {
     eigenReisschemaPage: defineLocations({
       select: { title: 'heroTitle', language: 'language' },
       resolve: (doc) => ({
-        locations: [{ title: 'Eigen Reisschema', href: `${prefix(doc)}/eigen-reisschema` }],
+        locations: [{ title: 'Eigen Reisschema', href: `${prefix(doc)}/custom-itinerary` }],
       }),
     }),
     blogSubmissionPage: defineLocations({
       select: { title: 'heroTitle', language: 'language' },
       resolve: (doc) => ({
-        locations: [{ title: 'Blog Inzenden', href: `${prefix(doc)}/blog/inzenden` }],
+        locations: [{ title: 'Blog Inzenden', href: `${prefix(doc)}/blog/submit` }],
       }),
     }),
     bookingPage: defineLocations({
       select: { title: 'heroTitle', language: 'language' },
       resolve: (doc) => ({
-        locations: [{ title: 'Boeken', href: `${prefix(doc)}/boeken` }],
+        locations: [{ title: 'Boeken', href: `${prefix(doc)}/book` }],
       }),
     }),
     siteSettings: defineLocations({

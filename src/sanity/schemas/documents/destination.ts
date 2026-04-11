@@ -31,6 +31,22 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'heroImage',
+      title: 'Hero Afbeelding',
+      type: 'image',
+      group: 'general',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt tekst',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'country',
       title: 'Land',
       type: 'string',
@@ -83,22 +99,6 @@ export default defineType({
           },
         },
       ],
-    }),
-    defineField({
-      name: 'heroImage',
-      title: 'Hero Afbeelding',
-      type: 'image',
-      group: 'general',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt tekst',
-          type: 'string',
-          validation: (Rule) => Rule.required(),
-        }),
-      ],
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'climate',

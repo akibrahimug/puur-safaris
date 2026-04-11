@@ -126,7 +126,7 @@ export function InstagramSidebarGallery({ authorName, authorImage, gallery, labe
 
       <div className="mt-6 pt-6 border-t border-[var(--border-subtle)] text-center relative z-0">
         <Link 
-          href="/safari-reizen" 
+          href="/safaris"
           className="inline-block w-full rounded-full border border-[var(--border-subtle)] text-[var(--text-primary)] px-4 py-3 sm:py-2 text-sm font-medium hover:bg-[var(--bg-primary)] hover:border-gold/40 transition-colors"
         >
           {labels?.ctaLabel ?? 'Ontdek Al Onze Reizen'}

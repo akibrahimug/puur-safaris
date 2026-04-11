@@ -103,6 +103,7 @@ export default defineConfig({
                 ),
             ),
             S.divider(),
+            S.documentTypeListItem("legalPage").title("Juridische Pagina's"),
             S.listItem()
               .title("Site Instellingen")
               .id("siteSettings")
@@ -146,6 +147,7 @@ export default defineConfig({
         "eigenReisschemaPage",
         "blogSubmissionPage",
         "bookingPage",
+        "legalPage",
       ],
     }),
   ],
