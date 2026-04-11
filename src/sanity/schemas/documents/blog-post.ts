@@ -48,6 +48,21 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'featuredImage',
+      title: 'Uitgelichte Afbeelding',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt tekst',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'author',
       title: 'Auteur',
       type: 'string',
@@ -73,21 +88,6 @@ export default defineType({
           { value: 'news', title: 'Nieuws' },
         ],
       },
-    }),
-    defineField({
-      name: 'featuredImage',
-      title: 'Uitgelichte Afbeelding',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt tekst',
-          type: 'string',
-          validation: (Rule) => Rule.required(),
-        }),
-      ],
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'summary',

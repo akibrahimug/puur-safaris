@@ -7,6 +7,7 @@ import type { DestinationCard } from '@/lib/types'
 
 interface TripBuilderProps {
   destinations: DestinationCard[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dict?: Record<string, any>
 }
 
@@ -17,11 +18,13 @@ const PHONE_RE = /^[+]?[\d\s\-().]{7,20}$/
 
 type FieldErrors = Record<string, string>
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function validateStep1(selectedDests: string[], d?: Record<string, any>): FieldErrors {
   if (selectedDests.length === 0) return { destinations: d?.validationDestinationsRequired ?? 'Selecteer minstens één bestemming' }
   return {}
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function validateStep2(period: string, groupSize: string, accommodation: string, d?: Record<string, any>): FieldErrors {
   const errs: FieldErrors = {}
   if (!period) errs.period = d?.validationPeriodRequired ?? 'Kies een reisperiode'
@@ -30,6 +33,7 @@ function validateStep2(period: string, groupSize: string, accommodation: string,
   return errs
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function validateStep3(naam: string, email: string, telefoon: string, d?: Record<string, any>): FieldErrors {
   const errs: FieldErrors = {}
   if (naam.trim().length < 2) errs.naam = d?.validationNameRequired ?? 'Vul uw naam in (minimaal 2 tekens)'
@@ -316,7 +320,7 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
                   <Check className="h-3.5 w-3.5 text-white" />
                 </div>
               )}
-              <span className="absolute bottom-2.5 left-3 text-sm font-bold text-white">{dest.name}</span>
+              <span className="absolute bottom-2.5 left-0 right-0 text-center text-sm font-bold text-white drop-shadow-md">{dest.name}</span>
             </button>
           )
         })}

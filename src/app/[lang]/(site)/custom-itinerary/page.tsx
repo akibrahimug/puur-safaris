@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: dict.customItinerary.heroTitle,
       description: dict.customItinerary.heroSubtitle,
-      canonical: `/${lang}/eigen-reisschema`,
+      canonical: `/${lang}/custom-itinerary`,
       locale,
       alternates: { nl: '/nl/eigen-reisschema', en: '/en/custom-itinerary' },
     },
@@ -34,6 +34,7 @@ export default async function EigenReisschemaPage({ params }: Props) {
 
   const [destinations, trips, eigenReisschemaPage] = await Promise.all([getDestinations(lang), getTrips(lang), getEigenReisschemaPage(lang)])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cms = <T,>(v: T | null | undefined) => cmsText(v, (eigenReisschemaPage as any)?.language, locale)
 
   return (

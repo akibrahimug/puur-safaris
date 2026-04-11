@@ -114,6 +114,13 @@ html[data-scroll-behavior="smooth"] {
   scroll-behavior: smooth;
 }
 
+button,
+a[role="button"],
+[class*="rounded-full"][class*="px-"],
+[class*="btn"] {
+  white-space: nowrap;
+}
+
 body {
   background: var(--bg-primary);
   color: var(--text-primary);

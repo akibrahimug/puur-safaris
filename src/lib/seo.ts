@@ -191,7 +191,7 @@ export function websiteJsonLd(settings?: SiteSettings | null, locale: Locale = d
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${baseUrl}/${locale}/safari-reizen?q={search_term_string}`,
+        urlTemplate: `${baseUrl}/${locale}/safaris?q={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },

@@ -15,6 +15,14 @@ export default defineType({
   fields: [
     // ─── HERO ──────────────────────────────────────────────────────
     defineField({
+      name: 'heroImage',
+      title: 'Hero Afbeelding',
+      type: 'image',
+      options: { hotspot: true },
+      group: 'hero',
+      fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
+    }),
+    defineField({
       name: 'heroEyebrow',
       title: 'Hero Eyebrow',
       type: 'string',
@@ -43,14 +51,6 @@ export default defineType({
       group: 'hero',
     }),
     defineField({
-      name: 'heroImage',
-      title: 'Hero Afbeelding',
-      type: 'image',
-      options: { hotspot: true },
-      group: 'hero',
-      fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
-    }),
-    defineField({
       name: 'heroCta1Text',
       title: 'CTA 1 Tekst',
       type: 'string',
@@ -75,6 +75,21 @@ export default defineType({
       title: 'CTA 2 Link',
       type: 'string',
       group: 'hero',
+    }),
+    defineField({
+      name: 'heroSocialProofAvatars',
+      title: 'Social Proof Avatars',
+      type: 'array',
+      group: 'hero',
+      description: 'Profielfoto\'s van reizigers (max. 4). Worden als kleine ronde foto\'s naast de social proof tekst getoond.',
+      validation: (Rule) => Rule.max(4),
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
+        },
+      ],
     }),
     defineField({
       name: 'heroSocialProofText',

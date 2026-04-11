@@ -6,7 +6,6 @@ import {
   Map, Compass, Sun, Camera,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { cmsText } from '@/i18n/config'
 import { SectionHeading } from '@/components/shared/section-heading'
 import type { FeatureCard } from '@/lib/types'
 

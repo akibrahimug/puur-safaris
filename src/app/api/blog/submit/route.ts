@@ -153,7 +153,8 @@ export async function POST(req: NextRequest) {
 
     // Upload author photo
     const authorPhotoFile = formData.get('authorPhoto') as File | null
-    const authorPhotoRef = authorPhotoFile ? await uploadImage(authorPhotoFile) : null
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _authorPhotoRef = authorPhotoFile ? await uploadImage(authorPhotoFile) : null
 
     // Upload section images: section_0_image_0, section_0_image_1, etc.
     const sectionImageRefs: (string[] | null)[] = []

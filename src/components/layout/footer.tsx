@@ -1,7 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { stegaClean } from "@sanity/client/stega";
 import { cmsText } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/routes";
 import type { SiteSettings } from "@/lib/types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,25 +17,25 @@ interface FooterProps {
 }
 
 function defaultColumn1Links(locale: string, dict?: Dict) {
-  const prefix = `/${locale}`
+  const loc = locale as Locale
   const f = dict?.footer
   return [
-    { href: `${prefix}/safari-reizen`, label: f?.allSafaris ?? "Alle safari reizen" },
-    { href: `${prefix}/safari-reizen?category=wildlife`, label: f?.wildlifeSafaris ?? "Wildlife Safaris" },
-    { href: `${prefix}/safari-reizen?category=hiking`, label: f?.hikingTrekking ?? "Berg & Trekking" },
-    { href: `${prefix}/safari-reizen?category=culture`, label: f?.cultureCommunity ?? "Cultuur & Gemeenschap" },
-    { href: `${prefix}/bestemmingen`, label: f?.destinations ?? "Bestemmingen" },
+    { href: localePath(loc, 'safaris'), label: f?.allSafaris ?? "Alle safari reizen" },
+    { href: `${localePath(loc, 'safaris')}?category=wildlife`, label: f?.wildlifeSafaris ?? "Wildlife Safaris" },
+    { href: `${localePath(loc, 'safaris')}?category=hiking`, label: f?.hikingTrekking ?? "Berg & Trekking" },
+    { href: `${localePath(loc, 'safaris')}?category=culture`, label: f?.cultureCommunity ?? "Cultuur & Gemeenschap" },
+    { href: localePath(loc, 'destinations'), label: f?.destinations ?? "Bestemmingen" },
   ]
 }
 
 function defaultColumn2Links(locale: string, dict?: Dict) {
-  const prefix = `/${locale}`
+  const loc = locale as Locale
   const f = dict?.footer
   return [
-    { href: `${prefix}/over-ons`, label: f?.aboutUs ?? "Over Puur Safaris" },
-    { href: `${prefix}/blog`, label: f?.travelBlog ?? "Reisblog" },
-    { href: `${prefix}/faq`, label: f?.faqLink ?? "Veelgestelde vragen" },
-    { href: `${prefix}/contact`, label: f?.contactLink ?? "Contact" },
+    { href: localePath(loc, 'about'), label: f?.aboutUs ?? "Over Puur Safaris" },
+    { href: localePath(loc, 'blog'), label: f?.travelBlog ?? "Reisblog" },
+    { href: localePath(loc, 'faq'), label: f?.faqLink ?? "Veelgestelde vragen" },
+    { href: localePath(loc, 'contact'), label: f?.contactLink ?? "Contact" },
   ]
 }
 
@@ -157,7 +160,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
               {cms(settings?.footerColumn1Heading) ?? f?.col1Heading ?? 'Safari Reizen'}
             </h3>
             <ul className="space-y-3 text-sm">
-              {(cms(settings?.footerColumn1Links) ?? defaultColumn1Links(locale, dict)).map(({ href, label }) => (
+              {(cms(settings?.footerColumn1Links)?.map((l: {href: string; label: string}) => ({ ...l, href: `/${locale}${stegaClean(l.href)}` })) ?? defaultColumn1Links(locale, dict)).map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
@@ -176,7 +179,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
               {cms(settings?.footerColumn2Heading) ?? f?.col2Heading ?? 'Over Ons'}
             </h3>
             <ul className="space-y-3 text-sm">
-              {(cms(settings?.footerColumn2Links) ?? defaultColumn2Links(locale, dict)).map(({ href, label }) => (
+              {(cms(settings?.footerColumn2Links)?.map((l: {href: string; label: string}) => ({ ...l, href: `/${locale}${stegaClean(l.href)}` })) ?? defaultColumn2Links(locale, dict)).map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
@@ -197,7 +200,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
             <ul className="space-y-3.5 text-sm">
               <li>
                 <a
-                  href={`tel:${settings?.phone ?? "+256787222728"}`}
+                  href={`tel:${stegaClean(settings?.phone) ?? "+256787222728"}`}
                   className="flex items-center gap-2.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
                 >
                   <Phone className="h-3.5 w-3.5 text-gold/60 shrink-0" />
@@ -206,7 +209,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={`mailto:${settings?.contactEmail ?? "info@puursafaris.nl"}`}
+                  href={`mailto:${stegaClean(settings?.contactEmail) ?? "info@puursafaris.nl"}`}
                   className="flex items-center gap-2.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors break-all"
                 >
                   <Mail className="h-3.5 w-3.5 text-gold/60 shrink-0" />
@@ -225,7 +228,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={`https://wa.me/${(settings?.socialMedia?.whatsapp ?? "+256787222728").replace(/\D/g, "")}`}
+                  href={`https://wa.me/${(stegaClean(settings?.socialMedia?.whatsapp) ?? "+256787222728").replace(/\D/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
@@ -241,19 +244,19 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
         {/* Bottom bar */}
         <div className="mt-14 pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-subtle)]">
           <p>
-            &copy; 2025 {settings?.siteName ?? "Puur Safaris"}. {cms(settings?.copyrightText) ?? f?.copyright ?? 'Alle rechten voorbehouden.'}
+            &copy; {new Date().getFullYear()} {settings?.siteName ?? "Puur Safaris"}. {cms(settings?.copyrightText) ?? f?.copyright ?? 'Alle rechten voorbehouden.'}
             {settings?.chamberOfCommerceNumber &&
               ` · KvK: ${settings.chamberOfCommerceNumber}`}
           </p>
           <div className="flex gap-6">
             <Link
-              href={settings?.privacyLink ?? "/privacybeleid"}
+              href={cms(settings?.privacyLink) ? `/${locale}${stegaClean(settings?.privacyLink)}` : localePath(locale as Locale, 'privacy')}
               className="hover:text-[var(--text-muted)] transition-colors"
             >
               {cms(settings?.privacyLabel) ?? f?.privacyLabel ?? 'Privacybeleid'}
             </Link>
             <Link
-              href={settings?.termsLink ?? "/algemene-voorwaarden"}
+              href={cms(settings?.termsLink) ? `/${locale}${stegaClean(settings?.termsLink)}` : localePath(locale as Locale, 'terms')}
               className="hover:text-[var(--text-muted)] transition-colors"
             >
               {cms(settings?.termsLabel) ?? f?.termsLabel ?? 'Algemene Voorwaarden'}

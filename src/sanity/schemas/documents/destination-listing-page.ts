@@ -10,13 +10,6 @@ export default defineType({
   ],
   fields: [
     defineField({
-      name: 'heroTitle',
-      title: 'Hero Titel',
-      type: 'string',
-      group: 'hero',
-      description: 'Bijv. "Bestemmingen".',
-    }),
-    defineField({
       name: 'heroImage',
       title: 'Hero Afbeelding',
       type: 'image',
@@ -26,6 +19,13 @@ export default defineType({
         defineField({ name: 'alt', title: 'Alt tekst', type: 'string' }),
       ],
       description: 'Achtergrondafbeelding voor de hero sectie.',
+    }),
+    defineField({
+      name: 'heroTitle',
+      title: 'Hero Titel',
+      type: 'string',
+      group: 'hero',
+      description: 'Bijv. "Bestemmingen".',
     }),
     defineField({
       name: 'heroSubtitle',

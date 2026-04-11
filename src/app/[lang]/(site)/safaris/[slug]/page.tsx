@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title: trip.title,
         description: trip.excerpt,
         image: trip.heroImage,
-        canonical: `/${lang}/safari-reizen/${slug}`,
+        canonical: `/${lang}/safaris/${slug}`,
         locale,
         alternates: { nl: `/nl/safari-reizen/${slug}`, en: `/en/safaris/${slug}` },
       },
@@ -56,6 +56,7 @@ export default async function SafariDetailPage({ params }: Props) {
 
   const [trip, settings] = await Promise.all([getTripDetail(slug, lang), getSiteSettings(lang)])
   const labels = settings?.safariDetailLabels
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cmsLabel = <T,>(v: T | null | undefined) => cmsText(v, (settings as any)?.language, locale)
 
   if (!trip) notFound()
@@ -65,8 +66,8 @@ export default async function SafariDetailPage({ params }: Props) {
 
   const breadcrumbSchema = breadcrumbJsonLd([
     { name: dict.common.home, path: `/${lang}` },
-    { name: dict.safari.heroTitle, path: `/${lang}/safari-reizen` },
-    { name: stegaClean(trip.title)!, path: `/${lang}/safari-reizen/${stegaClean(slug)}` },
+    { name: dict.safari.heroTitle, path: `/${lang}/safaris` },
+    { name: stegaClean(trip.title)!, path: `/${lang}/safaris/${stegaClean(slug)}` },
   ])
 
   const tourSchema = {
@@ -74,7 +75,7 @@ export default async function SafariDetailPage({ params }: Props) {
     '@type': 'TouristTrip',
     name: stegaClean(trip.title),
     description: stegaClean(trip.excerpt),
-    url: `${baseUrl}/${lang}/safari-reizen/${stegaClean(slug)}`,
+    url: `${baseUrl}/${lang}/safaris/${stegaClean(slug)}`,
     ...(heroUrl && { image: stegaClean(heroUrl) }),
     ...(trip.destination && {
       touristType: trip.category ? categoryLabel(stegaClean(trip.category)!) : undefined,
@@ -277,7 +278,7 @@ export default async function SafariDetailPage({ params }: Props) {
               </div>
 
               <Button asChild size="lg" className="w-full mb-3">
-                <Link href={`/${lang}/safari-reizen/${slug}/boeken`}>{cmsLabel(labels?.bookTripCtaLabel) ?? dict.safari.bookCta}</Link>
+                <Link href={`/${lang}/safaris/${slug}/book`}>{cmsLabel(labels?.bookTripCtaLabel) ?? dict.safari.bookCta}</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="w-full">
                 <Link href={localePath(locale, 'customItinerary')}>{cmsLabel(labels?.eigenReisschemaCtaLabel) ?? dict.safari.customScheduleCta}</Link>

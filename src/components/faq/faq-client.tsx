@@ -7,6 +7,9 @@ import { PortableTextRenderer } from '@/components/shared/portable-text-renderer
 import { faqCategoryLabel } from '@/lib/utils'
 import type { FaqItem } from '@/lib/types'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Dict = Record<string, any>
+
 interface FaqClientProps {
   groupedFaqs: Record<string, FaqItem[]>
   searchPlaceholder?: string
@@ -14,9 +17,11 @@ interface FaqClientProps {
   viewAllLabel?: string
   noResultsText?: string
   resetSearchLabel?: string
+  dict?: Dict
 }
 
-export function FaqClient({ groupedFaqs, searchPlaceholder, categoriesHeading, viewAllLabel, noResultsText, resetSearchLabel }: FaqClientProps) {
+export function FaqClient({ groupedFaqs, searchPlaceholder, categoriesHeading, viewAllLabel, noResultsText, resetSearchLabel, dict }: FaqClientProps) {
+  const cats = dict?.categories
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const [openIds, setOpenIds] = useState<Set<string>>(new Set())
@@ -81,7 +86,7 @@ export function FaqClient({ groupedFaqs, searchPlaceholder, categoriesHeading, v
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
           {/* Sidebar Menu */}
-          <div className="lg:col-span-3 sticky top-32">
+          <div className="lg:col-span-3 lg:sticky lg:top-32">
             <h3 className="font-serif text-xl font-bold text-[var(--text-primary)] mb-6">{categoriesHeading ?? 'Categorieën'}</h3>
             <ul className="space-y-2">
               <li>
@@ -98,8 +103,8 @@ export function FaqClient({ groupedFaqs, searchPlaceholder, categoriesHeading, v
                     onClick={() => setActiveCategory(cat)}
                     className={`w-full text-left px-5 py-3 rounded-2xl transition-all duration-300 font-medium ${activeCategory === cat ? 'bg-gold text-white shadow-md' : 'text-[var(--text-muted)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]'}`}
                   >
-                    {faqCategoryLabel(cat)}
-                    <span className="float-right bg-[var(--bg-primary)] px-2 py-0.5 rounded-full text-xs opacity-70">
+                    {faqCategoryLabel(cat, cats)}
+                    <span className={`float-right px-2 py-0.5 rounded-full text-xs ${activeCategory === cat ? 'bg-white/20 text-white' : 'bg-[var(--bg-primary)] opacity-70'}`}>
                       {groupedFaqs[cat].length}
                     </span>
                   </button>

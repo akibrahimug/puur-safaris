@@ -15,6 +15,7 @@ interface PageHeroProps {
 
 export function PageHero({ title, subtitle, image, eyebrow, className, children }: PageHeroProps) {
   const imageUrl = image?.asset?.url || null
+  const lqip = image?.asset?.metadata?.lqip
 
   return (
     <section className={cn('relative flex min-h-[46vh] items-end overflow-hidden bg-ink', className)}>
@@ -25,8 +26,11 @@ export function PageHero({ title, subtitle, image, eyebrow, className, children 
           alt={image?.alt ?? title}
           fill
           priority
+          fetchPriority="high"
           className="object-cover opacity-50"
           sizes="100vw"
+          placeholder={lqip ? 'blur' : 'empty'}
+          blurDataURL={lqip}
         />
       ) : (
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #030d07 0%, #0f0f0d 50%, #0a1a0d 100%)' }} />

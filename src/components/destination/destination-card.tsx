@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { MapPin, ArrowUpRight } from 'lucide-react'
+import { localePath } from '@/i18n/routes'
+import type { Locale } from '@/i18n/config'
 import { HoverCard } from '@/components/motion/hover-card'
 import type { DestinationCard as DestinationCardType } from '@/lib/types'
 
@@ -22,7 +24,7 @@ export function DestinationCard({ destination, labels, locale = "nl" }: Destinat
   return (
     <HoverCard>
       <Link
-        href={`/${locale}/bestemmingen/${destination.slug}`}
+        href={localePath(locale as Locale, 'destinationDetail', destination.slug)}
         className="group relative block overflow-hidden rounded-3xl bg-stone-900 aspect-4/3 transition-all duration-500 ease-out border border-[var(--border-subtle)] shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_80px_-15px_rgba(0,0,0,0.2)] hover:-translate-y-1"
       >
         {imageUrl && (

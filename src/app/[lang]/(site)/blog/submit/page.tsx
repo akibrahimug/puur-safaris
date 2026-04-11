@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: page?.seo?.title ?? dict.blogSubmit.heroTitle,
       description: page?.seo?.description ?? dict.blogSubmit.heroSubtitle,
-      canonical: `/${lang}/blog/inzenden`,
+      canonical: `/${lang}/blog/submit`,
       locale,
       alternates: { nl: '/nl/blog/inzenden', en: '/en/blog/submit' },
     },
@@ -33,6 +33,7 @@ export default async function BlogSubmissionRoute({ params }: Props) {
   const dict = await getDictionary(locale)
 
   const page = await getBlogSubmissionPage(lang)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cms = <T,>(v: T | null | undefined) => cmsText(v, (page as any)?.language, locale)
 
   return (

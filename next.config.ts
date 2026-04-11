@@ -21,15 +21,17 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
-      // English URL aliases → same page files as Dutch
-      { source: '/en/safaris', destination: '/en/safari-reizen' },
-      { source: '/en/safaris/:slug', destination: '/en/safari-reizen/:slug' },
-      { source: '/en/safaris/:slug/book', destination: '/en/safari-reizen/:slug/boeken' },
-      { source: '/en/destinations', destination: '/en/bestemmingen' },
-      { source: '/en/destinations/:slug', destination: '/en/bestemmingen/:slug' },
-      { source: '/en/about', destination: '/en/over-ons' },
-      { source: '/en/custom-itinerary', destination: '/en/eigen-reisschema' },
-      { source: '/en/blog/submit', destination: '/en/blog/inzenden' },
+      // Dutch URL aliases → English page files
+      { source: '/nl/safari-reizen', destination: '/nl/safaris' },
+      { source: '/nl/safari-reizen/:slug', destination: '/nl/safaris/:slug' },
+      { source: '/nl/safari-reizen/:slug/boeken', destination: '/nl/safaris/:slug/book' },
+      { source: '/nl/bestemmingen', destination: '/nl/destinations' },
+      { source: '/nl/bestemmingen/:slug', destination: '/nl/destinations/:slug' },
+      { source: '/nl/over-ons', destination: '/nl/about' },
+      { source: '/nl/eigen-reisschema', destination: '/nl/custom-itinerary' },
+      { source: '/nl/blog/inzenden', destination: '/nl/blog/submit' },
+      { source: '/nl/privacybeleid', destination: '/nl/privacy' },
+      { source: '/nl/algemene-voorwaarden', destination: '/nl/terms' },
     ]
   },
   async headers() {

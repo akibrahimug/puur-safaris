@@ -8,6 +8,7 @@ import { CheckCircle2, AlertCircle, Send, ChevronDown } from 'lucide-react'
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createSchema(f?: Record<string, any>) {
   return z.object({
     naam: z.string().min(2, f?.validationNameRequired ?? 'Vul uw volledige naam in (minimaal 2 tekens)'),
@@ -35,6 +36,7 @@ type FormData = z.infer<ReturnType<typeof createSchema>>
 
 // ── Option builders ──────────────────────────────────────────────────────────
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getOnderwerpOptions(f?: Record<string, any>) {
   return [
     { value: '', label: f?.subjectPlaceholder ?? 'Kies een onderwerp' },
@@ -46,6 +48,7 @@ function getOnderwerpOptions(f?: Record<string, any>) {
   ]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getContactMethods(f?: Record<string, any>) {
   return [
     { value: '', label: f?.methodNoPreference ?? 'Geen voorkeur' },
@@ -55,6 +58,7 @@ function getContactMethods(f?: Record<string, any>) {
   ]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getReizigersOptions(f?: Record<string, any>) {
   return [
     { value: '', label: f?.travelersSelect ?? 'Selecteer' },
@@ -66,6 +70,7 @@ function getReizigersOptions(f?: Record<string, any>) {
   ]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getPeriodeOptions(f?: Record<string, any>, months?: string[]) {
   const m = months ?? [
     'Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni',
@@ -78,6 +83,7 @@ function getPeriodeOptions(f?: Record<string, any>, months?: string[]) {
   ]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getBudgetOptions(f?: Record<string, any>) {
   return [
     { value: '', label: f?.budgetSelect ?? 'Selecteer' },
@@ -112,6 +118,7 @@ const labelStyle = { color: 'var(--text-muted)' }
 
 interface ContactFormProps {
   prefilledSafari?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dict?: Record<string, any>
 }
 

@@ -30,6 +30,22 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'heroImage',
+      title: 'Hero Afbeelding',
+      type: 'image',
+      group: ['basics', 'media'],
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt tekst',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'excerpt',
       title: 'Korte Omschrijving',
       type: 'text',
@@ -194,22 +210,6 @@ export default defineType({
     }),
 
     // ─── MEDIA ───────────────────────────────────────────────────────
-    defineField({
-      name: 'heroImage',
-      title: 'Hero Afbeelding',
-      type: 'image',
-      group: 'media',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt tekst',
-          type: 'string',
-          validation: (Rule) => Rule.required(),
-        }),
-      ],
-      validation: (Rule) => Rule.required(),
-    }),
     defineField({
       name: 'gallery',
       title: 'Fotogalerij',

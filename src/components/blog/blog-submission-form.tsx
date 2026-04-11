@@ -227,6 +227,7 @@ interface BlogSubmissionFormProps {
     legalConsent1?: string
     legalConsent2?: string
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dict?: Record<string, any>
 }
 

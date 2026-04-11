@@ -21,10 +21,10 @@ const baseTrip = {
 }
 
 describe('SafariCard', () => {
-  it('links to /safari-reizen/{slug}', () => {
+  it('links to safari detail page', () => {
     render(<SafariCard trip={baseTrip} />)
     const link = screen.getByRole('link')
-    expect(link).toHaveAttribute('href', '/safari-reizen/serengeti')
+    expect(link).toHaveAttribute('href', '/nl/safari-reizen/serengeti')
   })
 
   it('renders title', () => {

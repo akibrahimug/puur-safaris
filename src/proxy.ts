@@ -53,9 +53,12 @@ export function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Already has a locale prefix → continue
-  if (getPathnameLocale(pathname)) {
-    return NextResponse.next()
+  // Already has a locale prefix → pass locale via header for root layout
+  const pathnameLocale = getPathnameLocale(pathname)
+  if (pathnameLocale) {
+    const response = NextResponse.next()
+    response.headers.set('x-locale', pathnameLocale)
+    return response
   }
 
   // No locale prefix → redirect to /{locale}{pathname}

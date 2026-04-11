@@ -8,6 +8,8 @@ import { Menu, X, Phone } from "lucide-react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { localePath } from "@/i18n/routes";
+import type { Locale } from "@/i18n/config";
 import type { SiteSettings, NavLink } from "@/lib/types";
 
 const defaultNavLinksNl: NavLink[] = [
@@ -18,6 +20,8 @@ const defaultNavLinksNl: NavLink[] = [
   { href: "/nl/faq", label: "FAQ" },
   { href: "/nl/contact", label: "Contact" },
 ];
+
+// Note: Dutch nav links use Dutch URLs which rewrite to English folder paths via next.config.ts
 
 const defaultNavLinksEn: NavLink[] = [
   { href: "/en/safaris", label: "Safaris" },
@@ -49,6 +53,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
       }))
     : defaultNavLinks;
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
 
   useEffect(() => {
@@ -132,7 +137,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
             )}
             <ThemeToggle scrolled={scrolled} />
             <Link
-              href={settings?.headerCtaLink ? `/${locale}${stegaClean(settings.headerCtaLink)}` : `/${locale}/eigen-reisschema`}
+              href={settings?.headerCtaLink ? `/${locale}${stegaClean(settings.headerCtaLink)}` : localePath(locale as Locale, 'customItinerary')}
               className={`rounded-full border px-3 xl:px-5 py-1.5 xl:py-2 text-xs xl:text-sm font-medium whitespace-nowrap transition-all duration-300 ${
                 scrolled && !isDark
                   ? "border-stone-900/20 text-stone-900 hover:bg-stone-900 hover:text-white"
@@ -196,7 +201,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
                 className={`mt-3 pt-3 border-t ${isDark ? "border-white/8" : "border-stone-200"}`}
               >
                 <Link
-                  href={settings?.headerCtaLink ? `/${locale}${stegaClean(settings.headerCtaLink)}` : `/${locale}/eigen-reisschema`}
+                  href={settings?.headerCtaLink ? `/${locale}${stegaClean(settings.headerCtaLink)}` : localePath(locale as Locale, 'customItinerary')}
                   className={`block w-full rounded-full px-5 py-2.5 text-center text-sm font-medium transition-colors ${
                     isDark
                       ? "bg-gold text-white hover:bg-gold-dark"

@@ -19,8 +19,8 @@ const routeMap = {
   contact:           { nl: '/contact',              en: '/contact' },
   faq:               { nl: '/faq',                  en: '/faq' },
   customItinerary:   { nl: '/eigen-reisschema',     en: '/custom-itinerary' },
-  privacy:           { nl: '/privacybeleid',        en: '/privacy-policy' },
-  terms:             { nl: '/algemene-voorwaarden', en: '/terms-and-conditions' },
+  privacy:           { nl: '/privacybeleid',        en: '/privacy' },
+  terms:             { nl: '/algemene-voorwaarden', en: '/terms' },
 } as const
 
 export type RouteKey = keyof typeof routeMap

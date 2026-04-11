@@ -242,7 +242,7 @@ export default defineType({
       title: 'Privacybeleid Link',
       type: 'string',
       group: 'footer',
-      initialValue: '/privacybeleid',
+      initialValue: '/privacy',
     }),
     defineField({
       name: 'termsLabel',
@@ -256,7 +256,7 @@ export default defineType({
       title: 'Algemene Voorwaarden Link',
       type: 'string',
       group: 'footer',
-      initialValue: '/algemene-voorwaarden',
+      initialValue: '/terms',
     }),
 
     // ─── CARD & DETAIL LABELS ──────────────────────────────────────────

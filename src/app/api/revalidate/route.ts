@@ -13,12 +13,12 @@ export async function POST(req: NextRequest) {
     const { _type } = body as { _type?: string }
 
     if (_type === 'trip') {
-      revalidatePath('/safari-reizen', 'page')
-      revalidatePath('/safari-reizen/[slug]', 'page')
+      revalidatePath('/safaris', 'page')
+      revalidatePath('/safaris/[slug]', 'page')
       revalidatePath('/', 'page')
     } else if (_type === 'destination') {
-      revalidatePath('/bestemmingen', 'page')
-      revalidatePath('/bestemmingen/[slug]', 'page')
+      revalidatePath('/destinations', 'page')
+      revalidatePath('/destinations/[slug]', 'page')
       revalidatePath('/', 'page')
     } else if (_type === 'blogPost') {
       revalidatePath('/blog', 'page')
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     } else if (_type === 'homePage') {
       revalidatePath('/', 'page')
     } else if (_type === 'aboutPage') {
-      revalidatePath('/over-ons', 'page')
+      revalidatePath('/about', 'page')
     }
 
     return NextResponse.json({ revalidated: true, type: _type })

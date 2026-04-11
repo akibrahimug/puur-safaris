@@ -58,6 +58,7 @@ export default async function LangLayout({
 
   return (
     <>
+      <meta httpEquiv="content-language" content={locale} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}

@@ -1,3 +1,4 @@
+import { draftMode } from 'next/headers'
 import { stegaClean } from '@sanity/client/stega'
 import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
@@ -14,10 +15,13 @@ export default async function SiteLayout({
 }) {
   const { lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const [settings, dict] = await Promise.all([
-    getSiteSettings(locale).then(stegaClean),
+  const dm = await draftMode()
+  const [rawSettings, dict] = await Promise.all([
+    getSiteSettings(locale),
     getDictionary(locale),
   ])
+  // Keep stega encoding for visual editing in Presentation Tool; strip it for normal browsing
+  const settings = dm.isEnabled ? rawSettings : stegaClean(rawSettings)
 
   return (
     <>
