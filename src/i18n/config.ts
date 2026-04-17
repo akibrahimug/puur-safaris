@@ -7,18 +7,14 @@ export function hasLocale(value: unknown): value is Locale {
 }
 
 /**
- * Returns a CMS value only when the document's language matches the requested locale.
- * When the CMS doc is a Dutch fallback on an English route, returns `undefined`
- * so the dictionary string is used instead.
+ * Returns a CMS value directly. Content is now pre-translated in the data layer
+ * (NL → target language via DeepL), so no language comparison is needed.
  *
- * The docLang is stripped of stega encoding (zero-width chars) before comparison
- * so visual editing in the Presentation Tool is not broken.
+ * @deprecated The data layer now handles translation. This function is kept for
+ * backward compatibility during the migration — it simply passes through the value.
  */
-export function cmsText<T>(value: T | null | undefined, docLang: string | null | undefined, locale: string): T | undefined {
-  // Strip zero-width stega characters from the language field before comparing
-  const cleanLang = docLang?.replace(/[\u200B-\u200F\u2028-\u202F\uFEFF\uFE00-\uFE0F]/g, '')
-  if (!cleanLang || cleanLang === locale) return value ?? undefined
-  return undefined
+export function cmsText<T>(value: T | null | undefined, _docLang?: string | null | undefined, _locale?: string): T | undefined {
+  return value ?? undefined
 }
 
 /** Language metadata used in Sanity Studio and SEO */

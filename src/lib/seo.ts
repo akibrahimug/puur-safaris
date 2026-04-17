@@ -52,7 +52,7 @@ export function buildMetadata(
     alternates: altPaths,
   } = options
 
-  const siteName = stegaClean(settings?.siteName ?? 'Puur Safaris')
+  const siteName = stegaClean(settings?.siteName ?? 'Puur Uganda Reizen')
   const cleanTitle = stegaClean(title)
   const fullTitle = cleanTitle === siteName ? siteName : `${cleanTitle} | ${siteName}`
   const metaDescription = stegaClean(
@@ -164,7 +164,7 @@ export function organizationJsonLd(settings?: SiteSettings | null) {
   return {
     '@context': 'https://schema.org',
     '@type': 'TravelAgency',
-    name: stegaClean(settings?.siteName ?? 'Puur Safaris'),
+    name: stegaClean(settings?.siteName ?? 'Puur Uganda Reizen'),
     url: baseUrl,
     ...(settings?.contactEmail && { email: stegaClean(settings.contactEmail) }),
     ...(settings?.phone && { telephone: stegaClean(settings.phone) }),
@@ -184,7 +184,7 @@ export function websiteJsonLd(settings?: SiteSettings | null, locale: Locale = d
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: stegaClean(settings?.siteName ?? 'Puur Safaris'),
+    name: stegaClean(settings?.siteName ?? 'Puur Uganda Reizen'),
     url: baseUrl,
     inLanguage: locale,
     potentialAction: {
@@ -209,7 +209,7 @@ export function blogArticleJsonLd(post: {
   slug: string
   imageUrl?: string | null
   locale?: Locale
-}) {
+}, settings?: SiteSettings | null) {
   const baseUrl = getBaseUrl()
   const locale = post.locale ?? defaultLocale
   return {
@@ -226,7 +226,7 @@ export function blogArticleJsonLd(post: {
     }),
     publisher: {
       '@type': 'Organization',
-      name: 'Puur Safaris',
+      name: stegaClean(settings?.siteName ?? 'Puur Uganda Reizen'),
       url: baseUrl,
     },
     mainEntityOfPage: {

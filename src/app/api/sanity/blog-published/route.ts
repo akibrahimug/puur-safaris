@@ -30,10 +30,10 @@ export async function POST(req: NextRequest) {
     }
 
     const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puursafaris.nl'
+      process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puurugandareizen.nl'
     const blogUrl = `${siteUrl}/blog/${body.slug}`
 
-    const fromEmail = process.env.EMAIL_FROM || 'Puur Safaris <noreply@puursafaris.nl>'
+    const fromEmail = process.env.EMAIL_FROM || 'Puur Uganda Reizen <noreply@puurugandareizen.nl>'
     await resend.emails.send({
       from: fromEmail,
       to: body.submitterEmail,

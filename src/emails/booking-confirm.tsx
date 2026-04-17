@@ -10,7 +10,7 @@ interface BookingConfirmEmailProps {
   bookingNumber: string
 }
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puursafaris.nl'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puurugandareizen.nl'
 
 export function BookingConfirmEmail({
   voornaam,
@@ -25,7 +25,7 @@ export function BookingConfirmEmail({
     >
       <Text style={greeting}>Beste {voornaam},</Text>
       <Text style={paragraph}>
-        Bedankt voor uw interesse in een safari ervaring met Puur Safaris. Wij
+        Bedankt voor uw interesse in een safari ervaring met Puur Uganda Reizen. Wij
         hebben uw boekingsaanvraag voor <strong>{tripTitle}</strong> in goede
         orde ontvangen.
       </Text>
@@ -55,7 +55,7 @@ export function BookingConfirmEmail({
       <Text style={signoff}>
         Met vriendelijke groet,
         <br />
-        <strong style={{ color: colors.text }}>Het Puur Safaris Team</strong>
+        <strong style={{ color: colors.text }}>Het Puur Uganda Reizen Team</strong>
       </Text>
     </EmailLayout>
   )

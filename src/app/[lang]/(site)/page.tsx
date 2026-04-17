@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { hasLocale, type Locale, cmsText } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
-import { localePath } from '@/i18n/routes'
+import { localePath, cmsPathToLocale } from '@/i18n/routes'
 import { getSiteSettings, getTrips, getDestinations, getTestimonials, getHomePage } from '@/lib/data'
+import { getGoogleReviews } from '@/lib/google-reviews'
 import { buildMetadata } from '@/lib/seo'
 import { HeroSection } from '@/components/home/hero-section'
 import { TrustStrip } from '@/components/home/trust-strip'
@@ -40,13 +41,17 @@ export default async function HomePage({ params }: Props) {
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
   const dict = await getDictionary(locale)
 
-  const [settings, allTrips, destinations, testimonials, homePage] = await Promise.all([
+  const [settings, allTrips, destinations, sanityTestimonials, homePage, googleReviews] = await Promise.all([
     getSiteSettings(lang),
     getTrips(lang),
     getDestinations(lang),
     getTestimonials(lang),
     getHomePage(lang),
+    getGoogleReviews(),
   ])
+
+  // Merge: Google Reviews first (fresh from Google), then Sanity testimonials
+  const testimonials = [...googleReviews, ...sanityTestimonials]
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cms = <T,>(v: T | null | undefined) => cmsText(v, (homePage as any)?.language, locale)
@@ -164,12 +169,12 @@ export default async function HomePage({ params }: Props) {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button asChild size="lg">
-                <Link href={homePage?.ctaButton1Link ?? localePath(locale, 'customItinerary')}>
+                <Link href={homePage?.ctaButton1Link ? `/${lang}${cmsPathToLocale(homePage.ctaButton1Link, locale)}` : localePath(locale, 'customItinerary')}>
                   {cms(homePage?.ctaButton1Label) ?? dict.home.ctaButton1}
                 </Link>
               </Button>
               <Button asChild size="lg" variant="glass">
-                <Link href={homePage?.ctaButton2Link ?? localePath(locale, 'safaris')}>
+                <Link href={homePage?.ctaButton2Link ? `/${lang}${cmsPathToLocale(homePage.ctaButton2Link, locale)}` : localePath(locale, 'safaris')}>
                   {cms(homePage?.ctaButton2Label) ?? dict.home.ctaButton2}
                 </Link>
               </Button>

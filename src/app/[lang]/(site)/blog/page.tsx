@@ -5,7 +5,7 @@ import { stegaClean } from '@sanity/client/stega'
 import { ArrowUpRight, Calendar, User } from 'lucide-react'
 import { hasLocale, type Locale, cmsText } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
-import { localePath } from '@/i18n/routes'
+import { localePath, cmsPathToLocale } from '@/i18n/routes'
 import { PageHero } from '@/components/shared/page-hero'
 import { BlogCard } from '@/components/blog/blog-card'
 import { getSiteSettings, getBlogPosts, getBlogPage } from '@/lib/data'
@@ -189,7 +189,7 @@ export default async function BlogIndexPage({ params }: Props) {
                      {cms(blogPage?.guidesDescription) ?? dict.blog.guidesDescription}
                    </p>
                    <Link
-                     href={blogPage?.guidesCtaLink ?? localePath(locale, 'contact')}
+                     href={blogPage?.guidesCtaLink ? `/${lang}${cmsPathToLocale(stegaClean(blogPage.guidesCtaLink)!, locale)}` : localePath(locale, 'contact')}
                      className="inline-flex items-center justify-center rounded-full border-2 border-gold text-gold hover:bg-gold hover:text-white px-8 py-3 font-semibold transition-colors duration-300"
                    >
                      {cms(blogPage?.guidesCtaLabel) ?? dict.blog.guidesCta}

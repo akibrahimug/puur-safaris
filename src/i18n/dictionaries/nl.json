@@ -19,7 +19,7 @@
     "hikingTrekking": "Berg & Trekking",
     "cultureCommunity": "Cultuur & Gemeenschap",
     "destinations": "Bestemmingen",
-    "aboutUs": "Over Puur Safaris",
+    "aboutUs": "Over Puur Uganda Reizen",
     "travelBlog": "Reisblog",
     "faqLink": "Veelgestelde vragen",
     "contactLink": "Contact",
@@ -44,7 +44,7 @@
     "testimonialsVerified": "Geverifieerd",
     "testimonialsMore": "Meer verhalen",
     "testimonialsBegin": "Begin",
-    "whyEyebrow": "Waarom Puur Safaris",
+    "whyEyebrow": "Waarom Puur Uganda Reizen",
     "whyTitle": "Wij geloven in reizen die een indruk achterlaten voor het leven.",
     "featuredTripsEyebrow": "Uitgelichte Reizen",
     "featuredTripsTitle": "Safari Reizen",
@@ -148,7 +148,7 @@
     "gallerySidebarDescription": "Voeg je mooiste reisfoto's toe.",
     "galleryAdd": "Foto toevoegen",
     "galleryOverflow": "extra",
-    "legalConsent1": "Ik ga akkoord met het publiceren van mijn verhaal en foto's op de website van Puur Safaris.",
+    "legalConsent1": "Ik ga akkoord met het publiceren van mijn verhaal en foto's op de website van Puur Uganda Reizen.",
     "legalConsent2": "Ik bevestig dat alle ingestuurde foto's mijn eigendom zijn."
   },
   "safari": {
@@ -226,7 +226,7 @@
     "tripsAvailablePlural": "reizen beschikbaar"
   },
   "about": {
-    "heroTitle": "Over Puur Safaris",
+    "heroTitle": "Over Puur Uganda Reizen",
     "heroSubtitle": "Wij zijn een gepassioneerd team van safari experts.",
     "backgroundTitle": "Onze Achtergrond",
     "missionTitle": "Onze Missie",
@@ -358,6 +358,7 @@
     "errorSend": "Versturen mislukt",
     "step1Heading": "Waar wil je naartoe?",
     "step1Description": "Selecteer één of meerdere bestemmingen. We combineren ze tot de perfecte route.",
+    "selectedCount": "geselecteerd",
     "step2Heading": "Vertel ons over je reis",
     "step2Description": "Hoe meer we weten, hoe beter we je reisschema kunnen samenstellen.",
     "step3Heading": "Uw gegevens",
@@ -422,7 +423,7 @@
     "noSafarisFound": "Geen safari reizen gevonden."
   },
   "seo": {
-    "defaultSiteName": "Puur Safaris",
+    "defaultSiteName": "Puur Uganda Reizen",
     "defaultDescription": "Ontdek authentieke safari ervaringen op maat."
   },
   "common": {

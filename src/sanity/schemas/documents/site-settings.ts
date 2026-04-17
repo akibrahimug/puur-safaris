@@ -18,7 +18,7 @@ export default defineType({
       title: 'Sitenaam',
       type: 'string',
       group: 'general',
-      initialValue: 'Puur Safaris',
+      initialValue: 'Puur Uganda Reizen',
       validation: (Rule) => Rule.required(),
     }),
     defineField({

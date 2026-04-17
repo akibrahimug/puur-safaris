@@ -66,7 +66,7 @@ const mappings: ImageMapping[] = [
   { documentId: '772794f3-d6aa-4942-9d9a-8c91ba908c9c', field: 'teamMembers[2].image', unsplashId: 'photo-1500648767791-00dcc994a43e', alt: 'David Mbeki' },
 
   // ── Site Settings ──
-  { documentId: 'siteSettings', field: 'defaultOgImage', unsplashId: 'photo-1516426122078-c23e76319801', alt: 'Puur Safaris — Authentieke Safari Ervaringen' },
+  { documentId: 'siteSettings', field: 'defaultOgImage', unsplashId: 'photo-1516426122078-c23e76319801', alt: 'Puur Uganda Reizen — Authentieke Safari Ervaringen' },
 ]
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

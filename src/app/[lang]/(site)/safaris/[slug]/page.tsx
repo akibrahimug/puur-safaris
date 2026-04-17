@@ -97,7 +97,7 @@ export default async function SafariDetailPage({ params }: Props) {
     },
     provider: {
       '@type': 'Organization',
-      name: 'Puur Safaris',
+      name: 'Puur Uganda Reizen',
       url: baseUrl,
     },
   }

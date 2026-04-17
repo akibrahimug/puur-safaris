@@ -8,29 +8,11 @@ import { Menu, X, Phone } from "lucide-react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { localePath } from "@/i18n/routes";
+import { localePath, cmsPathToLocale } from "@/i18n/routes";
 import type { Locale } from "@/i18n/config";
 import type { SiteSettings, NavLink } from "@/lib/types";
 
-const defaultNavLinksNl: NavLink[] = [
-  { href: "/nl/safari-reizen", label: "Safari Reizen" },
-  { href: "/nl/bestemmingen", label: "Bestemmingen" },
-  { href: "/nl/blog", label: "Blog" },
-  { href: "/nl/over-ons", label: "Over Ons" },
-  { href: "/nl/faq", label: "FAQ" },
-  { href: "/nl/contact", label: "Contact" },
-];
-
-// Note: Dutch nav links use Dutch URLs which rewrite to English folder paths via next.config.ts
-
-const defaultNavLinksEn: NavLink[] = [
-  { href: "/en/safaris", label: "Safaris" },
-  { href: "/en/destinations", label: "Destinations" },
-  { href: "/en/blog", label: "Blog" },
-  { href: "/en/about", label: "About Us" },
-  { href: "/en/faq", label: "FAQ" },
-  { href: "/en/contact", label: "Contact" },
-];
+// Navigation is CMS-driven. This is a minimal fallback only used if settings fail to load.
 
 interface HeaderProps {
   settings?: SiteSettings | null;
@@ -43,15 +25,14 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
   const isDark = mounted ? theme === "dark" : false;
-  const defaultNavLinks = locale === "en" ? defaultNavLinksEn : defaultNavLinksNl;
-  // Use CMS nav only when it matches the current locale (Dutch nav shouldn't show on /en)
-  const cmsNavMatchesLocale = settings?.mainNavigation?.length && locale === "nl";
-  const navLinks = cmsNavMatchesLocale
-    ? settings!.mainNavigation!.map((link) => ({
+  const loc = locale as Locale
+  // CMS stores Dutch paths — map them to the correct locale paths
+  const navLinks = settings?.mainNavigation?.length
+    ? settings.mainNavigation.map((link) => ({
         ...link,
-        href: `/${locale}${stegaClean(link.href)}`,
+        href: `/${locale}${cmsPathToLocale(stegaClean(link.href), loc)}`,
       }))
-    : defaultNavLinks;
+    : [];
 
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
@@ -97,7 +78,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
                   scrolled && !isDark ? "text-stone-900" : "text-white"
                 }`}
               >
-                Puur<span className="text-gold"> Safaris</span>
+                {settings?.siteName ?? 'Puur Uganda Reizen'}
               </span>
             )}
           </Link>
@@ -137,14 +118,14 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
             )}
             <ThemeToggle scrolled={scrolled} />
             <Link
-              href={settings?.headerCtaLink ? `/${locale}${stegaClean(settings.headerCtaLink)}` : localePath(locale as Locale, 'customItinerary')}
+              href={settings?.headerCtaLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.headerCtaLink), loc)}` : localePath(loc, 'customItinerary')}
               className={`rounded-full border px-3 xl:px-5 py-1.5 xl:py-2 text-xs xl:text-sm font-medium whitespace-nowrap transition-all duration-300 ${
                 scrolled && !isDark
                   ? "border-stone-900/20 text-stone-900 hover:bg-stone-900 hover:text-white"
                   : "border-white/25 text-white hover:bg-white/10"
               }`}
             >
-              {settings?.headerCtaLabel ?? (locale === 'en' ? 'Custom Itinerary' : 'Eigen Reisschema')}
+              {settings?.headerCtaLabel ?? 'Eigen Reisschema'}
             </Link>
           </div>
 
@@ -201,7 +182,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
                 className={`mt-3 pt-3 border-t ${isDark ? "border-white/8" : "border-stone-200"}`}
               >
                 <Link
-                  href={settings?.headerCtaLink ? `/${locale}${stegaClean(settings.headerCtaLink)}` : localePath(locale as Locale, 'customItinerary')}
+                  href={settings?.headerCtaLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.headerCtaLink), loc)}` : localePath(loc, 'customItinerary')}
                   className={`block w-full rounded-full px-5 py-2.5 text-center text-sm font-medium transition-colors ${
                     isDark
                       ? "bg-gold text-white hover:bg-gold-dark"
@@ -209,7 +190,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
                   }`}
                   onClick={() => setMenuOpen(false)}
                 >
-                  {settings?.headerCtaLabel ?? (locale === 'en' ? 'Custom Itinerary' : 'Eigen Reisschema')}
+                  {settings?.headerCtaLabel ?? 'Eigen Reisschema'}
                 </Link>
               </div>
             </nav>

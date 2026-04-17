@@ -158,6 +158,7 @@ export interface Testimonial {
   date?: string
   profilePhoto?: SanityImage
   bookedTrip?: { title: string; slug: string }
+  source?: 'direct' | 'google'
 }
 
 // ─── FAQ ─────────────────────────────────────────────────────────────────────
@@ -439,6 +440,16 @@ export interface BlogSubmissionPage {
   galleryOverflowLabel?: string
   legalConsent1?: string
   legalConsent2?: string
+  seo?: SeoFields
+}
+
+// ─── LEGAL PAGE ─────────────────────────────────────────────────────────────
+
+export interface LegalPage {
+  title?: string
+  slug?: string
+  heroImage?: SanityImage
+  body?: unknown[]
   seo?: SeoFields
 }
 

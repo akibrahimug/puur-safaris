@@ -39,7 +39,7 @@ export function BlogPublishedEmail({
       <Text style={signoff}>
         Met vriendelijke groet,
         <br />
-        <strong style={{ color: colors.text }}>Het Puur Safaris Team</strong>
+        <strong style={{ color: colors.text }}>Het Puur Uganda Reizen Team</strong>
       </Text>
     </EmailLayout>
   )

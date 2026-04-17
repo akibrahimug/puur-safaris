@@ -20,7 +20,7 @@ interface EmailLayoutProps {
   children: React.ReactNode
 }
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puursafaris.nl'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puurugandareizen.nl'
 
 export function EmailLayout({
   preview,
@@ -58,7 +58,7 @@ export function EmailLayout({
             >
               <tr>
                 <td style={{ textAlign: 'center', padding: '36px 40px 32px' }}>
-                  <Text style={brandName}>PUUR SAFARIS</Text>
+                  <Text style={brandName}>PUUR UGANDA REIZEN</Text>
                   <Text style={brandTagline}>Authentieke safari ervaringen</Text>
                 </td>
               </tr>
@@ -97,7 +97,7 @@ export function EmailLayout({
             >
               <tr>
                 <td style={{ textAlign: 'center', paddingTop: '24px' }}>
-                  <Text style={footerBrand}>PUUR SAFARIS</Text>
+                  <Text style={footerBrand}>PUUR UGANDA REIZEN</Text>
                   <Text style={footerLinks}>
                     <Link href={siteUrl} style={footerLink}>
                       Website
@@ -116,7 +116,7 @@ export function EmailLayout({
                     </Link>
                   </Text>
                   <Text style={footerDisclaimer}>
-                    Puur Safaris — Authentieke safari ervaringen in Oost-Afrika
+                    Puur Uganda Reizen — Authentieke safari ervaringen in Oost-Afrika
                   </Text>
                 </td>
               </tr>

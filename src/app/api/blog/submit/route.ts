@@ -218,9 +218,9 @@ export async function POST(req: NextRequest) {
     })
 
     // Send emails
-    const fromEmail = process.env.EMAIL_FROM || 'Puur Safaris <noreply@puursafaris.nl>'
+    const fromEmail = process.env.EMAIL_FROM || 'Puur Uganda Reizen <noreply@puurugandareizen.nl>'
     const adminEmail = process.env.ADMIN_EMAIL
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puursafaris.nl'
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puurugandareizen.nl'
 
     // 1. Confirmation to submitter
     await resend.emails.send({
