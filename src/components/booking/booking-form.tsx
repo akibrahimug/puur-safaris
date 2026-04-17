@@ -713,7 +713,7 @@ export function BookingForm({
         </button>
         <div>
           <span className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-            Ik ga akkoord met de reisvoorwaarden en het privacybeleid van Puur Safaris{' '}
+            Ik ga akkoord met de reisvoorwaarden en het privacybeleid van Puur Uganda Reizen{' '}
             <span style={{ color: '#2a7d58' }}>*</span>
           </span>
           <FieldError message={fieldErrors.terms} />

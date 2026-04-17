@@ -63,14 +63,14 @@ export function InstagramSidebarGallery({ authorName, authorImage, gallery, labe
           </div>
           <div>
             <h3 className="font-semibold text-[var(--text-primary)] leading-none mb-1">{labels?.sidebarHeading ?? 'Favoriete Momenten'}</h3>
-            <p className="text-xs font-mono text-[var(--text-muted)]">@{authorName.toLowerCase().replace(/\s/g, '') || 'puursafaris'}</p>
+            <p className="text-xs font-mono text-[var(--text-muted)]">@{authorName.toLowerCase().replace(/\s/g, '') || 'puurugandareizen'}</p>
           </div>
         </div>
         <Compass className="h-5 w-5 text-gold/60 shrink-0" />
       </div>
 
       <p className="text-sm text-[var(--text-muted)] mb-5">
-        {labels?.sidebarDescription ?? 'Een visuele weergave van de prachtige momenten vastgelegd tijdens deze reis met Puur Safaris.'}
+        {labels?.sidebarDescription ?? 'Een visuele weergave van de prachtige momenten vastgelegd tijdens deze reis met Puur Uganda Reizen.'}
       </p>
 
       {/* Gallery Grid */}

@@ -286,15 +286,27 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
 
   // ── Step 1: Destinations ──────────────────────────────────────────────────
 
+  const selectedCountLabel = (d?.selectedCount ?? 'selected') as string
+
   const step1 = (
     <div>
-      <h2 className="font-serif text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-        {d?.step1Heading ?? 'Waar wil je naartoe?'}
-      </h2>
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
+        <h2 className="font-serif text-2xl sm:text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
+          {d?.step1Heading ?? 'Waar wil je naartoe?'}
+        </h2>
+        {selectedDests.length > 0 && (
+          <span
+            className="rounded-full px-3 py-1 text-xs font-semibold tabular-nums"
+            style={{ background: 'rgba(42,125,88,0.12)', color: '#2a7d58', border: '1px solid rgba(42,125,88,0.3)' }}
+          >
+            {selectedDests.length} {selectedCountLabel}
+          </span>
+        )}
+      </div>
       <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>
         {d?.step1Description ?? 'Selecteer één of meerdere bestemmingen. We combineren ze tot de perfecte route.'}
       </p>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         {destinations.map(dest => {
           const selected = selectedDests.includes(dest._id)
           const imageUrl = dest.heroImage?.asset?.url || null
@@ -303,24 +315,66 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
               key={dest._id}
               type="button"
               onClick={() => toggleDest(dest._id)}
-              className="relative aspect-4/3 rounded-xl overflow-hidden transition-all duration-300 focus:outline-none"
+              aria-pressed={selected}
+              className="group relative text-left rounded-2xl overflow-hidden transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
               style={{
-                border: `2px solid ${selected ? '#2a7d58' : fieldErrors.destinations ? 'rgba(220,38,38,0.4)' : 'rgba(42,125,88,0.15)'}`,
-                boxShadow: selected ? '0 0 0 3px rgba(42,125,88,0.25)' : 'none',
+                background: 'rgba(255,255,255,0.04)',
+                border: `2px solid ${selected ? '#2a7d58' : fieldErrors.destinations ? 'rgba(220,38,38,0.4)' : 'rgba(42,125,88,0.18)'}`,
+                boxShadow: selected
+                  ? '0 12px 28px -12px rgba(42,125,88,0.45)'
+                  : '0 1px 2px rgba(0,0,0,0.04)',
+                transform: selected ? 'translateY(-2px)' : 'translateY(0)',
               }}
             >
-              {imageUrl ? (
-                <Image src={imageUrl} alt={dest.name} fill className="object-cover" sizes="(max-width: 640px) 50vw, 33vw" />
-              ) : (
-                <div className="absolute inset-0" style={{ background: '#030d07' }} />
-              )}
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)' }} />
-              {selected && (
-                <div className="absolute top-2.5 right-2.5 flex h-6 w-6 items-center justify-center rounded-full" style={{ background: '#2a7d58' }}>
-                  <Check className="h-3.5 w-3.5 text-white" />
-                </div>
-              )}
-              <span className="absolute bottom-2.5 left-0 right-0 text-center text-sm font-bold text-white drop-shadow-md">{dest.name}</span>
+              <div className="relative aspect-4/3 overflow-hidden">
+                {imageUrl ? (
+                  <Image
+                    src={imageUrl}
+                    alt={dest.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0" style={{ background: '#030d07' }} />
+                )}
+                <div
+                  className="absolute inset-0 transition-opacity duration-300"
+                  style={{
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 55%)',
+                    opacity: selected ? 1 : 0,
+                  }}
+                />
+                {selected && (
+                  <div
+                    className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full"
+                    style={{
+                      background: '#2a7d58',
+                      border: '2px solid #fff',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
+                    }}
+                  >
+                    <Check className="h-4 w-4 text-white" strokeWidth={3} />
+                  </div>
+                )}
+              </div>
+              <div className="px-3 py-2.5 sm:px-3.5 sm:py-3">
+                <h3
+                  className="font-serif text-[13px] sm:text-sm font-bold leading-snug truncate"
+                  style={{ color: 'var(--text-primary)' }}
+                  title={dest.name}
+                >
+                  {dest.name}
+                </h3>
+                {dest.country && (
+                  <p
+                    className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider truncate"
+                    style={{ color: selected ? '#2a7d58' : 'var(--text-subtle)', whiteSpace: 'nowrap' }}
+                  >
+                    {dest.country}
+                  </p>
+                )}
+              </div>
             </button>
           )
         })}
@@ -512,7 +566,7 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
   const steps = [step1, step2, step3]
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className={`mx-auto transition-[max-width] duration-300 ${step === 0 ? 'max-w-4xl' : 'max-w-2xl'}`}>
       <StepBar current={step} labels={STEP_LABELS} />
 
       <div className="rounded-2xl p-6 sm:p-8" style={{ background: 'var(--card-strip-bg)', border: '1px solid rgba(42,125,88,0.18)' }}>

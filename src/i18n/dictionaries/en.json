@@ -19,7 +19,7 @@
     "hikingTrekking": "Mountain & Trekking",
     "cultureCommunity": "Culture & Community",
     "destinations": "Destinations",
-    "aboutUs": "About Puur Safaris",
+    "aboutUs": "About Pure Uganda Safaris",
     "travelBlog": "Travel Blog",
     "faqLink": "Frequently asked questions",
     "contactLink": "Contact",
@@ -44,7 +44,7 @@
     "testimonialsVerified": "Verified",
     "testimonialsMore": "More stories",
     "testimonialsBegin": "Start",
-    "whyEyebrow": "Why Puur Safaris",
+    "whyEyebrow": "Why Pure Uganda Safaris",
     "whyTitle": "We believe in travel that leaves an impression for life.",
     "featuredTripsEyebrow": "Featured Trips",
     "featuredTripsTitle": "Safari Trips",
@@ -148,7 +148,7 @@
     "gallerySidebarDescription": "Add your best travel photos.",
     "galleryAdd": "Add photo",
     "galleryOverflow": "more",
-    "legalConsent1": "I agree to the publication of my story and photos on the Puur Safaris website.",
+    "legalConsent1": "I agree to the publication of my story and photos on the Pure Uganda Safaris website.",
     "legalConsent2": "I confirm that all submitted photos are my own property."
   },
   "safari": {
@@ -226,7 +226,7 @@
     "tripsAvailablePlural": "trips available"
   },
   "about": {
-    "heroTitle": "About Puur Safaris",
+    "heroTitle": "About Pure Uganda Safaris",
     "heroSubtitle": "We are a passionate team of safari experts.",
     "backgroundTitle": "Our Background",
     "missionTitle": "Our Mission",
@@ -358,6 +358,7 @@
     "errorSend": "Failed to send",
     "step1Heading": "Where do you want to go?",
     "step1Description": "Select one or more destinations. We will combine them into the perfect route.",
+    "selectedCount": "selected",
     "step2Heading": "Tell us about your trip",
     "step2Description": "The more we know, the better we can create your itinerary.",
     "step3Heading": "Your details",
@@ -422,7 +423,7 @@
     "noSafarisFound": "No safari trips found."
   },
   "seo": {
-    "defaultSiteName": "Puur Safaris",
+    "defaultSiteName": "Pure Uganda Safaris",
     "defaultDescription": "Discover authentic tailor-made safari experiences."
   },
   "common": {

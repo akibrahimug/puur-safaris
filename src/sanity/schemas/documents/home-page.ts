@@ -7,7 +7,7 @@ export default defineType({
   groups: [
     { name: 'hero', title: 'Hero' },
     { name: 'trustStrip', title: 'Trust Strip' },
-    { name: 'features', title: 'Waarom Puur Safaris' },
+    { name: 'features', title: 'Waarom Puur Uganda Reizen' },
     { name: 'sections', title: 'Secties & CTA' },
     { name: 'testimonials', title: 'Beoordelingen' },
     { name: 'seo', title: 'SEO' },
@@ -127,7 +127,7 @@ export default defineType({
       title: 'Features Eyebrow',
       type: 'string',
       group: 'features',
-      description: 'Bijv. "Waarom Puur Safaris".',
+      description: 'Bijv. "Waarom Puur Uganda Reizen".',
     }),
     defineField({
       name: 'featuresTitle',

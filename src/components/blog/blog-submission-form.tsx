@@ -716,13 +716,13 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
           <label className="flex items-start gap-3 cursor-pointer">
             <input required type="checkbox" className="mt-1 w-4 h-4 accent-[var(--color-gold)] rounded" />
             <span className="text-sm text-[var(--text-primary)] leading-relaxed">
-              {labels?.legalConsent1 ?? "Ik begrijp dat Puur Safaris mijn verhaal en foto's mag redigeren en indelen. Goedkeuring duurt gemiddeld meer dan één week."}
+              {labels?.legalConsent1 ?? "Ik begrijp dat Puur Uganda Reizen mijn verhaal en foto's mag redigeren en indelen. Goedkeuring duurt gemiddeld meer dan één week."}
             </span>
           </label>
           <label className="flex items-start gap-3 cursor-pointer">
             <input required type="checkbox" className="mt-1 w-4 h-4 accent-[var(--color-gold)] rounded" />
             <span className="text-sm text-[var(--text-primary)] leading-relaxed">
-              {labels?.legalConsent2 ?? "Ik bevestig dat deze teksten en foto's mijn eigendom zijn en geef Puur Safaris toestemming deze te gebruiken voor marketing en website-inhoud."}
+              {labels?.legalConsent2 ?? "Ik bevestig dat deze teksten en foto's mijn eigendom zijn en geef Puur Uganda Reizen toestemming deze te gebruiken voor marketing en website-inhoud."}
             </span>
           </label>
         </div>

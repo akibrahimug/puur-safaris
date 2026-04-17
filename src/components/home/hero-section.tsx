@@ -7,6 +7,8 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { stegaClean } from '@sanity/client/stega'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { cmsText } from '@/i18n/config'
+import type { Locale } from '@/i18n/config'
+import { cmsPathToLocale } from '@/i18n/routes'
 import type { SiteSettings, HomePage } from '@/lib/types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -103,14 +105,14 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           className="mt-10 flex flex-wrap items-center gap-4"
         >
           <Link
-            href={stegaClean(homePage?.heroCta1Link) ?? '/safaris'}
+            href={`/${locale}${cmsPathToLocale(stegaClean(homePage?.heroCta1Link) ?? '/safari-reizen', locale as Locale)}`}
             className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-gold-dark hover:shadow-[0_0_40px_rgba(42,125,88,0.4)]"
           >
             {cms(homePage?.heroCta1Text) ?? d?.heroCta1 ?? 'Bekijk onze reizen'}
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
           <Link
-            href={stegaClean(homePage?.heroCta2Link) ?? '/custom-itinerary'}
+            href={`/${locale}${cmsPathToLocale(stegaClean(homePage?.heroCta2Link) ?? '/eigen-reisschema', locale as Locale)}`}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/35"
           >
             {cms(homePage?.heroCta2Text) ?? d?.heroCta2 ?? 'Eigen Reisschema'}

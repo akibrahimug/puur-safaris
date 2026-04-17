@@ -50,7 +50,7 @@ export function WhyChooseUsSection({ eyebrow, title, features, dict }: WhyChoose
     <section className="section-page py-28 relative overflow-hidden">
       <div className="container mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeading
-          eyebrow={eyebrow ?? d?.whyEyebrow ?? 'Waarom Puur Safaris'}
+          eyebrow={eyebrow ?? d?.whyEyebrow ?? 'Waarom Puur Uganda Reizen'}
           title={title ?? d?.whyTitle ?? 'Wij geloven in reizen die een indruk achterlaten voor het leven.'}
           light
           centered

@@ -2,9 +2,6 @@ import { groq } from 'next-sanity'
 
 // ─── COMMON PROJECTIONS ───────────────────────────────────────────────────────
 
-/** Included in every singleton / detail query so the app can detect fallback docs. */
-const LANG_FIELD = `language,`
-
 const IMAGE_PROJECTION = `{
   asset->{ _id, url, metadata{ dimensions, lqip } },
   hotspot,
@@ -20,7 +17,7 @@ const SEO_PROJECTION = `seo {
 }`
 
 const TRIP_CARD_PROJECTION = `{
-  _id,
+  _id, _rev,
   title,
   "slug": slug.current,
   excerpt,
@@ -38,8 +35,8 @@ const TRIP_CARD_PROJECTION = `{
 // ─── SITE SETTINGS ────────────────────────────────────────────────────────────
 
 export const siteSettingsQuery = groq`
-  *[_type == "siteSettings" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    ${LANG_FIELD}
+  *[_type == "siteSettings" && language == "nl"][0] {
+    _id, _rev,
     siteName,
     tagline,
     logo ${IMAGE_PROJECTION},
@@ -81,47 +78,10 @@ export const siteSettingsQuery = groq`
   }
 `
 
-// ─── HOMEPAGE ─────────────────────────────────────────────────────────────────
-
-export const homepageQuery = groq`{
-  "featuredTrips": *[_type == "trip" && featured == true && active == true && language == $language]
-    | order(_createdAt asc)[0...6] ${TRIP_CARD_PROJECTION},
-
-  "destinations": *[_type == "destination" && language == $language] | order(displayOrder asc)[0...6] {
-    _id,
-    name,
-    "slug": slug.current,
-    country,
-    continent,
-    excerpt,
-    heroImage ${IMAGE_PROJECTION}
-  },
-
-  "testimonials": *[_type == "testimonial" && visible == true && language == $language]
-    | order(_createdAt desc)[0...6] {
-    _id,
-    name,
-    country,
-    rating,
-    quote,
-    date,
-    profilePhoto ${IMAGE_PROJECTION},
-    "bookedTrip": bookedTrip->{ title, "slug": slug.current }
-  },
-
-  "settings": *[_type == "siteSettings" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    siteName,
-    tagline,
-    defaultSeoTitle,
-    defaultSeoDescription,
-    defaultOgImage ${IMAGE_PROJECTION}
-  }
-}`
-
 // ─── TRIP LISTING ─────────────────────────────────────────────────────────────
 
 export const tripListQuery = groq`
-  *[_type == "trip" && active == true && language == $language]
+  *[_type == "trip" && active == true && language == "nl"]
   | order(featured desc, _createdAt asc)
   ${TRIP_CARD_PROJECTION}
 `
@@ -129,8 +89,8 @@ export const tripListQuery = groq`
 // ─── TRIP DETAIL ──────────────────────────────────────────────────────────────
 
 export const tripDetailQuery = groq`
-  *[_type == "trip" && slug.current == $slug && active == true && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    _id,
+  *[_type == "trip" && slug.current == $slug && active == true && language == "nl"][0] {
+    _id, _rev,
     title,
     "slug": slug.current,
     excerpt,
@@ -165,29 +125,29 @@ export const tripDetailQuery = groq`
 `
 
 export const tripSlugsQuery = groq`
-  *[_type == "trip" && active == true && language == $language]{ "slug": slug.current }
+  *[_type == "trip" && active == true && language == "nl"]{ "slug": slug.current }
 `
 
 // ─── DESTINATION LISTING ──────────────────────────────────────────────────────
 
 export const destinationListQuery = groq`
-  *[_type == "destination" && language == $language] | order(displayOrder asc) {
-    _id,
+  *[_type == "destination" && language == "nl"] | order(displayOrder asc) {
+    _id, _rev,
     name,
     "slug": slug.current,
     country,
     continent,
     excerpt,
     heroImage ${IMAGE_PROJECTION},
-    "tripCount": count(*[_type == "trip" && active == true && language == $language && references(^._id)])
+    "tripCount": count(*[_type == "trip" && active == true && language == "nl" && references(^._id)])
   }
 `
 
 // ─── DESTINATION DETAIL ───────────────────────────────────────────────────────
 
 export const destinationDetailQuery = groq`
-  *[_type == "destination" && slug.current == $slug && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    _id,
+  *[_type == "destination" && slug.current == $slug && language == "nl"][0] {
+    _id, _rev,
     name,
     "slug": slug.current,
     country,
@@ -221,7 +181,7 @@ export const destinationDetailQuery = groq`
     },
     coordinates,
     mapZoom,
-    "relatedTrips": *[_type == "trip" && active == true && language == $language && references(^._id)]
+    "relatedTrips": *[_type == "trip" && active == true && language == "nl" && references(^._id)]
       | order(featured desc)
       ${TRIP_CARD_PROJECTION},
     ${SEO_PROJECTION}
@@ -229,14 +189,14 @@ export const destinationDetailQuery = groq`
 `
 
 export const destinationSlugsQuery = groq`
-  *[_type == "destination" && language == $language]{ "slug": slug.current }
+  *[_type == "destination" && language == "nl"]{ "slug": slug.current }
 `
 
 // ─── BLOG LISTING ─────────────────────────────────────────────────────────────
 
 export const blogListQuery = groq`
-  *[_type == "blogPost" && status == "published" && language == $language] | order(publishedAt desc) {
-    _id,
+  *[_type == "blogPost" && status == "published" && language == "nl"] | order(publishedAt desc) {
+    _id, _rev,
     title,
     "slug": slug.current,
     author,
@@ -251,8 +211,8 @@ export const blogListQuery = groq`
 // ─── BLOG POST DETAIL ─────────────────────────────────────────────────────────
 
 export const blogPostDetailQuery = groq`
-  *[_type == "blogPost" && slug.current == $slug && status == "published" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    _id,
+  *[_type == "blogPost" && slug.current == $slug && status == "published" && language == "nl"][0] {
+    _id, _rev,
     title,
     "slug": slug.current,
     author,
@@ -280,13 +240,13 @@ export const blogPostDetailQuery = groq`
 `
 
 export const blogPostSlugsQuery = groq`
-  *[_type == "blogPost" && status == "published" && language == $language]{ "slug": slug.current }
+  *[_type == "blogPost" && status == "published" && language == "nl"]{ "slug": slug.current }
 `
 
-// Preview query — no status filter, includes status + submitterEmail for admin preview
+// Preview query — no status/language filter, includes status + submitterEmail for admin preview
 export const blogPostPreviewQuery = groq`
   *[_type == "blogPost" && slug.current == $slug][0] {
-    _id,
+    _id, _rev,
     title,
     "slug": slug.current,
     author,
@@ -318,8 +278,8 @@ export const blogPostPreviewQuery = groq`
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 
 export const faqQuery = groq`
-  *[_type == "faqItem" && language == $language] | order(category asc, order asc) {
-    _id,
+  *[_type == "faqItem" && language == "nl"] | order(category asc, order asc) {
+    _id, _rev,
     question,
     answer,
     category
@@ -329,8 +289,8 @@ export const faqQuery = groq`
 // ─── TESTIMONIALS ─────────────────────────────────────────────────────────────
 
 export const testimonialListQuery = groq`
-  *[_type == "testimonial" && visible == true && language == $language] | order(_createdAt desc)[0...12] {
-    _id,
+  *[_type == "testimonial" && visible == true && language == "nl"] | order(_createdAt desc)[0...12] {
+    _id, _rev,
     name,
     country,
     rating,
@@ -344,8 +304,8 @@ export const testimonialListQuery = groq`
 // ─── HOMEPAGE (SINGLETON) ─────────────────────────────────────────────────────
 
 export const homePageQuery = groq`
-  *[_type == "homePage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    language,
+  *[_type == "homePage" && language == "nl"][0] {
+    _id, _rev,
     heroEyebrow,
     heroHeadline,
     heroHeadlineAccent,
@@ -389,8 +349,8 @@ export const homePageQuery = groq`
 // ─── ABOUT PAGE (SINGLETON) ──────────────────────────────────────────────────
 
 export const aboutPageQuery = groq`
-  *[_type == "aboutPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    ${LANG_FIELD}
+  *[_type == "aboutPage" && language == "nl"][0] {
+    _id, _rev,
     heroTitle,
     heroSubtitle,
     heroImage ${IMAGE_PROJECTION},
@@ -418,8 +378,8 @@ export const aboutPageQuery = groq`
 // ─── CONTACT PAGE (SINGLETON) ────────────────────────────────────────────────
 
 export const contactPageQuery = groq`
-  *[_type == "contactPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    ${LANG_FIELD}
+  *[_type == "contactPage" && language == "nl"][0] {
+    _id, _rev,
     heroTitle,
     heroImage ${IMAGE_PROJECTION},
     heroSubtitle,
@@ -438,24 +398,24 @@ export const contactPageQuery = groq`
 // ─── SAFARI LISTING PAGE (SINGLETON) ─────────────────────────────────────────
 
 export const safariListingPageQuery = groq`
-  *[_type == "safariListingPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    ${LANG_FIELD} heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
+  *[_type == "safariListingPage" && language == "nl"][0] {
+    _id, _rev, heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
   }
 `
 
 // ─── DESTINATION LISTING PAGE (SINGLETON) ────────────────────────────────────
 
 export const destinationListingPageQuery = groq`
-  *[_type == "destinationListingPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    ${LANG_FIELD} heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
+  *[_type == "destinationListingPage" && language == "nl"][0] {
+    _id, _rev, heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
   }
 `
 
 // ─── FAQ PAGE (SINGLETON) ────────────────────────────────────────────────────
 
 export const faqPageQuery = groq`
-  *[_type == "faqPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    ${LANG_FIELD}
+  *[_type == "faqPage" && language == "nl"][0] {
+    _id, _rev,
     heroTitle,
     heroImage ${IMAGE_PROJECTION},
     heroSubtitle,
@@ -471,8 +431,8 @@ export const faqPageQuery = groq`
 // ─── BLOG PAGE (SINGLETON) ───────────────────────────────────────────────────
 
 export const blogPageQuery = groq`
-  *[_type == "blogPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    ${LANG_FIELD}
+  *[_type == "blogPage" && language == "nl"][0] {
+    _id, _rev,
     heroTitle,
     heroSubtitle,
     heroImage ${IMAGE_PROJECTION},
@@ -497,16 +457,16 @@ export const blogPageQuery = groq`
 // ─── EIGEN REISSCHEMA PAGE (SINGLETON) ───────────────────────────────────────
 
 export const eigenReisschemaPageQuery = groq`
-  *[_type == "eigenReisschemaPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    ${LANG_FIELD} heroEyebrow, heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
+  *[_type == "eigenReisschemaPage" && language == "nl"][0] {
+    _id, _rev, heroEyebrow, heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
   }
 `
 
 // ─── BLOG SUBMISSION PAGE (SINGLETON) ────────────────────────────────────────
 
 export const blogSubmissionPageQuery = groq`
-  *[_type == "blogSubmissionPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    ${LANG_FIELD}
+  *[_type == "blogSubmissionPage" && language == "nl"][0] {
+    _id, _rev,
     heroTitle,
     heroSubtitle,
     heroImage ${IMAGE_PROJECTION},
@@ -525,8 +485,8 @@ export const blogSubmissionPageQuery = groq`
 // ─── LEGAL PAGE ─────────────────────────────────────────────────────────────
 
 export const legalPageQuery = groq`
-  *[_type == "legalPage" && slug.current in $slugs && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    ${LANG_FIELD}
+  *[_type == "legalPage" && slug.current in $slugs && language == "nl"][0] {
+    _id, _rev,
     title,
     "slug": slug.current,
     heroImage ${IMAGE_PROJECTION},
@@ -538,8 +498,8 @@ export const legalPageQuery = groq`
 // ─── BOOKING PAGE (SINGLETON) ────────────────────────────────────────────────
 
 export const bookingPageQuery = groq`
-  *[_type == "bookingPage" && language in [$language, "nl"]] | order(select(language == $language => 0, 1) asc)[0] {
-    ${LANG_FIELD}
+  *[_type == "bookingPage" && language == "nl"][0] {
+    _id, _rev,
     heroEyebrow,
     heroImage ${IMAGE_PROJECTION},
     heroSubtitle

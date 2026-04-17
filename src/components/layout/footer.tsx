@@ -2,9 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import { stegaClean } from "@sanity/client/stega";
-import { cmsText } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
-import { localePath } from "@/i18n/routes";
+import { localePath, cmsPathToLocale } from "@/i18n/routes";
 import type { SiteSettings } from "@/lib/types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,33 +15,9 @@ interface FooterProps {
   dict?: Dict;
 }
 
-function defaultColumn1Links(locale: string, dict?: Dict) {
-  const loc = locale as Locale
-  const f = dict?.footer
-  return [
-    { href: localePath(loc, 'safaris'), label: f?.allSafaris ?? "Alle safari reizen" },
-    { href: `${localePath(loc, 'safaris')}?category=wildlife`, label: f?.wildlifeSafaris ?? "Wildlife Safaris" },
-    { href: `${localePath(loc, 'safaris')}?category=hiking`, label: f?.hikingTrekking ?? "Berg & Trekking" },
-    { href: `${localePath(loc, 'safaris')}?category=culture`, label: f?.cultureCommunity ?? "Cultuur & Gemeenschap" },
-    { href: localePath(loc, 'destinations'), label: f?.destinations ?? "Bestemmingen" },
-  ]
-}
-
-function defaultColumn2Links(locale: string, dict?: Dict) {
-  const loc = locale as Locale
-  const f = dict?.footer
-  return [
-    { href: localePath(loc, 'about'), label: f?.aboutUs ?? "Over Puur Safaris" },
-    { href: localePath(loc, 'blog'), label: f?.travelBlog ?? "Reisblog" },
-    { href: localePath(loc, 'faq'), label: f?.faqLink ?? "Veelgestelde vragen" },
-    { href: localePath(loc, 'contact'), label: f?.contactLink ?? "Contact" },
-  ]
-}
-
 export function Footer({ settings, locale = "nl", dict }: FooterProps) {
+  const loc = locale as Locale
   const f = dict?.footer
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cms = <T,>(v: T | null | undefined) => cmsText(v, (settings as any)?.language, locale)
   return (
     <footer
       className="bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]"
@@ -56,7 +31,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
                 <Image
                   src={settings.logo.asset.url}
                   alt={
-                    settings.logo.alt ?? settings?.siteName ?? "Puur Safaris"
+                    settings.logo.alt ?? settings?.siteName ?? "Puur Uganda Reizen"
                   }
                   width={280}
                   height={120}
@@ -64,18 +39,18 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
                 />
               ) : (
                 <span className="font-serif text-xl font-bold tracking-tight text-[var(--text-primary)]">
-                  Puur<span className="text-gold"> Safaris</span>
+                  {settings?.siteName ?? 'Puur Uganda Reizen'}
                 </span>
               )}
             </Link>
-            {cms(settings?.tagline) && (
+            {settings?.tagline && (
               <p className="text-sm text-[var(--text-muted)] italic mb-4">
-                {cms(settings?.tagline)}
+                {settings.tagline}
               </p>
             )}
-            {cms(settings?.footerText) && (
+            {settings?.footerText && (
               <p className="text-sm text-[var(--text-subtle)] leading-relaxed">
-                {cms(settings?.footerText)}
+                {settings.footerText}
               </p>
             )}
 
@@ -157,10 +132,10 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
           {/* Safari Reizen */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              {cms(settings?.footerColumn1Heading) ?? f?.col1Heading ?? 'Safari Reizen'}
+              {settings?.footerColumn1Heading ?? f?.col1Heading ?? 'Safari Reizen'}
             </h3>
             <ul className="space-y-3 text-sm">
-              {(cms(settings?.footerColumn1Links)?.map((l: {href: string; label: string}) => ({ ...l, href: `/${locale}${stegaClean(l.href)}` })) ?? defaultColumn1Links(locale, dict)).map(({ href, label }) => (
+              {(settings?.footerColumn1Links?.map((l: {href: string; label: string}) => ({ ...l, href: `/${locale}${cmsPathToLocale(stegaClean(l.href), loc)}` })) ?? []).map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
@@ -176,10 +151,10 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
           {/* Over ons */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              {cms(settings?.footerColumn2Heading) ?? f?.col2Heading ?? 'Over Ons'}
+              {settings?.footerColumn2Heading ?? f?.col2Heading ?? 'Over Ons'}
             </h3>
             <ul className="space-y-3 text-sm">
-              {(cms(settings?.footerColumn2Links)?.map((l: {href: string; label: string}) => ({ ...l, href: `/${locale}${stegaClean(l.href)}` })) ?? defaultColumn2Links(locale, dict)).map(({ href, label }) => (
+              {(settings?.footerColumn2Links?.map((l: {href: string; label: string}) => ({ ...l, href: `/${locale}${cmsPathToLocale(stegaClean(l.href), loc)}` })) ?? []).map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
@@ -195,7 +170,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
           {/* Contact */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              {cms(settings?.footerColumn3Heading) ?? f?.col3Heading ?? 'Contact'}
+              {settings?.footerColumn3Heading ?? f?.col3Heading ?? 'Contact'}
             </h3>
             <ul className="space-y-3.5 text-sm">
               <li>
@@ -209,11 +184,11 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={`mailto:${stegaClean(settings?.contactEmail) ?? "info@puursafaris.nl"}`}
+                  href={`mailto:${stegaClean(settings?.contactEmail) ?? "info@puurugandareizen.nl"}`}
                   className="flex items-center gap-2.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors break-all"
                 >
                   <Mail className="h-3.5 w-3.5 text-gold/60 shrink-0" />
-                  {settings?.contactEmail ?? "info@puursafaris.nl"}
+                  {settings?.contactEmail ?? "info@puurugandareizen.nl"}
                 </a>
               </li>
               <li className="flex items-start gap-2.5 text-[var(--text-muted)]">
@@ -244,22 +219,22 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
         {/* Bottom bar */}
         <div className="mt-14 pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-subtle)]">
           <p>
-            &copy; {new Date().getFullYear()} {settings?.siteName ?? "Puur Safaris"}. {cms(settings?.copyrightText) ?? f?.copyright ?? 'Alle rechten voorbehouden.'}
+            &copy; {new Date().getFullYear()} {settings?.siteName ?? "Puur Uganda Reizen"}. {settings?.copyrightText ?? f?.copyright ?? 'Alle rechten voorbehouden.'}
             {settings?.chamberOfCommerceNumber &&
               ` · KvK: ${settings.chamberOfCommerceNumber}`}
           </p>
           <div className="flex gap-6">
             <Link
-              href={cms(settings?.privacyLink) ? `/${locale}${stegaClean(settings?.privacyLink)}` : localePath(locale as Locale, 'privacy')}
+              href={settings?.privacyLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.privacyLink), loc)}` : localePath(loc, 'privacy')}
               className="hover:text-[var(--text-muted)] transition-colors"
             >
-              {cms(settings?.privacyLabel) ?? f?.privacyLabel ?? 'Privacybeleid'}
+              {settings?.privacyLabel ?? f?.privacyLabel ?? 'Privacybeleid'}
             </Link>
             <Link
-              href={cms(settings?.termsLink) ? `/${locale}${stegaClean(settings?.termsLink)}` : localePath(locale as Locale, 'terms')}
+              href={settings?.termsLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.termsLink), loc)}` : localePath(loc, 'terms')}
               className="hover:text-[var(--text-muted)] transition-colors"
             >
-              {cms(settings?.termsLabel) ?? f?.termsLabel ?? 'Algemene Voorwaarden'}
+              {settings?.termsLabel ?? f?.termsLabel ?? 'Algemene Voorwaarden'}
             </Link>
           </div>
         </div>

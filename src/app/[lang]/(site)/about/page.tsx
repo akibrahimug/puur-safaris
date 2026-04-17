@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { hasLocale, cmsText, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
-import { localePath } from '@/i18n/routes'
+import { localePath, cmsPathToLocale } from '@/i18n/routes'
 import { getSiteSettings, getAboutPage } from '@/lib/data'
 import { buildMetadata, getBaseUrl } from '@/lib/seo'
 import { PageHero } from '@/components/shared/page-hero'
@@ -86,7 +86,7 @@ export default async function OverOnsPage({ params }: Props) {
                   <PortableTextRenderer value={aboutPage.backgroundText as unknown[]} />
                 ) : (
                   <p className="text-[var(--text-muted)] text-lg leading-relaxed">
-                    Puur Safaris is geboren uit een diepe liefde voor het Afrikaanse continent. Wat ooit begon als een persoonlijke ontdekkingsreis door de wildernis van Kenia en Tanzania, groeide al snel uit tot een passie om deze onvergetelijke ervaringen met anderen te delen. Wij hebben jarenlang de uitgestrekte savannes, dichte oerwouden en verborgen pareltjes van Afrika verkend om de ultieme, authentieke safari-beleving te kunnen creëren.
+                    Puur Uganda Reizen is geboren uit een diepe liefde voor het Afrikaanse continent. Wat ooit begon als een persoonlijke ontdekkingsreis door de wildernis van Kenia en Tanzania, groeide al snel uit tot een passie om deze onvergetelijke ervaringen met anderen te delen. Wij hebben jarenlang de uitgestrekte savannes, dichte oerwouden en verborgen pareltjes van Afrika verkend om de ultieme, authentieke safari-beleving te kunnen creëren.
                   </p>
                 )}
               </div>
@@ -101,7 +101,7 @@ export default async function OverOnsPage({ params }: Props) {
                 ) : (
                   <>
                     <p className="text-[var(--text-muted)] text-lg leading-relaxed mb-6">
-                      Bij Puur Safaris geloven wij in reizen op zijn puurste. Geen massatoerisme, geen drukke groepen — maar intieme, op maat gemaakte safari ervaringen die u raken tot in de kern.
+                      Bij Puur Uganda Reizen geloven wij in reizen op zijn puurste. Geen massatoerisme, geen drukke groepen — maar intieme, op maat gemaakte safari ervaringen die u raken tot in de kern.
                     </p>
                     <p className="text-[var(--text-muted)] text-lg leading-relaxed mb-6">
                       Onze missie is simpel: wij ontsluiten de magie van Afrika op een verantwoorde, duurzame en volstrekt unieke manier, zodat elke minuut in de bush goud waard is.
@@ -177,7 +177,7 @@ export default async function OverOnsPage({ params }: Props) {
                   </p>
                 )}
                 <Button className="relative bg-gold hover:bg-gold-dark text-white rounded-full" asChild>
-                  <Link href={stegaClean(aboutPage?.communityCtaLink) ?? '#'}>
+                  <Link href={aboutPage?.communityCtaLink ? `/${lang}${cmsPathToLocale(stegaClean(aboutPage.communityCtaLink)!, locale)}` : '#'}>
                     {cmsLabel(aboutPage?.communityCtaText) ?? 'Ontdek Onze Impact'}
                   </Link>
                 </Button>
