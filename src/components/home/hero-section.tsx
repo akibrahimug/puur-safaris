@@ -36,7 +36,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
   const heroImageAlt = homePage?.heroImage?.alt ?? d?.heroImageAlt ?? 'Safari in Africa'
 
   return (
-    <section ref={ref} className="relative flex min-h-screen items-center overflow-hidden bg-ink grain">
+    <section ref={ref} className="relative flex min-h-[640px] md:min-h-[100svh] items-center overflow-hidden bg-ink grain">
       {/* Parallax background image */}
       <motion.div className="absolute inset-0 scale-110" style={{ y: imageY }}>
         {heroImageUrl && (
@@ -61,7 +61,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
       {/* Content */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
-        className="relative z-10 w-full container mx-auto max-w-7xl px-6 lg:px-8 pt-28 pb-24"
+        className="relative z-10 w-full container mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 pt-24 pb-20 sm:pt-28 sm:pb-24"
       >
         {/* Eyebrow */}
         <motion.div
@@ -80,7 +80,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="font-serif text-display font-bold text-white max-w-3xl"
+          className="font-serif text-display font-bold text-white max-w-3xl break-words hyphens-auto"
         >
           {cms(homePage?.heroHeadline) ?? d?.heroHeadline ?? 'Ontdek Afrika'}
           <br />
@@ -92,7 +92,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.65 }}
-          className="mt-7 max-w-lg text-lg leading-relaxed text-white/65"
+          className="mt-5 sm:mt-7 max-w-lg text-base sm:text-lg leading-relaxed text-white/65"
         >
           {cms(homePage?.heroSubtitle) ?? d?.heroSubtitle ?? 'Persoonlijke safari reizen op maat, afgestemd op uw wensen. Van wildlife in Kenya tot bergklimmen in Tanzania.'}
         </motion.p>
@@ -102,18 +102,18 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.82 }}
-          className="mt-10 flex flex-wrap items-center gap-4"
+          className="mt-8 sm:mt-10 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4"
         >
           <Link
             href={`/${locale}${cmsPathToLocale(stegaClean(homePage?.heroCta1Link) ?? '/safari-reizen', locale as Locale)}`}
-            className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-gold-dark hover:shadow-[0_0_40px_rgba(42,125,88,0.4)]"
+            className="group inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full bg-gold px-6 sm:px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-gold-dark hover:shadow-[0_0_40px_rgba(42,125,88,0.4)]"
           >
             {cms(homePage?.heroCta1Text) ?? d?.heroCta1 ?? 'Bekijk onze reizen'}
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
           <Link
             href={`/${locale}${cmsPathToLocale(stegaClean(homePage?.heroCta2Link) ?? '/eigen-reisschema', locale as Locale)}`}
-            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/35"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 sm:px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/35"
           >
             {cms(homePage?.heroCta2Text) ?? d?.heroCta2 ?? 'Eigen Reisschema'}
           </Link>
@@ -124,7 +124,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 1.0 }}
-          className="mt-14 flex items-center gap-6"
+          className="mt-10 sm:mt-14 flex items-center gap-4 sm:gap-6"
         >
           <div className="flex -space-x-2">
             {(homePage?.heroSocialProofAvatars?.length
@@ -156,7 +156,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2"
       >
         <span className="text-[10px] tracking-[0.25em] uppercase text-white/30">{d?.scroll ?? 'Scroll'}</span>
         <motion.div

@@ -20,14 +20,16 @@ interface InstagramSidebarGalleryProps {
 export function InstagramSidebarGallery({ authorName, authorImage, gallery, labels }: InstagramSidebarGalleryProps) {
   const [page, setPage] = useState(0)
   const [itemsPerPage, setItemsPerPage] = useState(4) // default to 4 for SSR
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const handleResize = () => {
-      const isMobile = window.innerWidth < 640
-      setItemsPerPage(isMobile ? 1 : 4)
+      const mobile = window.innerWidth < 640
+      setIsMobile(mobile)
+      setItemsPerPage(mobile ? gallery.length || 1 : 4)
       // On resize transition, reset page to 0 if bounds change drastically
       setPage(prev => {
-        const newTotal = Math.ceil(gallery.length / (isMobile ? 1 : 4))
+        const newTotal = Math.ceil(gallery.length / (mobile ? (gallery.length || 1) : 4))
         return prev >= newTotal ? 0 : prev
       })
     }
@@ -53,7 +55,7 @@ export function InstagramSidebarGallery({ authorName, authorImage, gallery, labe
   }
 
   return (
-    <div className="p-6 sm:p-8 rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-lg shadow-black/5 relative z-10 bg-opacity-95 backdrop-blur-sm">
+    <div className="p-4 sm:p-8 rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-lg shadow-black/5 relative z-10 bg-opacity-95 backdrop-blur-sm">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div className="h-12 w-12 rounded-full border-2 border-gold/40 overflow-hidden relative p-[2px] shrink-0">
@@ -73,20 +75,34 @@ export function InstagramSidebarGallery({ authorName, authorImage, gallery, labe
         {labels?.sidebarDescription ?? 'Een visuele weergave van de prachtige momenten vastgelegd tijdens deze reis met Puur Uganda Reizen.'}
       </p>
 
-      {/* Gallery Grid */}
+      {/* Gallery: horizontal swipe row on mobile, grid on larger screens */}
       <div className="relative" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {currentGallery.map((imgUrl, idx) => (
-            <div key={`${page}-${idx}`} className="relative z-10 sm:hover:z-50">
-              <div 
-                className={`relative aspect-square rounded-xl bg-stone-100 transition-all duration-300 hover:shadow-xl sm:hover:shadow-2xl overflow-hidden cursor-pointer group 
-                hover:-rotate-0 sm:hover:-rotate-1 lg:hover:-rotate-2 
-                hover:scale-[1.02] sm:hover:scale-[1.4] lg:hover:scale-[1.8] 
+        <div
+          className="flex sm:grid sm:grid-cols-2 gap-3 sm:gap-2 overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide pb-2 sm:pb-0"
+          aria-label={labels?.sidebarHeading ?? 'Instagram gallery'}
+          role="list"
+        >
+          {(isMobile ? gallery : currentGallery).map((imgUrl, idx) => (
+            <div
+              key={isMobile ? `m-${idx}` : `${page}-${idx}`}
+              role="listitem"
+              className="relative z-10 sm:hover:z-50 shrink-0 w-[70%] sm:w-auto snap-center"
+            >
+              <div
+                className={`relative aspect-square rounded-xl bg-stone-100 transition-all duration-300 hover:shadow-xl sm:hover:shadow-2xl overflow-hidden cursor-pointer group
+                hover:-rotate-0 sm:hover:-rotate-1 lg:hover:-rotate-2
+                hover:scale-[1.02] sm:hover:scale-[1.4] lg:hover:scale-[1.8]
                 ${idx % 2 === 0 ? 'sm:origin-left' : 'sm:origin-right'}`}
               >
-                <Image src={imgUrl} alt={`Safari Memory ${idx + 1}`} fill className="object-cover rounded-xl" />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
-                  <div className="scale-75 sm:scale-100 text-white text-[10px] sm:text-xs font-semibold px-3 py-1.5 rounded-full border border-white/30 backdrop-blur-sm">
+                <Image
+                  src={imgUrl}
+                  alt={`Safari Memory ${idx + 1}`}
+                  fill
+                  sizes="(max-width: 640px) 70vw, 20vw"
+                  className="object-cover rounded-xl"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 rounded-xl pointer-events-none">
+                  <div className="scale-90 sm:scale-100 text-white text-[11px] sm:text-xs font-semibold px-3 py-1.5 rounded-full border border-white/30 backdrop-blur-sm">
                     {labels?.viewLabel ?? 'Bekijk Locatie'}
                   </div>
                 </div>
@@ -95,9 +111,9 @@ export function InstagramSidebarGallery({ authorName, authorImage, gallery, labe
           ))}
         </div>
 
-        {/* Carousel Controls */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-between mt-6">
+        {/* Carousel Controls — hidden on mobile (native swipe handles it) */}
+        {totalPages > 1 && !isMobile && (
+          <div className="hidden sm:flex items-center justify-between mt-6">
             <button 
               onClick={prev} 
               className="p-3 sm:p-1.5 rounded-full border border-[var(--border-subtle)] hover:bg-[var(--bg-primary)] transition-colors text-[var(--text-muted)] hover:text-gold shadow-sm sm:shadow-none"
@@ -125,9 +141,9 @@ export function InstagramSidebarGallery({ authorName, authorImage, gallery, labe
       </div>
 
       <div className="mt-6 pt-6 border-t border-[var(--border-subtle)] text-center relative z-0">
-        <Link 
+        <Link
           href="/safaris"
-          className="inline-block w-full rounded-full border border-[var(--border-subtle)] text-[var(--text-primary)] px-4 py-3 sm:py-2 text-sm font-medium hover:bg-[var(--bg-primary)] hover:border-gold/40 transition-colors"
+          className="inline-flex items-center justify-center w-full min-h-[44px] rounded-full border border-[var(--border-subtle)] text-[var(--text-primary)] px-4 py-3 sm:py-2 text-sm font-medium hover:bg-[var(--bg-primary)] hover:border-gold/40 transition-colors"
         >
           {labels?.ctaLabel ?? 'Ontdek Al Onze Reizen'}
         </Link>

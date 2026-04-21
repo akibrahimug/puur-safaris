@@ -31,18 +31,18 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
         className="flex flex-col h-full group"
       >
         <article
-          className="flex flex-col h-full rounded-3xl overflow-hidden transition-all duration-500 ease-out border border-[var(--border-subtle)] shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_20px_80px_-15px_rgba(0,0,0,0.15)] group-hover:-translate-y-1"
+          className="flex flex-col h-full rounded-3xl overflow-hidden transition-all duration-500 ease-out border border-[var(--border-subtle)] shadow-[0_8px_30px_rgb(0,0,0,0.04)] [@media(hover:hover)]:group-hover:shadow-[0_20px_80px_-15px_rgba(0,0,0,0.15)] [@media(hover:hover)]:group-hover:-translate-y-1"
           style={{ background: "var(--card-strip-bg)" }}
         >
           {/* ── Image zone ────────────────────────────── */}
-          <div className="relative h-56 shrink-0 overflow-hidden">
+          <div className="relative h-48 sm:h-56 shrink-0 overflow-hidden">
             {imageUrl ? (
               <Image
                 src={imageUrl}
                 alt={trip.heroImage?.alt ?? trip.title}
                 fill
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-cover transition-transform duration-700 ease-out [@media(hover:hover)]:group-hover:scale-[1.05]"
+                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 50vw, 33vw"
               />
             ) : (
               <div
@@ -60,18 +60,18 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
               }}
             />
 
-            {/* Badges — hidden by default, slide in on group hover */}
-            <div className="absolute top-4 left-4 right-4 flex items-start justify-between gap-2 pointer-events-none group-hover:pointer-events-auto opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
+            {/* Badges — visible on mobile/touch, slide-in animation only on hover-capable devices */}
+            <div className="absolute top-3 left-3 right-3 sm:top-4 sm:left-4 sm:right-4 flex items-start justify-between gap-2 opacity-100 translate-y-0 md:[@media(hover:hover)]:opacity-0 md:[@media(hover:hover)]:-translate-y-2 md:[@media(hover:hover)]:group-hover:opacity-100 md:[@media(hover:hover)]:group-hover:translate-y-0 transition-all duration-500 ease-out">
               {trip.category && (
                 <span
-                  className="rounded-full px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-black/40 text-white/95 border border-white/10 shadow-sm"
+                  className="rounded-full px-2.5 py-1 sm:px-3 sm:py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-black/40 text-white/95 border border-white/10 shadow-sm max-w-[60%] truncate"
                 >
                   {categoryLabel(trip.category)}
                 </span>
               )}
               {trip.featured && (
                 <span
-                  className="rounded-full px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-gold/80 text-white border border-white/20 shadow-sm ml-auto"
+                  className="rounded-full px-2.5 py-1 sm:px-3 sm:py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-gold/80 text-white border border-white/20 shadow-sm ml-auto max-w-[45%] truncate"
                 >
                   {labels?.featuredBadge ?? 'Aanbevolen'}
                 </span>
@@ -93,13 +93,13 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
             {/* Main content */}
             <div className="flex flex-col grow px-4 pt-3 pb-0">
               {trip.destination && (
-                <div className="flex items-center gap-1.5 mb-1.5">
+                <div className="flex items-center gap-1.5 mb-1.5 min-w-0">
                   <MapPin
                     className="h-3 w-3 shrink-0"
                     style={{ color: "#5aad7e" }}
                   />
                   <span
-                    className="text-[10px] font-semibold uppercase tracking-[0.13em]"
+                    className="text-[10px] font-semibold uppercase tracking-[0.13em] truncate"
                     style={{ color: "#5aad7e" }}
                   >
                     {trip.destination.name}, {trip.destination.country}
@@ -108,7 +108,7 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
               )}
 
               <h3
-                className="font-serif text-[0.95rem] font-semibold leading-snug mb-2"
+                className="font-serif text-base sm:text-[0.95rem] font-semibold leading-snug mb-2 line-clamp-2"
                 style={{ color: "var(--card-strip-text)" }}
               >
                 {trip.title}
@@ -155,8 +155,8 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
                 }}
                 className="mb-3"
               />
-              <div className="flex items-end justify-between">
-                <div>
+              <div className="flex items-end justify-between gap-3">
+                <div className="min-w-0 flex-1">
                   <p
                     className="text-[9px] font-semibold uppercase tracking-[0.18em] mb-0.5"
                     style={{ color: "var(--card-strip-muted)" }}
@@ -164,13 +164,13 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
                     {labels?.priceFromLabel ?? 'Vanaf'}
                   </p>
                   <p
-                    className="text-[1.3rem] font-bold leading-none"
+                    className="text-xl sm:text-[1.3rem] font-bold leading-none truncate"
                     style={{ color: "#2a7d58" }}
                   >
                     {formatPrice(trip.price)}
                   </p>
                   <p
-                    className="text-[9px] mt-0.5"
+                    className="text-[9px] mt-0.5 truncate"
                     style={{ color: "var(--card-strip-muted)" }}
                   >
                     {trip.priceType === "per_group"
@@ -180,10 +180,11 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
                 </div>
 
                 <div
-                  className="flex items-center gap-1.5 rounded-full px-4 py-2 border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] backdrop-blur-md transition-all duration-500 ease-out group-hover:bg-gold group-hover:border-transparent group-hover:shadow-[0_8px_20px_rgba(42,125,88,0.25)] text-gold group-hover:text-white"
+                  className="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-full px-4 min-h-11 border border-black/5 dark:border-white/10 bg-gold/10 sm:bg-black/[0.02] sm:dark:bg-white/[0.02] backdrop-blur-md transition-all duration-500 ease-out md:[@media(hover:hover)]:group-hover:bg-gold md:[@media(hover:hover)]:group-hover:border-transparent md:[@media(hover:hover)]:group-hover:shadow-[0_8px_20px_rgba(42,125,88,0.25)] md:[@media(hover:hover)]:group-hover:text-white text-gold"
+                  aria-hidden="true"
                 >
-                  <span className="text-[11px] font-semibold">{labels?.viewLabel ?? 'Bekijk'}</span>
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-all duration-500 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <span className="text-xs font-semibold">{labels?.viewLabel ?? 'Bekijk'}</span>
+                  <ArrowUpRight className="h-4 w-4 transition-all duration-500 ease-out md:[@media(hover:hover)]:group-hover:translate-x-0.5 md:[@media(hover:hover)]:group-hover:-translate-y-0.5" />
                 </div>
               </div>
             </div>

@@ -114,11 +114,15 @@ html[data-scroll-behavior="smooth"] {
   scroll-behavior: smooth;
 }
 
-button,
-a[role="button"],
-[class*="rounded-full"][class*="px-"],
-[class*="btn"] {
-  white-space: nowrap;
+@layer base {
+  :where(
+    button,
+    a[role="button"],
+    [class*="rounded-full"][class*="px-"],
+    [class*="btn"]
+  ) {
+    white-space: nowrap;
+  }
 }
 
 body {
@@ -127,6 +131,11 @@ body {
   font-family: var(--font-sora, ui-sans-serif, system-ui, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+html {
+  overflow-x: clip;
 }
 
 .font-serif {

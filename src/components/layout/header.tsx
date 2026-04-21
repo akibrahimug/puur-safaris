@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { localePath, cmsPathToLocale } from "@/i18n/routes";
 import type { Locale } from "@/i18n/config";
-import type { SiteSettings, NavLink } from "@/lib/types";
+import type { SiteSettings } from "@/lib/types";
 
 // Navigation is CMS-driven. This is a minimal fallback only used if settings fail to load.
 
@@ -42,6 +42,21 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Close mobile menu on Escape; lock body scroll while open
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
 
   const scrolledClass = scrolled
     ? isDark
@@ -133,16 +148,19 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
           <div className="flex lg:hidden items-center gap-2">
             <ThemeToggle scrolled={scrolled} />
             <button
-              className={`p-2 rounded-lg transition-colors ${
+              type="button"
+              className={`inline-flex items-center justify-center min-h-11 min-w-11 rounded-lg transition-colors touch-manipulation ${
                 scrolled && !isDark ? "text-stone-700" : "text-white"
               }`}
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
             >
               {menuOpen ? (
-                <X className="h-5 w-5" />
+                <X className="h-6 w-6" />
               ) : (
-                <Menu className="h-5 w-5" />
+                <Menu className="h-6 w-6" />
               )}
             </button>
           </div>
@@ -152,49 +170,78 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
       {/* Mobile nav */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className={`lg:hidden overflow-hidden border-t ${
-              isDark
-                ? "glass-dark border-white/6"
-                : "glass-light border-stone-200/60"
-            }`}
-          >
-            <nav className="flex flex-col px-6 py-4 gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={stegaClean(link.href)}
-                  href={stegaClean(link.href)}
-                  className={`rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                    isDark
-                      ? "text-white/70 hover:bg-white/6 hover:text-white"
-                      : "text-stone-700 hover:bg-stone-100 hover:text-stone-900"
-                  }`}
-                  onClick={() => setMenuOpen(false)}
+          <>
+            {/* Backdrop — click to dismiss */}
+            <motion.button
+              type="button"
+              aria-label="Menu sluiten"
+              tabIndex={-1}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMenuOpen(false)}
+              className="lg:hidden fixed inset-0 top-16 z-40 bg-black/30 backdrop-blur-[1px] cursor-default"
+            />
+            <motion.div
+              id="mobile-nav"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className={`lg:hidden relative z-50 overflow-hidden border-t pb-[env(safe-area-inset-bottom)] ${
+                isDark
+                  ? "glass-dark border-white/6"
+                  : "glass-light border-stone-200/60"
+              }`}
+            >
+              <nav className="flex flex-col px-6 py-4 gap-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
+                {navLinks.map((link) => (
+                  <Link
+                    key={stegaClean(link.href)}
+                    href={stegaClean(link.href)}
+                    className={`flex items-center min-h-11 rounded-lg px-3 py-3 text-base font-medium transition-colors touch-manipulation ${
+                      isDark
+                        ? "text-white/70 hover:bg-white/6 hover:text-white active:bg-white/10"
+                        : "text-stone-700 hover:bg-stone-100 hover:text-stone-900 active:bg-stone-200"
+                    }`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                {settings?.phone && (
+                  <a
+                    href={`tel:${stegaClean(settings.phone)?.replace(/\s/g, "")}`}
+                    className={`flex items-center gap-2 min-h-11 rounded-lg px-3 py-3 text-base font-medium transition-colors touch-manipulation ${
+                      isDark
+                        ? "text-white/70 hover:bg-white/6 hover:text-white"
+                        : "text-stone-700 hover:bg-stone-100 hover:text-stone-900"
+                    }`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <Phone className="h-4 w-4 shrink-0" />
+                    {settings.phone}
+                  </a>
+                )}
+                <div
+                  className={`mt-3 pt-3 border-t ${isDark ? "border-white/8" : "border-stone-200"}`}
                 >
-                  {link.label}
-                </Link>
-              ))}
-              <div
-                className={`mt-3 pt-3 border-t ${isDark ? "border-white/8" : "border-stone-200"}`}
-              >
-                <Link
-                  href={settings?.headerCtaLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.headerCtaLink), loc)}` : localePath(loc, 'customItinerary')}
-                  className={`block w-full rounded-full px-5 py-2.5 text-center text-sm font-medium transition-colors ${
-                    isDark
-                      ? "bg-gold text-white hover:bg-gold-dark"
-                      : "bg-stone-900 text-white hover:bg-stone-800"
-                  }`}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {settings?.headerCtaLabel ?? 'Eigen Reisschema'}
-                </Link>
-              </div>
-            </nav>
-          </motion.div>
+                  <Link
+                    href={settings?.headerCtaLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.headerCtaLink), loc)}` : localePath(loc, 'customItinerary')}
+                    className={`flex items-center justify-center w-full min-h-11 rounded-full px-5 py-3 text-center text-sm font-medium transition-colors touch-manipulation ${
+                      isDark
+                        ? "bg-gold text-white hover:bg-gold-dark"
+                        : "bg-stone-900 text-white hover:bg-stone-800"
+                    }`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {settings?.headerCtaLabel ?? 'Eigen Reisschema'}
+                  </Link>
+                </div>
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>

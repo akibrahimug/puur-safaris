@@ -18,7 +18,7 @@ export function PageHero({ title, subtitle, image, eyebrow, className, children 
   const lqip = image?.asset?.metadata?.lqip
 
   return (
-    <section className={cn('relative flex min-h-[46vh] items-end overflow-hidden bg-ink', className)}>
+    <section className={cn('relative flex min-h-[46svh] sm:min-h-[46vh] items-end overflow-hidden bg-ink', className)}>
       {/* Background */}
       {imageUrl ? (
         <Image
@@ -45,7 +45,7 @@ export function PageHero({ title, subtitle, image, eyebrow, className, children 
         style={{ background: 'linear-gradient(to right, rgba(42,125,88,0.4), rgba(42,125,88,0.1) 50%, transparent)' }} />
 
       {/* Content */}
-      <div className="relative z-10 w-full container mx-auto max-w-7xl px-6 lg:px-8 pb-12 pt-28">
+      <div className="relative z-10 w-full container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-8 sm:pb-12 pt-20 sm:pt-28">
         <FadeUp>
           <Breadcrumbs />
           {eyebrow && (
@@ -53,11 +53,11 @@ export function PageHero({ title, subtitle, image, eyebrow, className, children 
               {eyebrow}
             </p>
           )}
-          <h1 className="font-serif text-heading font-bold text-white tracking-tight" suppressHydrationWarning>
+          <h1 className="font-serif text-heading font-bold text-white tracking-tight break-words hyphens-auto" suppressHydrationWarning>
             {title}
           </h1>
           {subtitle && (
-            <p className="mt-4 text-base leading-relaxed max-w-xl" suppressHydrationWarning style={{ color: 'rgba(255,255,255,0.52)' }}>
+            <p className="mt-4 text-sm sm:text-base leading-relaxed max-w-xl break-words" suppressHydrationWarning style={{ color: 'rgba(255,255,255,0.65)' }}>
               {subtitle}
             </p>
           )}

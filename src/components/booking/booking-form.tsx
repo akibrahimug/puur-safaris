@@ -78,7 +78,7 @@ function Pill({
     <button
       type="button"
       onClick={onClick}
-      className="rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 border"
+      className="rounded-full px-4 py-2.5 min-h-[44px] text-sm font-medium transition-all duration-200 border"
       style={{
         background: active ? '#2a7d58' : 'rgba(42,125,88,0.06)',
         borderColor: active ? '#2a7d58' : 'rgba(42,125,88,0.25)',
@@ -117,7 +117,7 @@ function Stepper({
         <button
           type="button"
           onClick={() => onChange(Math.max(min, value - 1))}
-          className="flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200"
+          className="flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-200"
           style={{ border: '1px solid rgba(42,125,88,0.3)', color: 'var(--text-muted)' }}
         >
           <Minus className="h-4 w-4" />
@@ -131,7 +131,7 @@ function Stepper({
         <button
           type="button"
           onClick={() => onChange(Math.min(max, value + 1))}
-          className="flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200"
+          className="flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-200"
           style={{ border: '1px solid rgba(42,125,88,0.3)', color: 'var(--text-muted)' }}
         >
           <Plus className="h-4 w-4" />
@@ -143,7 +143,7 @@ function Stepper({
 
 // ── Input style constants ──────────────────────────────────────────────────────
 
-const inputClass = 'w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-200'
+const inputClass = 'w-full rounded-xl px-4 py-3 min-h-[44px] text-base sm:text-sm outline-none transition-all duration-200'
 const inputStyle = {
   background: 'rgba(42,125,88,0.05)',
   border: '1px solid rgba(42,125,88,0.2)',
@@ -343,15 +343,17 @@ export function BookingForm({
       </div>
 
       {/* Flexibele datum */}
-      <div className="flex items-center gap-3">
-        <button
-          type="button"
-          role="checkbox"
-          aria-checked={flexibel}
-          onClick={() => {
-            setFlexibel((v) => !v)
-            clearError('vertrekdatum')
-          }}
+      <button
+        type="button"
+        role="checkbox"
+        aria-checked={flexibel}
+        onClick={() => {
+          setFlexibel((v) => !v)
+          clearError('vertrekdatum')
+        }}
+        className="flex items-center gap-3 min-h-[44px] py-2 rounded-lg w-full text-left whitespace-normal"
+      >
+        <span
           className="flex h-5 w-5 shrink-0 items-center justify-center rounded transition-all duration-200"
           style={{
             background: flexibel ? '#2a7d58' : 'rgba(42,125,88,0.05)',
@@ -359,11 +361,11 @@ export function BookingForm({
           }}
         >
           {flexibel && <Check className="h-3 w-3 text-white" />}
-        </button>
-        <span className="text-sm" style={{ color: 'var(--text-muted)' }}>
+        </span>
+        <span className="text-sm min-w-0 flex-1 break-words" style={{ color: 'var(--text-muted)' }}>
           {d?.flexibleDate ?? 'Flexibele datum'}
         </span>
-      </div>
+      </button>
 
       {flexibel ? (
         <p
@@ -440,6 +442,10 @@ export function BookingForm({
             placeholder={d?.placeholderFirstname ?? "Jan"}
             className={inputClass}
             style={fieldErrors.voornaam ? inputErrorStyle : inputStyle}
+            autoComplete="given-name"
+            autoCapitalize="words"
+            autoCorrect="off"
+            spellCheck={false}
           />
           <FieldError message={fieldErrors.voornaam} />
         </div>
@@ -460,6 +466,10 @@ export function BookingForm({
             placeholder={d?.placeholderLastname ?? "de Vries"}
             className={inputClass}
             style={fieldErrors.achternaam ? inputErrorStyle : inputStyle}
+            autoComplete="family-name"
+            autoCapitalize="words"
+            autoCorrect="off"
+            spellCheck={false}
           />
           <FieldError message={fieldErrors.achternaam} />
         </div>
@@ -482,6 +492,11 @@ export function BookingForm({
           placeholder={d?.placeholderEmail ?? "jan@voorbeeld.nl"}
           className={inputClass}
           style={fieldErrors.email ? inputErrorStyle : inputStyle}
+          autoComplete="email"
+          inputMode="email"
+          autoCapitalize="none"
+          autoCorrect="off"
+          spellCheck={false}
         />
         <FieldError message={fieldErrors.email} />
       </div>
@@ -503,6 +518,8 @@ export function BookingForm({
           placeholder={d?.placeholderPhone ?? "+31 6 12 34 56 78"}
           className={inputClass}
           style={fieldErrors.telefoon ? inputErrorStyle : inputStyle}
+          autoComplete="tel"
+          inputMode="tel"
         />
         <FieldError message={fieldErrors.telefoon} />
       </div>
@@ -535,6 +552,8 @@ export function BookingForm({
             placeholder="Nederlandse"
             className={inputClass}
             style={inputStyle}
+            autoComplete="country-name"
+            autoCapitalize="words"
           />
         </div>
         <div>
@@ -554,6 +573,10 @@ export function BookingForm({
             placeholder="AB1234567"
             className={inputClass}
             style={inputStyle}
+            autoComplete="off"
+            autoCapitalize="characters"
+            autoCorrect="off"
+            spellCheck={false}
           />
         </div>
       </div>
@@ -669,32 +692,32 @@ export function BookingForm({
 
       {/* Booking summary */}
       <div
-        className="rounded-xl p-4 space-y-2"
+        className="rounded-xl p-4 space-y-2 min-w-0"
         style={{ background: 'rgba(42,125,88,0.05)', border: '1px solid rgba(42,125,88,0.15)' }}
       >
         <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#2a7d58' }}>
           Samenvatting
         </p>
-        <div className="grid grid-cols-2 gap-1 text-sm">
+        <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
           <span style={{ color: 'var(--text-subtle)' }}>Reis:</span>
-          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{tripTitle}</span>
+          <span className="font-medium min-w-0 break-words" style={{ color: 'var(--text-primary)' }}>{tripTitle}</span>
           <span style={{ color: 'var(--text-subtle)' }}>Datum:</span>
-          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
+          <span className="font-medium min-w-0 break-words" style={{ color: 'var(--text-primary)' }}>
             {flexibel ? 'Flexibel' : vertrekdatum || '—'}
           </span>
           <span style={{ color: 'var(--text-subtle)' }}>Reizigers:</span>
-          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
+          <span className="font-medium min-w-0 break-words" style={{ color: 'var(--text-primary)' }}>
             {aantalVolwassenen} volw.{aantalKinderen > 0 ? `, ${aantalKinderen} kind.` : ''}
           </span>
           <span style={{ color: 'var(--text-subtle)' }}>Naam:</span>
-          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
+          <span className="font-medium min-w-0 break-words" style={{ color: 'var(--text-primary)' }}>
             {voornaam} {achternaam}
           </span>
         </div>
       </div>
 
       {/* Terms */}
-      <div className="flex items-start gap-3 pt-2">
+      <div className="pt-2">
         <button
           type="button"
           role="checkbox"
@@ -703,21 +726,23 @@ export function BookingForm({
             setTerms((v) => !v)
             clearError('terms')
           }}
-          className="flex h-5 w-5 shrink-0 mt-0.5 items-center justify-center rounded transition-all duration-200"
-          style={{
-            background: terms ? '#2a7d58' : 'rgba(42,125,88,0.05)',
-            border: `2px solid ${fieldErrors.terms ? 'rgba(220,38,38,0.5)' : terms ? '#2a7d58' : 'rgba(42,125,88,0.3)'}`,
-          }}
+          className="flex items-start gap-3 w-full text-left py-2 rounded-lg min-h-[44px] whitespace-normal"
         >
-          {terms && <Check className="h-3 w-3 text-white" />}
-        </button>
-        <div>
-          <span className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+          <span
+            className="flex h-5 w-5 shrink-0 mt-0.5 items-center justify-center rounded transition-all duration-200"
+            style={{
+              background: terms ? '#2a7d58' : 'rgba(42,125,88,0.05)',
+              border: `2px solid ${fieldErrors.terms ? 'rgba(220,38,38,0.5)' : terms ? '#2a7d58' : 'rgba(42,125,88,0.3)'}`,
+            }}
+          >
+            {terms && <Check className="h-3 w-3 text-white" />}
+          </span>
+          <span className="text-sm leading-relaxed min-w-0 flex-1 break-words" style={{ color: 'var(--text-muted)' }}>
             Ik ga akkoord met de reisvoorwaarden en het privacybeleid van Puur Uganda Reizen{' '}
             <span style={{ color: '#2a7d58' }}>*</span>
           </span>
-          <FieldError message={fieldErrors.terms} />
-        </div>
+        </button>
+        <FieldError message={fieldErrors.terms} />
       </div>
 
       {error && (
@@ -765,7 +790,7 @@ export function BookingForm({
 
         {/* Navigation */}
         <div
-          className="flex items-center justify-between mt-10 pt-6"
+          className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 mt-10 pt-6"
           style={{ borderTop: '1px solid rgba(42,125,88,0.12)' }}
         >
           <button
@@ -774,10 +799,9 @@ export function BookingForm({
               setFieldErrors({})
               setStep((s) => s - 1)
             }}
-            className="flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200"
+            className="flex items-center justify-center gap-2 rounded-full px-5 py-3 min-h-[44px] w-full sm:w-auto text-sm font-medium transition-all duration-200"
             style={{
-              opacity: step === 0 ? 0 : 1,
-              pointerEvents: step === 0 ? 'none' : 'auto',
+              display: step === 0 ? 'none' : 'flex',
               color: 'var(--text-muted)',
               border: '1px solid rgba(42,125,88,0.2)',
             }}
@@ -787,9 +811,9 @@ export function BookingForm({
 
           <button
             type="button"
-            onClick={tryNext}
+            onClick={() => { if (!submitting) tryNext() }}
             disabled={submitting}
-            className="flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-200"
+            className="flex items-center justify-center gap-2 rounded-full px-6 py-3 min-h-[44px] w-full sm:w-auto sm:ml-auto text-sm font-semibold transition-all duration-200"
             style={{
               background: submitting ? 'rgba(42,125,88,0.4)' : '#2a7d58',
               color: '#ffffff',
@@ -801,7 +825,13 @@ export function BookingForm({
                 Volgende <ChevronRight className="h-4 w-4" />
               </>
             ) : submitting ? (
-              'Verzenden\u2026'
+              <>
+                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" />
+                  <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                </svg>
+                {d?.submitting ?? 'Verzenden\u2026'}
+              </>
             ) : (
               d?.confirmButton ?? 'Boeking bevestigen'
             )}

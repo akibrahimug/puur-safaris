@@ -1,3 +1,4 @@
+import type { Viewport } from 'next'
 import { Sora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { headers, draftMode } from 'next/headers'
@@ -7,6 +8,12 @@ import { ThemeProvider } from '@/providers/theme-provider'
 import { SuppressHydrationWarnings } from '@/components/shared/suppress-hydration-warnings'
 import { defaultLocale } from '@/i18n/config'
 import './globals.css'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 const sora = Sora({
   subsets: ['latin'],

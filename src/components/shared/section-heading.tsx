@@ -15,12 +15,12 @@ export function SectionHeading({ title, subtitle, eyebrow, centered = false, lig
   return (
     <FadeUp className={cn(centered && 'text-center', className)}>
       {eyebrow && (
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+        <p className="mb-2 sm:mb-3 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-gold break-words">
           {eyebrow}
         </p>
       )}
       <h2
-        className="font-serif text-heading font-bold tracking-tight"
+        className="font-serif text-heading font-bold tracking-tight break-words hyphens-auto"
         style={{ color: light ? 'var(--text-primary)' : '#1c1917' }}
       >
         {title}
@@ -30,7 +30,7 @@ export function SectionHeading({ title, subtitle, eyebrow, centered = false, lig
       )}
       {subtitle && (
         <p
-          className={`mt-4 text-base sm:text-lg leading-relaxed max-w-2xl ${centered ? 'mx-auto' : ''}`}
+          className={`mt-3 sm:mt-4 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl break-words ${centered ? 'mx-auto' : ''}`}
           style={{ color: light ? 'var(--text-muted)' : 'rgb(120 113 108)' }}
         >
           {subtitle}

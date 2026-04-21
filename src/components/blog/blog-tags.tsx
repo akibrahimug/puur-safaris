@@ -19,11 +19,11 @@ export function BlogTags({ tags, placement, variant = 'default' }: BlogTagsProps
   if (filtered.length === 0) return null
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 sm:gap-2">
       {filtered.map((tag, i) => (
         <span
           key={i}
-          className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border ${
+          className={`inline-flex items-center justify-center min-h-[32px] sm:min-h-0 rounded-full px-3 py-1.5 text-xs font-medium border break-words max-w-full ${
             variant === 'hero'
               ? 'backdrop-blur-xl bg-black/30 text-white/90 border-white/15'
               : colorMap[tag.color ?? 'gold'] ?? colorMap.gold
