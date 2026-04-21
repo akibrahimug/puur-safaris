@@ -100,7 +100,7 @@ const MESSAGE_MAX = 2000
 // ── Styling ───────────────────────────────────────────────────────────────────
 
 const inputClass =
-  'w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-200'
+  'w-full min-h-[44px] rounded-xl px-4 py-3 text-base sm:text-sm outline-none transition-all duration-200'
 const inputStyle = {
   background: 'rgba(42,125,88,0.05)',
   border: '1px solid rgba(42,125,88,0.2)',
@@ -171,7 +171,11 @@ export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
 
   if (status === 'success') {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
+      <div
+        role="status"
+        aria-live="polite"
+        className="flex flex-col items-center justify-center py-10 sm:py-16 text-center"
+      >
         <div
           className="mb-6 flex h-20 w-20 items-center justify-center rounded-full"
           style={{ background: 'rgba(42,125,88,0.15)', border: '2px solid rgba(42,125,88,0.4)' }}
@@ -184,13 +188,13 @@ export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
         >
           {f?.successHeading ?? 'Bericht ontvangen!'}
         </h3>
-        <p className="text-sm max-w-md leading-relaxed mb-6" style={{ color: 'var(--text-muted)' }}>
+        <p className="text-base sm:text-sm max-w-md leading-relaxed mb-6" style={{ color: 'var(--text-muted)' }}>
           {f?.successMessage ?? 'Bedankt voor uw bericht. We nemen binnen 24 uur contact met u op.'}
         </p>
         <button
           type="button"
           onClick={() => setStatus('idle')}
-          className="rounded-full px-6 py-2.5 text-sm font-medium transition-all duration-200"
+          className="min-h-[44px] rounded-full px-6 py-2.5 text-base sm:text-sm font-medium transition-all duration-200"
           style={{ color: 'var(--text-muted)', border: '1px solid rgba(42,125,88,0.25)' }}
         >
           {f?.successNewButton ?? 'Nieuw bericht sturen'}
@@ -221,6 +225,9 @@ export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
               </label>
               <input
                 type="text"
+                inputMode="text"
+                autoComplete="name"
+                autoCapitalize="words"
                 placeholder={f?.placeholderName ?? 'Jan de Vries'}
                 className={inputClass}
                 style={errors.naam ? inputErrorStyle : inputStyle}
@@ -238,6 +245,11 @@ export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
               </label>
               <input
                 type="email"
+                inputMode="email"
+                autoComplete="email"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 placeholder={f?.placeholderEmail ?? 'jan@voorbeeld.nl'}
                 className={inputClass}
                 style={errors.email ? inputErrorStyle : inputStyle}
@@ -260,6 +272,8 @@ export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
               </label>
               <input
                 type="tel"
+                inputMode="tel"
+                autoComplete="tel"
                 placeholder={f?.placeholderPhone ?? '+31 6 12 34 56 78'}
                 className={inputClass}
                 style={errors.telefoon ? inputErrorStyle : inputStyle}
@@ -429,7 +443,7 @@ export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
             <textarea
               rows={6}
               placeholder={f?.placeholderMessage ?? 'Vertel ons over uw droomsafari, vragen, of hoe we u kunnen helpen...'}
-              className={`${inputClass} resize-none`}
+              className={`${inputClass} min-h-[140px] resize-y`}
               style={errors.bericht ? inputErrorStyle : inputStyle}
               {...register('bericht')}
             />
@@ -453,25 +467,27 @@ export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
       </div>
 
       {/* Error banner */}
-      {status === 'error' && (
-        <div
-          className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm"
-          style={{
-            background: 'rgba(139,28,44,0.12)',
-            color: '#e07080',
-            border: '1px solid rgba(139,28,44,0.25)',
-          }}
-        >
-          <AlertCircle className="h-4 w-4 shrink-0" />
-          {f?.errorMessage ?? 'Er is iets misgegaan. Probeer het opnieuw of stuur ons direct een e-mail.'}
-        </div>
-      )}
+      <div aria-live="polite" role="status">
+        {status === 'error' && (
+          <div
+            className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm"
+            style={{
+              background: 'rgba(139,28,44,0.12)',
+              color: '#e07080',
+              border: '1px solid rgba(139,28,44,0.25)',
+            }}
+          >
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            {f?.errorMessage ?? 'Er is iets misgegaan. Probeer het opnieuw of stuur ons direct een e-mail.'}
+          </div>
+        )}
+      </div>
 
       {/* Submit */}
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold transition-all duration-200"
+        className="flex w-full sm:w-auto min-h-[44px] items-center justify-center gap-2 rounded-full px-8 py-3 text-base sm:text-sm font-semibold transition-all duration-200"
         style={{
           background: status === 'loading' ? 'rgba(42,125,88,0.4)' : '#2a7d58',
           color: '#ffffff',

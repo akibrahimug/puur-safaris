@@ -145,9 +145,8 @@ export default async function SafariDetailPage({ params }: Props) {
 
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          {/* Main content */}
-          <div className="lg:col-span-2 space-y-10">
-            {/* Quick stats */}
+          {/* Quick stats — mobile: 1st, desktop: top-left (main column) */}
+          <div className="lg:col-span-2">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="rounded-xl bg-[rgba(42,125,88,0.07)] p-4 text-center">
                 <Clock className="h-5 w-5 text-gold mx-auto mb-1" />
@@ -183,7 +182,45 @@ export default async function SafariDetailPage({ params }: Props) {
                 </div>
               )}
             </div>
+          </div>
 
+          {/* Sidebar: price + enquiry — mobile: 2nd (right after quick stats), desktop: right column spanning both rows */}
+          <aside className="lg:col-start-3 lg:row-start-1 lg:row-span-2">
+            <div className="lg:sticky lg:top-20 rounded-2xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-6 shadow-sm">
+              <div className="mb-4">
+                <span className="text-sm text-[var(--text-muted)]">{cmsLabel(labels?.priceFromSidebarLabel) ?? dict.safari.priceLabel}</span>
+                <p className="text-4xl font-bold text-gold">{formatPrice(trip.price)}</p>
+                <span className="text-sm text-[var(--text-subtle)]">
+                  {trip.priceType === 'per_group' ? (cmsLabel(settings?.cardLabels?.pricePerGroup) ?? dict.safari.pricePerGroup) : (cmsLabel(settings?.cardLabels?.pricePerPerson) ?? dict.safari.pricePerPerson)}
+                </span>
+              </div>
+
+              <div className="space-y-2 mb-6">
+                {trip.duration && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-[var(--text-muted)]">{cmsLabel(labels?.durationLabel) ?? dict.safari.durationLabel}</span>
+                    <span className="font-medium text-[var(--text-primary)]">{trip.duration}</span>
+                  </div>
+                )}
+                {trip.difficulty && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-[var(--text-muted)]">{cmsLabel(labels?.levelLabel) ?? dict.safari.levelLabel}</span>
+                    <Badge variant="secondary">{difficultyLabel(trip.difficulty)}</Badge>
+                  </div>
+                )}
+              </div>
+
+              <Button asChild size="lg" className="w-full mb-3">
+                <Link href={`/${lang}/safaris/${slug}/book`}>{cmsLabel(labels?.bookTripCtaLabel) ?? dict.safari.bookCta}</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="w-full">
+                <Link href={localePath(locale, 'customItinerary')}>{cmsLabel(labels?.eigenReisschemaCtaLabel) ?? dict.safari.customScheduleCta}</Link>
+              </Button>
+            </div>
+          </aside>
+
+          {/* Trip details — mobile: 3rd (after sidebar), desktop: bottom-left */}
+          <div className="lg:col-span-2 space-y-10">
             {/* Description */}
             {trip.fullDescription && (
               <section>
@@ -250,41 +287,6 @@ export default async function SafariDetailPage({ params }: Props) {
               </section>
             )}
           </div>
-
-          {/* Sidebar: price + enquiry */}
-          <aside className="lg:col-span-1">
-            <div className="sticky top-20 rounded-2xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-6 shadow-sm">
-              <div className="mb-4">
-                <span className="text-sm text-[var(--text-muted)]">{cmsLabel(labels?.priceFromSidebarLabel) ?? dict.safari.priceLabel}</span>
-                <p className="text-4xl font-bold text-gold">{formatPrice(trip.price)}</p>
-                <span className="text-sm text-[var(--text-subtle)]">
-                  {trip.priceType === 'per_group' ? (cmsLabel(settings?.cardLabels?.pricePerGroup) ?? dict.safari.pricePerGroup) : (cmsLabel(settings?.cardLabels?.pricePerPerson) ?? dict.safari.pricePerPerson)}
-                </span>
-              </div>
-
-              <div className="space-y-2 mb-6">
-                {trip.duration && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-[var(--text-muted)]">{cmsLabel(labels?.durationLabel) ?? dict.safari.durationLabel}</span>
-                    <span className="font-medium text-[var(--text-primary)]">{trip.duration}</span>
-                  </div>
-                )}
-                {trip.difficulty && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-[var(--text-muted)]">{cmsLabel(labels?.levelLabel) ?? dict.safari.levelLabel}</span>
-                    <Badge variant="secondary">{difficultyLabel(trip.difficulty)}</Badge>
-                  </div>
-                )}
-              </div>
-
-              <Button asChild size="lg" className="w-full mb-3">
-                <Link href={`/${lang}/safaris/${slug}/book`}>{cmsLabel(labels?.bookTripCtaLabel) ?? dict.safari.bookCta}</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="w-full">
-                <Link href={localePath(locale, 'customItinerary')}>{cmsLabel(labels?.eigenReisschemaCtaLabel) ?? dict.safari.customScheduleCta}</Link>
-              </Button>
-            </div>
-          </aside>
         </div>
 
       </div>

@@ -47,14 +47,14 @@ export function WhyChooseUsSection({ eyebrow, title, features, dict }: WhyChoose
   const featureList = features?.length ? features : defaultFeatures
 
   return (
-    <section className="section-page py-28 relative overflow-hidden">
-      <div className="container mx-auto max-w-7xl px-6 lg:px-8">
+    <section className="section-page py-16 sm:py-20 md:py-28 relative overflow-hidden">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow={eyebrow ?? d?.whyEyebrow ?? 'Waarom Puur Uganda Reizen'}
           title={title ?? d?.whyTitle ?? 'Wij geloven in reizen die een indruk achterlaten voor het leven.'}
           light
           centered
-          className="mb-16 mx-auto max-w-2xl"
+          className="mb-10 sm:mb-12 md:mb-16 mx-auto max-w-2xl"
         />
 
         {/* Feature grid */}
@@ -72,7 +72,7 @@ export function WhyChooseUsSection({ eyebrow, title, features, dict }: WhyChoose
                 key={f.title}
                 custom={i}
                 variants={cardVariants}
-                className="group relative p-6 rounded-3xl overflow-hidden cursor-default transition-all duration-500 ease-out border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-lg shadow-black/5"
+                className="group relative p-5 sm:p-6 rounded-3xl overflow-hidden cursor-default transition-all duration-500 ease-out border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-lg shadow-black/5 active:bg-white/5"
                 whileHover={{
                   y: -6,
                   background: 'rgba(255,255,255,0.08)',
@@ -90,15 +90,15 @@ export function WhyChooseUsSection({ eyebrow, title, features, dict }: WhyChoose
                 </span>
 
                 {/* Icon */}
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-500 ease-out group-hover:scale-110 shadow-inner"
+                <div className="mb-4 sm:mb-5 flex h-12 w-12 sm:h-12 sm:w-12 items-center justify-center rounded-2xl transition-all duration-500 ease-out group-hover:scale-110 shadow-inner"
                   style={{ background: 'rgba(42,125,88,0.15)', border: '1px solid rgba(42,125,88,0.2)' }}>
-                  <Icon className="h-5 w-5" style={{ color: '#5aad7e' }} />
+                  <Icon className="h-5 w-5 sm:h-5 sm:w-5" style={{ color: '#5aad7e' }} />
                 </div>
 
-                <h3 className="font-semibold text-[0.925rem] mb-2" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="font-semibold text-base sm:text-[0.925rem] mb-2" style={{ color: 'var(--text-primary)' }}>
                   {f.title}
                 </h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                <p className="text-sm leading-relaxed break-words" style={{ color: 'var(--text-muted)' }}>
                   {f.description}
                 </p>
               </motion.div>

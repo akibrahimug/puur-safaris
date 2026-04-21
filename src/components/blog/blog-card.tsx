@@ -27,7 +27,7 @@ export function BlogCard({ post, labels, locale = "nl" }: BlogCardProps) {
           style={{ background: 'var(--card-strip-bg)' }}
         >
           {/* ── Image zone ────────────────────────────── */}
-          <div className="relative h-56 shrink-0 overflow-hidden">
+          <div className="relative aspect-[16/10] sm:aspect-auto sm:h-56 shrink-0 overflow-hidden">
             {imageUrl ? (
               <Image
                 src={imageUrl}
@@ -71,25 +71,25 @@ export function BlogCard({ post, labels, locale = "nl" }: BlogCardProps) {
 
             <div className="flex flex-col grow px-5 pt-4 pb-0">
               {/* Meta */}
-              <div className="flex flex-wrap gap-3 mb-3 text-[10px]" style={{ color: 'var(--card-strip-muted)' }}>
-                <span className="flex items-center gap-1">
-                  <Calendar className="h-2.5 w-2.5" />
-                  {formatDate(clean.publishedAt)}
+              <div className="flex flex-wrap gap-x-3 gap-y-1.5 mb-3 text-[11px] sm:text-[10px]" style={{ color: 'var(--card-strip-muted)' }}>
+                <span className="flex items-center gap-1 min-w-0">
+                  <Calendar className="h-3 w-3 sm:h-2.5 sm:w-2.5 shrink-0" />
+                  <span className="truncate">{formatDate(clean.publishedAt)}</span>
                 </span>
                 {clean.author && (
-                  <span className="flex items-center gap-1">
-                    <User className="h-2.5 w-2.5" />
-                    {clean.author}
+                  <span className="flex items-center gap-1 min-w-0">
+                    <User className="h-3 w-3 sm:h-2.5 sm:w-2.5 shrink-0" />
+                    <span className="truncate">{clean.author}</span>
                   </span>
                 )}
               </div>
 
-              <h2 className="font-serif text-[1.03rem] font-semibold leading-snug mb-2.5 transition-colors duration-200 group-hover:text-gold"
+              <h2 className="font-serif text-[1.03rem] font-semibold leading-snug mb-2.5 transition-colors duration-200 group-hover:text-gold line-clamp-2 break-words"
                 style={{ color: 'var(--card-strip-text)' }}>
                 {clean.title}
               </h2>
 
-              <p className="text-sm leading-relaxed line-clamp-2 mb-3"
+              <p className="text-sm leading-relaxed line-clamp-2 mb-3 break-words"
                 style={{ color: 'var(--card-strip-muted)' }}>
                 {clean.summary}
               </p>
@@ -108,14 +108,15 @@ export function BlogCard({ post, labels, locale = "nl" }: BlogCardProps) {
             {/* CTA — pinned to bottom */}
             <div className="px-5 pb-5 pt-3">
               <div style={{ height: '1px', background: 'var(--card-strip-border)' }} className="mb-4" />
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--card-strip-muted)' }}>
+              <div className="flex items-center justify-between gap-3 min-h-[44px]">
+                <span className="text-[11px] font-semibold uppercase tracking-wider break-words" style={{ color: 'var(--card-strip-muted)' }}>
                   {labels?.readArticleLabel ?? 'Lees artikel'}
                 </span>
                 <div
-                  className="flex items-center gap-1.5 rounded-full px-4 py-2 border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] backdrop-blur-md transition-all duration-500 ease-out group-hover:bg-gold group-hover:border-transparent group-hover:shadow-[0_8px_20px_rgba(42,125,88,0.25)] text-gold group-hover:text-white"
+                  className="flex items-center justify-center shrink-0 h-11 w-11 rounded-full border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] backdrop-blur-md transition-all duration-500 ease-out group-hover:bg-gold group-hover:border-transparent group-hover:shadow-[0_8px_20px_rgba(42,125,88,0.25)] text-gold group-hover:text-white"
+                  aria-hidden="true"
                 >
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-all duration-500 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="h-4 w-4 transition-all duration-500 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>
             </div>

@@ -42,7 +42,7 @@ function EditBtn({ active, onClick, editDoneLabel, editLabel }: { active: boolea
     <button
       type="button"
       onClick={onClick}
-      className={`absolute top-2 right-2 z-10 p-2 rounded-full backdrop-blur-md border transition-all duration-200 ${
+      className={`absolute top-2 right-2 z-10 min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-full backdrop-blur-md border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 ${
         active
           ? 'bg-gold text-white border-gold shadow-lg shadow-gold/20'
           : 'bg-white/80 dark:bg-black/40 text-[var(--text-muted)] border-[var(--border-subtle)] hover:bg-gold/10 hover:text-gold hover:border-gold/40'
@@ -163,7 +163,7 @@ function SectionImages({
             value={section.caption}
             onChange={(e) => onUpdate({ caption: e.target.value })}
             placeholder={captionSinglePlaceholder ?? "Bijschrift voor deze foto..."}
-            className="w-full mt-3 bg-[var(--bg-secondary)] border border-gold/30 rounded-xl outline-none text-center text-sm italic text-[var(--text-muted)] py-2 px-4 focus:border-gold/60 focus:ring-1 focus:ring-gold/20 transition-all"
+            className="w-full min-h-[44px] mt-3 bg-[var(--bg-secondary)] border border-gold/30 rounded-xl outline-none text-center text-base sm:text-sm italic text-[var(--text-muted)] py-2 px-4 focus:border-gold/60 focus-visible:ring-2 focus-visible:ring-gold/30 transition-all"
           />
         </div>
       ) : section.imageLayout === 'grid' ? (
@@ -191,7 +191,7 @@ function SectionImages({
             value={section.caption}
             onChange={(e) => onUpdate({ caption: e.target.value })}
             placeholder={captionGalleryPlaceholder ?? "Bijschrift voor de foto's..."}
-            className="w-full mt-3 bg-[var(--bg-secondary)] border border-gold/30 rounded-xl outline-none text-center text-sm italic text-[var(--text-muted)] py-2 px-4 focus:border-gold/60 focus:ring-1 focus:ring-gold/20 transition-all"
+            className="w-full min-h-[44px] mt-3 bg-[var(--bg-secondary)] border border-gold/30 rounded-xl outline-none text-center text-base sm:text-sm italic text-[var(--text-muted)] py-2 px-4 focus:border-gold/60 focus-visible:ring-2 focus-visible:ring-gold/30 transition-all"
           />
         </div>
       ) : null}
@@ -447,18 +447,21 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
         <p className="text-sm font-medium text-[var(--text-primary)] mb-4">{labels?.verificationLabel ?? 'Bevestig je boeking om verder te gaan'}</p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div data-field="bookingNumber">
-            <input value={bookingNumber} onChange={(e) => { setBookingNumber(e.target.value); clearFieldError('bookingNumber') }} type="text" placeholder={d?.placeholderBookingNumber ?? "Boekingsnummer (bijv. PS-2024-XXXX)"}
-              className={`w-full bg-[var(--bg-primary)] border rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/40 focus:outline-none focus:ring-2 focus:ring-gold/50 text-sm ${fieldErrors.bookingNumber ? 'border-red-400' : 'border-[var(--border-subtle)]'}`} />
+            <label htmlFor="bsf-bookingNumber" className="sr-only">{d?.placeholderBookingNumber ?? 'Boekingsnummer'}</label>
+            <input id="bsf-bookingNumber" value={bookingNumber} onChange={(e) => { setBookingNumber(e.target.value); clearFieldError('bookingNumber') }} type="text" inputMode="text" autoComplete="off" autoCapitalize="characters" spellCheck={false} placeholder={d?.placeholderBookingNumber ?? "Boekingsnummer (bijv. PS-2024-XXXX)"}
+              className={`w-full min-h-[44px] bg-[var(--bg-primary)] border rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 text-base sm:text-sm ${fieldErrors.bookingNumber ? 'border-red-400' : 'border-[var(--border-subtle)]'}`} />
             <FieldError message={fieldErrors.bookingNumber} />
           </div>
           <div data-field="email">
-            <input value={email} onChange={(e) => { setEmail(e.target.value); clearFieldError('email') }} type="email" placeholder={d?.placeholderBookingEmail ?? "E-mailadres van je boeking"}
-              className={`w-full bg-[var(--bg-primary)] border rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/40 focus:outline-none focus:ring-2 focus:ring-gold/50 text-sm ${fieldErrors.email ? 'border-red-400' : 'border-[var(--border-subtle)]'}`} />
+            <label htmlFor="bsf-email" className="sr-only">{d?.placeholderBookingEmail ?? 'E-mailadres'}</label>
+            <input id="bsf-email" value={email} onChange={(e) => { setEmail(e.target.value); clearFieldError('email') }} type="email" inputMode="email" autoComplete="email" autoCapitalize="none" spellCheck={false} placeholder={d?.placeholderBookingEmail ?? "E-mailadres van je boeking"}
+              className={`w-full min-h-[44px] bg-[var(--bg-primary)] border rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 text-base sm:text-sm ${fieldErrors.email ? 'border-red-400' : 'border-[var(--border-subtle)]'}`} />
             <FieldError message={fieldErrors.email} />
           </div>
           <div data-field="telefoon">
-            <input value={telefoon} onChange={(e) => { setTelefoon(e.target.value); clearFieldError('telefoon') }} type="tel" placeholder={d?.placeholderPhone ?? "Telefoonnummer (optioneel)"}
-              className={`w-full bg-[var(--bg-primary)] border rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/40 focus:outline-none focus:ring-2 focus:ring-gold/50 text-sm ${fieldErrors.telefoon ? 'border-red-400' : 'border-[var(--border-subtle)]'}`} />
+            <label htmlFor="bsf-telefoon" className="sr-only">{d?.placeholderPhone ?? 'Telefoonnummer'}</label>
+            <input id="bsf-telefoon" value={telefoon} onChange={(e) => { setTelefoon(e.target.value); clearFieldError('telefoon') }} type="tel" inputMode="tel" autoComplete="tel" placeholder={d?.placeholderPhone ?? "Telefoonnummer (optioneel)"}
+              className={`w-full min-h-[44px] bg-[var(--bg-primary)] border rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-muted)]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 text-base sm:text-sm ${fieldErrors.telefoon ? 'border-red-400' : 'border-[var(--border-subtle)]'}`} />
             <FieldError message={fieldErrors.telefoon} />
           </div>
         </div>
@@ -492,7 +495,8 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
             <EditBtn active={editing.title ?? false} onClick={() => toggle('title')} editDoneLabel={d?.editDone} editLabel={d?.editButton} />
             {editing.title ? (
               <input type="text" value={title} onChange={(e) => { setTitle(e.target.value); clearFieldError('title') }} placeholder={d?.placeholderTitle ?? "Je verhaal titel..."}
-                className="w-full bg-transparent border-b-2 border-gold/30 outline-none font-serif text-3xl sm:text-4xl font-bold text-[var(--text-primary)] pb-2 placeholder:text-[var(--text-muted)]/30 focus:border-gold/60 transition-colors" autoFocus />
+                autoCapitalize="sentences"
+                className="w-full min-h-[44px] bg-transparent border-b-2 border-gold/30 outline-none font-serif text-3xl sm:text-4xl font-bold text-[var(--text-primary)] pb-2 placeholder:text-[var(--text-muted)]/30 focus:border-gold/60 transition-colors" autoFocus />
             ) : (
               <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[var(--text-primary)]">{title || <span className="text-[var(--text-muted)]/30">Klik om een titel toe te voegen...</span>}</h1>
             )}
@@ -511,7 +515,8 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                 <User className="h-4 w-4 text-gold" />
                 {editing.author ? (
                   <input type="text" value={authorName} onChange={(e) => { setAuthorName(e.target.value); clearFieldError('authorName') }}
-                    className="bg-transparent border-b border-gold/40 outline-none text-[var(--text-muted)]" autoFocus />
+                    autoComplete="name" autoCapitalize="words" inputMode="text"
+                    className="min-h-[44px] bg-transparent border-b border-gold/40 outline-none text-base sm:text-sm text-[var(--text-muted)]" autoFocus />
                 ) : (
                   <span>{authorName || <span className="opacity-30">Auteur naam</span>}</span>
                 )}
@@ -537,12 +542,13 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                 <>
                   <label className="text-xs font-medium text-[var(--text-muted)] mb-1.5 block uppercase tracking-wider">Naam</label>
                   <input type="text" value={authorName} onChange={(e) => { setAuthorName(e.target.value); clearFieldError('authorName') }} autoFocus placeholder={d?.placeholderAuthorName ?? "Je volledige naam"}
-                    className={`w-full bg-transparent border-b-2 outline-none font-serif text-xl font-bold text-[var(--text-primary)] pb-1 mb-1 focus:border-gold/60 transition-colors ${fieldErrors.authorName ? 'border-red-400' : 'border-gold/30'}`} />
+                    autoComplete="name" autoCapitalize="words" inputMode="text"
+                    className={`w-full min-h-[44px] bg-transparent border-b-2 outline-none font-serif text-xl font-bold text-[var(--text-primary)] pb-1 mb-1 focus:border-gold/60 transition-colors ${fieldErrors.authorName ? 'border-red-400' : 'border-gold/30'}`} />
                   <FieldError message={fieldErrors.authorName} />
                   <div className="mb-3" />
                   <label className="text-xs font-medium text-[var(--text-muted)] mb-1.5 block uppercase tracking-wider">Korte bio</label>
-                  <textarea value={authorBio} onChange={(e) => { setAuthorBio(e.target.value); clearFieldError('authorBio') }} rows={3} placeholder={d?.placeholderAuthorBio ?? "Vertel iets over jezelf en waarom je dit verhaal deelt..."}
-                    className={`w-full bg-[var(--bg-primary)] border rounded-xl outline-none resize-none text-[var(--text-muted)] leading-relaxed italic p-3 text-sm focus:border-gold/60 focus:ring-1 focus:ring-gold/20 transition-all ${fieldErrors.authorBio ? 'border-red-400' : 'border-gold/30'}`} />
+                  <textarea value={authorBio} onChange={(e) => { setAuthorBio(e.target.value); clearFieldError('authorBio') }} rows={4} placeholder={d?.placeholderAuthorBio ?? "Vertel iets over jezelf en waarom je dit verhaal deelt..."}
+                    className={`w-full bg-[var(--bg-primary)] border rounded-xl outline-none resize-y min-h-[120px] text-[var(--text-muted)] leading-relaxed italic p-3 text-base sm:text-sm focus:border-gold/60 focus-visible:ring-2 focus-visible:ring-gold/30 transition-all ${fieldErrors.authorBio ? 'border-red-400' : 'border-gold/30'}`} />
                   <FieldError message={fieldErrors.authorBio} />
                 </>
               ) : (
@@ -566,7 +572,7 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
             <EditBtn active={editing.intro ?? false} onClick={() => toggle('intro')} editDoneLabel={d?.editDone} editLabel={d?.editButton} />
             {editing.intro ? (
               <textarea value={intro} onChange={(e) => { setIntro(e.target.value); clearFieldError('intro') }} rows={6} autoFocus
-                className="w-full bg-[var(--bg-secondary)] border border-gold/30 rounded-2xl outline-none resize-none text-[var(--text-muted)] leading-[1.9] p-5 text-base focus:border-gold/60 focus:ring-1 focus:ring-gold/20 transition-all"
+                className="w-full bg-[var(--bg-secondary)] border border-gold/30 rounded-2xl outline-none resize-y min-h-[160px] text-[var(--text-muted)] leading-[1.9] p-5 text-base focus:border-gold/60 focus-visible:ring-2 focus-visible:ring-gold/30 transition-all"
                 placeholder={d?.placeholderIntro ?? "Begin je verhaal met een pakkende introductie..."} />
             ) : (
               <p className="text-[var(--text-muted)] leading-[1.9]">{intro || <span className="opacity-30">Klik om je introductie te schrijven...</span>}</p>
@@ -613,7 +619,8 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                   {editing[titleKey] ? (
                     <input type="text" value={section.title} onChange={(e) => { updateSection(idx, { title: e.target.value }); clearFieldError(`section_${idx}_title`) }} autoFocus
                       placeholder={d?.placeholderSectionTitle ?? "Sectie titel..."}
-                      className={`w-full bg-transparent border-b-2 outline-none font-serif text-2xl font-bold text-[var(--text-primary)] pb-2 placeholder:text-[var(--text-muted)]/30 focus:border-gold/60 transition-colors ${hasTitleErr ? 'border-red-400' : 'border-gold/30'}`} />
+                      autoCapitalize="sentences"
+                      className={`w-full min-h-[44px] bg-transparent border-b-2 outline-none font-serif text-2xl font-bold text-[var(--text-primary)] pb-2 placeholder:text-[var(--text-muted)]/30 focus:border-gold/60 transition-colors ${hasTitleErr ? 'border-red-400' : 'border-gold/30'}`} />
                   ) : (
                     <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)]">
                       {section.title || <span className="opacity-30">Sectie titel...</span>}
@@ -628,7 +635,7 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                   {editing[bodyKey] ? (
                     <textarea value={section.body} onChange={(e) => { updateSection(idx, { body: e.target.value }); clearFieldError(`section_${idx}_body`) }} rows={6} autoFocus
                       placeholder={d?.placeholderSectionBody ?? "Schrijf hier je verhaal..."}
-                      className={`w-full bg-[var(--bg-secondary)] border rounded-2xl outline-none resize-none text-[var(--text-muted)] leading-[1.9] p-5 text-base focus:border-gold/60 focus:ring-1 focus:ring-gold/20 transition-all ${hasBodyErr ? 'border-red-400' : 'border-gold/30'}`} />
+                      className={`w-full bg-[var(--bg-secondary)] border rounded-2xl outline-none resize-y min-h-[160px] text-[var(--text-muted)] leading-[1.9] p-5 text-base focus:border-gold/60 focus-visible:ring-2 focus-visible:ring-gold/30 transition-all ${hasBodyErr ? 'border-red-400' : 'border-gold/30'}`} />
                   ) : (
                     <p className="text-[var(--text-muted)] leading-[1.9]">
                       {section.body || <span className="opacity-30">Klik om deze sectie te schrijven...</span>}
@@ -714,20 +721,20 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
       <div className="mt-16 p-6 sm:p-8 rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-sm">
         <div className="space-y-4 mb-6">
           <label className="flex items-start gap-3 cursor-pointer">
-            <input required type="checkbox" className="mt-1 w-4 h-4 accent-[var(--color-gold)] rounded" />
+            <input required type="checkbox" className="mt-1 w-5 h-5 shrink-0 accent-[var(--color-gold)] rounded focus-visible:ring-2 focus-visible:ring-gold/50" />
             <span className="text-sm text-[var(--text-primary)] leading-relaxed">
               {labels?.legalConsent1 ?? "Ik begrijp dat Puur Uganda Reizen mijn verhaal en foto's mag redigeren en indelen. Goedkeuring duurt gemiddeld meer dan één week."}
             </span>
           </label>
           <label className="flex items-start gap-3 cursor-pointer">
-            <input required type="checkbox" className="mt-1 w-4 h-4 accent-[var(--color-gold)] rounded" />
+            <input required type="checkbox" className="mt-1 w-5 h-5 shrink-0 accent-[var(--color-gold)] rounded focus-visible:ring-2 focus-visible:ring-gold/50" />
             <span className="text-sm text-[var(--text-primary)] leading-relaxed">
               {labels?.legalConsent2 ?? "Ik bevestig dat deze teksten en foto's mijn eigendom zijn en geef Puur Uganda Reizen toestemming deze te gebruiken voor marketing en website-inhoud."}
             </span>
           </label>
         </div>
         <button type="submit" disabled={isSubmitting}
-          className="w-full sm:w-auto flex justify-center items-center gap-3 rounded-full bg-gold text-white px-10 py-4 font-semibold hover:bg-gold-dark hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed transition-all">
+          className="w-full sm:w-auto min-h-[48px] flex justify-center items-center gap-3 rounded-full bg-gold text-white px-10 py-4 text-base font-semibold hover:bg-gold-dark hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed transition-all">
           {isSubmitting ? (
             <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> {labels?.submitLoadingLabel ?? 'Bezig met uploaden...'}</>
           ) : (labels?.submitLabel ?? 'Verstuur Jouw Verhaal')}

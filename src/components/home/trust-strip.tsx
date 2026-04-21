@@ -26,8 +26,8 @@ export function TrustStrip({ items }: TrustStripProps) {
       <div className="absolute bottom-0 inset-x-0 h-px"
         style={{ background: 'var(--border-subtle)' }} />
 
-      <div className="container mx-auto max-w-7xl px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-6">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-5 sm:gap-y-6">
           {trustItems.map((item, i) => (
             <motion.div
               key={item.value}
@@ -35,18 +35,18 @@ export function TrustStrip({ items }: TrustStripProps) {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.42, delay: i * 0.07, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-              className="flex items-start gap-3"
+              className="flex items-start gap-2.5 sm:gap-3 min-w-0"
             >
               {/* Vertical gold accent bar */}
               <div className="shrink-0 mt-0.5 w-0.5 h-8 rounded-full"
                 style={{ background: 'linear-gradient(to bottom, rgba(42,125,88,0.7), rgba(42,125,88,0.15))' }} />
 
-              <div>
-                <p className="font-serif font-bold leading-none mb-1"
-                  style={{ fontSize: '1.35rem', color: '#2a7d58' }}>
+              <div className="min-w-0">
+                <p className="font-serif font-bold leading-none mb-1 text-[1.15rem] sm:text-[1.35rem]"
+                  style={{ color: '#2a7d58' }}>
                   {item.value}
                 </p>
-                <p className="text-[10.5px] font-medium uppercase tracking-wider leading-snug"
+                <p className="text-[10px] sm:text-[10.5px] font-medium uppercase tracking-wider leading-snug break-words"
                   style={{ color: 'var(--text-subtle)' }}>
                   {item.phrase}
                 </p>

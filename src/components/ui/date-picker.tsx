@@ -46,7 +46,7 @@ function TriggerButton({
     <button
       type="button"
       onClick={onClick}
-      className="w-full rounded-xl px-4 py-3 text-sm text-left outline-none transition-all duration-200 flex items-center justify-between gap-2"
+      className="w-full min-h-[44px] rounded-xl px-4 py-3 text-base md:text-sm text-left outline-none transition-all duration-200 flex items-center justify-between gap-2 active:scale-[0.99] [-webkit-tap-highlight-color:transparent]"
       style={
         error
           ? {
@@ -113,7 +113,7 @@ function CalendarDropdown({
   return (
     <div
       ref={dropdownRef}
-      className="puur-calendar-dropdown absolute left-0 right-0 md:right-auto z-50 mt-2 rounded-xl p-3 md:p-5 shadow-xl"
+      className="puur-calendar-dropdown absolute left-0 right-0 md:right-auto z-50 mt-2 rounded-xl p-3 md:p-5 shadow-xl max-h-[min(80vh,560px)] overflow-y-auto overscroll-contain"
     >
       {children}
     </div>

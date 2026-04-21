@@ -33,19 +33,19 @@ export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, ve
   if (testimonials.length === 0) return null
 
   return (
-    <section className="py-28 overflow-hidden section-page">
-      <div className="container mx-auto max-w-7xl px-6 lg:px-8">
+    <section className="py-16 sm:py-20 md:py-28 overflow-hidden section-page">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow={eyebrow ?? d?.testimonialsEyebrow ?? 'Reizigersverhalen'}
           title={title ?? d?.testimonialsTitle ?? 'Wat onze reizigers zeggen'}
           subtitle={subtitle ?? d?.testimonialsSubtitle ?? 'Elke safari is uniek. Lees hoe anderen Oost-Afrika hebben ervaren.'}
           centered
           light
-          className="mb-16 mx-auto max-w-xl"
+          className="mb-10 sm:mb-12 md:mb-16 mx-auto max-w-xl"
         />
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: '-60px' }}
@@ -59,7 +59,7 @@ export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, ve
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="group flex flex-col h-[360px] rounded-3xl p-8 transition-all duration-500 ease-out border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-lg shadow-black/5"
+                className="group flex flex-col min-h-[320px] sm:h-[360px] rounded-3xl p-6 sm:p-8 transition-all duration-500 ease-out border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-lg shadow-black/5 active:bg-white/5"
                 whileHover={{
                   y: -6,
                   background: 'rgba(255,255,255,0.08)',
@@ -91,7 +91,7 @@ export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, ve
                   >
                     &ldquo;
                   </span>
-                  <p className="relative text-sm leading-relaxed pl-4 line-clamp-[9]" style={{ color: 'var(--text-muted)' }}>
+                  <p className="relative text-sm leading-relaxed pl-4 line-clamp-6 sm:line-clamp-[9] break-words" style={{ color: 'var(--text-muted)' }}>
                     {t.quote}
                   </p>
                 </blockquote>
@@ -148,7 +148,7 @@ export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, ve
           <div className="mt-8 flex justify-center">
             <Button
               onClick={() => setPage((prev) => (prev + 1) % totalPages)}
-              className="rounded-full px-8 py-3 transition-all duration-500 ease-out"
+              className="rounded-full px-8 py-3 min-h-[44px] transition-all duration-500 ease-out"
             >
               {page === totalPages - 1 ? (beginLabel ?? d?.testimonialsBegin ?? 'Begin') : (moreLabel ?? d?.testimonialsMore ?? 'Meer verhalen')}
             </Button>

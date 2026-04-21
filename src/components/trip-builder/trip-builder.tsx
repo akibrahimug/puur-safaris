@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Check, ChevronRight, ChevronLeft, Minus, Plus, Send, PartyPopper, AlertCircle } from 'lucide-react'
+import { Check, ChevronRight, ChevronLeft, Minus, Plus, Send, PartyPopper, AlertCircle, Loader2 } from 'lucide-react'
 import type { DestinationCard } from '@/lib/types'
 
 interface TripBuilderProps {
@@ -51,7 +51,8 @@ function Pill({
     <button
       type="button"
       onClick={onClick}
-      className="rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 border"
+      aria-pressed={active}
+      className="rounded-full px-4 py-2.5 text-sm font-medium transition-all duration-200 border min-h-[44px] touch-manipulation"
       style={{
         background: active ? '#2a7d58' : 'rgba(42,125,88,0.06)',
         borderColor: active ? '#2a7d58' : 'rgba(42,125,88,0.25)',
@@ -67,7 +68,7 @@ function Pill({
 
 function StepBar({ current, labels }: { current: number; labels: string[] }) {
   return (
-    <div className="flex items-center justify-center gap-0 mb-12">
+    <div className="flex items-center justify-center gap-0 mb-8 sm:mb-12">
       {labels.map((label, i) => {
         const done = i < current
         const active = i === current
@@ -93,7 +94,7 @@ function StepBar({ current, labels }: { current: number; labels: string[] }) {
             </div>
             {i < labels.length - 1 && (
               <div
-                className="w-16 sm:w-24 h-px mx-2 mb-5 transition-all duration-500"
+                className="w-8 sm:w-24 h-px mx-1.5 sm:mx-2 mb-0 sm:mb-5 transition-all duration-500"
                 style={{ background: i < current ? '#2a7d58' : 'rgba(255,255,255,0.1)' }}
               />
             )}
@@ -113,7 +114,7 @@ function FieldError({ message }: { message?: string }) {
 
 // ── Input styles ───────────────────────────────────────────────────────────
 
-const inputClass = 'w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-200'
+const inputClass = 'w-full rounded-xl px-4 py-3 text-base sm:text-sm outline-none transition-all duration-200 min-h-[44px]'
 const inputStyle = {
   background: 'rgba(42,125,88,0.05)',
   border: '1px solid rgba(42,125,88,0.2)',
@@ -267,14 +268,14 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
   if (submitted) {
     const successMsg = (d?.successMessage ?? 'Dank je wel, {name}. We hebben je reisschema aanvraag ontvangen en nemen binnen 2 werkdagen contact met je op.').replace('{name}', naam)
     return (
-      <div className="flex flex-col items-center justify-center py-24 text-center">
+      <div className="flex flex-col items-center justify-center py-16 sm:py-24 px-4 text-center">
         <div
           className="mb-6 flex h-20 w-20 items-center justify-center rounded-full"
           style={{ background: 'rgba(42,125,88,0.15)', border: '2px solid rgba(42,125,88,0.4)' }}
         >
           <PartyPopper className="h-9 w-9 text-gold" />
         </div>
-        <h2 className="font-serif text-3xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
+        <h2 className="font-serif text-2xl sm:text-3xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
           {d?.successHeading ?? 'Aanvraag ontvangen!'}
         </h2>
         <p className="text-base max-w-md leading-relaxed" style={{ color: 'var(--text-muted)' }}>
@@ -401,22 +402,26 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
         <label className="block text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
           {d?.daysLabel ?? 'Aantal dagen'}
         </label>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
           <button
             type="button"
             onClick={() => setDays(d => Math.max(3, d - 1))}
-            className="flex h-10 w-10 items-center justify-center rounded-full border transition-colors duration-200"
+            disabled={days <= 3}
+            aria-label={d?.daysDecrease ?? 'Minder dagen'}
+            className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-200 touch-manipulation disabled:opacity-40"
             style={{ borderColor: 'rgba(42,125,88,0.3)', color: 'var(--text-muted)' }}
           >
             <Minus className="h-4 w-4" />
           </button>
-          <span className="font-serif text-4xl font-bold w-16 text-center" style={{ color: 'var(--text-primary)' }}>
+          <span className="font-serif text-4xl font-bold w-16 text-center tabular-nums" style={{ color: 'var(--text-primary)' }}>
             {days}
           </span>
           <button
             type="button"
             onClick={() => setDays(d => Math.min(30, d + 1))}
-            className="flex h-10 w-10 items-center justify-center rounded-full border transition-colors duration-200"
+            disabled={days >= 30}
+            aria-label={d?.daysIncrease ?? 'Meer dagen'}
+            className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-200 touch-manipulation disabled:opacity-40"
             style={{ borderColor: 'rgba(42,125,88,0.3)', color: 'var(--text-muted)' }}
           >
             <Plus className="h-4 w-4" />
@@ -501,6 +506,8 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
             value={naam}
             onChange={e => { setNaam(e.target.value); clearError('naam') }}
             placeholder={d?.placeholderName ?? 'Jan de Vries'}
+            autoComplete="name"
+            autoCapitalize="words"
             className={inputClass}
             style={fieldErrors.naam ? inputErrorStyle : inputStyle}
           />
@@ -515,6 +522,11 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
             value={email}
             onChange={e => { setEmail(e.target.value); clearError('email') }}
             placeholder={d?.placeholderEmail ?? 'jan@voorbeeld.nl'}
+            autoComplete="email"
+            inputMode="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
             className={inputClass}
             style={fieldErrors.email ? inputErrorStyle : inputStyle}
           />
@@ -531,6 +543,8 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
           value={telefoon}
           onChange={e => { setTelefoon(e.target.value); clearError('telefoon') }}
           placeholder={d?.placeholderPhone ?? '+31 6 12 34 56 78'}
+          autoComplete="tel"
+          inputMode="tel"
           className={inputClass}
           style={fieldErrors.telefoon ? inputErrorStyle : inputStyle}
         />
@@ -553,11 +567,12 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
 
       {error && (
         <div
-          className="flex items-center gap-3 text-sm rounded-xl px-4 py-3"
+          role="alert"
+          className="flex items-start gap-3 text-sm rounded-xl px-4 py-3"
           style={{ background: 'rgba(139,28,44,0.12)', color: '#e07080', border: '1px solid rgba(139,28,44,0.25)' }}
         >
-          <AlertCircle className="h-4 w-4 shrink-0" />
-          {error}
+          <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+          <span className="min-w-0">{error}</span>
         </div>
       )}
     </div>
@@ -569,30 +584,33 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
     <div className={`mx-auto transition-[max-width] duration-300 ${step === 0 ? 'max-w-4xl' : 'max-w-2xl'}`}>
       <StepBar current={step} labels={STEP_LABELS} />
 
-      <div className="rounded-2xl p-6 sm:p-8" style={{ background: 'var(--card-strip-bg)', border: '1px solid rgba(42,125,88,0.18)' }}>
+      <div className="rounded-2xl p-4 sm:p-8" style={{ background: 'var(--card-strip-bg)', border: '1px solid rgba(42,125,88,0.18)' }}>
         {steps[step]}
 
         {/* Validation error summary */}
         {Object.keys(fieldErrors).length > 0 && (
           <div
-            className="flex items-center gap-3 mt-6 rounded-xl px-4 py-3 text-sm"
+            role="alert"
+            className="flex items-start gap-3 mt-6 rounded-xl px-4 py-3 text-sm"
             style={{
               background: 'rgba(139,28,44,0.08)',
               color: '#e07080',
               border: '1px solid rgba(139,28,44,0.2)',
             }}
           >
-            <AlertCircle className="h-4 w-4 shrink-0" />
-            {d?.fieldErrorSummary ?? 'Controleer de gemarkeerde velden hierboven'}
+            <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+            <span className="min-w-0">{d?.fieldErrorSummary ?? 'Controleer de gemarkeerde velden hierboven'}</span>
           </div>
         )}
 
         {/* Navigation */}
-        <div className="flex items-center justify-between mt-10 pt-6" style={{ borderTop: '1px solid rgba(42,125,88,0.12)' }}>
+        <div className="flex items-center justify-between gap-3 mt-8 sm:mt-10 pt-6" style={{ borderTop: '1px solid rgba(42,125,88,0.12)' }}>
           <button
             type="button"
             onClick={() => { setFieldErrors({}); setStep(s => s - 1) }}
-            className="flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200"
+            aria-hidden={step === 0}
+            tabIndex={step === 0 ? -1 : 0}
+            className="flex items-center gap-2 rounded-full px-4 sm:px-5 py-3 text-sm font-medium transition-all duration-200 min-h-[44px] touch-manipulation"
             style={{
               opacity: step === 0 ? 0 : 1,
               pointerEvents: step === 0 ? 'none' : 'auto',
@@ -607,17 +625,17 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
             type="button"
             onClick={tryNext}
             disabled={submitting}
-            className="flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-200"
+            aria-busy={submitting}
+            className="flex items-center gap-2 rounded-full px-5 sm:px-6 py-3 text-sm font-semibold transition-all duration-200 min-h-[44px] touch-manipulation disabled:cursor-not-allowed"
             style={{
               background: submitting ? 'rgba(42,125,88,0.4)' : '#2a7d58',
               color: '#ffffff',
-              cursor: submitting ? 'not-allowed' : 'pointer',
             }}
           >
             {step < 2 ? (
               <>{d?.nextButton ?? 'Volgende'} <ChevronRight className="h-4 w-4" /></>
             ) : submitting ? (
-              d?.submittingButton ?? 'Verzenden…'
+              <><Loader2 className="h-4 w-4 animate-spin" /> {d?.submittingButton ?? 'Verzenden…'}</>
             ) : (
               <>{d?.submitButton ?? 'Verstuur aanvraag'} <Send className="h-4 w-4" /></>
             )}

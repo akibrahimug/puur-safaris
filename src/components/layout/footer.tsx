@@ -22,8 +22,8 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
     <footer
       className="bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]"
     >
-      <div className="container mx-auto max-w-7xl px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12">
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block mb-6">
@@ -35,7 +35,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
                   }
                   width={280}
                   height={120}
-                  className="h-28 w-auto object-contain rounded-2xl"
+                  className="h-20 sm:h-24 lg:h-28 w-auto object-contain rounded-2xl"
                 />
               ) : (
                 <span className="font-serif text-xl font-bold tracking-tight text-[var(--text-primary)]">
@@ -56,14 +56,14 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
 
             {/* Social */}
             {settings?.socialMedia && (
-              <div className="mt-6 flex items-center gap-2">
+              <div className="mt-6 flex flex-wrap items-center gap-2">
                 {settings.socialMedia.instagram && (
                   <a
                     href={settings.socialMedia.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Instagram"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
+                    className="flex h-11 w-11 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
                   >
                     <svg
                       className="h-4 w-4"
@@ -80,7 +80,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Facebook"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
+                    className="flex h-11 w-11 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
                   >
                     <svg
                       className="h-4 w-4"
@@ -97,7 +97,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="YouTube"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
+                    className="flex h-11 w-11 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
                   >
                     <svg
                       className="h-4 w-4"
@@ -114,7 +114,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="WhatsApp"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
+                    className="flex h-11 w-11 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:border-gold/40 hover:text-gold transition-all duration-300"
                   >
                     <svg
                       className="h-4 w-4"
@@ -139,7 +139,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-200"
+                    className="inline-block py-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-200"
                   >
                     {label}
                   </Link>
@@ -158,7 +158,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-200"
+                    className="inline-block py-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-200"
                   >
                     {label}
                   </Link>
@@ -176,19 +176,19 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
               <li>
                 <a
                   href={`tel:${stegaClean(settings?.phone) ?? "+256787222728"}`}
-                  className="flex items-center gap-2.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                  className="flex items-center gap-2.5 py-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors break-words"
                 >
                   <Phone className="h-3.5 w-3.5 text-gold/60 shrink-0" />
-                  {settings?.phone ?? "+256 787 222 728"}
+                  <span className="min-w-0">{settings?.phone ?? "+256 787 222 728"}</span>
                 </a>
               </li>
               <li>
                 <a
                   href={`mailto:${stegaClean(settings?.contactEmail) ?? "info@puurugandareizen.nl"}`}
-                  className="flex items-center gap-2.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors break-all"
+                  className="flex items-center gap-2.5 py-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
                 >
                   <Mail className="h-3.5 w-3.5 text-gold/60 shrink-0" />
-                  {settings?.contactEmail ?? "info@puurugandareizen.nl"}
+                  <span className="min-w-0 break-all">{settings?.contactEmail ?? "info@puurugandareizen.nl"}</span>
                 </a>
               </li>
               <li className="flex items-start gap-2.5 text-[var(--text-muted)]">
@@ -206,7 +206,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
                   href={`https://wa.me/${(stegaClean(settings?.socialMedia?.whatsapp) ?? "+256787222728").replace(/\D/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                  className="flex items-center gap-2.5 py-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
                 >
                   <MessageCircle className="h-3.5 w-3.5 text-gold/60 shrink-0" />
                   WhatsApp
@@ -217,22 +217,22 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-subtle)]">
-          <p>
+        <div className="mt-10 sm:mt-12 lg:mt-14 pt-6 sm:pt-8 border-t border-(--border-subtle) flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-(--text-subtle)">
+          <p className="wrap-break-word">
             &copy; {new Date().getFullYear()} {settings?.siteName ?? "Puur Uganda Reizen"}. {settings?.copyrightText ?? f?.copyright ?? 'Alle rechten voorbehouden.'}
             {settings?.chamberOfCommerceNumber &&
               ` · KvK: ${settings.chamberOfCommerceNumber}`}
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
             <Link
               href={settings?.privacyLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.privacyLink), loc)}` : localePath(loc, 'privacy')}
-              className="hover:text-[var(--text-muted)] transition-colors"
+              className="py-1 hover:text-(--text-muted) transition-colors"
             >
               {settings?.privacyLabel ?? f?.privacyLabel ?? 'Privacybeleid'}
             </Link>
             <Link
               href={settings?.termsLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.termsLink), loc)}` : localePath(loc, 'terms')}
-              className="hover:text-[var(--text-muted)] transition-colors"
+              className="py-1 hover:text-(--text-muted) transition-colors"
             >
               {settings?.termsLabel ?? f?.termsLabel ?? 'Algemene Voorwaarden'}
             </Link>

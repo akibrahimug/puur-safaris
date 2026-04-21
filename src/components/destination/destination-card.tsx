@@ -42,16 +42,16 @@ export function DestinationCard({ destination, labels, locale = "nl" }: Destinat
         <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
 
         {/* Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-          <div className="flex items-center justify-between">
-            <div>
+        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-white">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5 mb-1.5">
-                <MapPin className="h-3 w-3 text-gold" />
-                <span className="text-xs font-medium tracking-wide text-gold">
+                <MapPin className="h-3 w-3 shrink-0 text-gold" />
+                <span className="text-xs font-medium tracking-wide text-gold truncate">
                   {destination.continent ? `${destination.continent} • ` : ''}{destination.country}
                 </span>
               </div>
-              <h3 className="font-serif text-xl font-bold leading-tight">{destination.name}</h3>
+              <h3 className="font-serif text-lg sm:text-xl font-bold leading-tight line-clamp-2">{destination.name}</h3>
               {destination.excerpt && (
                 <p className="mt-2 text-sm text-white/80 line-clamp-2 leading-snug">
                   {destination.excerpt}
@@ -63,7 +63,7 @@ export function DestinationCard({ destination, labels, locale = "nl" }: Destinat
                 </p>
               )}
             </div>
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-xl transition-all duration-500 ease-out group-hover:bg-white group-hover:border-white shadow-sm group-hover:shadow-[0_8px_20px_rgba(255,255,255,0.2)]">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-xl transition-all duration-500 ease-out group-hover:bg-white group-hover:border-white shadow-sm group-hover:shadow-[0_8px_20px_rgba(255,255,255,0.2)]">
               <ArrowUpRight className="h-4 w-4 text-white group-hover:text-stone-900 transition-colors duration-500" />
             </div>
           </div>
