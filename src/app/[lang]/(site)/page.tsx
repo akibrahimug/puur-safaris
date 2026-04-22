@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { hasLocale, type Locale, cmsText } from '@/i18n/config'
+import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { localePath, cmsPathToLocale } from '@/i18n/routes'
-import { getSiteSettings, getTrips, getDestinations, getTestimonials, getHomePage } from '@/lib/data'
-import { getGoogleReviews } from '@/lib/google-reviews'
+import { getSiteSettings, getTrips, getDestinations, getTestimonials, getGoogleReviews, getHomePage } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
 import { HeroSection } from '@/components/home/hero-section'
 import { TrustStrip } from '@/components/home/trust-strip'
@@ -47,14 +46,12 @@ export default async function HomePage({ params }: Props) {
     getDestinations(lang),
     getTestimonials(lang),
     getHomePage(lang),
-    getGoogleReviews(),
+    getGoogleReviews(lang),
   ])
 
   // Merge: Google Reviews first (fresh from Google), then Sanity testimonials
   const testimonials = [...googleReviews, ...sanityTestimonials]
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cms = <T,>(v: T | null | undefined) => cmsText(v, (homePage as any)?.language, locale)
 
   const featuredTrips = allTrips.filter((t) => t.featured).slice(0, 3)
   const displayDestinations = destinations.slice(0, 3)
@@ -73,14 +70,14 @@ export default async function HomePage({ params }: Props) {
             <FadeUp>
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
                 <SectionHeading
-                  eyebrow={cms(homePage?.featuredTripsEyebrow) ?? dict.home.featuredTripsEyebrow}
-                  title={cms(homePage?.featuredTripsTitle) ?? dict.home.featuredTripsTitle}
-                  subtitle={cms(homePage?.featuredTripsSubtitle) ?? dict.home.featuredTripsSubtitle}
+                  eyebrow={homePage?.featuredTripsEyebrow ?? dict.home.featuredTripsEyebrow}
+                  title={homePage?.featuredTripsTitle ?? dict.home.featuredTripsTitle}
+                  subtitle={homePage?.featuredTripsSubtitle ?? dict.home.featuredTripsSubtitle}
                   light
                 />
                 <Button asChild variant="glass">
                   <Link href={localePath(locale, 'safaris')}>
-                    {cms(homePage?.featuredTripsCtaLabel) ?? dict.home.allTripsCta} <ArrowRight className="h-4 w-4" />
+                    {homePage?.featuredTripsCtaLabel ?? dict.home.allTripsCta} <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
@@ -98,8 +95,8 @@ export default async function HomePage({ params }: Props) {
 
       {/* ── Why choose us ────────────────────────────────────── */}
       <WhyChooseUsSection
-        eyebrow={cms(homePage?.featuresEyebrow)}
-        title={cms(homePage?.featuresTitle)}
+        eyebrow={homePage?.featuresEyebrow}
+        title={homePage?.featuresTitle}
         features={homePage?.features}
         dict={dict}
       />
@@ -111,14 +108,14 @@ export default async function HomePage({ params }: Props) {
             <FadeUp>
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
                 <SectionHeading
-                  eyebrow={cms(homePage?.destinationsEyebrow) ?? dict.home.destinationsEyebrow}
-                  title={cms(homePage?.destinationsTitle) ?? dict.home.destinationsTitle}
-                  subtitle={cms(homePage?.destinationsSubtitle) ?? dict.home.destinationsSubtitle}
+                  eyebrow={homePage?.destinationsEyebrow ?? dict.home.destinationsEyebrow}
+                  title={homePage?.destinationsTitle ?? dict.home.destinationsTitle}
+                  subtitle={homePage?.destinationsSubtitle ?? dict.home.destinationsSubtitle}
                   light
                 />
                 <Button asChild variant="glass">
                   <Link href={localePath(locale, 'destinations')}>
-                    {cms(homePage?.destinationsCtaLabel) ?? dict.home.allDestinationsCta} <ArrowRight className="h-4 w-4" />
+                    {homePage?.destinationsCtaLabel ?? dict.home.allDestinationsCta} <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
@@ -139,12 +136,12 @@ export default async function HomePage({ params }: Props) {
       {/* ── Testimonials ─────────────────────────────────────── */}
       <TestimonialsSection
         testimonials={testimonials}
-        eyebrow={cms(homePage?.testimonialsEyebrow)}
-        title={cms(homePage?.testimonialsTitle)}
-        subtitle={cms(homePage?.testimonialsSubtitle)}
-        verifiedLabel={cms(homePage?.testimonialsVerifiedLabel)}
-        moreLabel={cms(homePage?.testimonialsMoreLabel)}
-        beginLabel={cms(homePage?.testimonialsBeginLabel)}
+        eyebrow={homePage?.testimonialsEyebrow}
+        title={homePage?.testimonialsTitle}
+        subtitle={homePage?.testimonialsSubtitle}
+        verifiedLabel={homePage?.testimonialsVerifiedLabel}
+        moreLabel={homePage?.testimonialsMoreLabel}
+        beginLabel={homePage?.testimonialsBeginLabel}
         dict={dict}
       />
 
@@ -157,25 +154,25 @@ export default async function HomePage({ params }: Props) {
           <FadeUp>
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]"
               style={{ color: '#2a7d58' }}>
-              {cms(homePage?.ctaEyebrow) ?? dict.home.ctaEyebrow}
+              {homePage?.ctaEyebrow ?? dict.home.ctaEyebrow}
             </p>
             <h2 className="font-serif text-heading font-bold mb-5"
               style={{ color: 'var(--text-primary)' }}>
-              {cms(homePage?.ctaTitle) ?? dict.home.ctaTitle}
+              {homePage?.ctaTitle ?? dict.home.ctaTitle}
             </h2>
             <p className="text-base leading-relaxed mb-10 max-w-xl mx-auto"
               style={{ color: 'var(--text-muted)' }}>
-              {cms(homePage?.ctaSubtitle) ?? dict.home.ctaSubtitle}
+              {homePage?.ctaSubtitle ?? dict.home.ctaSubtitle}
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button asChild size="lg">
                 <Link href={homePage?.ctaButton1Link ? `/${lang}${cmsPathToLocale(homePage.ctaButton1Link, locale)}` : localePath(locale, 'customItinerary')}>
-                  {cms(homePage?.ctaButton1Label) ?? dict.home.ctaButton1}
+                  {homePage?.ctaButton1Label ?? dict.home.ctaButton1}
                 </Link>
               </Button>
               <Button asChild size="lg" variant="glass">
                 <Link href={homePage?.ctaButton2Link ? `/${lang}${cmsPathToLocale(homePage.ctaButton2Link, locale)}` : localePath(locale, 'safaris')}>
-                  {cms(homePage?.ctaButton2Label) ?? dict.home.ctaButton2}
+                  {homePage?.ctaButton2Label ?? dict.home.ctaButton2}
                 </Link>
               </Button>
             </div>

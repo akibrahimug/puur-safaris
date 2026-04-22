@@ -224,12 +224,6 @@ export default defineType({
       title: 'SEO Instellingen',
       type: 'seoFields',
     }),
-    defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
-    }),
   ],
   preview: {
     select: {

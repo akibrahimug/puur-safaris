@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { stegaClean } from '@sanity/client/stega'
 import { ArrowRight, ChevronDown } from 'lucide-react'
-import { cmsText } from '@/i18n/config'
+
 import type { Locale } from '@/i18n/config'
 import { cmsPathToLocale } from '@/i18n/routes'
 import type { SiteSettings, HomePage } from '@/lib/types'
@@ -23,8 +23,6 @@ interface HeroSectionProps {
 
 export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps) {
   const d = dict?.home
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cms = <T,>(v: T | null | undefined) => cmsText(v, (homePage as any)?.language, locale)
   const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
@@ -71,7 +69,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           className="mb-7"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-xs font-medium tracking-[0.2em] uppercase text-gold backdrop-blur-sm">
-            {cms(homePage?.heroEyebrow) ?? d?.heroEyebrow ?? 'Authentieke Safari Ervaringen'}
+            {homePage?.heroEyebrow ?? d?.heroEyebrow ?? 'Authentieke Safari Ervaringen'}
           </span>
         </motion.div>
 
@@ -82,9 +80,9 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           transition={{ duration: 0.9, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="font-serif text-display font-bold text-white max-w-3xl break-words hyphens-auto"
         >
-          {cms(homePage?.heroHeadline) ?? d?.heroHeadline ?? 'Ontdek Afrika'}
+          {homePage?.heroHeadline ?? d?.heroHeadline ?? 'Ontdek Afrika'}
           <br />
-          <span className="text-gold">{cms(homePage?.heroHeadlineAccent) ?? d?.heroHeadlineAccent ?? 'op zijn puurste'}</span>
+          <span className="text-gold">{homePage?.heroHeadlineAccent ?? d?.heroHeadlineAccent ?? 'op zijn puurste'}</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -94,7 +92,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           transition={{ duration: 0.7, delay: 0.65 }}
           className="mt-5 sm:mt-7 max-w-lg text-base sm:text-lg leading-relaxed text-white/65"
         >
-          {cms(homePage?.heroSubtitle) ?? d?.heroSubtitle ?? 'Persoonlijke safari reizen op maat, afgestemd op uw wensen. Van wildlife in Kenya tot bergklimmen in Tanzania.'}
+          {homePage?.heroSubtitle ?? d?.heroSubtitle ?? 'Persoonlijke safari reizen op maat, afgestemd op uw wensen. Van wildlife in Kenya tot bergklimmen in Tanzania.'}
         </motion.p>
 
         {/* CTAs */}
@@ -108,14 +106,14 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
             href={`/${locale}${cmsPathToLocale(stegaClean(homePage?.heroCta1Link) ?? '/safari-reizen', locale as Locale)}`}
             className="group inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full bg-gold px-6 sm:px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-gold-dark hover:shadow-[0_0_40px_rgba(42,125,88,0.4)]"
           >
-            {cms(homePage?.heroCta1Text) ?? d?.heroCta1 ?? 'Bekijk onze reizen'}
+            {homePage?.heroCta1Text ?? d?.heroCta1 ?? 'Bekijk onze reizen'}
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
           <Link
             href={`/${locale}${cmsPathToLocale(stegaClean(homePage?.heroCta2Link) ?? '/eigen-reisschema', locale as Locale)}`}
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 sm:px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/35"
           >
-            {cms(homePage?.heroCta2Text) ?? d?.heroCta2 ?? 'Eigen Reisschema'}
+            {homePage?.heroCta2Text ?? d?.heroCta2 ?? 'Eigen Reisschema'}
           </Link>
         </motion.div>
 
@@ -146,7 +144,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
                 </svg>
               ))}
             </div>
-            <p className="text-xs text-white/50">{cms(homePage?.heroSocialProofText) ?? d?.heroSocialProof ?? '500+ tevreden reizigers'}</p>
+            <p className="text-xs text-white/50">{homePage?.heroSocialProofText ?? d?.heroSocialProof ?? '500+ tevreden reizigers'}</p>
           </div>
         </motion.div>
       </motion.div>

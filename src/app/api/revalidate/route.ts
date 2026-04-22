@@ -25,6 +25,8 @@ export async function POST(req: NextRequest) {
       revalidatePath('/blog/[slug]', 'page')
     } else if (_type === 'testimonial') {
       revalidatePath('/', 'page')
+    } else if (_type === 'googleReview') {
+      revalidatePath('/', 'page')
     } else if (_type === 'faqItem') {
       revalidatePath('/faq', 'page')
     } else if (_type === 'siteSettings') {

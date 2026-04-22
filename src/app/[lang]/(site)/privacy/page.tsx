@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { hasLocale, cmsText, type Locale } from '@/i18n/config'
+import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { getSiteSettings, getLegalPage } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
@@ -38,13 +38,11 @@ export default async function PrivacybeleidPage({ params }: Props) {
   const page = await getLegalPage(SLUGS, lang)
   if (!page) return notFound()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cms = <T,>(v: T | null | undefined) => cmsText(v, (page as any)?.language, locale)
 
   return (
     <>
       <PageHero
-        title={cms(page.title) ?? dict.footer.privacyLabel}
+        title={page.title ?? dict.footer.privacyLabel}
         image={page.heroImage}
       />
       {page.body && (

@@ -225,12 +225,6 @@ export default defineType({
       type: 'seoFields',
       group: 'seo',
     }),
-    defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
-    }),
   ],
   preview: {
     select: {

@@ -24,12 +24,6 @@ export default defineType({
       type: 'string',
       description: 'Bijv. "Vul uw gegevens in en wij bevestigen uw boeking binnen 2 werkdagen.".',
     }),
-    defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
-    }),
   ],
   preview: {
     prepare: () => ({ title: 'Boekingspagina' }),

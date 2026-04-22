@@ -53,6 +53,12 @@ export const translatableFields: Record<string, TranslatableFieldConfig> = {
     portableText: [],
     nested: {},
   },
+  googleReview: {
+    text: ['country', 'reviewText'],
+    textArray: [],
+    portableText: [],
+    nested: {},
+  },
   faqItem: {
     text: ['question', 'category'],
     textArray: [],
