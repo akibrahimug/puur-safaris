@@ -92,7 +92,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           transition={{ duration: 0.7, delay: 0.65 }}
           className="mt-5 sm:mt-7 max-w-lg text-base sm:text-lg leading-relaxed text-white/65"
         >
-          {homePage?.heroSubtitle ?? d?.heroSubtitle ?? 'Persoonlijke safari reizen op maat, afgestemd op uw wensen. Van wildlife in Kenya tot bergklimmen in Tanzania.'}
+          {homePage?.heroSubtitle ?? d?.heroSubtitle ?? 'Persoonlijke safari reizen op maat, afgestemd op uw wensen. Van wildlife in Queen Elizabeth tot gorilla treks in Bwindi.'}
         </motion.p>
 
         {/* CTAs */}

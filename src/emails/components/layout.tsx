@@ -116,7 +116,7 @@ export function EmailLayout({
                     </Link>
                   </Text>
                   <Text style={footerDisclaimer}>
-                    Puur Uganda Reizen — Authentieke safari ervaringen in Oost-Afrika
+                    Puur Uganda Reizen — Authentieke safari ervaringen in Oeganda
                   </Text>
                 </td>
               </tr>

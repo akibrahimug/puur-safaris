@@ -38,7 +38,7 @@ export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, ve
         <SectionHeading
           eyebrow={eyebrow ?? d?.testimonialsEyebrow ?? 'Reizigersverhalen'}
           title={title ?? d?.testimonialsTitle ?? 'Wat onze reizigers zeggen'}
-          subtitle={subtitle ?? d?.testimonialsSubtitle ?? 'Elke safari is uniek. Lees hoe anderen Oost-Afrika hebben ervaren.'}
+          subtitle={subtitle ?? d?.testimonialsSubtitle ?? 'Elke safari is uniek. Lees hoe anderen Oeganda hebben ervaren.'}
           centered
           light
           className="mb-10 sm:mb-12 md:mb-16 mx-auto max-w-xl"

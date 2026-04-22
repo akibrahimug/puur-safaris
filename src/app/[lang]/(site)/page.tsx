@@ -3,12 +3,11 @@ import Link from 'next/link'
 import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { localePath, cmsPathToLocale } from '@/i18n/routes'
-import { getSiteSettings, getTrips, getDestinations, getTestimonials, getGoogleReviews, getHomePage } from '@/lib/data'
+import { getSiteSettings, getTrips, getDestinations, getHomePage } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
 import { HeroSection } from '@/components/home/hero-section'
 import { TrustStrip } from '@/components/home/trust-strip'
 import { WhyChooseUsSection } from '@/components/home/why-choose-us-section'
-import { TestimonialsSection } from '@/components/home/testimonials-section'
 import { SectionHeading } from '@/components/shared/section-heading'
 import { SafariGrid } from '@/components/safari/safari-grid'
 import { DestinationCard } from '@/components/destination/destination-card'
@@ -40,18 +39,12 @@ export default async function HomePage({ params }: Props) {
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
   const dict = await getDictionary(locale)
 
-  const [settings, allTrips, destinations, sanityTestimonials, homePage, googleReviews] = await Promise.all([
+  const [settings, allTrips, destinations, homePage] = await Promise.all([
     getSiteSettings(lang),
     getTrips(lang),
     getDestinations(lang),
-    getTestimonials(lang),
     getHomePage(lang),
-    getGoogleReviews(lang),
   ])
-
-  // Merge: Google Reviews first (fresh from Google), then Sanity testimonials
-  const testimonials = [...googleReviews, ...sanityTestimonials]
-
 
   const featuredTrips = allTrips.filter((t) => t.featured).slice(0, 3)
   const displayDestinations = destinations.slice(0, 3)
@@ -61,7 +54,7 @@ export default async function HomePage({ params }: Props) {
       <HeroSection settings={settings} homePage={homePage} dict={dict} locale={locale} />
 
       {/* ── Trust strip — credibility before the trips ───────── */}
-      <TrustStrip items={homePage?.trustItems} />
+      <TrustStrip items={homePage?.trustItems} dict={dict} />
 
       {/* ── Featured safaris ─────────────────────────────────── */}
       {featuredTrips.length > 0 && (
@@ -133,17 +126,8 @@ export default async function HomePage({ params }: Props) {
         </section>
       )}
 
-      {/* ── Testimonials ─────────────────────────────────────── */}
-      <TestimonialsSection
-        testimonials={testimonials}
-        eyebrow={homePage?.testimonialsEyebrow}
-        title={homePage?.testimonialsTitle}
-        subtitle={homePage?.testimonialsSubtitle}
-        verifiedLabel={homePage?.testimonialsVerifiedLabel}
-        moreLabel={homePage?.testimonialsMoreLabel}
-        beginLabel={homePage?.testimonialsBeginLabel}
-        dict={dict}
-      />
+      {/* ── Testimonials — hidden for now. Restore by re-adding <TestimonialsSection> and the
+             getTestimonials + getGoogleReviews fetches (see data.ts). ──────────────────── */}
 
       {/* ── CTA banner ───────────────────────────────────────── */}
       <section className="relative overflow-hidden py-28 section-page">
