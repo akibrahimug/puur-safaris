@@ -1,5 +1,5 @@
 import type { Viewport } from 'next'
-import { Sora } from 'next/font/google'
+import { Sora, Barriecito } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { headers, draftMode } from 'next/headers'
 import { VisualEditing } from 'next-sanity/visual-editing'
@@ -22,12 +22,19 @@ const sora = Sora({
   display: 'swap',
 })
 
+const barriecito = Barriecito({
+  subsets: ['latin'],
+  variable: '--font-barriecito',
+  weight: '400',
+  display: 'swap',
+})
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const hdrs = await headers()
   const lang = hdrs.get('x-locale') ?? defaultLocale
 
   return (
-    <html lang={lang} className={`${sora.variable} h-full antialiased`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={lang} className={`${sora.variable} ${barriecito.variable} h-full antialiased`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         <ThemeProvider>
           {children}

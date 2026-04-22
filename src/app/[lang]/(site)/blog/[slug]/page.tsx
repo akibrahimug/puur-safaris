@@ -167,7 +167,7 @@ export default async function BlogDetailPage({ params }: Props) {
                  <path d="M7.76 16.24l2.12-2.12"></path>
                </svg>
              </div>
-             <h3 className="relative font-serif text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-4">
+             <h3 className="relative font-display text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-4">
                {labels?.ctaHeading ?? dict.blogDetail.ctaHeading}
              </h3>
              <p className="relative text-[var(--text-muted)] text-lg mb-8 max-w-2xl mx-auto leading-relaxed">

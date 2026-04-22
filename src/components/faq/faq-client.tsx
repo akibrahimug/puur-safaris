@@ -87,7 +87,7 @@ export function FaqClient({ groupedFaqs, searchPlaceholder, categoriesHeading, v
 
           {/* Sidebar Menu */}
           <div className="lg:col-span-3 lg:sticky lg:top-32">
-            <h3 className="font-serif text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6">{categoriesHeading ?? 'Categorieën'}</h3>
+            <h3 className="font-display text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6">{categoriesHeading ?? 'Categorieën'}</h3>
             <ul className="flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible -mx-4 px-4 lg:mx-0 lg:px-0 lg:space-y-2 pb-2 lg:pb-0 snap-x snap-mandatory lg:snap-none">
               <li className="shrink-0 lg:shrink snap-start">
                 <button
@@ -124,7 +124,7 @@ export function FaqClient({ groupedFaqs, searchPlaceholder, categoriesHeading, v
               Object.entries(displayGroups).map(([category, items]) => (
                 <div key={category}>
                   {(activeCategory === 'all' || searchQuery !== '') && (
-                    <h2 className="font-serif text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6 ml-1 sm:ml-2 break-words">
+                    <h2 className="font-display text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6 ml-1 sm:ml-2 break-words">
                       {faqCategoryLabel(category)}
                     </h2>
                   )}

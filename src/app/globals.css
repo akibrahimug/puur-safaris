@@ -142,6 +142,10 @@ html {
   font-family: var(--font-serif);
 }
 
+.font-display {
+  font-family: var(--font-barriecito), Georgia, "Times New Roman", serif;
+}
+
 .container {
   width: 100%;
   margin-left: auto;
@@ -217,12 +221,14 @@ html {
 /* ─── Typography ─────────────────────────────────────────────────────────── */
 
 .text-display {
+  font-family: var(--font-barriecito), Georgia, "Times New Roman", serif;
   font-size: clamp(3rem, 7vw, 6rem);
   line-height: 1.04;
   letter-spacing: -0.03em;
 }
 
 .text-heading {
+  font-family: var(--font-barriecito), Georgia, "Times New Roman", serif;
   font-size: clamp(1.875rem, 4vw, 3rem);
   line-height: 1.1;
   letter-spacing: -0.025em;

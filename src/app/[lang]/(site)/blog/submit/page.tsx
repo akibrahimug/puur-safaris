@@ -53,7 +53,7 @@ export default async function BlogSubmissionRoute({ params }: Props) {
         {/* Form Instructions Box */}
         <div className="mb-12 p-8 rounded-3xl border border-gold/30 bg-gold/5 flex flex-col sm:flex-row gap-6 relative overflow-hidden">
           <div className="flex-1">
-            <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-4">
+            <h2 className="font-display text-2xl font-bold text-[var(--text-primary)] mb-4">
               {page?.instructionsHeading ?? dict.blogSubmit.instructionsHeading}
             </h2>
             <ul className="space-y-4 text-[var(--text-muted)] text-sm sm:text-base leading-relaxed">
