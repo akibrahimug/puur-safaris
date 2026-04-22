@@ -23,6 +23,7 @@ import {
   blogPostSlugsQuery,
   faqQuery,
   testimonialListQuery,
+  googleReviewsFeaturedQuery,
   homePageQuery,
   aboutPageQuery,
   contactPageQuery,
@@ -156,6 +157,38 @@ export async function getFaqItems(language: string = defaultLocale): Promise<Faq
 
 export async function getTestimonials(language: string = defaultLocale): Promise<Testimonial[]> {
   return fetchArrayAndTranslate(testimonialListQuery, 'testimonial', language)
+}
+
+// ─── Google Reviews ───────────────────────────────────────────────────────────
+
+interface GoogleReviewDoc {
+  _id: string
+  authorName?: string
+  country?: string | null
+  rating?: number
+  reviewText?: string
+  reviewDate?: string
+  sourceUrl?: string | null
+  authorPhoto?: Testimonial['profilePhoto'] | null
+}
+
+export async function getGoogleReviews(language: string = defaultLocale): Promise<Testimonial[]> {
+  const docs = await fetchArrayAndTranslate<GoogleReviewDoc>(
+    googleReviewsFeaturedQuery,
+    'googleReview',
+    language,
+  )
+  return docs.map((doc) => ({
+    _id: doc._id,
+    name: doc.authorName ?? '',
+    country: doc.country ?? undefined,
+    rating: doc.rating ?? 5,
+    quote: doc.reviewText ?? '',
+    date: doc.reviewDate ?? undefined,
+    profilePhoto: doc.authorPhoto ?? undefined,
+    bookedTrip: undefined,
+    source: 'google' as const,
+  }))
 }
 
 // ─── Homepage ─────────────────────────────────────────────────────────────────

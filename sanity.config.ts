@@ -1,10 +1,10 @@
-import { defineConfig, useDocumentOperation, type DocumentActionComponent } from "sanity";
-import { useEffect } from "react";
+import { defineConfig, useClient, useDocumentOperation, type DocumentActionComponent } from "sanity";
+import { useEffect, useState } from "react";
 import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { media } from "sanity-plugin-media";
 import { presentationTool } from "sanity/presentation";
-import { documentInternationalization } from "@sanity/document-internationalization";
+import { TrashIcon } from "@sanity/icons";
 import { resolve } from "./src/sanity/presentation/resolve";
 import { schemaTypes } from "./src/sanity/schemas";
 
@@ -32,6 +32,60 @@ const singletonTypeNames = new Set<string>([
   ...listPages.map((p) => p.type),
 ]);
 
+/* ── Visible delete action for content types ───────────────────────── *
+ * Replaces the default Sanity delete with a prominent, critical-toned  *
+ * action using a transaction-based delete that handles draft+published *
+ * versions atomically (Content Lake rejects deleting a published doc   *
+ * while a draft still exists, so we delete both in one transaction).   */
+function createDeleteAction(typeLabel: string): DocumentActionComponent {
+  const DeleteAction: DocumentActionComponent = (props) => {
+    const client = useClient({ apiVersion: "2024-10-01" });
+    const [showDialog, setShowDialog] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const runDelete = async () => {
+      setIsDeleting(true);
+      try {
+        const publishedId = props.id.replace(/^drafts\./, "");
+        const draftId = `drafts.${publishedId}`;
+        await client
+          .transaction()
+          .delete(draftId)
+          .delete(publishedId)
+          .commit({ visibility: "async" });
+      } catch (err) {
+        console.error("Verwijderen mislukt:", err);
+      } finally {
+        setIsDeleting(false);
+        setShowDialog(false);
+        props.onComplete();
+      }
+    };
+
+    return {
+      label: `${typeLabel} verwijderen`,
+      icon: TrashIcon,
+      tone: "critical",
+      group: ["default", "paneActions"],
+      disabled: isDeleting,
+      onHandle: () => setShowDialog(true),
+      dialog: showDialog && {
+        type: "confirm",
+        color: "danger",
+        onCancel: () => {
+          setShowDialog(false);
+          props.onComplete();
+        },
+        onConfirm: () => {
+          void runDelete();
+        },
+        message: `Weet je zeker dat je deze ${typeLabel.toLowerCase()} permanent wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.`,
+      },
+    };
+  };
+  return DeleteAction;
+}
+
 /* ── Auto-publish action for blogPost ──────────────────────────────── *
  * When the admin sets status to "published" and saves, automatically   *
  * publish the document (remove the draft) so it goes live immediately. */
@@ -42,7 +96,6 @@ function createAutoPublishAction(
     const { publish } = useDocumentOperation(props.id, props.type);
     const result = originalPublishAction(props);
 
-    // Auto-trigger publish when draft status is "published"
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const draftStatus = (props.draft as any)?.status;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -79,6 +132,7 @@ export default defineConfig({
             S.documentTypeListItem("destination").title("Bestemmingen"),
             S.documentTypeListItem("blogPost").title("Blog Berichten"),
             S.documentTypeListItem("testimonial").title("Getuigenissen"),
+            S.documentTypeListItem("googleReview").title("Google Reviews"),
             S.documentTypeListItem("faqItem").title("Veelgestelde Vragen"),
             S.documentTypeListItem("booking").title("Boekingen"),
             S.divider(),
@@ -125,31 +179,6 @@ export default defineConfig({
     }),
     visionTool(),
     media(),
-    documentInternationalization({
-      supportedLanguages: [
-        { id: "nl", title: "Nederlands" },
-        { id: "en", title: "English" },
-      ],
-      schemaTypes: [
-        "trip",
-        "destination",
-        "blogPost",
-        "testimonial",
-        "faqItem",
-        "siteSettings",
-        "homePage",
-        "aboutPage",
-        "contactPage",
-        "safariListingPage",
-        "destinationListingPage",
-        "faqPage",
-        "blogPage",
-        "eigenReisschemaPage",
-        "blogSubmissionPage",
-        "bookingPage",
-        "legalPage",
-      ],
-    }),
   ],
   schema: {
     types: schemaTypes,
@@ -158,13 +187,10 @@ export default defineConfig({
       templates.filter(
         (t) =>
           !singletonTypeNames.has(t.schemaType) &&
-          t.schemaType !== "siteSettings" &&
-          t.schemaType !== "translation.metadata",
+          t.schemaType !== "siteSettings",
       ),
   },
   document: {
-    // For singletons: remove delete/duplicate actions
-    // For blogPost: auto-publish when status is set to "published"
     actions: (prev, context) => {
       // Singletons: only allow publish + discard
       if (
@@ -179,14 +205,24 @@ export default defineConfig({
         );
       }
 
-      // Blog posts: wrap the publish action to auto-publish when status = "published"
-      if (context.schemaType === "blogPost") {
-        return prev.map((action) => {
-          if (action.action === "publish") {
-            return createAutoPublishAction(action);
-          }
-          return action;
-        });
+      // Content types with an explicit, visible delete button (Dutch label + trash icon).
+      const deleteLabels: Record<string, string> = {
+        blogPost: "Blog bericht",
+        trip: "Safari reis",
+        destination: "Bestemming",
+        googleReview: "Google review",
+      };
+      const typeLabel = deleteLabels[context.schemaType];
+      if (typeLabel) {
+        const actions = prev
+          .filter((action) => action.action !== "delete")
+          .map((action) => {
+            if (context.schemaType === "blogPost" && action.action === "publish") {
+              return createAutoPublishAction(action);
+            }
+            return action;
+          });
+        return [...actions, createDeleteAction(typeLabel)];
       }
 
       return prev;

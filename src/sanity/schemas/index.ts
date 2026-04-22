@@ -2,6 +2,7 @@ import trip from './documents/safari'
 import destination from './documents/destination'
 import blogPost from './documents/blog-post'
 import testimonial from './documents/testimonial'
+import googleReview from './documents/google-review'
 import faqItem from './documents/faq'
 import siteSettings from './documents/site-settings'
 import homePage from './documents/home-page'
@@ -27,6 +28,7 @@ export const schemaTypes = [
   blogPost,
   booking,
   testimonial,
+  googleReview,
   faqItem,
   siteSettings,
   homePage,

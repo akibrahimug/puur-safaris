@@ -56,12 +56,6 @@ export default defineType({
       initialValue: true,
       description: 'Vink uit om deze getuigenis tijdelijk te verbergen.',
     }),
-    defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
-    }),
   ],
   preview: {
     select: {

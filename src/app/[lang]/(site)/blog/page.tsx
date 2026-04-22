@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { stegaClean } from '@sanity/client/stega'
 import { ArrowUpRight, Calendar, User } from 'lucide-react'
-import { hasLocale, type Locale, cmsText } from '@/i18n/config'
+import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { localePath, cmsPathToLocale } from '@/i18n/routes'
 import { PageHero } from '@/components/shared/page-hero'
@@ -44,8 +44,6 @@ export default async function BlogIndexPage({ params }: Props) {
 
   const [blogPosts, blogPage, settings] = await Promise.all([getBlogPosts(lang), getBlogPage(lang), getSiteSettings(lang)])
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cms = <T,>(v: T | null | undefined) => cmsText(v, (blogPage as any)?.language, locale)
 
   const stories = blogPosts.filter(p => stegaClean(p.category) === 'stories')
   const wildlife = blogPosts.filter(p => stegaClean(p.category) === 'wildlife')
@@ -66,8 +64,8 @@ export default async function BlogIndexPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
       <PageHero
-        title={cms(blogPage?.heroTitle) ?? dict.blog.heroTitle}
-        subtitle={cms(blogPage?.heroSubtitle) ?? dict.blog.heroSubtitle}
+        title={blogPage?.heroTitle ?? dict.blog.heroTitle}
+        subtitle={blogPage?.heroSubtitle ?? dict.blog.heroSubtitle}
         image={blogPage?.heroImage ?? blogPosts[0]?.featuredImage}
       />
 
@@ -78,7 +76,7 @@ export default async function BlogIndexPage({ params }: Props) {
           <section>
              <div className="flex items-center gap-4 mb-10">
                <div className="flex-1 h-px bg-gradient-to-r from-[var(--border-subtle)] to-transparent" />
-               <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)]">{cms(blogPage?.storiesSectionHeading) ?? dict.blog.storiesSectionHeading}</h2>
+               <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)]">{blogPage?.storiesSectionHeading ?? dict.blog.storiesSectionHeading}</h2>
                <div className="flex-1 h-px bg-gradient-to-l from-[var(--border-subtle)] to-transparent" />
              </div>
 
@@ -100,7 +98,7 @@ export default async function BlogIndexPage({ params }: Props) {
 
                       <div className="relative z-10 max-w-2xl">
                          <span className="inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest bg-gold/90 text-white mb-6 backdrop-blur-md">
-                           {cms(blogPage?.featuredBadgeText) ?? dict.blog.featuredBadge}
+                           {blogPage?.featuredBadgeText ?? dict.blog.featuredBadge}
                          </span>
 
                          <h3 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-4 group-hover:text-gold transition-colors duration-300">
@@ -125,7 +123,7 @@ export default async function BlogIndexPage({ params }: Props) {
                              )}
                            </div>
                            <div className="hidden sm:flex items-center gap-2 group-hover:text-gold transition-colors">
-                             <span>{cms(blogPage?.readArticleLabel) ?? dict.blog.readArticle}</span>
+                             <span>{blogPage?.readArticleLabel ?? dict.blog.readArticle}</span>
                              <div className="p-2 rounded-full bg-white/10 group-hover:bg-gold/20 backdrop-blur-sm transition-all group-hover:translate-x-1">
                                <ArrowUpRight className="h-4 w-4" />
                              </div>
@@ -139,35 +137,33 @@ export default async function BlogIndexPage({ params }: Props) {
                {/* Remaining Stories */}
                <div className="flex flex-col gap-8">
                  {otherStories.map(post => (
-                   <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: cms(blogPage?.readArticleLabel) ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
+                   <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: blogPage?.readArticleLabel ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
                  ))}
                </div>
              </div>
           </section>
         )}
 
-
         {/* ── WILDLIFE SECTION: Standard Grid ── */}
         {wildlife.length > 0 && (
           <section>
              <div className="mb-10 text-center">
-               <span className="text-gold font-bold tracking-widest text-xs uppercase block mb-2">{cms(blogPage?.wildlifeEyebrow) ?? dict.blog.wildlifeEyebrow}</span>
+               <span className="text-gold font-bold tracking-widest text-xs uppercase block mb-2">{blogPage?.wildlifeEyebrow ?? dict.blog.wildlifeEyebrow}</span>
                <h2 className="font-serif text-3xl md:text-4xl font-bold text-[var(--text-primary)]">
-                 {cms(blogPage?.wildlifeTitle) ?? dict.blog.wildlifeTitle}
+                 {blogPage?.wildlifeTitle ?? dict.blog.wildlifeTitle}
                </h2>
                <p className="mt-4 text-[var(--text-muted)] max-w-2xl mx-auto">
-                 {cms(blogPage?.wildlifeSubtitle) ?? dict.blog.wildlifeSubtitle}
+                 {blogPage?.wildlifeSubtitle ?? dict.blog.wildlifeSubtitle}
                </p>
              </div>
 
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                {wildlife.map(post => (
-                 <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: cms(blogPage?.readArticleLabel) ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
+                 <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: blogPage?.readArticleLabel ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
                ))}
              </div>
           </section>
         )}
-
 
         {/* ── GUIDES & TIPS SECTION: Consolidated Landscape ── */}
         {guides.length > 0 && (
@@ -183,23 +179,23 @@ export default async function BlogIndexPage({ params }: Props) {
                 {/* Intro Box */}
                 <div className="lg:w-1/3 lg:sticky lg:top-32">
                    <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-4">
-                     {cms(blogPage?.guidesSectionTitle) ?? dict.blog.guidesTitle}
+                     {blogPage?.guidesSectionTitle ?? dict.blog.guidesTitle}
                    </h2>
                    <p className="text-[var(--text-muted)] leading-relaxed mb-8">
-                     {cms(blogPage?.guidesDescription) ?? dict.blog.guidesDescription}
+                     {blogPage?.guidesDescription ?? dict.blog.guidesDescription}
                    </p>
                    <Link
                      href={blogPage?.guidesCtaLink ? `/${lang}${cmsPathToLocale(stegaClean(blogPage.guidesCtaLink)!, locale)}` : localePath(locale, 'contact')}
                      className="inline-flex items-center justify-center rounded-full border-2 border-gold text-gold hover:bg-gold hover:text-white px-8 py-3 font-semibold transition-colors duration-300"
                    >
-                     {cms(blogPage?.guidesCtaLabel) ?? dict.blog.guidesCta}
+                     {blogPage?.guidesCtaLabel ?? dict.blog.guidesCta}
                    </Link>
                 </div>
 
                 {/* Guide Cards */}
                 <div className="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
                    {guides.map(post => (
-                     <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: cms(blogPage?.readArticleLabel) ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
+                     <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: blogPage?.readArticleLabel ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
                    ))}
                 </div>
              </div>
@@ -217,19 +213,19 @@ export default async function BlogIndexPage({ params }: Props) {
           </div>
           <div className="relative z-10 max-w-2xl">
             <span className="inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest border border-gold text-gold mb-6 backdrop-blur-sm">
-              {cms(blogPage?.readerCtaBadge) ?? dict.blog.readerCtaBadge}
+              {blogPage?.readerCtaBadge ?? dict.blog.readerCtaBadge}
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-6 leading-tight">
-              {cms(blogPage?.readerCtaHeading) ?? dict.blog.readerCtaHeading}
+              {blogPage?.readerCtaHeading ?? dict.blog.readerCtaHeading}
             </h2>
             <p className="text-lg text-[var(--text-muted)] mb-10 leading-relaxed">
-              {cms(blogPage?.readerCtaBody) ?? dict.blog.readerCtaBody}
+              {blogPage?.readerCtaBody ?? dict.blog.readerCtaBody}
             </p>
             <Link
               href={localePath(locale, 'blogSubmit')}
               className="inline-flex items-center justify-center gap-3 rounded-full bg-gold text-white px-10 py-4 font-semibold hover:bg-gold-dark hover:-translate-y-1 hover:shadow-xl shadow-gold/20 transition-all duration-300"
             >
-              {cms(blogPage?.readerCtaButton) ?? dict.blog.readerCtaButton}
+              {blogPage?.readerCtaButton ?? dict.blog.readerCtaButton}
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-90">
                 <path d="M12 19l7-7-7-7"></path>
                 <path d="M19 12H5"></path>

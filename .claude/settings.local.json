@@ -76,7 +76,10 @@
       "Bash(defaults write *)",
       "Bash(killall SystemUIServer)",
       "Bash(git *)",
-      "Bash(curl -s http://localhost:3000/nl/safaris)"
+      "Bash(curl -s http://localhost:3000/nl/safaris)",
+      "Bash(python3 *)",
+      "Bash(curl -s \"http://localhost:3000/nl\")",
+      "Bash(curl -s \"http://localhost:3000/nl/safari-reizen\")"
     ]
   }
 }
