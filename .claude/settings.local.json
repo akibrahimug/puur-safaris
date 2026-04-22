@@ -79,7 +79,23 @@
       "Bash(curl -s http://localhost:3000/nl/safaris)",
       "Bash(python3 *)",
       "Bash(curl -s \"http://localhost:3000/nl\")",
-      "Bash(curl -s \"http://localhost:3000/nl/safari-reizen\")"
+      "Bash(curl -s \"http://localhost:3000/nl/safari-reizen\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/)",
+      "Bash(curl -s http://localhost:3001/)",
+      "Bash(curl -sL http://localhost:3001/)",
+      "Bash(curl -sL http://localhost:3001/ -o /tmp/page.html)",
+      "Read(//tmp/**)",
+      "Bash(curl -sL 'http://localhost:3001/_next/static/chunks/%5Broot-of-the-server%5D__0qkaa22._.css')",
+      "Bash(curl -sL 'http://localhost:3001/_next/static/chunks/%5Broot-of-the-server%5D__0qkaa22._.css' -o /tmp/bundle.css)",
+      "Bash(curl -sL http://localhost:3001/ -o /tmp/page2.html)",
+      "Bash(curl -sL 'http://localhost:3001/_next/static/chunks/%5Broot-of-the-server%5D__0qkaa22._.css' -o /tmp/bundle2.css)",
+      "Bash(kill bf8rmch73 *)",
+      "Bash(pkill -f 'next dev')",
+      "Bash(curl -sL http://localhost:3000/ -o /tmp/page4.html)",
+      "Bash(curl -sL http://localhost:3000/nl/over-ons -o /tmp/about.html)",
+      "Bash(curl *)",
+      "Bash(ps -o pid,command -p 57385)",
+      "Bash(md5 *)"
     ]
   }
 }

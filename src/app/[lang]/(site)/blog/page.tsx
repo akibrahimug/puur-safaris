@@ -76,7 +76,7 @@ export default async function BlogIndexPage({ params }: Props) {
           <section>
              <div className="flex items-center gap-4 mb-10">
                <div className="flex-1 h-px bg-gradient-to-r from-[var(--border-subtle)] to-transparent" />
-               <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)]">{blogPage?.storiesSectionHeading ?? dict.blog.storiesSectionHeading}</h2>
+               <h2 className="font-display text-3xl font-bold text-[var(--text-primary)]">{blogPage?.storiesSectionHeading ?? dict.blog.storiesSectionHeading}</h2>
                <div className="flex-1 h-px bg-gradient-to-l from-[var(--border-subtle)] to-transparent" />
              </div>
 
@@ -101,7 +101,7 @@ export default async function BlogIndexPage({ params }: Props) {
                            {blogPage?.featuredBadgeText ?? dict.blog.featuredBadge}
                          </span>
 
-                         <h3 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-4 group-hover:text-gold transition-colors duration-300">
+                         <h3 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4 group-hover:text-gold transition-colors duration-300">
                            {featuredStory.title}
                          </h3>
 
@@ -149,7 +149,7 @@ export default async function BlogIndexPage({ params }: Props) {
           <section>
              <div className="mb-10 text-center">
                <span className="text-gold font-bold tracking-widest text-xs uppercase block mb-2">{blogPage?.wildlifeEyebrow ?? dict.blog.wildlifeEyebrow}</span>
-               <h2 className="font-serif text-3xl md:text-4xl font-bold text-[var(--text-primary)]">
+               <h2 className="font-display text-3xl md:text-4xl font-bold text-[var(--text-primary)]">
                  {blogPage?.wildlifeTitle ?? dict.blog.wildlifeTitle}
                </h2>
                <p className="mt-4 text-[var(--text-muted)] max-w-2xl mx-auto">
@@ -178,7 +178,7 @@ export default async function BlogIndexPage({ params }: Props) {
              <div className="relative z-10 flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
                 {/* Intro Box */}
                 <div className="lg:w-1/3 lg:sticky lg:top-32">
-                   <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-4">
+                   <h2 className="font-display text-3xl font-bold text-[var(--text-primary)] mb-4">
                      {blogPage?.guidesSectionTitle ?? dict.blog.guidesTitle}
                    </h2>
                    <p className="text-[var(--text-muted)] leading-relaxed mb-8">
@@ -215,7 +215,7 @@ export default async function BlogIndexPage({ params }: Props) {
             <span className="inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest border border-gold text-gold mb-6 backdrop-blur-sm">
               {blogPage?.readerCtaBadge ?? dict.blog.readerCtaBadge}
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-6 leading-tight">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-6 leading-tight">
               {blogPage?.readerCtaHeading ?? dict.blog.readerCtaHeading}
             </h2>
             <p className="text-lg text-[var(--text-muted)] mb-10 leading-relaxed">

@@ -77,7 +77,7 @@ export default async function OverOnsPage({ params }: Props) {
 
               {/* Onze Achtergrond */}
               <div className="prose prose-stone max-w-none">
-                <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-6">
+                <h2 className="font-display text-3xl font-bold text-[var(--text-primary)] mb-6">
                   {aboutPage?.backgroundTitle ?? dict.about.backgroundTitle}
                 </h2>
                 {aboutPage?.backgroundText ? (
@@ -91,7 +91,7 @@ export default async function OverOnsPage({ params }: Props) {
 
               {/* Onze Missie */}
               <div className="prose prose-stone max-w-none">
-                <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-6">
+                <h2 className="font-display text-3xl font-bold text-[var(--text-primary)] mb-6">
                   {aboutPage?.missionTitle ?? dict.about.missionTitle}
                 </h2>
                 {aboutPage?.missionText ? (
@@ -110,7 +110,7 @@ export default async function OverOnsPage({ params }: Props) {
 
               {/* Waarom Wij (Unique) */}
               <div>
-                <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-8">
+                <h2 className="font-display text-3xl font-bold text-[var(--text-primary)] mb-8">
                   {aboutPage?.uniquePointsTitle ?? dict.about.uniqueTitle}
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -131,7 +131,7 @@ export default async function OverOnsPage({ params }: Props) {
 
               {/* Het Team */}
               <div>
-                <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] mb-8">
+                <h2 className="font-display text-3xl font-bold text-[var(--text-primary)] mb-8">
                   {aboutPage?.teamTitle ?? dict.about.teamTitle}
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -162,7 +162,7 @@ export default async function OverOnsPage({ params }: Props) {
                 <div className="absolute top-0 right-0 -mr-8 -mt-8 opacity-10 transition-transform duration-700 group-hover:rotate-12 group-hover:scale-110">
                   <Heart className="w-48 h-48 text-gold" />
                 </div>
-                <h2 className="relative font-serif text-3xl font-bold text-[var(--text-primary)] mb-4">
+                <h2 className="relative font-display text-3xl font-bold text-[var(--text-primary)] mb-4">
                   {aboutPage?.communityTitle ?? dict.about.communityTitle}
                 </h2>
                 {aboutPage?.communityText ? (
@@ -186,7 +186,7 @@ export default async function OverOnsPage({ params }: Props) {
             {/* Sidebar (Right) */}
             <div className="lg:col-span-4 mt-8 lg:mt-0">
               <div className="sticky top-32 p-8 rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-lg shadow-black/5">
-                <h3 className="font-serif text-2xl font-bold text-[var(--text-primary)] mb-8">{dict.about.contactSidebarHeading}</h3>
+                <h3 className="font-display text-2xl font-bold text-[var(--text-primary)] mb-8">{dict.about.contactSidebarHeading}</h3>
 
                 <div className="space-y-6">
                   {siteSettings.phone && (
