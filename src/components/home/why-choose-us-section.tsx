@@ -14,17 +14,20 @@ const iconMap: Record<string, LucideIcon> = {
   Map, Compass, Sun, Camera,
 }
 
-const defaultFeatures: (FeatureCard & { icon: LucideIcon })[] = [
-  { iconName: 'Heart', icon: Heart, title: 'Persoonlijk & op maat', description: 'Elke safari wordt speciaal voor u ontworpen. Uw wensen, uw tempo, uw droomreis.' },
-  { iconName: 'Shield', icon: Shield, title: 'Veiligheid voorop', description: 'Al onze gidsen zijn gecertificeerd en hebben jarenlange ervaring in het veld.' },
-  { iconName: 'Users', icon: Users, title: 'Kleine groepen', description: 'Wij werken met kleine, intieme groepen voor een echte en authentieke ervaring.' },
-  { iconName: 'Star', icon: Star, title: 'Topkwaliteit', description: 'Zorgvuldig geselecteerde lodges en camps met uitstekende service en comfort.' },
-  { iconName: 'Globe', icon: Globe, title: 'Lokale expertise', description: 'Onze Afrikaanse partners kennen elk pad, elke schuilplaats en elk seizoen.' },
-  { iconName: 'Headphones', icon: Headphones, title: '24/7 ondersteuning', description: 'Voor, tijdens en na uw reis staat ons team klaar voor vragen en ondersteuning.' },
-]
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Dict = Record<string, any>
+
+function buildDefaultFeatures(dict?: Dict): (FeatureCard & { icon: LucideIcon })[] {
+  const f = dict?.home?.features
+  return [
+    { iconName: 'Heart', icon: Heart, title: f?.personalTitle ?? 'Persoonlijk & op maat', description: f?.personalDesc ?? 'Elke safari wordt speciaal voor u ontworpen. Uw wensen, uw tempo, uw droomreis.' },
+    { iconName: 'Shield', icon: Shield, title: f?.safetyTitle ?? 'Veiligheid voorop', description: f?.safetyDesc ?? 'Al onze gidsen zijn gecertificeerd en hebben jarenlange ervaring in het veld.' },
+    { iconName: 'Users', icon: Users, title: f?.smallGroupsTitle ?? 'Kleine groepen', description: f?.smallGroupsDesc ?? 'Wij werken met kleine, intieme groepen voor een echte en authentieke ervaring.' },
+    { iconName: 'Star', icon: Star, title: f?.qualityTitle ?? 'Topkwaliteit', description: f?.qualityDesc ?? 'Zorgvuldig geselecteerde lodges en camps met uitstekende service en comfort.' },
+    { iconName: 'Globe', icon: Globe, title: f?.localTitle ?? 'Lokale expertise', description: f?.localDesc ?? 'Onze Afrikaanse partners kennen elk pad, elke schuilplaats en elk seizoen.' },
+    { iconName: 'Headphones', icon: Headphones, title: f?.supportTitle ?? '24/7 ondersteuning', description: f?.supportDesc ?? 'Voor, tijdens en na uw reis staat ons team klaar voor vragen en ondersteuning.' },
+  ]
+}
 
 interface WhyChooseUsSectionProps {
   eyebrow?: string
@@ -44,7 +47,7 @@ const cardVariants = {
 
 export function WhyChooseUsSection({ eyebrow, title, features, dict }: WhyChooseUsSectionProps) {
   const d = dict?.home
-  const featureList = features?.length ? features : defaultFeatures
+  const featureList = features?.length ? features : buildDefaultFeatures(dict)
 
   return (
     <section className="section-page py-16 sm:py-20 md:py-28 relative overflow-hidden">

@@ -3,19 +3,25 @@
 import { motion } from 'framer-motion'
 import type { TrustItem } from '@/lib/types'
 
-const defaultItems: TrustItem[] = [
-  { value: '500+', phrase: 'reizigers vonden hun droomsafari' },
-  { value: '12',   phrase: 'landen actief in Oost-Afrika' },
-  { value: '15',   phrase: 'jaar veldervaring met de wildernis' },
-  { value: '4.9★', phrase: 'gemiddeld beoordeeld door reizigers' },
-]
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Dict = Record<string, any>
+
+function buildDefaultItems(dict?: Dict): TrustItem[] {
+  const t = dict?.home?.trust
+  return [
+    { value: '500+', phrase: t?.travellers ?? 'reizigers vonden hun droomsafari' },
+    { value: '15',   phrase: t?.experience ?? 'jaar veldervaring met de wildernis' },
+    { value: '4.9★', phrase: t?.rating ?? 'gemiddeld beoordeeld door reizigers' },
+  ]
+}
 
 interface TrustStripProps {
   items?: TrustItem[]
+  dict?: Dict
 }
 
-export function TrustStrip({ items }: TrustStripProps) {
-  const trustItems = items?.length ? items : defaultItems
+export function TrustStrip({ items, dict }: TrustStripProps) {
+  const trustItems = items?.length ? items : buildDefaultItems(dict)
 
   return (
     <div className="relative overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
@@ -27,7 +33,7 @@ export function TrustStrip({ items }: TrustStripProps) {
         style={{ background: 'var(--border-subtle)' }} />
 
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-5 sm:gap-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 sm:gap-x-6 gap-y-5 sm:gap-y-6">
           {trustItems.map((item, i) => (
             <motion.div
               key={item.value}
