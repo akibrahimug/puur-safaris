@@ -2,13 +2,13 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'aboutPage',
-  title: 'Over Ons Pagina',
+  title: 'About Us Page',
   type: 'document',
   groups: [
     { name: 'hero', title: 'Hero' },
-    { name: 'content', title: 'Inhoud' },
+    { name: 'content', title: 'Content' },
     { name: 'team', title: 'Team' },
-    { name: 'uniquePoints', title: 'Unieke Punten' },
+    { name: 'uniquePoints', title: 'Unique Points' },
     { name: 'community', title: 'Gemeenschap' },
     { name: 'seo', title: 'SEO' },
   ],
@@ -16,21 +16,21 @@ export default defineType({
     // ─── HERO ──────────────────────────────────────────────────────
     defineField({
       name: 'heroImage',
-      title: 'Hero Afbeelding',
+      title: 'Hero Image',
       type: 'image',
       options: { hotspot: true },
       group: 'hero',
-      fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
+      fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
     }),
     defineField({
       name: 'heroTitle',
-      title: 'Hero Titel',
+      title: 'Hero Title',
       type: 'string',
       group: 'hero',
     }),
     defineField({
       name: 'heroSubtitle',
-      title: 'Hero Ondertitel',
+      title: 'Hero Subtitle',
       type: 'string',
       group: 'hero',
     }),
@@ -38,26 +38,26 @@ export default defineType({
     // ─── CONTENT ───────────────────────────────────────────────────
     defineField({
       name: 'backgroundTitle',
-      title: 'Achtergrond Titel',
+      title: 'Background Title',
       type: 'string',
       group: 'content',
     }),
     defineField({
       name: 'backgroundText',
-      title: 'Achtergrond Tekst',
+      title: 'Background Text',
       type: 'array',
       of: [{ type: 'block' }],
       group: 'content',
     }),
     defineField({
       name: 'missionTitle',
-      title: 'Missie Titel',
+      title: 'Mission Title',
       type: 'string',
       group: 'content',
     }),
     defineField({
       name: 'missionText',
-      title: 'Missie Tekst',
+      title: 'Mission Text',
       type: 'array',
       of: [{ type: 'block' }],
       group: 'content',
@@ -66,27 +66,27 @@ export default defineType({
     // ─── TEAM ──────────────────────────────────────────────────────
     defineField({
       name: 'teamTitle',
-      title: 'Team Titel',
+      title: 'Team Title',
       type: 'string',
       group: 'team',
     }),
     defineField({
       name: 'teamMembers',
-      title: 'Teamleden',
+      title: 'Team Members',
       type: 'array',
       group: 'team',
       of: [
         {
           type: 'object',
           fields: [
-            defineField({ name: 'name', title: 'Naam', type: 'string', validation: (Rule) => Rule.required() }),
+            defineField({ name: 'name', title: 'Name', type: 'string', validation: (Rule) => Rule.required() }),
             defineField({ name: 'role', title: 'Rol', type: 'string' }),
             defineField({
               name: 'image',
-              title: 'Foto',
+              title: 'Photo',
               type: 'image',
               options: { hotspot: true },
-              fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
+              fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
             }),
             defineField({ name: 'bio', title: 'Biografie', type: 'text', rows: 3 }),
           ],
@@ -100,21 +100,21 @@ export default defineType({
     // ─── UNIQUE POINTS ─────────────────────────────────────────────
     defineField({
       name: 'uniquePointsTitle',
-      title: 'Unieke Punten Titel',
+      title: 'Unique Points Title',
       type: 'string',
       group: 'uniquePoints',
     }),
     defineField({
       name: 'uniquePoints',
-      title: 'Unieke Punten',
+      title: 'Unique Points',
       type: 'array',
       group: 'uniquePoints',
       of: [
         {
           type: 'object',
           fields: [
-            defineField({ name: 'title', title: 'Titel', type: 'string', validation: (Rule) => Rule.required() }),
-            defineField({ name: 'text', title: 'Tekst', type: 'text', rows: 2 }),
+            defineField({ name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required() }),
+            defineField({ name: 'text', title: 'Text', type: 'text', rows: 2 }),
             defineField({
               name: 'iconName',
               title: 'Icoon',
@@ -145,20 +145,20 @@ export default defineType({
     // ─── COMMUNITY ─────────────────────────────────────────────────
     defineField({
       name: 'communityTitle',
-      title: 'Gemeenschap Titel',
+      title: 'Gemeenschap Title',
       type: 'string',
       group: 'community',
     }),
     defineField({
       name: 'communityText',
-      title: 'Gemeenschap Tekst',
+      title: 'Gemeenschap Text',
       type: 'array',
       of: [{ type: 'block' }],
       group: 'community',
     }),
     defineField({
       name: 'communityCtaText',
-      title: 'CTA Knoptekst',
+      title: 'CTA Button Text',
       type: 'string',
       group: 'community',
     }),
@@ -178,6 +178,6 @@ export default defineType({
     }),
   ],
   preview: {
-    prepare: () => ({ title: 'Over Ons Pagina' }),
+    prepare: () => ({ title: 'About Us Page' }),
   },
 })

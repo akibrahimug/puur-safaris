@@ -86,7 +86,7 @@ export const translatableFields: Record<string, TranslatableFieldConfig> = {
   },
   homePage: {
     text: [
-      'heroEyebrow', 'heroHeadline', 'heroHeadlineAccent', 'heroSubtitle',
+      'heroHeadline', 'heroHeadlineAccent', 'heroSubtitle',
       'heroCta1Text', 'heroCta2Text', 'heroSocialProofText',
       'featuresEyebrow', 'featuresTitle',
       'featuredTripsEyebrow', 'featuredTripsTitle', 'featuredTripsSubtitle',

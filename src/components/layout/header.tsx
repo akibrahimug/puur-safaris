@@ -110,7 +110,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
                     : "text-white/70 hover:text-white"
                 }`}
               >
-                {link.label}
+                {stegaClean(link.label)}
                 <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
@@ -140,7 +140,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
                   : "border-white/25 text-white hover:bg-white/10"
               }`}
             >
-              {settings?.headerCtaLabel ?? 'Eigen Reisschema'}
+              {stegaClean(settings?.headerCtaLabel) ?? 'Eigen Reisschema'}
             </Link>
           </div>
 
@@ -207,7 +207,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
                     }`}
                     onClick={() => setMenuOpen(false)}
                   >
-                    {link.label}
+                    {stegaClean(link.label)}
                   </Link>
                 ))}
                 {settings?.phone && (
@@ -236,7 +236,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
                     }`}
                     onClick={() => setMenuOpen(false)}
                   >
-                    {settings?.headerCtaLabel ?? 'Eigen Reisschema'}
+                    {stegaClean(settings?.headerCtaLabel) ?? 'Eigen Reisschema'}
                   </Link>
                 </div>
               </nav>

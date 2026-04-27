@@ -8,9 +8,6 @@ import { Button } from '@/components/ui/button'
 import { formatMonth } from '@/lib/utils'
 import type { Testimonial } from '@/lib/types'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Dict = Record<string, any>
-
 interface TestimonialsSectionProps {
   testimonials: Testimonial[]
   eyebrow?: string
@@ -19,11 +16,9 @@ interface TestimonialsSectionProps {
   verifiedLabel?: string
   moreLabel?: string
   beginLabel?: string
-  dict?: Dict
 }
 
-export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, verifiedLabel, moreLabel, beginLabel, dict }: TestimonialsSectionProps) {
-  const d = dict?.home
+export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, verifiedLabel, moreLabel, beginLabel }: TestimonialsSectionProps) {
   const INITIAL = 3
   const [page, setPage] = useState(0)
   const totalPages = Math.ceil(testimonials.length / INITIAL)
@@ -36,9 +31,9 @@ export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, ve
     <section className="py-16 sm:py-20 md:py-28 overflow-hidden section-page">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow={eyebrow ?? d?.testimonialsEyebrow ?? 'Reizigersverhalen'}
-          title={title ?? d?.testimonialsTitle ?? 'Wat onze reizigers zeggen'}
-          subtitle={subtitle ?? d?.testimonialsSubtitle ?? 'Elke safari is uniek. Lees hoe anderen Oeganda hebben ervaren.'}
+          eyebrow={eyebrow}
+          title={title}
+          subtitle={subtitle}
           centered
           light
           className="mb-10 sm:mb-12 md:mb-16 mx-auto max-w-xl"
@@ -135,7 +130,7 @@ export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, ve
                         color: '#7dcb8e',
                         border: '1px solid rgba(125,203,142,0.2)',
                       }}>
-                      {verifiedLabel ?? d?.testimonialsVerified ?? 'Geverifieerd'}
+                      {verifiedLabel}
                     </span>
                   ) : null}
                 </div>
@@ -150,7 +145,7 @@ export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, ve
               onClick={() => setPage((prev) => (prev + 1) % totalPages)}
               className="rounded-full px-8 py-3 min-h-[44px] transition-all duration-500 ease-out"
             >
-              {page === totalPages - 1 ? (beginLabel ?? d?.testimonialsBegin ?? 'Begin') : (moreLabel ?? d?.testimonialsMore ?? 'Meer verhalen')}
+              {page === totalPages - 1 ? beginLabel : moreLabel}
             </Button>
           </div>
         )}

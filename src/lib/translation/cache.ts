@@ -11,6 +11,7 @@
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
+import { TRANSLATOR_VERSION } from './glossary'
 
 const CACHE_DIR = join(process.cwd(), '.translations')
 
@@ -21,9 +22,12 @@ interface CacheEntry {
 }
 
 function cacheKey(docId: string, targetLang: string): string {
-  // Sanitize document ID for filesystem (replace dots, slashes)
+  // Sanitize document ID for filesystem (replace dots, slashes).
+  // The translator version is part of the filename so updates to the
+  // glossary or pipeline auto-invalidate prior translations without
+  // requiring a manual cache wipe.
   const safeId = docId.replace(/[^a-zA-Z0-9_-]/g, '_')
-  return `${safeId}_${targetLang}.json`
+  return `${safeId}_${targetLang}_v${TRANSLATOR_VERSION}.json`
 }
 
 export async function getCached(

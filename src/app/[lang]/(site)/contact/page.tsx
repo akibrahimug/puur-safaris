@@ -15,12 +15,11 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const dict = await getDictionary(locale)
-  const settings = await getSiteSettings(lang)
+  const [settings, contactPage] = await Promise.all([getSiteSettings(lang), getContactPage(lang)])
   return buildMetadata(
     {
-      title: dict.contact.heroTitle,
-      description: dict.contact.heroSubtitle,
+      title: contactPage?.heroTitle,
+      description: contactPage?.heroSubtitle,
       canonical: `/${lang}/contact`,
       locale,
       alternates: { nl: '/nl/contact', en: '/en/contact' },
@@ -45,7 +44,7 @@ export default async function ContactPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'ContactPage',
     url: `${baseUrl}/${lang}/contact`,
-    name: `${dict.contact.heroTitle} - ${dict.seo.defaultSiteName}`,
+    name: `${contactPage?.heroTitle ?? ''} - ${siteSettings.siteName ?? dict.seo.defaultSiteName}`,
     ...(siteSettings.contactEmail && { email: stegaClean(siteSettings.contactEmail) }),
     ...(siteSettings.phone && { telephone: stegaClean(siteSettings.phone) }),
   }
@@ -59,8 +58,8 @@ export default async function ContactPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}
       />
       <PageHero
-        title={contactPage?.heroTitle ?? dict.contact.heroTitle}
-        subtitle={contactPage?.heroSubtitle ?? dict.contact.heroSubtitle}
+        title={contactPage?.heroTitle}
+        subtitle={contactPage?.heroSubtitle}
         image={contactPage?.heroImage}
       />
       <section className="py-16 section-page">
@@ -79,10 +78,10 @@ export default async function ContactPage({ params }: Props) {
             {/* Contact info sidebar */}
             <div className="lg:col-span-2 space-y-6">
               <h2 className="font-serif text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                {contactPage?.sidebarHeading ?? dict.contact.sidebarHeading}
+                {contactPage?.sidebarHeading}
               </h2>
               <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                {contactPage?.sidebarDescription ?? dict.contact.sidebarDescription}
+                {contactPage?.sidebarDescription}
               </p>
 
               <div className="space-y-4">
@@ -99,7 +98,7 @@ export default async function ContactPage({ params }: Props) {
                     </div>
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>
-                        {contactPage?.phoneLabel ?? dict.contact.phoneLabel}
+                        {contactPage?.phoneLabel}
                       </p>
                       <a
                         href={`tel:${stegaClean(siteSettings.phone)}`}
@@ -124,7 +123,7 @@ export default async function ContactPage({ params }: Props) {
                     </div>
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>
-                        {contactPage?.emailLabel ?? dict.contact.emailLabel}
+                        {contactPage?.emailLabel}
                       </p>
                       <a
                         href={`mailto:${stegaClean(siteSettings.contactEmail)}`}
@@ -149,7 +148,7 @@ export default async function ContactPage({ params }: Props) {
                     </div>
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>
-                        {contactPage?.addressLabel ?? dict.contact.addressLabel}
+                        {contactPage?.addressLabel}
                       </p>
                       <p className="text-sm whitespace-pre-line" style={{ color: 'var(--text-muted)' }}>
                         {siteSettings.address}
@@ -170,7 +169,7 @@ export default async function ContactPage({ params }: Props) {
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>
-                      {contactPage?.openingHoursLabel ?? dict.contact.hoursLabel}
+                      {contactPage?.openingHoursLabel}
                     </p>
                     {openingHours.map((entry) => (
                       <p key={entry.label} className="text-sm" style={{ color: 'var(--text-muted)' }}>
@@ -191,7 +190,7 @@ export default async function ContactPage({ params }: Props) {
                   style={{ background: '#25D366' }}
                 >
                   <MessageCircle className="h-4 w-4" />
-                  {contactPage?.whatsappCtaLabel ?? dict.contact.whatsappCta}
+                  {contactPage?.whatsappCtaLabel}
                 </a>
               )}
 
@@ -200,7 +199,7 @@ export default async function ContactPage({ params }: Props) {
                 style={{ background: 'rgba(42,125,88,0.07)', border: '1px solid rgba(42,125,88,0.15)' }}
               >
                 <p className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
-                  {contactPage?.responseTimeText ?? dict.contact.responseTime}
+                  {contactPage?.responseTimeText}
                 </p>
               </div>
             </div>

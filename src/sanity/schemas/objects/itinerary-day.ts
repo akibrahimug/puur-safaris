@@ -2,44 +2,44 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'itineraryDay',
-  title: 'Reisschema Dag',
+  title: 'Itinerary Dag',
   type: 'object',
   fields: [
     defineField({
       name: 'day',
-      title: 'Dag Nummer',
+      title: 'Day Number',
       type: 'number',
       validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
       name: 'title',
-      title: 'Dag Titel',
+      title: 'Day Title',
       type: 'string',
-      description: 'Bijv. "Aankomst Nairobi & transfer naar lodge"',
+      description: 'E.g. "Aankomst Nairobi & transfer naar lodge"',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'description',
-      title: 'Beschrijving van de dag',
+      title: 'Day Description',
       type: 'text',
       rows: 4,
     }),
     defineField({
       name: 'location',
-      title: 'Locatie / Verblijf',
+      title: 'Location / Stay',
       type: 'string',
-      description: 'Bijv. "Amboseli Serena Lodge"',
+      description: 'E.g. "Amboseli Serena Lodge"',
     }),
     defineField({
       name: 'meals',
-      title: 'Inbegrepen Maaltijden',
+      title: 'Included Meals',
       type: 'array',
       of: [{ type: 'string' }],
       options: {
         list: [
-          { value: 'breakfast', title: 'Ontbijt' },
+          { value: 'breakfast', title: 'Breakfast' },
           { value: 'lunch', title: 'Lunch' },
-          { value: 'dinner', title: 'Diner' },
+          { value: 'dinner', title: 'Dinner' },
         ],
         layout: 'grid',
       },

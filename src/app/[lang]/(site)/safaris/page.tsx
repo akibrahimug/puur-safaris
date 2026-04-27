@@ -14,12 +14,14 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const dict = await getDictionary(locale)
-  const settings = await getSiteSettings(lang)
+  const [settings, safariListingPage] = await Promise.all([
+    getSiteSettings(lang),
+    getSafariListingPage(lang),
+  ])
   return buildMetadata(
     {
-      title: dict.safari.heroTitle,
-      description: dict.safari.heroSubtitle,
+      title: safariListingPage?.heroTitle,
+      description: safariListingPage?.heroSubtitle,
       canonical: `/${lang}/safaris`,
       locale,
       alternates: { nl: '/nl/safari-reizen', en: '/en/safaris' },
@@ -38,7 +40,7 @@ export default async function SafariReizenPage({ params }: Props) {
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: dict.safari.heroTitle,
+    name: safariListingPage?.heroTitle ?? '',
     numberOfItems: allTrips.length,
     itemListElement: allTrips.map((t, i) => ({
       '@type': 'ListItem',
@@ -55,8 +57,8 @@ export default async function SafariReizenPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
       <PageHero
-        title={safariListingPage?.heroTitle ?? dict.safari.heroTitle}
-        subtitle={safariListingPage?.heroSubtitle ?? dict.safari.heroSubtitle}
+        title={safariListingPage?.heroTitle}
+        subtitle={safariListingPage?.heroSubtitle}
         image={safariListingPage?.heroImage ?? allTrips[1]?.heroImage}
       />
       <section className="section-page py-16">
@@ -68,11 +70,11 @@ export default async function SafariReizenPage({ params }: Props) {
             viewAllLabel={dict.faq?.viewAll ?? 'Alles bekijken'}
             categoryLabels={dict.categories ?? {}}
             labels={{
-              featuredBadge: settings?.cardLabels?.featuredBadge ?? dict.cards.featuredBadge,
-              priceFromLabel: settings?.cardLabels?.priceFromLabel ?? dict.cards.priceFrom,
-              pricePerGroup: settings?.cardLabels?.pricePerGroup ?? dict.cards.pricePerGroup,
-              pricePerPerson: settings?.cardLabels?.pricePerPerson ?? dict.cards.pricePerPerson,
-              viewLabel: settings?.cardLabels?.viewLabel ?? dict.cards.viewLabel,
+              featuredBadge: settings?.cardLabels?.featuredBadge,
+              priceFromLabel: settings?.cardLabels?.priceFromLabel,
+              pricePerGroup: settings?.cardLabels?.pricePerGroup,
+              pricePerPerson: settings?.cardLabels?.pricePerPerson,
+              viewLabel: settings?.cardLabels?.viewLabel,
             }}
           />
         </div>

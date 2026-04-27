@@ -15,12 +15,11 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const dict = await getDictionary(locale)
-  const settings = await getSiteSettings(lang)
+  const [settings, faqPage] = await Promise.all([getSiteSettings(lang), getFaqPage(lang)])
   return buildMetadata(
     {
-      title: dict.faq.heroTitle,
-      description: dict.faq.heroSubtitle,
+      title: faqPage?.heroTitle,
+      description: faqPage?.heroSubtitle,
       canonical: `/${lang}/faq`,
       locale,
       alternates: { nl: '/nl/faq', en: '/en/faq' },
@@ -75,17 +74,17 @@ export default async function FaqPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <PageHero
-        title={faqPage?.heroTitle ?? dict.faq.heroTitle}
-        subtitle={faqPage?.heroSubtitle ?? dict.faq.heroSubtitle}
+        title={faqPage?.heroTitle}
+        subtitle={faqPage?.heroSubtitle}
         image={faqPage?.heroImage ?? trips[3]?.heroImage}
       />
       <FaqClient
         groupedFaqs={grouped}
-        searchPlaceholder={faqPage?.searchPlaceholder ?? dict.faq.searchPlaceholder}
-        categoriesHeading={faqPage?.categoriesHeading ?? dict.faq.categoriesHeading}
-        viewAllLabel={faqPage?.viewAllLabel ?? dict.faq.viewAll}
-        noResultsText={faqPage?.noResultsText ?? dict.faq.noResults}
-        resetSearchLabel={faqPage?.resetSearchLabel ?? dict.faq.resetSearch}
+        searchPlaceholder={faqPage?.searchPlaceholder}
+        categoriesHeading={faqPage?.categoriesHeading}
+        viewAllLabel={faqPage?.viewAllLabel}
+        noResultsText={faqPage?.noResultsText}
+        resetSearchLabel={faqPage?.resetSearchLabel}
         dict={dict}
       />
     </>

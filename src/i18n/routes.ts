@@ -1,26 +1,34 @@
 import type { Locale } from './config'
 
 /**
- * Route key → locale-specific path segment (without locale prefix).
- * Dutch paths match the current URL structure exactly.
+ * Single source of truth for localised routes.
+ *
+ * Each entry stores the NL and EN URL segments (no locale prefix).
+ * - `list: true`  marks routes that have a `/:slug` detail variant
+ *                 (e.g. /safari-reizen/:slug → /safaris/:slug).
+ * - `slugTail`    encodes a path segment that lives *after* the slug
+ *                 (e.g. /safari-reizen/:slug/boeken → /safaris/:slug/book).
+ *
+ * Adding a new localised route here is the only change needed —
+ * `getNlRewrites()` derives the rewrite table for next.config from this map.
  */
 const routeMap = {
-  home:              { nl: '',                      en: '' },
-  safaris:           { nl: '/safari-reizen',        en: '/safaris' },
-  safariDetail:      { nl: '/safari-reizen',        en: '/safaris' },
-  safariBook:        { nl: '/safari-reizen',        en: '/safaris' },
-  destinations:      { nl: '/bestemmingen',         en: '/destinations' },
-  destinationDetail: { nl: '/bestemmingen',         en: '/destinations' },
-  blog:              { nl: '/blog',                 en: '/blog' },
-  blogDetail:        { nl: '/blog',                 en: '/blog' },
-  blogSubmit:        { nl: '/blog/inzenden',        en: '/blog/submit' },
-  blogPreview:       { nl: '/blog/preview',         en: '/blog/preview' },
-  about:             { nl: '/over-ons',             en: '/about' },
-  contact:           { nl: '/contact',              en: '/contact' },
-  faq:               { nl: '/faq',                  en: '/faq' },
-  customItinerary:   { nl: '/eigen-reisschema',     en: '/custom-itinerary' },
-  privacy:           { nl: '/privacybeleid',        en: '/privacy' },
-  terms:             { nl: '/algemene-voorwaarden', en: '/terms' },
+  home:              { nl: '',                      en: '',                  list: false },
+  safaris:           { nl: '/safari-reizen',        en: '/safaris',          list: true  },
+  safariDetail:      { nl: '/safari-reizen',        en: '/safaris',          list: false },
+  safariBook:        { nl: '/safari-reizen',        en: '/safaris',          list: false, slugTail: { nl: '/boeken', en: '/book' } },
+  destinations:      { nl: '/bestemmingen',         en: '/destinations',     list: true  },
+  destinationDetail: { nl: '/bestemmingen',         en: '/destinations',     list: false },
+  blog:              { nl: '/blog',                 en: '/blog',             list: false },
+  blogDetail:        { nl: '/blog',                 en: '/blog',             list: false },
+  blogSubmit:        { nl: '/blog/inzenden',        en: '/blog/submit',      list: false },
+  blogPreview:       { nl: '/blog/preview',         en: '/blog/preview',     list: false },
+  about:             { nl: '/over-ons',             en: '/about',            list: false },
+  contact:           { nl: '/contact',              en: '/contact',          list: false },
+  faq:               { nl: '/faq',                  en: '/faq',              list: false },
+  customItinerary:   { nl: '/eigen-reisschema',     en: '/custom-itinerary', list: false },
+  privacy:           { nl: '/privacybeleid',        en: '/privacy',          list: false },
+  terms:             { nl: '/algemene-voorwaarden', en: '/terms',            list: false },
 } as const
 
 export type RouteKey = keyof typeof routeMap
@@ -35,45 +43,70 @@ export function localePath(locale: Locale, route: RouteKey, slug?: string): stri
 }
 
 /**
- * Get the path segment for a route in a given locale (no prefix).
- * Useful for next.config rewrites.
- */
-export function routeSegment(locale: Locale, route: RouteKey): string {
-  return routeMap[route][locale]
-}
-
-/**
  * Convert a Dutch CMS path to the correct path for the given locale.
- * CMS always stores Dutch paths (NL is the source of truth).
- * For EN routes, this maps e.g. `/safari-reizen` → `/safaris`.
- *
- * If the path contains a slug (e.g. `/safari-reizen/some-trip`), the base
- * segment is mapped and the slug is preserved.
+ * CMS always stores Dutch paths (NL is the source of truth). Query strings
+ * and hash fragments are preserved verbatim.
  *
  * @example cmsPathToLocale('/safari-reizen', 'en') → '/safaris'
  * @example cmsPathToLocale('/safari-reizen/gorilla-trek', 'en') → '/safaris/gorilla-trek'
- * @example cmsPathToLocale('/safari-reizen', 'nl') → '/safari-reizen' (unchanged)
+ * @example cmsPathToLocale('/safari-reizen?category=wildlife', 'en') → '/safaris?category=wildlife'
  */
 export function cmsPathToLocale(nlPath: string, locale: Locale): string {
   if (locale === 'nl') return nlPath
 
-  // Build a reverse lookup: NL path → route key
-  for (const [, paths] of Object.entries(routeMap)) {
-    const nlBase = paths.nl
+  // Strip query / hash before matching, then re-attach unchanged.
+  const splitIdx = nlPath.search(/[?#]/)
+  const path = splitIdx >= 0 ? nlPath.slice(0, splitIdx) : nlPath
+  const suffix = splitIdx >= 0 ? nlPath.slice(splitIdx) : ''
+
+  for (const route of Object.values(routeMap)) {
+    const nlBase = route.nl
     if (!nlBase) continue
-    // Exact match or starts with the NL base + '/'
-    if (nlPath === nlBase) {
-      return paths[locale]
+    if (path === nlBase) {
+      return route[locale] + suffix
     }
-    if (nlPath.startsWith(nlBase + '/')) {
-      const slug = nlPath.slice(nlBase.length)
-      return paths[locale] + slug
+    if (path.startsWith(nlBase + '/')) {
+      const slug = path.slice(nlBase.length)
+      return route[locale] + slug + suffix
     }
   }
 
-  // No mapping found — return as-is (e.g. /blog, /contact, /faq)
   return nlPath
 }
 
-/** All route entries — used to generate rewrites */
-export const allRoutes = routeMap
+/**
+ * Derive the NL → EN rewrite table for next.config from `routeMap`.
+ *
+ * Next.js renders all locales from English-named page files under
+ * `src/app/[lang]/(site)/`, so for routes where the NL segment differs
+ * from EN we rewrite `/nl/<dutch>` → `/nl/<english>`.
+ */
+export function getNlRewrites(): Array<{ source: string; destination: string }> {
+  const rewrites: Array<{ source: string; destination: string }> = []
+  const seen = new Set<string>()
+
+  const push = (source: string, destination: string) => {
+    if (seen.has(source)) return
+    seen.add(source)
+    rewrites.push({ source, destination })
+  }
+
+  for (const route of Object.values(routeMap)) {
+    if (route.nl === route.en) continue
+
+    if ('slugTail' in route && route.slugTail) {
+      push(
+        `/nl${route.nl}/:slug${route.slugTail.nl}`,
+        `/nl${route.en}/:slug${route.slugTail.en}`,
+      )
+      continue
+    }
+
+    push(`/nl${route.nl}`, `/nl${route.en}`)
+    if (route.list) {
+      push(`/nl${route.nl}/:slug`, `/nl${route.en}/:slug`)
+    }
+  }
+
+  return rewrites
+}

@@ -3,25 +3,13 @@
 import { motion } from 'framer-motion'
 import type { TrustItem } from '@/lib/types'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Dict = Record<string, any>
-
-function buildDefaultItems(dict?: Dict): TrustItem[] {
-  const t = dict?.home?.trust
-  return [
-    { value: '500+', phrase: t?.travellers ?? 'reizigers vonden hun droomsafari' },
-    { value: '15',   phrase: t?.experience ?? 'jaar veldervaring met de wildernis' },
-    { value: '4.9★', phrase: t?.rating ?? 'gemiddeld beoordeeld door reizigers' },
-  ]
-}
-
 interface TrustStripProps {
   items?: TrustItem[]
-  dict?: Dict
 }
 
-export function TrustStrip({ items, dict }: TrustStripProps) {
-  const trustItems = items?.length ? items : buildDefaultItems(dict)
+export function TrustStrip({ items }: TrustStripProps) {
+  const trustItems = items ?? []
+  if (trustItems.length === 0) return null
 
   return (
     <div className="relative overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>

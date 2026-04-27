@@ -18,7 +18,7 @@ export function toAbsoluteUrl(path: string): string {
 }
 
 interface BuildMetadataOptions {
-  title: string
+  title?: string
   description?: string
   image?: SanityImage
   canonical?: string
@@ -53,10 +53,11 @@ export function buildMetadata(
   } = options
 
   const siteName = stegaClean(settings?.siteName ?? 'Puur Uganda Reizen')
-  const cleanTitle = stegaClean(title)
+  const resolvedTitle = title ?? settings?.defaultSeoTitle ?? siteName
+  const cleanTitle = stegaClean(resolvedTitle)
   const fullTitle = cleanTitle === siteName ? siteName : `${cleanTitle} | ${siteName}`
   const metaDescription = stegaClean(
-    description ?? settings?.defaultSeoDescription ?? 'Discover authentic safari experiences tailored to you.',
+    description ?? settings?.defaultSeoDescription ?? '',
   )
 
   const ogImage = image ?? settings?.defaultOgImage

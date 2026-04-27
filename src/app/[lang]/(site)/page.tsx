@@ -54,7 +54,7 @@ export default async function HomePage({ params }: Props) {
       <HeroSection settings={settings} homePage={homePage} dict={dict} locale={locale} />
 
       {/* ── Trust strip — credibility before the trips ───────── */}
-      <TrustStrip items={homePage?.trustItems} dict={dict} />
+      <TrustStrip items={homePage?.trustItems} />
 
       {/* ── Featured safaris ─────────────────────────────────── */}
       {featuredTrips.length > 0 && (
@@ -63,24 +63,24 @@ export default async function HomePage({ params }: Props) {
             <FadeUp>
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
                 <SectionHeading
-                  eyebrow={homePage?.featuredTripsEyebrow ?? dict.home.featuredTripsEyebrow}
-                  title={homePage?.featuredTripsTitle ?? dict.home.featuredTripsTitle}
-                  subtitle={homePage?.featuredTripsSubtitle ?? dict.home.featuredTripsSubtitle}
+                  eyebrow={homePage?.featuredTripsEyebrow}
+                  title={homePage?.featuredTripsTitle}
+                  subtitle={homePage?.featuredTripsSubtitle}
                   light
                 />
                 <Button asChild variant="glass">
                   <Link href={localePath(locale, 'safaris')}>
-                    {homePage?.featuredTripsCtaLabel ?? dict.home.allTripsCta} <ArrowRight className="h-4 w-4" />
+                    {homePage?.featuredTripsCtaLabel} <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
             </FadeUp>
             <SafariGrid trips={featuredTrips} locale={locale} labels={{
-              featuredBadge: settings?.cardLabels?.featuredBadge ?? dict.cards.featuredBadge,
-              priceFromLabel: settings?.cardLabels?.priceFromLabel ?? dict.cards.priceFrom,
-              pricePerGroup: settings?.cardLabels?.pricePerGroup ?? dict.cards.pricePerGroup,
-              pricePerPerson: settings?.cardLabels?.pricePerPerson ?? dict.cards.pricePerPerson,
-              viewLabel: settings?.cardLabels?.viewLabel ?? dict.cards.viewLabel,
+              featuredBadge: settings?.cardLabels?.featuredBadge,
+              priceFromLabel: settings?.cardLabels?.priceFromLabel,
+              pricePerGroup: settings?.cardLabels?.pricePerGroup,
+              pricePerPerson: settings?.cardLabels?.pricePerPerson,
+              viewLabel: settings?.cardLabels?.viewLabel,
             }} />
           </div>
         </section>
@@ -91,7 +91,6 @@ export default async function HomePage({ params }: Props) {
         eyebrow={homePage?.featuresEyebrow}
         title={homePage?.featuresTitle}
         features={homePage?.features}
-        dict={dict}
       />
 
       {/* ── Destinations ─────────────────────────────────────── */}
@@ -101,14 +100,14 @@ export default async function HomePage({ params }: Props) {
             <FadeUp>
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
                 <SectionHeading
-                  eyebrow={homePage?.destinationsEyebrow ?? dict.home.destinationsEyebrow}
-                  title={homePage?.destinationsTitle ?? dict.home.destinationsTitle}
-                  subtitle={homePage?.destinationsSubtitle ?? dict.home.destinationsSubtitle}
+                  eyebrow={homePage?.destinationsEyebrow}
+                  title={homePage?.destinationsTitle}
+                  subtitle={homePage?.destinationsSubtitle}
                   light
                 />
                 <Button asChild variant="glass">
                   <Link href={localePath(locale, 'destinations')}>
-                    {homePage?.destinationsCtaLabel ?? dict.home.allDestinationsCta} <ArrowRight className="h-4 w-4" />
+                    {homePage?.destinationsCtaLabel} <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
@@ -116,9 +115,9 @@ export default async function HomePage({ params }: Props) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {displayDestinations.map((d) => (
                 <DestinationCard key={d._id} destination={d} locale={locale} labels={{
-                  tripSingularLabel: settings?.cardLabels?.tripSingularLabel ?? dict.cards.tripSingular,
-                  tripPluralLabel: settings?.cardLabels?.tripPluralLabel ?? dict.cards.tripPlural,
-                  availableLabel: settings?.cardLabels?.availableLabel ?? dict.cards.available,
+                  tripSingularLabel: settings?.cardLabels?.tripSingularLabel,
+                  tripPluralLabel: settings?.cardLabels?.tripPluralLabel,
+                  availableLabel: settings?.cardLabels?.availableLabel,
                 }} />
               ))}
             </div>
@@ -138,25 +137,25 @@ export default async function HomePage({ params }: Props) {
           <FadeUp>
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]"
               style={{ color: '#2a7d58' }}>
-              {homePage?.ctaEyebrow ?? dict.home.ctaEyebrow}
+              {homePage?.ctaEyebrow}
             </p>
             <h2 className="font-serif text-heading font-bold mb-5"
               style={{ color: 'var(--text-primary)' }}>
-              {homePage?.ctaTitle ?? dict.home.ctaTitle}
+              {homePage?.ctaTitle}
             </h2>
             <p className="text-base leading-relaxed mb-10 max-w-xl mx-auto"
               style={{ color: 'var(--text-muted)' }}>
-              {homePage?.ctaSubtitle ?? dict.home.ctaSubtitle}
+              {homePage?.ctaSubtitle}
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button asChild size="lg">
                 <Link href={homePage?.ctaButton1Link ? `/${lang}${cmsPathToLocale(homePage.ctaButton1Link, locale)}` : localePath(locale, 'customItinerary')}>
-                  {homePage?.ctaButton1Label ?? dict.home.ctaButton1}
+                  {homePage?.ctaButton1Label}
                 </Link>
               </Button>
               <Button asChild size="lg" variant="glass">
                 <Link href={homePage?.ctaButton2Link ? `/${lang}${cmsPathToLocale(homePage.ctaButton2Link, locale)}` : localePath(locale, 'safaris')}>
-                  {homePage?.ctaButton2Label ?? dict.home.ctaButton2}
+                  {homePage?.ctaButton2Label}
                 </Link>
               </Button>
             </div>

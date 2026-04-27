@@ -4,9 +4,36 @@ import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { media } from "sanity-plugin-media";
 import { presentationTool } from "sanity/presentation";
+import { documentInternationalization } from "@sanity/document-internationalization";
 import { TrashIcon } from "@sanity/icons";
 import { resolve } from "./src/sanity/presentation/resolve";
 import { schemaTypes } from "./src/sanity/schemas";
+import { TranslateFromNlAction } from "./src/sanity/actions/translate-from-nl";
+
+/* ── Translatable document types ──────────────────────────────────── *
+ * Every doc here gets a `language` field plus a Translations panel    *
+ * that lets editors create / switch to sibling docs in other locales. *
+ * testimonial, googleReview, and booking are excluded — they're       *
+ * source-language artefacts (user quotes, third-party reviews, form   *
+ * submissions) and don't need translation.                            */
+const TRANSLATABLE_TYPES = [
+  "trip",
+  "destination",
+  "blogPost",
+  "faqItem",
+  "homePage",
+  "aboutPage",
+  "contactPage",
+  "safariListingPage",
+  "destinationListingPage",
+  "faqPage",
+  "blogPage",
+  "eigenReisschemaPage",
+  "blogSubmissionPage",
+  "bookingPage",
+  "siteSettings",
+  "legalPage",
+];
 
 /* ── Singleton page type IDs ───────────────────────────────────────── */
 // Pages with existing random-ID documents — show as document list
@@ -136,24 +163,20 @@ export default defineConfig({
             S.documentTypeListItem("faqItem").title("Veelgestelde Vragen"),
             S.documentTypeListItem("booking").title("Boekingen"),
             S.divider(),
-            // ── Pages with existing documents (random IDs) ──
-            ...listPages.map((page) =>
+            // ── Pages — list view per type so editors see both NL and EN ──
+            //
+            // With the i18n plugin enabled each "singleton" is actually two
+            // documents (one per locale). documentTypeList shows them side
+            // by side; documents with `language` set get a flag badge in
+            // the list. Click through to edit either one. New translations
+            // are created via the Translations panel inside the document
+            // editor.
+            ...[...listPages, ...singletonPages].map((page) =>
               S.listItem()
                 .title(page.title)
                 .id(page.type)
                 .child(
                   S.documentTypeList(page.type).title(page.title),
-                ),
-            ),
-            // ── Strict singleton pages (fixed IDs) ──
-            ...singletonPages.map((page) =>
-              S.listItem()
-                .title(page.title)
-                .id(page.type)
-                .child(
-                  S.document()
-                    .schemaType(page.type)
-                    .documentId(page.type),
                 ),
             ),
             S.divider(),
@@ -162,9 +185,7 @@ export default defineConfig({
               .title("Site Instellingen")
               .id("siteSettings")
               .child(
-                S.document()
-                  .schemaType("siteSettings")
-                  .documentId("siteSettings"),
+                S.documentTypeList("siteSettings").title("Site Instellingen"),
               ),
           ]),
     }),
@@ -176,6 +197,16 @@ export default defineConfig({
           disable: "/api/draft-mode/disable",
         },
       },
+    }),
+    documentInternationalization({
+      supportedLanguages: [
+        { id: "nl", title: "Nederlands" },
+        { id: "en", title: "English" },
+      ],
+      schemaTypes: TRANSLATABLE_TYPES,
+      // Allow references to non-translated docs (e.g. testimonials, reviews)
+      // without forcing them to be language-specific.
+      weakReferences: true,
     }),
     visionTool(),
     media(),
@@ -192,16 +223,22 @@ export default defineConfig({
   },
   document: {
     actions: (prev, context) => {
-      // Singletons: only allow publish + discard
+      // Add "Vertaal van Nederlands" to every translatable type (the action
+      // self-hides when the current doc isn't `language: "en"`).
+      const isTranslatable = TRANSLATABLE_TYPES.includes(context.schemaType);
+      const withTranslate = isTranslatable ? [...prev, TranslateFromNlAction] : prev;
+
+      // Singletons: only allow publish + discard + (translate, if EN sibling)
       if (
         singletonTypeNames.has(context.schemaType) ||
         context.schemaType === "siteSettings"
       ) {
-        return prev.filter(
+        return withTranslate.filter(
           (action) =>
             action.action === "publish" ||
             action.action === "discardChanges" ||
-            action.action === "restore",
+            action.action === "restore" ||
+            action === TranslateFromNlAction,
         );
       }
 
@@ -214,7 +251,7 @@ export default defineConfig({
       };
       const typeLabel = deleteLabels[context.schemaType];
       if (typeLabel) {
-        const actions = prev
+        const actions = withTranslate
           .filter((action) => action.action !== "delete")
           .map((action) => {
             if (context.schemaType === "blogPost" && action.action === "publish") {
@@ -225,7 +262,7 @@ export default defineConfig({
         return [...actions, createDeleteAction(typeLabel)];
       }
 
-      return prev;
+      return withTranslate;
     },
   },
 });

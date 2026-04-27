@@ -121,7 +121,7 @@ export default async function BlogDetailPage({ params }: Props) {
                 <User className="h-6 w-6 text-gold" />
               </div>
               <div>
-                <p className="text-sm text-[var(--text-muted)]">{labels?.writtenByLabel ?? dict.blogDetail.writtenBy}</p>
+                <p className="text-sm text-[var(--text-muted)]">{labels?.writtenByLabel}</p>
                 <p className="font-serif text-lg font-bold text-[var(--text-primary)]">{post.author}</p>
               </div>
             </div>
@@ -153,7 +153,7 @@ export default async function BlogDetailPage({ params }: Props) {
 
           <div className="mt-16 pb-16 border-b border-[var(--border-subtle)]">
             <Link href={localePath(locale, 'blog')} className="text-gold text-sm font-medium hover:text-gold-dark transition-colors">
-              {labels?.backToAllLabel ?? dict.blogDetail.backToAll}
+              {labels?.backToAllLabel}
             </Link>
           </div>
 
@@ -168,13 +168,13 @@ export default async function BlogDetailPage({ params }: Props) {
                </svg>
              </div>
              <h3 className="relative font-display text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-4">
-               {labels?.ctaHeading ?? dict.blogDetail.ctaHeading}
+               {labels?.ctaHeading}
              </h3>
              <p className="relative text-[var(--text-muted)] text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
-               {labels?.ctaBody ?? dict.blogDetail.ctaBody}
+               {labels?.ctaBody}
              </p>
              <Button asChild className="relative bg-gold hover:bg-gold-dark text-white rounded-full px-5 sm:px-8 py-4 sm:py-6 text-sm sm:text-base md:text-lg whitespace-nowrap shadow-lg shadow-gold/20">
-               <Link href={localePath(locale, 'customItinerary')}>{labels?.ctaButton ?? dict.blogDetail.ctaButton}</Link>
+               <Link href={localePath(locale, 'customItinerary')}>{labels?.ctaButton}</Link>
              </Button>
           </div>
 

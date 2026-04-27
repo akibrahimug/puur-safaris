@@ -1,9 +1,17 @@
 /**
  * Data access layer — all content fetched from Sanity CMS.
  *
- * NL is the single source of truth. All queries fetch NL content.
- * For other locales, content is auto-translated via Google Translate
- * with file-based caching (only re-translates when the NL source changes).
+ * Each translatable doc type has parallel NL/EN siblings via the
+ * @sanity/document-internationalization plugin. Queries take a `$lang`
+ * parameter and filter on `language == $lang`.
+ *
+ * Resolution order for a fetch with `language === "en"`:
+ *   1. Fetch the EN-tagged sibling. If it exists, return it as-is.
+ *   2. Fall back to NL and run `maybeTranslate` so untranslated docs
+ *      still render cleanly in EN. Editors can replace the auto-translated
+ *      content by creating an EN sibling and publishing it.
+ *
+ * For `language === "nl"` (the source of truth), only step 1 is used.
  */
 
 import { sanityFetch } from '@/sanity/live'
@@ -59,33 +67,63 @@ import type {
   BookingPage,
 } from './types'
 
-// Helper: fetch NL, optionally translate
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/**
+ * Fetch a single doc filtered by language. If nothing comes back AND the
+ * caller asked for a non-NL locale, fall back to the NL sibling and run it
+ * through `maybeTranslate` so the page still renders.
+ */
 async function fetchAndTranslate<T>(
   query: string,
   docType: string,
   language: string,
   params?: Record<string, unknown>,
 ): Promise<T | null> {
-  const { data } = await sanityFetch({ query, params })
-  if (!data) return null
-  if (language === defaultLocale) return data as T
-  const translated = await maybeTranslate(data as Record<string, unknown>, docType, language)
-  return translated as T | null
+  const { data } = await sanityFetch({ query, params: { ...params, lang: language } })
+  if (data) {
+    return data as T
+  }
+  if (language !== defaultLocale) {
+    const { data: nlData } = await sanityFetch({ query, params: { ...params, lang: defaultLocale } })
+    if (!nlData) return null
+    const translated = await maybeTranslate(nlData as Record<string, unknown>, docType, language)
+    return translated as T | null
+  }
+  return null
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/**
+ * Same idea for arrays. Empty list in the requested language → fall back
+ * to NL and translate each item.
+ */
 async function fetchArrayAndTranslate<T>(
   query: string,
   docType: string,
   language: string,
   params?: Record<string, unknown>,
 ): Promise<T[]> {
-  const { data } = await sanityFetch({ query, params })
+  const { data } = await sanityFetch({ query, params: { ...params, lang: language } })
   const items = (data ?? []) as Record<string, unknown>[]
-  if (language === defaultLocale) return items as T[]
-  const translated = await maybeTranslateArray(items, docType, language)
-  return translated as T[]
+  if (items.length > 0) {
+    return items as T[]
+  }
+  if (language !== defaultLocale) {
+    const { data: nlData } = await sanityFetch({ query, params: { ...params, lang: defaultLocale } })
+    const nlItems = (nlData ?? []) as Record<string, unknown>[]
+    if (nlItems.length === 0) return []
+    const translated = await maybeTranslateArray(nlItems, docType, language)
+    return translated as T[]
+  }
+  return []
+}
+
+/** Dedupe a list of {slug} objects across languages — same trip in NL and EN
+ * shares a slug, but generateStaticParams should produce one entry per slug. */
+function uniqueSlugs(rows: { slug?: string | null }[] | null | undefined): string[] {
+  const seen = new Set<string>()
+  for (const row of rows ?? []) {
+    if (row?.slug) seen.add(row.slug)
+  }
+  return Array.from(seen)
 }
 
 // ─── Site Settings ────────────────────────────────────────────────────────────
@@ -109,7 +147,7 @@ export async function getTripDetail(slug: string, language: string = defaultLoca
 
 export async function getTripSlugs(): Promise<string[]> {
   const { data } = await sanityFetch({ query: tripSlugsQuery, perspective: 'published', stega: false })
-  return data?.map((d: { slug: string }) => d.slug) ?? []
+  return uniqueSlugs(data)
 }
 
 // ─── Destinations ─────────────────────────────────────────────────────────────
@@ -124,7 +162,7 @@ export async function getDestinationDetail(slug: string, language: string = defa
 
 export async function getDestinationSlugs(): Promise<string[]> {
   const { data } = await sanityFetch({ query: destinationSlugsQuery, perspective: 'published', stega: false })
-  return data?.map((d: { slug: string }) => d.slug) ?? []
+  return uniqueSlugs(data)
 }
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────
@@ -144,7 +182,7 @@ export async function getBlogPostPreview(slug: string): Promise<(BlogPostDetail 
 
 export async function getBlogPostSlugs(): Promise<string[]> {
   const { data } = await sanityFetch({ query: blogPostSlugsQuery, perspective: 'published', stega: false })
-  return data?.map((d: { slug: string }) => d.slug) ?? []
+  return uniqueSlugs(data)
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
@@ -154,9 +192,11 @@ export async function getFaqItems(language: string = defaultLocale): Promise<Faq
 }
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
+// Source-language artefacts (the traveller's own words). Not language-filtered.
 
 export async function getTestimonials(language: string = defaultLocale): Promise<Testimonial[]> {
-  return fetchArrayAndTranslate(testimonialListQuery, 'testimonial', language)
+  const { data } = await sanityFetch({ query: testimonialListQuery, params: { lang: language } })
+  return (data ?? []) as Testimonial[]
 }
 
 // ─── Google Reviews ───────────────────────────────────────────────────────────
@@ -173,11 +213,8 @@ interface GoogleReviewDoc {
 }
 
 export async function getGoogleReviews(language: string = defaultLocale): Promise<Testimonial[]> {
-  const docs = await fetchArrayAndTranslate<GoogleReviewDoc>(
-    googleReviewsFeaturedQuery,
-    'googleReview',
-    language,
-  )
+  const { data } = await sanityFetch({ query: googleReviewsFeaturedQuery, params: { lang: language } })
+  const docs = (data ?? []) as GoogleReviewDoc[]
   return docs.map((doc) => ({
     _id: doc._id,
     name: doc.authorName ?? '',

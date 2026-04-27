@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'safariListingPage',
-  title: 'Safari Reizen Pagina',
+  title: 'Safari Trips Page',
   type: 'document',
   groups: [
     { name: 'hero', title: 'Hero' },
@@ -11,25 +11,25 @@ export default defineType({
   fields: [
     defineField({
       name: 'heroImage',
-      title: 'Hero Afbeelding',
+      title: 'Hero Image',
       type: 'image',
       options: { hotspot: true },
       group: 'hero',
       fields: [
-        defineField({ name: 'alt', title: 'Alt tekst', type: 'string' }),
+        defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
       ],
-      description: 'Achtergrondafbeelding voor de hero sectie.',
+      description: 'Backgroundafbeelding voor de hero sectie.',
     }),
     defineField({
       name: 'heroTitle',
-      title: 'Hero Titel',
+      title: 'Hero Title',
       type: 'string',
       group: 'hero',
-      description: 'Bijv. "Safari Reizen".',
+      description: 'E.g. "Safari Reizen".',
     }),
     defineField({
       name: 'heroSubtitle',
-      title: 'Hero Ondertitel',
+      title: 'Hero Subtitle',
       type: 'string',
       group: 'hero',
     }),
@@ -41,6 +41,6 @@ export default defineType({
     }),
   ],
   preview: {
-    prepare: () => ({ title: 'Safari Reizen Pagina' }),
+    prepare: () => ({ title: 'Safari Trips Page' }),
   },
 })

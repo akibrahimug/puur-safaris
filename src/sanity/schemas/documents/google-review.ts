@@ -7,59 +7,59 @@ export default defineType({
   fields: [
     defineField({
       name: 'authorName',
-      title: 'Naam',
+      title: 'Name',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'country',
-      title: 'Land / Woonplaats',
+      title: 'Country / Woonplaats',
       type: 'string',
-      description: 'Optioneel. Bijv. "Rotterdam, Nederland"',
+      description: 'Optional. E.g. "Rotterdam, Nederland"',
     }),
     defineField({
       name: 'rating',
-      title: 'Beoordeling (1-5 sterren)',
+      title: 'Rating (1-5 sterren)',
       type: 'number',
       validation: (Rule) => Rule.required().integer().min(1).max(5),
       initialValue: 5,
     }),
     defineField({
       name: 'reviewText',
-      title: 'Review tekst',
+      title: 'Review Text',
       type: 'text',
       rows: 5,
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'reviewDate',
-      title: 'Datum review',
+      title: 'Date review',
       type: 'date',
       options: { dateFormat: 'YYYY-MM-DD' },
     }),
     defineField({
       name: 'authorPhoto',
-      title: 'Profielfoto',
+      title: 'Profile Photo',
       type: 'image',
       options: { hotspot: true },
-      description: 'Optioneel. Zonder foto toont een gekleurde initiaal.',
+      description: 'Optional. Zonder foto toont een gekleurde initiaal.',
     }),
     defineField({
       name: 'sourceUrl',
       title: 'Google review URL',
       type: 'url',
-      description: 'Optioneel. Directe link naar de review op Google.',
+      description: 'Optional. Directe link naar de review op Google.',
     }),
     defineField({
       name: 'featured',
-      title: 'Uitgelicht op homepage?',
+      title: 'Featured op homepage?',
       type: 'boolean',
       initialValue: true,
       description: 'Vink aan om deze review op de homepage te tonen.',
     }),
     defineField({
       name: 'displayOrder',
-      title: 'Volgorde (uitgelicht)',
+      title: 'Order (uitgelicht)',
       type: 'number',
       description: 'Lager = eerder. Laat leeg om op datum te sorteren.',
     }),
@@ -93,7 +93,7 @@ export default defineType({
   orderings: [
     {
       name: 'displayOrder',
-      title: 'Volgorde (uitgelicht eerst)',
+      title: 'Order (uitgelicht eerst)',
       by: [
         { field: 'featured', direction: 'desc' },
         { field: 'displayOrder', direction: 'asc' },
@@ -102,7 +102,7 @@ export default defineType({
     },
     {
       name: 'dateDesc',
-      title: 'Datum (nieuwste eerst)',
+      title: 'Date (nieuwste eerst)',
       by: [{ field: 'reviewDate', direction: 'desc' }],
     },
   ],

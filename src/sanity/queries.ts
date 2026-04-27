@@ -33,9 +33,14 @@ const TRIP_CARD_PROJECTION = `{
 }`
 
 // ─── SITE SETTINGS ────────────────────────────────────────────────────────────
+//
+// Every translatable document query takes a `$lang` parameter and filters
+// `language == $lang`. The data layer falls back to NL + maybeTranslate when
+// the target-language sibling doesn't exist yet, so editors can roll out EN
+// translations gradually without breaking pages.
 
 export const siteSettingsQuery = groq`
-  *[_type == "siteSettings"][0] {
+  *[_type == "siteSettings" && language == $lang][0] {
     _id, _rev,
     siteName,
     tagline,
@@ -81,7 +86,7 @@ export const siteSettingsQuery = groq`
 // ─── TRIP LISTING ─────────────────────────────────────────────────────────────
 
 export const tripListQuery = groq`
-  *[_type == "trip" && active == true]
+  *[_type == "trip" && active == true && language == $lang]
   | order(featured desc, _createdAt asc)
   ${TRIP_CARD_PROJECTION}
 `
@@ -89,7 +94,7 @@ export const tripListQuery = groq`
 // ─── TRIP DETAIL ──────────────────────────────────────────────────────────────
 
 export const tripDetailQuery = groq`
-  *[_type == "trip" && slug.current == $slug && active == true][0] {
+  *[_type == "trip" && slug.current == $slug && active == true && language == $lang][0] {
     _id, _rev,
     title,
     "slug": slug.current,
@@ -131,7 +136,7 @@ export const tripSlugsQuery = groq`
 // ─── DESTINATION LISTING ──────────────────────────────────────────────────────
 
 export const destinationListQuery = groq`
-  *[_type == "destination"] | order(displayOrder asc) {
+  *[_type == "destination" && language == $lang] | order(displayOrder asc) {
     _id, _rev,
     name,
     "slug": slug.current,
@@ -146,7 +151,7 @@ export const destinationListQuery = groq`
 // ─── DESTINATION DETAIL ───────────────────────────────────────────────────────
 
 export const destinationDetailQuery = groq`
-  *[_type == "destination" && slug.current == $slug][0] {
+  *[_type == "destination" && slug.current == $slug && language == $lang][0] {
     _id, _rev,
     name,
     "slug": slug.current,
@@ -195,7 +200,7 @@ export const destinationSlugsQuery = groq`
 // ─── BLOG LISTING ─────────────────────────────────────────────────────────────
 
 export const blogListQuery = groq`
-  *[_type == "blogPost" && status == "published"] | order(publishedAt desc) {
+  *[_type == "blogPost" && status == "published" && language == $lang] | order(publishedAt desc) {
     _id, _rev,
     title,
     "slug": slug.current,
@@ -211,7 +216,7 @@ export const blogListQuery = groq`
 // ─── BLOG POST DETAIL ─────────────────────────────────────────────────────────
 
 export const blogPostDetailQuery = groq`
-  *[_type == "blogPost" && slug.current == $slug && status == "published"][0] {
+  *[_type == "blogPost" && slug.current == $slug && status == "published" && language == $lang][0] {
     _id, _rev,
     title,
     "slug": slug.current,
@@ -278,7 +283,7 @@ export const blogPostPreviewQuery = groq`
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 
 export const faqQuery = groq`
-  *[_type == "faqItem"] | order(category asc, order asc) {
+  *[_type == "faqItem" && language == $lang] | order(category asc, order asc) {
     _id, _rev,
     question,
     answer,
@@ -327,9 +332,8 @@ export const testimonialListQuery = groq`
 // ─── HOMEPAGE (SINGLETON) ─────────────────────────────────────────────────────
 
 export const homePageQuery = groq`
-  *[_type == "homePage"][0] {
+  *[_type == "homePage" && language == $lang][0] {
     _id, _rev,
-    heroEyebrow,
     heroHeadline,
     heroHeadlineAccent,
     heroSubtitle,
@@ -372,7 +376,7 @@ export const homePageQuery = groq`
 // ─── ABOUT PAGE (SINGLETON) ──────────────────────────────────────────────────
 
 export const aboutPageQuery = groq`
-  *[_type == "aboutPage"][0] {
+  *[_type == "aboutPage" && language == $lang][0] {
     _id, _rev,
     heroTitle,
     heroSubtitle,
@@ -401,7 +405,7 @@ export const aboutPageQuery = groq`
 // ─── CONTACT PAGE (SINGLETON) ────────────────────────────────────────────────
 
 export const contactPageQuery = groq`
-  *[_type == "contactPage"][0] {
+  *[_type == "contactPage" && language == $lang][0] {
     _id, _rev,
     heroTitle,
     heroImage ${IMAGE_PROJECTION},
@@ -421,7 +425,7 @@ export const contactPageQuery = groq`
 // ─── SAFARI LISTING PAGE (SINGLETON) ─────────────────────────────────────────
 
 export const safariListingPageQuery = groq`
-  *[_type == "safariListingPage"][0] {
+  *[_type == "safariListingPage" && language == $lang][0] {
     _id, _rev, heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
   }
 `
@@ -429,7 +433,7 @@ export const safariListingPageQuery = groq`
 // ─── DESTINATION LISTING PAGE (SINGLETON) ────────────────────────────────────
 
 export const destinationListingPageQuery = groq`
-  *[_type == "destinationListingPage"][0] {
+  *[_type == "destinationListingPage" && language == $lang][0] {
     _id, _rev, heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
   }
 `
@@ -437,7 +441,7 @@ export const destinationListingPageQuery = groq`
 // ─── FAQ PAGE (SINGLETON) ────────────────────────────────────────────────────
 
 export const faqPageQuery = groq`
-  *[_type == "faqPage"][0] {
+  *[_type == "faqPage" && language == $lang][0] {
     _id, _rev,
     heroTitle,
     heroImage ${IMAGE_PROJECTION},
@@ -454,7 +458,7 @@ export const faqPageQuery = groq`
 // ─── BLOG PAGE (SINGLETON) ───────────────────────────────────────────────────
 
 export const blogPageQuery = groq`
-  *[_type == "blogPage"][0] {
+  *[_type == "blogPage" && language == $lang][0] {
     _id, _rev,
     heroTitle,
     heroSubtitle,
@@ -480,7 +484,7 @@ export const blogPageQuery = groq`
 // ─── EIGEN REISSCHEMA PAGE (SINGLETON) ───────────────────────────────────────
 
 export const eigenReisschemaPageQuery = groq`
-  *[_type == "eigenReisschemaPage"][0] {
+  *[_type == "eigenReisschemaPage" && language == $lang][0] {
     _id, _rev, heroEyebrow, heroTitle, heroImage ${IMAGE_PROJECTION}, heroSubtitle, ${SEO_PROJECTION}
   }
 `
@@ -488,7 +492,7 @@ export const eigenReisschemaPageQuery = groq`
 // ─── BLOG SUBMISSION PAGE (SINGLETON) ────────────────────────────────────────
 
 export const blogSubmissionPageQuery = groq`
-  *[_type == "blogSubmissionPage"][0] {
+  *[_type == "blogSubmissionPage" && language == $lang][0] {
     _id, _rev,
     heroTitle,
     heroSubtitle,
@@ -508,7 +512,7 @@ export const blogSubmissionPageQuery = groq`
 // ─── LEGAL PAGE ─────────────────────────────────────────────────────────────
 
 export const legalPageQuery = groq`
-  *[_type == "legalPage" && slug.current in $slugs][0] {
+  *[_type == "legalPage" && slug.current in $slugs && language == $lang][0] {
     _id, _rev,
     title,
     "slug": slug.current,
@@ -521,7 +525,7 @@ export const legalPageQuery = groq`
 // ─── BOOKING PAGE (SINGLETON) ────────────────────────────────────────────────
 
 export const bookingPageQuery = groq`
-  *[_type == "bookingPage"][0] {
+  *[_type == "bookingPage" && language == $lang][0] {
     _id, _rev,
     heroEyebrow,
     heroImage ${IMAGE_PROJECTION},

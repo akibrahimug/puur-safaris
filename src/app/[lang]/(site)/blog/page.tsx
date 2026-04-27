@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { stegaClean } from '@sanity/client/stega'
 import { ArrowUpRight, Calendar, User } from 'lucide-react'
 import { hasLocale, type Locale } from '@/i18n/config'
-import { getDictionary } from '@/i18n/dictionaries'
 import { localePath, cmsPathToLocale } from '@/i18n/routes'
 import { PageHero } from '@/components/shared/page-hero'
 import { BlogCard } from '@/components/blog/blog-card'
@@ -19,7 +18,6 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const dict = await getDictionary(locale)
   const [settings, blogPage] = await Promise.all([getSiteSettings(lang), getBlogPage(lang)])
 
   return buildMetadata(
@@ -28,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         { title: blogPage?.heroTitle, subtitle: blogPage?.heroSubtitle, image: blogPage?.heroImage },
         blogPage?.seo,
       ),
-      title: blogPage?.heroTitle ?? dict.blog.seoTitle,
+      title: blogPage?.heroTitle,
       canonical: `/${lang}/blog`,
       locale,
       alternates: { nl: '/nl/blog', en: '/en/blog' },
@@ -40,7 +38,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogIndexPage({ params }: Props) {
   const { lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const dict = await getDictionary(locale)
 
   const [blogPosts, blogPage, settings] = await Promise.all([getBlogPosts(lang), getBlogPage(lang), getSiteSettings(lang)])
 
@@ -64,8 +61,8 @@ export default async function BlogIndexPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
       <PageHero
-        title={blogPage?.heroTitle ?? dict.blog.heroTitle}
-        subtitle={blogPage?.heroSubtitle ?? dict.blog.heroSubtitle}
+        title={blogPage?.heroTitle}
+        subtitle={blogPage?.heroSubtitle}
         image={blogPage?.heroImage ?? blogPosts[0]?.featuredImage}
       />
 
@@ -76,7 +73,7 @@ export default async function BlogIndexPage({ params }: Props) {
           <section>
              <div className="flex items-center gap-4 mb-10">
                <div className="flex-1 h-px bg-gradient-to-r from-[var(--border-subtle)] to-transparent" />
-               <h2 className="font-display text-3xl font-bold text-[var(--text-primary)]">{blogPage?.storiesSectionHeading ?? dict.blog.storiesSectionHeading}</h2>
+               <h2 className="font-display text-3xl font-bold text-[var(--text-primary)]">{blogPage?.storiesSectionHeading}</h2>
                <div className="flex-1 h-px bg-gradient-to-l from-[var(--border-subtle)] to-transparent" />
              </div>
 
@@ -98,7 +95,7 @@ export default async function BlogIndexPage({ params }: Props) {
 
                       <div className="relative z-10 max-w-2xl">
                          <span className="inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest bg-gold/90 text-white mb-6 backdrop-blur-md">
-                           {blogPage?.featuredBadgeText ?? dict.blog.featuredBadge}
+                           {blogPage?.featuredBadgeText}
                          </span>
 
                          <h3 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4 group-hover:text-gold transition-colors duration-300">
@@ -123,7 +120,7 @@ export default async function BlogIndexPage({ params }: Props) {
                              )}
                            </div>
                            <div className="hidden sm:flex items-center gap-2 group-hover:text-gold transition-colors">
-                             <span>{blogPage?.readArticleLabel ?? dict.blog.readArticle}</span>
+                             <span>{blogPage?.readArticleLabel}</span>
                              <div className="p-2 rounded-full bg-white/10 group-hover:bg-gold/20 backdrop-blur-sm transition-all group-hover:translate-x-1">
                                <ArrowUpRight className="h-4 w-4" />
                              </div>
@@ -137,7 +134,7 @@ export default async function BlogIndexPage({ params }: Props) {
                {/* Remaining Stories */}
                <div className="flex flex-col gap-8">
                  {otherStories.map(post => (
-                   <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: blogPage?.readArticleLabel ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
+                   <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: blogPage?.readArticleLabel ?? settings?.cardLabels?.readArticleLabel }} />
                  ))}
                </div>
              </div>
@@ -148,18 +145,18 @@ export default async function BlogIndexPage({ params }: Props) {
         {wildlife.length > 0 && (
           <section>
              <div className="mb-10 text-center">
-               <span className="text-gold font-bold tracking-widest text-xs uppercase block mb-2">{blogPage?.wildlifeEyebrow ?? dict.blog.wildlifeEyebrow}</span>
+               <span className="text-gold font-bold tracking-widest text-xs uppercase block mb-2">{blogPage?.wildlifeEyebrow}</span>
                <h2 className="font-display text-3xl md:text-4xl font-bold text-[var(--text-primary)]">
-                 {blogPage?.wildlifeTitle ?? dict.blog.wildlifeTitle}
+                 {blogPage?.wildlifeTitle}
                </h2>
                <p className="mt-4 text-[var(--text-muted)] max-w-2xl mx-auto">
-                 {blogPage?.wildlifeSubtitle ?? dict.blog.wildlifeSubtitle}
+                 {blogPage?.wildlifeSubtitle}
                </p>
              </div>
 
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                {wildlife.map(post => (
-                 <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: blogPage?.readArticleLabel ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
+                 <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: blogPage?.readArticleLabel ?? settings?.cardLabels?.readArticleLabel }} />
                ))}
              </div>
           </section>
@@ -179,23 +176,23 @@ export default async function BlogIndexPage({ params }: Props) {
                 {/* Intro Box */}
                 <div className="lg:w-1/3 lg:sticky lg:top-32">
                    <h2 className="font-display text-3xl font-bold text-[var(--text-primary)] mb-4">
-                     {blogPage?.guidesSectionTitle ?? dict.blog.guidesTitle}
+                     {blogPage?.guidesSectionTitle}
                    </h2>
                    <p className="text-[var(--text-muted)] leading-relaxed mb-8">
-                     {blogPage?.guidesDescription ?? dict.blog.guidesDescription}
+                     {blogPage?.guidesDescription}
                    </p>
                    <Link
                      href={blogPage?.guidesCtaLink ? `/${lang}${cmsPathToLocale(stegaClean(blogPage.guidesCtaLink)!, locale)}` : localePath(locale, 'contact')}
                      className="inline-flex items-center justify-center rounded-full border-2 border-gold text-gold hover:bg-gold hover:text-white px-8 py-3 font-semibold transition-colors duration-300"
                    >
-                     {blogPage?.guidesCtaLabel ?? dict.blog.guidesCta}
+                     {blogPage?.guidesCtaLabel}
                    </Link>
                 </div>
 
                 {/* Guide Cards */}
                 <div className="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
                    {guides.map(post => (
-                     <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: blogPage?.readArticleLabel ?? settings?.cardLabels?.readArticleLabel ?? dict.cards.readArticle }} />
+                     <BlogCard key={post.slug} post={post} locale={locale} labels={{ readArticleLabel: blogPage?.readArticleLabel ?? settings?.cardLabels?.readArticleLabel }} />
                    ))}
                 </div>
              </div>
@@ -213,19 +210,19 @@ export default async function BlogIndexPage({ params }: Props) {
           </div>
           <div className="relative z-10 max-w-2xl">
             <span className="inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest border border-gold text-gold mb-6 backdrop-blur-sm">
-              {blogPage?.readerCtaBadge ?? dict.blog.readerCtaBadge}
+              {blogPage?.readerCtaBadge}
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-6 leading-tight">
-              {blogPage?.readerCtaHeading ?? dict.blog.readerCtaHeading}
+              {blogPage?.readerCtaHeading}
             </h2>
             <p className="text-lg text-[var(--text-muted)] mb-10 leading-relaxed">
-              {blogPage?.readerCtaBody ?? dict.blog.readerCtaBody}
+              {blogPage?.readerCtaBody}
             </p>
             <Link
               href={localePath(locale, 'blogSubmit')}
               className="inline-flex items-center justify-center gap-3 rounded-full bg-gold text-white px-10 py-4 font-semibold hover:bg-gold-dark hover:-translate-y-1 hover:shadow-xl shadow-gold/20 transition-all duration-300"
             >
-              {blogPage?.readerCtaButton ?? dict.blog.readerCtaButton}
+              {blogPage?.readerCtaButton}
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-90">
                 <path d="M12 19l7-7-7-7"></path>
                 <path d="M19 12H5"></path>

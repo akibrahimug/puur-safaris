@@ -13,12 +13,11 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const dict = await getDictionary(locale)
   const [settings, page] = await Promise.all([getSiteSettings(lang), getBlogSubmissionPage(lang)])
   return buildMetadata(
     {
-      title: page?.seo?.title ?? dict.blogSubmit.heroTitle,
-      description: page?.seo?.description ?? dict.blogSubmit.heroSubtitle,
+      title: page?.seo?.title ?? page?.heroTitle,
+      description: page?.seo?.description ?? page?.heroSubtitle,
       canonical: `/${lang}/blog/submit`,
       locale,
       alternates: { nl: '/nl/blog/inzenden', en: '/en/blog/submit' },
@@ -37,16 +36,9 @@ export default async function BlogSubmissionRoute({ params }: Props) {
   return (
     <>
       <PageHero
-        title={page?.heroTitle ?? dict.blogSubmit.formHeading}
-        subtitle={page?.heroSubtitle ?? dict.blogSubmit.formSubtitle}
-        image={page?.heroImage ?? {
-          asset: {
-            _id: 'photo-1516426122078-c23e76319801',
-            url: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=80',
-            metadata: { dimensions: { width: 1600, height: 900, aspectRatio: 1.77 }, lqip: '' },
-          },
-          alt: 'Serengeti Migration Writing',
-        }}
+        title={page?.heroTitle}
+        subtitle={page?.heroSubtitle}
+        image={page?.heroImage}
       />
 
       <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
@@ -54,20 +46,20 @@ export default async function BlogSubmissionRoute({ params }: Props) {
         <div className="mb-12 p-8 rounded-3xl border border-gold/30 bg-gold/5 flex flex-col sm:flex-row gap-6 relative overflow-hidden">
           <div className="flex-1">
             <h2 className="font-display text-2xl font-bold text-[var(--text-primary)] mb-4">
-              {page?.instructionsHeading ?? dict.blogSubmit.instructionsHeading}
+              {page?.instructionsHeading}
             </h2>
             <ul className="space-y-4 text-[var(--text-muted)] text-sm sm:text-base leading-relaxed">
                <li className="flex gap-3">
                  <span className="shrink-0 text-gold font-bold">1.</span>
-                 <span>{page?.step1Text ?? dict.blogSubmit.step1}</span>
+                 <span>{page?.step1Text}</span>
                </li>
                <li className="flex gap-3">
                  <span className="shrink-0 text-gold font-bold">2.</span>
-                 <span>{page?.step2Text ?? dict.blogSubmit.step2}</span>
+                 <span>{page?.step2Text}</span>
                </li>
                <li className="flex gap-3">
                  <span className="shrink-0 text-gold font-bold">3.</span>
-                 <span>{page?.step3Text ?? dict.blogSubmit.step3}</span>
+                 <span>{page?.step3Text}</span>
                </li>
             </ul>
           </div>

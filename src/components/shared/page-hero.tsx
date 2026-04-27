@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@/components/shared/breadcrumbs'
 import type { SanityImage } from '@/lib/types'
 
 interface PageHeroProps {
-  title: string
+  title?: string
   subtitle?: string
   image?: SanityImage
   eyebrow?: string
@@ -23,7 +23,7 @@ export function PageHero({ title, subtitle, image, eyebrow, className, children 
       {imageUrl ? (
         <Image
           src={imageUrl}
-          alt={image?.alt ?? title}
+          alt={image?.alt ?? title ?? ''}
           fill
           priority
           fetchPriority="high"

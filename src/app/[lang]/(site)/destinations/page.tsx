@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { hasLocale, type Locale } from '@/i18n/config'
-import { getDictionary } from '@/i18n/dictionaries'
 import { getSiteSettings, getDestinations, getDestinationListingPage } from '@/lib/data'
 import { buildMetadata, getBaseUrl } from '@/lib/seo'
 import { PageHero } from '@/components/shared/page-hero'
@@ -13,12 +12,14 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const dict = await getDictionary(locale)
-  const settings = await getSiteSettings(lang)
+  const [settings, destinationListingPage] = await Promise.all([
+    getSiteSettings(lang),
+    getDestinationListingPage(lang),
+  ])
   return buildMetadata(
     {
-      title: dict.destinations.heroTitle,
-      description: dict.destinations.heroSubtitle,
+      title: destinationListingPage?.heroTitle,
+      description: destinationListingPage?.heroSubtitle,
       canonical: `/${lang}/destinations`,
       locale,
       alternates: { nl: '/nl/bestemmingen', en: '/en/destinations' },
@@ -30,7 +31,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BestemmingListPage({ params }: Props) {
   const { lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const dict = await getDictionary(locale)
 
   const [destinations, destinationListingPage, settings] = await Promise.all([getDestinations(lang), getDestinationListingPage(lang), getSiteSettings(lang)])
 
@@ -39,7 +39,7 @@ export default async function BestemmingListPage({ params }: Props) {
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: dict.destinations.heroTitle,
+    name: destinationListingPage?.heroTitle ?? '',
     numberOfItems: destinations.length,
     itemListElement: destinations.map((d, i) => ({
       '@type': 'ListItem',
@@ -56,8 +56,8 @@ export default async function BestemmingListPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
       <PageHero
-        title={destinationListingPage?.heroTitle ?? dict.destinations.heroTitle}
-        subtitle={destinationListingPage?.heroSubtitle ?? dict.destinations.heroSubtitle}
+        title={destinationListingPage?.heroTitle}
+        subtitle={destinationListingPage?.heroSubtitle}
         image={destinationListingPage?.heroImage ?? destinations[0]?.heroImage}
       />
       <section className="py-16">
@@ -65,9 +65,9 @@ export default async function BestemmingListPage({ params }: Props) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {destinations.map((d) => (
               <DestinationCard key={d._id} destination={d} locale={locale} labels={{
-                tripSingularLabel: settings?.cardLabels?.tripSingularLabel ?? dict.cards.tripSingular,
-                tripPluralLabel: settings?.cardLabels?.tripPluralLabel ?? dict.cards.tripPlural,
-                availableLabel: settings?.cardLabels?.availableLabel ?? dict.cards.available,
+                tripSingularLabel: settings?.cardLabels?.tripSingularLabel,
+                tripPluralLabel: settings?.cardLabels?.tripPluralLabel,
+                availableLabel: settings?.cardLabels?.availableLabel,
               }} />
             ))}
           </div>

@@ -20,28 +20,34 @@ import legalPage from './documents/legal-page'
 import itineraryDay from './objects/itinerary-day'
 import galleryImage from './objects/gallery-image'
 import seoFields from './objects/seo-fields'
+import { withLanguage } from './with-language'
+
+// Translatable doc types receive a hidden `language` field (consumed by the
+// document-internationalization plugin). Non-translatable types (testimonial,
+// googleReview, booking) are passed through unchanged.
 
 export const schemaTypes = [
-  // Documents
-  trip,
-  destination,
-  blogPost,
+  // Translatable documents
+  withLanguage(trip),
+  withLanguage(destination),
+  withLanguage(blogPost),
+  withLanguage(faqItem),
+  withLanguage(siteSettings),
+  withLanguage(homePage),
+  withLanguage(aboutPage),
+  withLanguage(contactPage),
+  withLanguage(safariListingPage),
+  withLanguage(destinationListingPage),
+  withLanguage(faqPage),
+  withLanguage(blogPage),
+  withLanguage(eigenReisschemaPage),
+  withLanguage(blogSubmissionPage),
+  withLanguage(bookingPage),
+  withLanguage(legalPage),
+  // Non-translatable documents
   booking,
   testimonial,
   googleReview,
-  faqItem,
-  siteSettings,
-  homePage,
-  aboutPage,
-  contactPage,
-  safariListingPage,
-  destinationListingPage,
-  faqPage,
-  blogPage,
-  eigenReisschemaPage,
-  blogSubmissionPage,
-  bookingPage,
-  legalPage,
   // Objects
   itineraryDay,
   galleryImage,

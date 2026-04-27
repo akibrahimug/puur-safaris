@@ -2,62 +2,62 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'booking',
-  title: 'Boekingen',
+  title: 'Bookings',
   type: 'document',
   fields: [
     defineField({
       name: 'bookingNumber',
-      title: 'Boekingsnummer',
+      title: 'Bookingsnummer',
       type: 'string',
       validation: (Rule) => Rule.required(),
       readOnly: true,
     }),
     defineField({
       name: 'voornaam',
-      title: 'Voornaam',
+      title: 'First Name',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'achternaam',
-      title: 'Achternaam',
+      title: 'Last Name',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'email',
-      title: 'E-mailadres',
+      title: 'Emailadres',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'telefoon',
-      title: 'Telefoonnummer',
+      title: 'Phone Number',
       type: 'string',
     }),
     defineField({
       name: 'tripTitle',
-      title: 'Reis',
+      title: 'Trip',
       type: 'string',
     }),
     defineField({
       name: 'tripSlug',
-      title: 'Reis Slug',
+      title: 'Trip Slug',
       type: 'string',
     }),
     defineField({
       name: 'vertrekdatum',
-      title: 'Vertrekdatum',
+      title: 'Departure Date',
       type: 'string',
     }),
     defineField({
       name: 'aantalVolwassenen',
-      title: 'Aantal Volwassenen',
+      title: 'Count Adults',
       type: 'number',
     }),
     defineField({
       name: 'aantalKinderen',
-      title: 'Aantal Kinderen',
+      title: 'Count Children',
       type: 'number',
     }),
     defineField({
@@ -67,16 +67,16 @@ export default defineType({
       options: {
         list: [
           { value: 'pending', title: 'In behandeling' },
-          { value: 'confirmed', title: 'Bevestigd' },
+          { value: 'confirmed', title: 'Confirmed' },
           { value: 'completed', title: 'Afgerond' },
-          { value: 'cancelled', title: 'Geannuleerd' },
+          { value: 'cancelled', title: 'Cancelled' },
         ],
       },
       initialValue: 'pending',
     }),
     defineField({
       name: 'createdAt',
-      title: 'Aangemaakt op',
+      title: 'Created At',
       type: 'datetime',
       readOnly: true,
     }),
@@ -104,7 +104,7 @@ export default defineType({
   },
   orderings: [
     {
-      title: 'Aangemaakt (nieuwste eerst)',
+      title: 'Created (newest first)',
       name: 'createdAtDesc',
       by: [{ field: 'createdAt', direction: 'desc' }],
     },

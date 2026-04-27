@@ -3,87 +3,124 @@ import {
   type PresentationPluginOptions,
 } from 'sanity/presentation'
 
-// All content is authored in NL and auto-translated into EN on read,
-// so previews point at the NL route. Editors can manually switch to /en
-// in the browser to see the translated version.
+// Each doc carries a `language` field once the i18n plugin is on.
+// Preview links route to the locale-matching public URL so the editor
+// always sees the version they're editing.
+
 const NL = '/nl'
+const EN = '/en'
+
+function langPrefix(language?: string | null) {
+  return language === 'en' ? EN : NL
+}
 
 export const resolve: PresentationPluginOptions['resolve'] = {
   locations: {
     trip: defineLocations({
-      select: { title: 'title', slug: 'slug.current' },
-      resolve: (doc) => ({
-        locations: [
-          { title: doc?.title || 'Safari Reis', href: `${NL}/safaris/${doc?.slug}` },
-          { title: 'Alle Safari Reizen', href: `${NL}/safaris` },
-        ],
-      }),
+      select: { title: 'title', slug: 'slug.current', language: 'language' },
+      resolve: (doc) => {
+        const prefix = langPrefix(doc?.language)
+        const tripsPath = doc?.language === 'en' ? '/safaris' : '/safari-reizen'
+        return {
+          locations: [
+            { title: doc?.title || 'Safari Reis', href: `${prefix}${tripsPath}/${doc?.slug}` },
+            { title: 'Alle Safari Reizen', href: `${prefix}${tripsPath}` },
+          ],
+        }
+      },
     }),
     destination: defineLocations({
-      select: { title: 'name', slug: 'slug.current' },
-      resolve: (doc) => ({
-        locations: [
-          { title: doc?.title || 'Bestemming', href: `${NL}/destinations/${doc?.slug}` },
-          { title: 'Alle Bestemmingen', href: `${NL}/destinations` },
-        ],
-      }),
+      select: { title: 'name', slug: 'slug.current', language: 'language' },
+      resolve: (doc) => {
+        const prefix = langPrefix(doc?.language)
+        const destPath = doc?.language === 'en' ? '/destinations' : '/bestemmingen'
+        return {
+          locations: [
+            { title: doc?.title || 'Bestemming', href: `${prefix}${destPath}/${doc?.slug}` },
+            { title: 'Alle Bestemmingen', href: `${prefix}${destPath}` },
+          ],
+        }
+      },
     }),
     blogPost: defineLocations({
-      select: { title: 'title', slug: 'slug.current' },
-      resolve: (doc) => ({
-        locations: [
-          { title: doc?.title || 'Blog Post', href: `${NL}/blog/${doc?.slug}` },
-          { title: 'Blog Overzicht', href: `${NL}/blog` },
-        ],
-      }),
+      select: { title: 'title', slug: 'slug.current', language: 'language' },
+      resolve: (doc) => {
+        const prefix = langPrefix(doc?.language)
+        return {
+          locations: [
+            { title: doc?.title || 'Blog Post', href: `${prefix}/blog/${doc?.slug}` },
+            { title: 'Blog Overzicht', href: `${prefix}/blog` },
+          ],
+        }
+      },
     }),
     homePage: defineLocations({
-      select: { title: 'heroHeadline' },
-      resolve: () => ({ locations: [{ title: 'Homepage', href: NL }] }),
+      select: { title: 'heroHeadline', language: 'language' },
+      resolve: (doc) => ({ locations: [{ title: 'Homepage', href: langPrefix(doc?.language) }] }),
     }),
     aboutPage: defineLocations({
-      select: { title: 'heroTitle' },
-      resolve: () => ({ locations: [{ title: 'Over Ons', href: `${NL}/about` }] }),
+      select: { title: 'heroTitle', language: 'language' },
+      resolve: (doc) => {
+        const prefix = langPrefix(doc?.language)
+        const path = doc?.language === 'en' ? '/about' : '/over-ons'
+        return { locations: [{ title: 'Over Ons', href: `${prefix}${path}` }] }
+      },
     }),
     blogPage: defineLocations({
-      select: { title: 'heroTitle' },
-      resolve: () => ({ locations: [{ title: 'Blog Overzicht', href: `${NL}/blog` }] }),
+      select: { title: 'heroTitle', language: 'language' },
+      resolve: (doc) => ({ locations: [{ title: 'Blog Overzicht', href: `${langPrefix(doc?.language)}/blog` }] }),
     }),
     contactPage: defineLocations({
-      select: { title: 'heroTitle' },
-      resolve: () => ({ locations: [{ title: 'Contact', href: `${NL}/contact` }] }),
+      select: { title: 'heroTitle', language: 'language' },
+      resolve: (doc) => ({ locations: [{ title: 'Contact', href: `${langPrefix(doc?.language)}/contact` }] }),
     }),
     safariListingPage: defineLocations({
-      select: { title: 'heroTitle' },
-      resolve: () => ({ locations: [{ title: 'Safari Reizen', href: `${NL}/safaris` }] }),
+      select: { title: 'heroTitle', language: 'language' },
+      resolve: (doc) => {
+        const prefix = langPrefix(doc?.language)
+        const path = doc?.language === 'en' ? '/safaris' : '/safari-reizen'
+        return { locations: [{ title: 'Safari Reizen', href: `${prefix}${path}` }] }
+      },
     }),
     destinationListingPage: defineLocations({
-      select: { title: 'heroTitle' },
-      resolve: () => ({ locations: [{ title: 'Bestemmingen', href: `${NL}/destinations` }] }),
+      select: { title: 'heroTitle', language: 'language' },
+      resolve: (doc) => {
+        const prefix = langPrefix(doc?.language)
+        const path = doc?.language === 'en' ? '/destinations' : '/bestemmingen'
+        return { locations: [{ title: 'Bestemmingen', href: `${prefix}${path}` }] }
+      },
     }),
     faqPage: defineLocations({
-      select: { title: 'heroTitle' },
-      resolve: () => ({ locations: [{ title: 'FAQ', href: `${NL}/faq` }] }),
+      select: { title: 'heroTitle', language: 'language' },
+      resolve: (doc) => ({ locations: [{ title: 'FAQ', href: `${langPrefix(doc?.language)}/faq` }] }),
     }),
     eigenReisschemaPage: defineLocations({
-      select: { title: 'heroTitle' },
-      resolve: () => ({ locations: [{ title: 'Eigen Reisschema', href: `${NL}/custom-itinerary` }] }),
+      select: { title: 'heroTitle', language: 'language' },
+      resolve: (doc) => {
+        const prefix = langPrefix(doc?.language)
+        const path = doc?.language === 'en' ? '/custom-itinerary' : '/eigen-reisschema'
+        return { locations: [{ title: 'Eigen Reisschema', href: `${prefix}${path}` }] }
+      },
     }),
     blogSubmissionPage: defineLocations({
-      select: { title: 'heroTitle' },
-      resolve: () => ({ locations: [{ title: 'Blog Inzenden', href: `${NL}/blog/submit` }] }),
+      select: { title: 'heroTitle', language: 'language' },
+      resolve: (doc) => {
+        const prefix = langPrefix(doc?.language)
+        const path = doc?.language === 'en' ? '/blog/submit' : '/blog/inzenden'
+        return { locations: [{ title: 'Blog Inzenden', href: `${prefix}${path}` }] }
+      },
     }),
     bookingPage: defineLocations({
-      select: { title: 'heroTitle' },
-      resolve: () => ({ locations: [{ title: 'Boeken', href: `${NL}/book` }] }),
+      select: { title: 'heroTitle', language: 'language' },
+      resolve: (doc) => ({ locations: [{ title: 'Boeken', href: `${langPrefix(doc?.language)}` }] }),
     }),
     siteSettings: defineLocations({
-      select: { title: 'siteName' },
-      resolve: () => ({ locations: [{ title: 'Hele Website', href: NL }] }),
+      select: { title: 'siteName', language: 'language' },
+      resolve: (doc) => ({ locations: [{ title: 'Hele Website', href: langPrefix(doc?.language) }] }),
     }),
     faqItem: defineLocations({
-      select: { title: 'question' },
-      resolve: () => ({ locations: [{ title: 'FAQ Pagina', href: `${NL}/faq` }] }),
+      select: { title: 'question', language: 'language' },
+      resolve: (doc) => ({ locations: [{ title: 'FAQ Pagina', href: `${langPrefix(doc?.language)}/faq` }] }),
     }),
     testimonial: defineLocations({
       select: { title: 'name' },

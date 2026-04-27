@@ -2,12 +2,12 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'trip',
-  title: 'Safari Reizen',
+  title: 'Safari Trips',
   type: 'document',
   groups: [
     { name: 'basics', title: 'Basis Informatie', default: true },
     { name: 'details', title: 'Details & Prijzen' },
-    { name: 'content', title: 'Inhoud' },
+    { name: 'content', title: 'Content' },
     { name: 'media', title: 'Media' },
     { name: 'seo', title: 'SEO' },
   ],
@@ -15,7 +15,7 @@ export default defineType({
     // ─── BASICS ──────────────────────────────────────────────────────
     defineField({
       name: 'title',
-      title: 'Titel',
+      title: 'Title',
       type: 'string',
       group: 'basics',
       validation: (Rule) => Rule.required(),
@@ -26,19 +26,19 @@ export default defineType({
       type: 'slug',
       group: 'basics',
       options: { source: 'title', maxLength: 96 },
-      description: 'Wordt automatisch gegenereerd vanuit de titel.',
+      description: 'Generated automatically from the title.',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'heroImage',
-      title: 'Hero Afbeelding',
+      title: 'Hero Image',
       type: 'image',
       group: ['basics', 'media'],
       options: { hotspot: true },
       fields: [
         defineField({
           name: 'alt',
-          title: 'Alt tekst',
+          title: 'Alt text',
           type: 'string',
           validation: (Rule) => Rule.required(),
         }),
@@ -56,14 +56,14 @@ export default defineType({
     }),
     defineField({
       name: 'destination',
-      title: 'Bestemming',
+      title: 'Destination',
       type: 'reference',
       to: [{ type: 'destination' }],
       group: 'basics',
     }),
     defineField({
       name: 'featured',
-      title: 'Uitgelicht op homepage?',
+      title: 'Featured op homepage?',
       type: 'boolean',
       group: 'basics',
       initialValue: false,
@@ -71,7 +71,7 @@ export default defineType({
     }),
     defineField({
       name: 'active',
-      title: 'Gepubliceerd?',
+      title: 'Published?',
       type: 'boolean',
       group: 'basics',
       initialValue: true,
@@ -80,28 +80,28 @@ export default defineType({
     // ─── DETAILS ─────────────────────────────────────────────────────
     defineField({
       name: 'duration',
-      title: 'Duur',
+      title: 'Duration',
       type: 'string',
       group: 'details',
-      description: 'Bijv. "8 dagen / 7 nachten"',
+      description: 'E.g. "8 dagen / 7 nachten"',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'daysCount',
-      title: 'Aantal Dagen',
+      title: 'Number of Days',
       type: 'number',
       group: 'details',
     }),
     defineField({
       name: 'price',
-      title: 'Prijs Vanaf (EUR)',
+      title: 'Price From (EUR)',
       type: 'number',
       group: 'details',
       validation: (Rule) => Rule.required().min(0),
     }),
     defineField({
       name: 'priceType',
-      title: 'Prijs Type',
+      title: 'Price Type',
       type: 'string',
       group: 'details',
       options: {
@@ -115,14 +115,14 @@ export default defineType({
     }),
     defineField({
       name: 'difficulty',
-      title: 'Moeilijkheidsgraad',
+      title: 'Difficulty',
       type: 'string',
       group: 'details',
       options: {
         list: [
           { value: 'easy', title: 'Makkelijk' },
-          { value: 'moderate', title: 'Gemiddeld' },
-          { value: 'challenging', title: 'Uitdagend' },
+          { value: 'moderate', title: 'Moderate' },
+          { value: 'challenging', title: 'Challenging' },
         ],
         layout: 'radio',
       },
@@ -142,7 +142,7 @@ export default defineType({
     }),
     defineField({
       name: 'category',
-      title: 'Categorie',
+      title: 'Category',
       type: 'string',
       group: 'details',
       options: {
@@ -151,7 +151,7 @@ export default defineType({
           { value: 'hiking', title: 'Berg & Trekking' },
           { value: 'culture', title: 'Cultuur & Gemeenschap' },
           { value: 'beach', title: 'Strand & Ontspanning' },
-          { value: 'combined', title: 'Combinatiereizen' },
+          { value: 'combined', title: 'Combined Trips' },
         ],
       },
     }),
@@ -159,7 +159,7 @@ export default defineType({
     // ─── CONTENT ─────────────────────────────────────────────────────
     defineField({
       name: 'fullDescription',
-      title: 'Volledige Beschrijving',
+      title: 'Volledige Description',
       type: 'array',
       group: 'content',
       of: [
@@ -181,7 +181,7 @@ export default defineType({
     }),
     defineField({
       name: 'highlights',
-      title: 'Hoogtepunten',
+      title: 'Highlights',
       type: 'array',
       group: 'content',
       of: [{ type: 'string' }],
@@ -189,7 +189,7 @@ export default defineType({
     }),
     defineField({
       name: 'included',
-      title: 'Inbegrepen in de prijs',
+      title: 'Included in de prijs',
       type: 'array',
       group: 'content',
       of: [{ type: 'string' }],
@@ -203,7 +203,7 @@ export default defineType({
     }),
     defineField({
       name: 'itinerary',
-      title: 'Dag-tot-dag Reisschema',
+      title: 'Dag-tot-dag Itinerary',
       type: 'array',
       group: 'content',
       of: [{ type: 'itineraryDay' }],
@@ -212,7 +212,7 @@ export default defineType({
     // ─── MEDIA ───────────────────────────────────────────────────────
     defineField({
       name: 'gallery',
-      title: 'Fotogalerij',
+      title: 'Photogalerij',
       type: 'array',
       group: 'media',
       of: [{ type: 'galleryImage' }],
@@ -235,7 +235,7 @@ export default defineType({
   },
   orderings: [
     {
-      title: 'Uitgelicht eerst',
+      title: 'Featured eerst',
       name: 'featuredDesc',
       by: [
         { field: 'featured', direction: 'desc' },

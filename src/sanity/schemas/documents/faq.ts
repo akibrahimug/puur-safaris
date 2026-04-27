@@ -2,18 +2,18 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'faqItem',
-  title: 'Veelgestelde Vragen',
+  title: 'FAQ',
   type: 'document',
   fields: [
     defineField({
       name: 'question',
-      title: 'Vraag',
+      title: 'Question',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'answer',
-      title: 'Antwoord',
+      title: 'Answer',
       type: 'array',
       of: [
         {
@@ -39,13 +39,13 @@ export default defineType({
     }),
     defineField({
       name: 'category',
-      title: 'Categorie',
+      title: 'Category',
       type: 'string',
       options: {
         list: [
-          { value: 'general', title: 'Algemeen' },
-          { value: 'booking', title: 'Boeking & Betaling' },
-          { value: 'travel', title: 'Reizen & Visa' },
+          { value: 'general', title: 'General' },
+          { value: 'booking', title: 'Booking & Betaling' },
+          { value: 'travel', title: 'Trips & Visa' },
           { value: 'accommodation', title: 'Accommodatie' },
           { value: 'safety', title: 'Veiligheid & Gezondheid' },
           { value: 'packing', title: 'Inpakken & Voorbereiding' },
@@ -62,7 +62,7 @@ export default defineType({
   ],
   orderings: [
     {
-      title: 'Categorie & Volgorde',
+      title: 'Category & Order',
       name: 'categoryOrder',
       by: [
         { field: 'category', direction: 'asc' },
