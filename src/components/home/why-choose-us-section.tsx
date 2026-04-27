@@ -14,26 +14,10 @@ const iconMap: Record<string, LucideIcon> = {
   Map, Compass, Sun, Camera,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Dict = Record<string, any>
-
-function buildDefaultFeatures(dict?: Dict): (FeatureCard & { icon: LucideIcon })[] {
-  const f = dict?.home?.features
-  return [
-    { iconName: 'Heart', icon: Heart, title: f?.personalTitle ?? 'Persoonlijk & op maat', description: f?.personalDesc ?? 'Elke safari wordt speciaal voor u ontworpen. Uw wensen, uw tempo, uw droomreis.' },
-    { iconName: 'Shield', icon: Shield, title: f?.safetyTitle ?? 'Veiligheid voorop', description: f?.safetyDesc ?? 'Al onze gidsen zijn gecertificeerd en hebben jarenlange ervaring in het veld.' },
-    { iconName: 'Users', icon: Users, title: f?.smallGroupsTitle ?? 'Kleine groepen', description: f?.smallGroupsDesc ?? 'Wij werken met kleine, intieme groepen voor een echte en authentieke ervaring.' },
-    { iconName: 'Star', icon: Star, title: f?.qualityTitle ?? 'Topkwaliteit', description: f?.qualityDesc ?? 'Zorgvuldig geselecteerde lodges en camps met uitstekende service en comfort.' },
-    { iconName: 'Globe', icon: Globe, title: f?.localTitle ?? 'Lokale expertise', description: f?.localDesc ?? 'Onze Afrikaanse partners kennen elk pad, elke schuilplaats en elk seizoen.' },
-    { iconName: 'Headphones', icon: Headphones, title: f?.supportTitle ?? '24/7 ondersteuning', description: f?.supportDesc ?? 'Voor, tijdens en na uw reis staat ons team klaar voor vragen en ondersteuning.' },
-  ]
-}
-
 interface WhyChooseUsSectionProps {
   eyebrow?: string
   title?: string
   features?: FeatureCard[]
-  dict?: Dict
 }
 
 const cardVariants = {
@@ -45,16 +29,16 @@ const cardVariants = {
   }),
 }
 
-export function WhyChooseUsSection({ eyebrow, title, features, dict }: WhyChooseUsSectionProps) {
-  const d = dict?.home
-  const featureList = features?.length ? features : buildDefaultFeatures(dict)
+export function WhyChooseUsSection({ eyebrow, title, features }: WhyChooseUsSectionProps) {
+  const featureList = features ?? []
+  if (featureList.length === 0) return null
 
   return (
     <section className="section-page py-16 sm:py-20 md:py-28 relative overflow-hidden">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow={eyebrow ?? d?.whyEyebrow ?? 'Waarom Puur Uganda Reizen'}
-          title={title ?? d?.whyTitle ?? 'Wij geloven in reizen die een indruk achterlaten voor het leven.'}
+          eyebrow={eyebrow}
+          title={title}
           light
           centered
           className="mb-10 sm:mb-12 md:mb-16 mx-auto max-w-2xl"

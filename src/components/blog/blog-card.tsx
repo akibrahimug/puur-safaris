@@ -110,7 +110,7 @@ export function BlogCard({ post, labels, locale = "nl" }: BlogCardProps) {
               <div style={{ height: '1px', background: 'var(--card-strip-border)' }} className="mb-4" />
               <div className="flex items-center justify-between gap-3 min-h-[44px]">
                 <span className="text-[11px] font-semibold uppercase tracking-wider break-words" style={{ color: 'var(--card-strip-muted)' }}>
-                  {labels?.readArticleLabel ?? 'Lees artikel'}
+                  {labels?.readArticleLabel}
                 </span>
                 <div
                   className="flex items-center justify-center shrink-0 h-11 w-11 rounded-full border border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] backdrop-blur-md transition-all duration-500 ease-out group-hover:bg-gold group-hover:border-transparent group-hover:shadow-[0_8px_20px_rgba(42,125,88,0.25)] text-gold group-hover:text-white"

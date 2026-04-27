@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { hasLocale, type Locale } from '@/i18n/config'
-import { getDictionary } from '@/i18n/dictionaries'
 import { localePath } from '@/i18n/routes'
 import { getSiteSettings, getBlogPostPreview } from '@/lib/data'
 import { formatDate, blogCategoryLabel } from '@/lib/utils'
@@ -17,7 +16,6 @@ interface Props {
 export default async function BlogPreviewPage({ params }: Props) {
   const { slug, lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const dict = await getDictionary(locale)
 
   const [post, settings] = await Promise.all([getBlogPostPreview(slug), getSiteSettings(lang)])
   const labels = settings?.blogDetailLabels
@@ -105,7 +103,7 @@ export default async function BlogPreviewPage({ params }: Props) {
                 <User className="h-6 w-6 text-gold" />
               </div>
               <div>
-                <p className="text-sm text-[var(--text-muted)]">{labels?.writtenByLabel ?? dict.blogDetail.writtenBy}</p>
+                <p className="text-sm text-[var(--text-muted)]">{labels?.writtenByLabel}</p>
                 <p className="font-serif text-lg font-bold text-[var(--text-primary)]">{post.author}</p>
               </div>
             </div>
@@ -137,7 +135,7 @@ export default async function BlogPreviewPage({ params }: Props) {
 
           <div className="mt-16 pb-16 border-b border-[var(--border-subtle)]">
             <Link href={localePath(locale, 'blog')} className="text-gold text-sm font-medium hover:text-gold-dark transition-colors">
-              {labels?.backToAllLabel ?? dict.blogDetail.backToAll}
+              {labels?.backToAllLabel}
             </Link>
           </div>
         </div>

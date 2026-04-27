@@ -2,36 +2,36 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'faqPage',
-  title: 'FAQ Pagina',
+  title: 'FAQ Page',
   type: 'document',
   groups: [
     { name: 'hero', title: 'Hero' },
-    { name: 'content', title: 'Inhoud' },
+    { name: 'content', title: 'Content' },
     { name: 'seo', title: 'SEO' },
   ],
   fields: [
     // ─── HERO ──────────────────────────────────────────────────────
     defineField({
       name: 'heroImage',
-      title: 'Hero Afbeelding',
+      title: 'Hero Image',
       type: 'image',
       options: { hotspot: true },
       group: 'hero',
       fields: [
-        defineField({ name: 'alt', title: 'Alt tekst', type: 'string' }),
+        defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
       ],
-      description: 'Achtergrondafbeelding voor de hero sectie.',
+      description: 'Backgroundafbeelding voor de hero sectie.',
     }),
     defineField({
       name: 'heroTitle',
-      title: 'Hero Titel',
+      title: 'Hero Title',
       type: 'string',
       group: 'hero',
-      description: 'Bijv. "Veelgestelde Vragen".',
+      description: 'E.g. "Veelgestelde Vragen".',
     }),
     defineField({
       name: 'heroSubtitle',
-      title: 'Hero Ondertitel',
+      title: 'Hero Subtitle',
       type: 'string',
       group: 'hero',
     }),
@@ -42,35 +42,35 @@ export default defineType({
       title: 'Zoek Placeholder',
       type: 'string',
       group: 'content',
-      description: 'Bijv. "Zoek een vraag...".',
+      description: 'E.g. "Zoek een vraag...".',
     }),
     defineField({
       name: 'categoriesHeading',
-      title: 'Categorieën Koptekst',
+      title: 'Categorys Heading',
       type: 'string',
       group: 'content',
-      description: 'Bijv. "Categorieën".',
+      description: 'E.g. "Categorieën".',
     }),
     defineField({
       name: 'viewAllLabel',
-      title: 'Alles Bekijken Label',
+      title: 'Alls Viewen Label',
       type: 'string',
       group: 'content',
-      description: 'Bijv. "Alles Bekijken".',
+      description: 'E.g. "Alles Bekijken".',
     }),
     defineField({
       name: 'noResultsText',
-      title: 'Geen Resultaten Tekst',
+      title: 'Geen Resultaten Text',
       type: 'string',
       group: 'content',
-      description: 'Bijv. "Geen resultaten gevonden voor".',
+      description: 'E.g. "Geen resultaten gevonden voor".',
     }),
     defineField({
       name: 'resetSearchLabel',
       title: 'Reset Zoekopdracht Label',
       type: 'string',
       group: 'content',
-      description: 'Bijv. "Reset zoekopdracht".',
+      description: 'E.g. "Reset zoekopdracht".',
     }),
 
     // ─── SEO ───────────────────────────────────────────────────────
@@ -82,6 +82,6 @@ export default defineType({
     }),
   ],
   preview: {
-    prepare: () => ({ title: 'FAQ Pagina' }),
+    prepare: () => ({ title: 'FAQ Page' }),
   },
 })

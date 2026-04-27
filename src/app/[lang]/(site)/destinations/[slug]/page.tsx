@@ -172,7 +172,7 @@ export default async function DestinationDetailPage({ params }: Props) {
               <div className="rounded-xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Thermometer className="h-4 w-4 text-gold" />
-                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">{labels?.climateHeading ?? dict.destinations.climateHeading}</h3>
+                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">{labels?.climateHeading}</h3>
                 </div>
                 <p className="text-sm text-[var(--text-muted)]">{destination.climate}</p>
               </div>
@@ -181,7 +181,7 @@ export default async function DestinationDetailPage({ params }: Props) {
               <div className="rounded-xl border border-[rgba(42,125,88,0.18)] bg-[var(--card-strip-bg)] p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Sun className="h-4 w-4 text-gold" />
-                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">{labels?.bestTimeHeading ?? dict.destinations.bestTimeHeading}</h3>
+                  <h3 className="font-semibold text-[var(--text-primary)] text-sm">{labels?.bestTimeHeading}</h3>
                 </div>
                 <p className="text-sm text-[var(--text-muted)]">{destination.bestTimeToVisit}</p>
               </div>
@@ -213,7 +213,7 @@ export default async function DestinationDetailPage({ params }: Props) {
             <div className="flex items-center gap-3 mb-6">
               <Trees className="h-6 w-6 text-gold" />
               <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)]">
-                {destination.wildlifeHeading ?? dict.destinations.wildlifeHeading}
+                {destination.wildlifeHeading}
               </h2>
             </div>
             {destination.wildlifeDescription && (
@@ -268,7 +268,7 @@ export default async function DestinationDetailPage({ params }: Props) {
                 <div className="flex items-center gap-3 mb-4">
                   <Users className="h-5 w-5 text-gold" />
                   <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)]">
-                    {destination.communityHeading ?? dict.destinations.communityHeading}
+                    {destination.communityHeading}
                   </h2>
                 </div>
                 {destination.communityDescription && (
@@ -285,7 +285,7 @@ export default async function DestinationDetailPage({ params }: Props) {
             <div className="flex items-center gap-3 mb-6">
               <Hotel className="h-6 w-6 text-gold" />
               <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)]">
-                {destination.accommodationsHeading ?? dict.destinations.accommodationsHeading}
+                {destination.accommodationsHeading}
               </h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -325,16 +325,16 @@ export default async function DestinationDetailPage({ params }: Props) {
         {relatedTrips.length > 0 && (
           <section>
             <SectionHeading
-              title={`${labels?.relatedTripsHeadingPrefix ?? dict.destinations.relatedTripsPrefix} ${destination.name}`}
+              title={`${labels?.relatedTripsHeadingPrefix ?? ''} ${destination.name}`.trim()}
               subtitle={`${relatedTrips.length} ${relatedTrips.length !== 1 ? dict.destinations.tripsAvailablePlural : dict.destinations.tripsAvailableSingular}`}
               className="mb-8"
             />
             <SafariGrid trips={relatedTrips} locale={locale} labels={{
-              featuredBadge: settings?.cardLabels?.featuredBadge ?? dict.cards.featuredBadge,
-              priceFromLabel: settings?.cardLabels?.priceFromLabel ?? dict.cards.priceFrom,
-              pricePerGroup: settings?.cardLabels?.pricePerGroup ?? dict.cards.pricePerGroup,
-              pricePerPerson: settings?.cardLabels?.pricePerPerson ?? dict.cards.pricePerPerson,
-              viewLabel: settings?.cardLabels?.viewLabel ?? dict.cards.viewLabel,
+              featuredBadge: settings?.cardLabels?.featuredBadge,
+              priceFromLabel: settings?.cardLabels?.priceFromLabel,
+              pricePerGroup: settings?.cardLabels?.pricePerGroup,
+              pricePerPerson: settings?.cardLabels?.pricePerPerson,
+              viewLabel: settings?.cardLabels?.viewLabel,
             }} />
           </section>
         )}

@@ -95,7 +95,8 @@
       "Bash(curl -sL http://localhost:3000/nl/over-ons -o /tmp/about.html)",
       "Bash(curl *)",
       "Bash(ps -o pid,command -p 57385)",
-      "Bash(md5 *)"
+      "Bash(md5 *)",
+      "Bash(xargs -r kill -9)"
     ]
   }
 }

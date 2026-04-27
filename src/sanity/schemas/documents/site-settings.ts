@@ -2,10 +2,10 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'siteSettings',
-  title: 'Site Instellingen',
+  title: 'Site Settings',
   type: 'document',
   groups: [
-    { name: 'general', title: 'Algemeen', default: true },
+    { name: 'general', title: 'General', default: true },
     { name: 'contact', title: 'Contact' },
     { name: 'social', title: 'Social Media' },
     { name: 'navigation', title: 'Navigatie' },
@@ -15,7 +15,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'siteName',
-      title: 'Sitenaam',
+      title: 'Site Name',
       type: 'string',
       group: 'general',
       initialValue: 'Puur Uganda Reizen',
@@ -34,7 +34,7 @@ export default defineType({
       type: 'image',
       group: 'general',
       options: { hotspot: false },
-      fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
+      fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
     }),
 
     // ─── CONTACT ─────────────────────────────────────────────────────
@@ -46,13 +46,13 @@ export default defineType({
     }),
     defineField({
       name: 'phone',
-      title: 'Telefoonnummer',
+      title: 'Phone Number',
       type: 'string',
       group: 'contact',
     }),
     defineField({
       name: 'address',
-      title: 'Adres',
+      title: 'Address',
       type: 'text',
       rows: 3,
       group: 'contact',
@@ -65,7 +65,7 @@ export default defineType({
     }),
     defineField({
       name: 'openingHours',
-      title: 'Openingstijden',
+      title: 'Opening Hours',
       type: 'array',
       group: 'contact',
       of: [
@@ -73,7 +73,7 @@ export default defineType({
           type: 'object',
           fields: [
             defineField({ name: 'label', title: 'Label', type: 'string', validation: (Rule) => Rule.required() }),
-            defineField({ name: 'hours', title: 'Tijden', type: 'string', validation: (Rule) => Rule.required() }),
+            defineField({ name: 'hours', title: 'Hours', type: 'string', validation: (Rule) => Rule.required() }),
           ],
           preview: {
             select: { title: 'label', subtitle: 'hours' },
@@ -93,9 +93,9 @@ export default defineType({
         defineField({ name: 'facebook', title: 'Facebook URL', type: 'url' }),
         defineField({
           name: 'whatsapp',
-          title: 'WhatsApp Nummer',
+          title: 'WhatsApp Number',
           type: 'string',
-          description: 'Bijv. +31612345678 (inclusief landcode)',
+          description: 'E.g. +31612345678 (inclusief landcode)',
         }),
         defineField({ name: 'youtube', title: 'YouTube URL', type: 'url' }),
       ],
@@ -104,7 +104,7 @@ export default defineType({
     // ─── NAVIGATION ──────────────────────────────────────────────────
     defineField({
       name: 'mainNavigation',
-      title: 'Hoofdnavigatie',
+      title: 'Main Navigation',
       type: 'array',
       group: 'navigation',
       description: 'Links in het hoofdmenu. Laat leeg om de standaard navigatie te gebruiken.',
@@ -125,10 +125,10 @@ export default defineType({
     // ─── HEADER CTA ─────────────────────────────────────────────────────
     defineField({
       name: 'headerCtaLabel',
-      title: 'Header CTA Knoptekst',
+      title: 'Header CTA Button Text',
       type: 'string',
       group: 'navigation',
-      description: 'Bijv. "Eigen Reisschema".',
+      description: 'E.g. "Eigen Reisschema".',
     }),
     defineField({
       name: 'headerCtaLink',
@@ -140,14 +140,14 @@ export default defineType({
     // ─── SEO DEFAULTS ─────────────────────────────────────────────────
     defineField({
       name: 'defaultSeoTitle',
-      title: 'Standaard SEO Titel',
+      title: 'Default SEO Title',
       type: 'string',
       group: 'seo',
       description: 'Wordt gebruikt als er geen specifieke SEO titel is ingesteld.',
     }),
     defineField({
       name: 'defaultSeoDescription',
-      title: 'Standaard SEO Omschrijving',
+      title: 'Default SEO Omschrijving',
       type: 'text',
       rows: 2,
       group: 'seo',
@@ -155,7 +155,7 @@ export default defineType({
     }),
     defineField({
       name: 'defaultOgImage',
-      title: 'Standaard Social Media Afbeelding',
+      title: 'Default Social Media Image',
       type: 'image',
       group: 'seo',
       options: { hotspot: true },
@@ -164,7 +164,7 @@ export default defineType({
     // ─── FOOTER ───────────────────────────────────────────────────────
     defineField({
       name: 'footerText',
-      title: 'Footer Tekst',
+      title: 'Footer Text',
       type: 'text',
       rows: 2,
       group: 'footer',
@@ -172,14 +172,14 @@ export default defineType({
     }),
     defineField({
       name: 'footerColumn1Heading',
-      title: 'Footer Kolom 1 Koptekst',
+      title: 'Footer Column 1 Heading',
       type: 'string',
       group: 'footer',
-      description: 'Bijv. "Safari Reizen".',
+      description: 'E.g. "Safari Reizen".',
     }),
     defineField({
       name: 'footerColumn1Links',
-      title: 'Footer Kolom 1 Links',
+      title: 'Footer Column 1 Links',
       type: 'array',
       group: 'footer',
       of: [
@@ -195,14 +195,14 @@ export default defineType({
     }),
     defineField({
       name: 'footerColumn2Heading',
-      title: 'Footer Kolom 2 Koptekst',
+      title: 'Footer Column 2 Heading',
       type: 'string',
       group: 'footer',
-      description: 'Bijv. "Over Ons".',
+      description: 'E.g. "Over Ons".',
     }),
     defineField({
       name: 'footerColumn2Links',
-      title: 'Footer Kolom 2 Links',
+      title: 'Footer Column 2 Links',
       type: 'array',
       group: 'footer',
       of: [
@@ -218,24 +218,24 @@ export default defineType({
     }),
     defineField({
       name: 'footerColumn3Heading',
-      title: 'Footer Kolom 3 Koptekst',
+      title: 'Footer Column 3 Heading',
       type: 'string',
       group: 'footer',
-      description: 'Bijv. "Contact".',
+      description: 'E.g. "Contact".',
     }),
     defineField({
       name: 'copyrightText',
-      title: 'Copyright Tekst',
+      title: 'Copyright Text',
       type: 'string',
       group: 'footer',
-      description: 'Bijv. "Alle rechten voorbehouden." (jaar en sitenaam worden automatisch toegevoegd).',
+      description: 'E.g. "Alle rechten voorbehouden." (jaar en sitenaam worden automatisch toegevoegd).',
     }),
     defineField({
       name: 'privacyLabel',
       title: 'Privacybeleid Label',
       type: 'string',
       group: 'footer',
-      description: 'Bijv. "Privacybeleid".',
+      description: 'E.g. "Privacybeleid".',
     }),
     defineField({
       name: 'privacyLink',
@@ -246,10 +246,10 @@ export default defineType({
     }),
     defineField({
       name: 'termsLabel',
-      title: 'Algemene Voorwaarden Label',
+      title: 'Algemene Terms Label',
       type: 'string',
       group: 'footer',
-      description: 'Bijv. "Algemene Voorwaarden".',
+      description: 'E.g. "Algemene Voorwaarden".',
     }),
     defineField({
       name: 'termsLink',
@@ -271,10 +271,10 @@ export default defineType({
         defineField({ name: 'priceFromLabel', title: '"Vanaf" Label', type: 'string' }),
         defineField({ name: 'pricePerGroup', title: '"Per Groep" Label', type: 'string' }),
         defineField({ name: 'pricePerPerson', title: '"Per Persoon" Label', type: 'string' }),
-        defineField({ name: 'viewLabel', title: '"Bekijk" Label', type: 'string' }),
+        defineField({ name: 'viewLabel', title: '"View" Label', type: 'string' }),
         defineField({ name: 'readArticleLabel', title: '"Lees Artikel" Label', type: 'string' }),
         defineField({ name: 'tripSingularLabel', title: '"Reis" (enkelvoud)', type: 'string' }),
-        defineField({ name: 'tripPluralLabel', title: '"Reizen" (meervoud)', type: 'string' }),
+        defineField({ name: 'tripPluralLabel', title: '"Trips" (plural)', type: 'string' }),
         defineField({ name: 'availableLabel', title: '"Beschikbaar" Label', type: 'string' }),
       ],
     }),
@@ -296,8 +296,8 @@ export default defineType({
         defineField({ name: 'includedLabel', title: '"Inbegrepen" Label', type: 'string' }),
         defineField({ name: 'excludedLabel', title: '"Niet Inbegrepen" Label', type: 'string' }),
         defineField({ name: 'priceFromSidebarLabel', title: '"Prijs Vanaf" Zijbalk Label', type: 'string' }),
-        defineField({ name: 'bookTripCtaLabel', title: '"Boek deze reis" Knoptekst', type: 'string' }),
-        defineField({ name: 'eigenReisschemaCtaLabel', title: '"Eigen Reisschema" Knoptekst', type: 'string' }),
+        defineField({ name: 'bookTripCtaLabel', title: '"Book this trip" Button Text', type: 'string' }),
+        defineField({ name: 'eigenReisschemaCtaLabel', title: '"Custom Itinerary" Button Text', type: 'string' }),
         defineField({ name: 'breakfastLabel', title: '"Ontbijt" Label', type: 'string' }),
         defineField({ name: 'lunchLabel', title: '"Lunch" Label', type: 'string' }),
         defineField({ name: 'dinnerLabel', title: '"Diner" Label', type: 'string' }),
@@ -305,14 +305,14 @@ export default defineType({
     }),
     defineField({
       name: 'destinationDetailLabels',
-      title: 'Bestemming Detail Labels',
+      title: 'Destination Detail Labels',
       type: 'object',
       group: 'general',
       description: 'Labels op de bestemming detailpagina.',
       fields: [
         defineField({ name: 'climateHeading', title: '"Klimaat" Koptekst', type: 'string' }),
         defineField({ name: 'bestTimeHeading', title: '"Beste tijd om te bezoeken" Koptekst', type: 'string' }),
-        defineField({ name: 'relatedTripsHeadingPrefix', title: 'Gerelateerde Reizen Koptekst Prefix', type: 'string', description: 'Bijv. "Safari reizen in" (gevolgd door bestemmingsnaam).' }),
+        defineField({ name: 'relatedTripsHeadingPrefix', title: 'Related Trips Heading Prefix', type: 'string', description: 'E.g. "Safari trips in" (followed by destination name).' }),
       ],
     }),
     defineField({
@@ -323,14 +323,14 @@ export default defineType({
       description: 'Labels op de blog detailpagina.',
       fields: [
         defineField({ name: 'writtenByLabel', title: '"Geschreven door" Label', type: 'string' }),
-        defineField({ name: 'backToAllLabel', title: 'Terug Naar Overzicht Label', type: 'string', description: 'Bijv. "← Terug naar alle blogberichten".' }),
-        defineField({ name: 'ctaHeading', title: 'Blog CTA Koptekst', type: 'string', description: 'Bijv. "Geïnspireerd geraakt door deze reis?".' }),
-        defineField({ name: 'ctaBody', title: 'Blog CTA Tekst', type: 'text', rows: 2 }),
-        defineField({ name: 'ctaButton', title: 'Blog CTA Knoptekst', type: 'string' }),
-        defineField({ name: 'gallerySidebarHeading', title: 'Galerij Zijbalk Koptekst', type: 'string', description: 'Bijv. "Favoriete Momenten".' }),
-        defineField({ name: 'gallerySidebarDescription', title: 'Galerij Zijbalk Omschrijving', type: 'string' }),
-        defineField({ name: 'galleryViewLabel', title: '"Bekijk Locatie" Label', type: 'string' }),
-        defineField({ name: 'galleryCtaLabel', title: 'Galerij CTA Label', type: 'string', description: 'Bijv. "Ontdek Al Onze Reizen".' }),
+        defineField({ name: 'backToAllLabel', title: 'Terug Naar Overzicht Label', type: 'string', description: 'E.g. "← Terug naar alle blogberichten".' }),
+        defineField({ name: 'ctaHeading', title: 'Blog CTA Heading', type: 'string', description: 'E.g. "Geïnspireerd geraakt door deze reis?".' }),
+        defineField({ name: 'ctaBody', title: 'Blog CTA Text', type: 'text', rows: 2 }),
+        defineField({ name: 'ctaButton', title: 'Blog CTA Button Text', type: 'string' }),
+        defineField({ name: 'gallerySidebarHeading', title: 'Gallery Zijbalk Heading', type: 'string', description: 'E.g. "Favoriete Momenten".' }),
+        defineField({ name: 'gallerySidebarDescription', title: 'Gallery Zijbalk Omschrijving', type: 'string' }),
+        defineField({ name: 'galleryViewLabel', title: '"View Location" Label', type: 'string' }),
+        defineField({ name: 'galleryCtaLabel', title: 'Gallery CTA Label', type: 'string', description: 'E.g. "Discover All Our Trips".' }),
       ],
     }),
   ],

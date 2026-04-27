@@ -73,7 +73,7 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
                 <span
                   className="rounded-full px-2.5 py-1 sm:px-3 sm:py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-gold/80 text-white border border-white/20 shadow-sm ml-auto max-w-[45%] truncate"
                 >
-                  {labels?.featuredBadge ?? 'Aanbevolen'}
+                  {labels?.featuredBadge}
                 </span>
               )}
             </div>
@@ -161,7 +161,7 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
                     className="text-[9px] font-semibold uppercase tracking-[0.18em] mb-0.5"
                     style={{ color: "var(--card-strip-muted)" }}
                   >
-                    {labels?.priceFromLabel ?? 'Vanaf'}
+                    {labels?.priceFromLabel}
                   </p>
                   <p
                     className="text-xl sm:text-[1.3rem] font-bold leading-none truncate"
@@ -174,8 +174,8 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
                     style={{ color: "var(--card-strip-muted)" }}
                   >
                     {trip.priceType === "per_group"
-                      ? (labels?.pricePerGroup ?? "per groep")
-                      : (labels?.pricePerPerson ?? "per persoon")}
+                      ? labels?.pricePerGroup
+                      : labels?.pricePerPerson}
                   </p>
                 </div>
 
@@ -183,7 +183,7 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
                   className="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-full px-4 min-h-11 border border-black/5 dark:border-white/10 bg-gold/10 sm:bg-black/[0.02] sm:dark:bg-white/[0.02] backdrop-blur-md transition-all duration-500 ease-out md:[@media(hover:hover)]:group-hover:bg-gold md:[@media(hover:hover)]:group-hover:border-transparent md:[@media(hover:hover)]:group-hover:shadow-[0_8px_20px_rgba(42,125,88,0.25)] md:[@media(hover:hover)]:group-hover:text-white text-gold"
                   aria-hidden="true"
                 >
-                  <span className="text-xs font-semibold">{labels?.viewLabel ?? 'Bekijk'}</span>
+                  <span className="text-xs font-semibold">{labels?.viewLabel}</span>
                   <ArrowUpRight className="h-4 w-4 transition-all duration-500 ease-out md:[@media(hover:hover)]:group-hover:translate-x-0.5 md:[@media(hover:hover)]:group-hover:-translate-y-0.5" />
                 </div>
               </div>

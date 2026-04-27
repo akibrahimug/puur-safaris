@@ -14,13 +14,16 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const dict = await getDictionary(locale)
-  const [trip, settings] = await Promise.all([getTripDetail(slug, lang), getSiteSettings(lang)])
+  const [trip, settings, bookingPage] = await Promise.all([
+    getTripDetail(slug, lang),
+    getSiteSettings(lang),
+    getBookingPage(lang),
+  ])
   if (!trip) return {}
   return buildMetadata(
     {
-      title: `${dict.booking.heroEyebrow}: ${trip.title}`,
-      description: dict.booking.heroSubtitle,
+      title: bookingPage?.heroEyebrow ? `${bookingPage.heroEyebrow}: ${trip.title}` : trip.title,
+      description: bookingPage?.heroSubtitle,
       canonical: `/${lang}/safaris/${slug}/book`,
       locale,
     },
@@ -33,16 +36,16 @@ export default async function BookingPage({ params }: Props) {
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
   const dict = await getDictionary(locale)
 
-  const [trip, bookingPage, settings] = await Promise.all([getTripDetail(slug, lang), getBookingPage(lang), getSiteSettings(lang)])
+  const [trip, bookingPage] = await Promise.all([getTripDetail(slug, lang), getBookingPage(lang)])
   if (!trip) notFound()
 
 
   return (
     <>
       <PageHero
-        title={`${dict.booking.heroEyebrow}: ${trip.title}`}
-        subtitle={bookingPage?.heroSubtitle ?? dict.booking.heroSubtitle}
-        eyebrow={bookingPage?.heroEyebrow ?? dict.booking.heroEyebrow}
+        title={bookingPage?.heroEyebrow ? `${bookingPage.heroEyebrow}: ${trip.title}` : trip.title}
+        subtitle={bookingPage?.heroSubtitle}
+        eyebrow={bookingPage?.heroEyebrow}
         image={bookingPage?.heroImage ?? trip.heroImage}
       />
       <section className="py-16 section-page">

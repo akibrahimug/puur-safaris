@@ -34,7 +34,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const lang = hdrs.get('x-locale') ?? defaultLocale
 
   return (
-    <html lang={lang} className={`${sora.variable} ${barriecito.variable} h-full antialiased`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={lang} translate="no" className={`${sora.variable} ${barriecito.variable} h-full antialiased notranslate`} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <meta name="google" content="notranslate" />
+      </head>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         <ThemeProvider>
           {children}

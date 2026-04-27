@@ -59,7 +59,7 @@ export function DestinationCard({ destination, labels, locale = "nl" }: Destinat
               )}
               {destination.tripCount !== undefined && destination.tripCount > 0 && (
                 <p className="mt-1 text-xs text-white/50">
-                  {destination.tripCount} {destination.tripCount === 1 ? (labels?.tripSingularLabel ?? 'reis') : (labels?.tripPluralLabel ?? 'reizen')} {labels?.availableLabel ?? 'beschikbaar'}
+                  {destination.tripCount} {destination.tripCount === 1 ? labels?.tripSingularLabel : labels?.tripPluralLabel} {labels?.availableLabel}
                 </p>
               )}
             </div>

@@ -2,30 +2,30 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'bookingPage',
-  title: 'Boekingspagina',
+  title: 'Bookingspagina',
   type: 'document',
   fields: [
     defineField({
       name: 'heroImage',
-      title: 'Hero Afbeelding',
+      title: 'Hero Image',
       type: 'image',
       options: { hotspot: true },
-      fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
+      fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
     }),
     defineField({
       name: 'heroEyebrow',
       title: 'Hero Eyebrow',
       type: 'string',
-      description: 'Bijv. "Boeking".',
+      description: 'E.g. "Boeking".',
     }),
     defineField({
       name: 'heroSubtitle',
-      title: 'Hero Ondertitel',
+      title: 'Hero Subtitle',
       type: 'string',
-      description: 'Bijv. "Vul uw gegevens in en wij bevestigen uw boeking binnen 2 werkdagen.".',
+      description: 'E.g. "Vul uw gegevens in en wij bevestigen uw boeking binnen 2 werkdagen.".',
     }),
   ],
   preview: {
-    prepare: () => ({ title: 'Boekingspagina' }),
+    prepare: () => ({ title: 'Bookingspagina' }),
   },
 })

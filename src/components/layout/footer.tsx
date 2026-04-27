@@ -132,7 +132,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
           {/* Safari Reizen */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              {settings?.footerColumn1Heading ?? f?.col1Heading ?? 'Safari Reizen'}
+              {stegaClean(settings?.footerColumn1Heading) ?? f?.col1Heading ?? 'Safari Reizen'}
             </h3>
             <ul className="space-y-3 text-sm">
               {(settings?.footerColumn1Links?.map((l: {href: string; label: string}) => ({ ...l, href: `/${locale}${cmsPathToLocale(stegaClean(l.href), loc)}` })) ?? []).map(({ href, label }) => (
@@ -141,7 +141,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
                     href={href}
                     className="inline-block py-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-200"
                   >
-                    {label}
+                    {stegaClean(label)}
                   </Link>
                 </li>
               ))}
@@ -151,7 +151,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
           {/* Over ons */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              {settings?.footerColumn2Heading ?? f?.col2Heading ?? 'Over Ons'}
+              {stegaClean(settings?.footerColumn2Heading) ?? f?.col2Heading ?? 'Over Ons'}
             </h3>
             <ul className="space-y-3 text-sm">
               {(settings?.footerColumn2Links?.map((l: {href: string; label: string}) => ({ ...l, href: `/${locale}${cmsPathToLocale(stegaClean(l.href), loc)}` })) ?? []).map(({ href, label }) => (
@@ -160,7 +160,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
                     href={href}
                     className="inline-block py-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-200"
                   >
-                    {label}
+                    {stegaClean(label)}
                   </Link>
                 </li>
               ))}
@@ -170,7 +170,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
           {/* Contact */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-subtle)] mb-5">
-              {settings?.footerColumn3Heading ?? f?.col3Heading ?? 'Contact'}
+              {stegaClean(settings?.footerColumn3Heading) ?? f?.col3Heading ?? 'Contact'}
             </h3>
             <ul className="space-y-3.5 text-sm">
               <li>
@@ -228,13 +228,13 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
               href={settings?.privacyLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.privacyLink), loc)}` : localePath(loc, 'privacy')}
               className="py-1 hover:text-(--text-muted) transition-colors"
             >
-              {settings?.privacyLabel ?? f?.privacyLabel ?? 'Privacybeleid'}
+              {stegaClean(settings?.privacyLabel) ?? f?.privacyLabel ?? 'Privacybeleid'}
             </Link>
             <Link
               href={settings?.termsLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.termsLink), loc)}` : localePath(loc, 'terms')}
               className="py-1 hover:text-(--text-muted) transition-colors"
             >
-              {settings?.termsLabel ?? f?.termsLabel ?? 'Algemene Voorwaarden'}
+              {stegaClean(settings?.termsLabel) ?? f?.termsLabel ?? 'Algemene Voorwaarden'}
             </Link>
           </div>
         </div>

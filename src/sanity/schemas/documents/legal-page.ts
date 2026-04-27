@@ -5,25 +5,25 @@ export default defineType({
   title: 'Legal Page',
   type: 'document',
   groups: [
-    { name: 'content', title: 'Inhoud' },
+    { name: 'content', title: 'Content' },
     { name: 'seo', title: 'SEO' },
   ],
   fields: [
     // ─── CONTENT ───────────────────────────────────────────────────
     defineField({
       name: 'heroImage',
-      title: 'Hero Afbeelding',
+      title: 'Hero Image',
       type: 'image',
       group: 'content',
       options: { hotspot: true },
-      fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
+      fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
     }),
     defineField({
       name: 'title',
-      title: 'Titel',
+      title: 'Title',
       type: 'string',
       group: 'content',
-      description: 'Bijv. "Privacybeleid" of "Algemene Voorwaarden".',
+      description: 'E.g. "Privacybeleid" of "Algemene Voorwaarden".',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -36,7 +36,7 @@ export default defineType({
     }),
     defineField({
       name: 'body',
-      title: 'Inhoud',
+      title: 'Content',
       type: 'array',
       group: 'content',
       of: [
@@ -75,8 +75,8 @@ export default defineType({
           type: 'image',
           options: { hotspot: true },
           fields: [
-            defineField({ name: 'alt', type: 'string', title: 'Alt tekst' }),
-            defineField({ name: 'caption', type: 'string', title: 'Bijschrift' }),
+            defineField({ name: 'alt', type: 'string', title: 'Alt text' }),
+            defineField({ name: 'caption', type: 'string', title: 'Caption' }),
           ],
         },
       ],

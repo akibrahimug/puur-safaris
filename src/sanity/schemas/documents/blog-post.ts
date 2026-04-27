@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'blogPost',
-  title: 'Blog Berichten',
+  title: 'Blog Messageen',
   type: 'document',
   fields: [
     defineField({
@@ -12,18 +12,18 @@ export default defineType({
       options: {
         list: [
           { value: 'submitted', title: 'Ingediend' },
-          { value: 'pending_review', title: 'Wacht op beoordeling' },
-          { value: 'published', title: 'Gepubliceerd' },
-          { value: 'rejected', title: 'Afgewezen' },
+          { value: 'pending_review', title: 'Pending Review' },
+          { value: 'published', title: 'Published' },
+          { value: 'rejected', title: 'Rejected' },
         ],
       },
       initialValue: 'published',
     }),
     defineField({
       name: 'submitterEmail',
-      title: 'E-mail inzender',
+      title: 'Email inzender',
       type: 'string',
-      description: 'E-mailadres van de persoon die het reisverslag heeft ingediend.',
+      description: 'Emailadres van de persoon die het reisverslag heeft ingediend.',
       readOnly: true,
     }),
     defineField({
@@ -36,7 +36,7 @@ export default defineType({
     }),
     defineField({
       name: 'title',
-      title: 'Titel',
+      title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
@@ -49,13 +49,13 @@ export default defineType({
     }),
     defineField({
       name: 'featuredImage',
-      title: 'Uitgelichte Afbeelding',
+      title: 'Featured Image',
       type: 'image',
       options: { hotspot: true },
       fields: [
         defineField({
           name: 'alt',
-          title: 'Alt tekst',
+          title: 'Alt text',
           type: 'string',
           validation: (Rule) => Rule.required(),
         }),
@@ -64,34 +64,34 @@ export default defineType({
     }),
     defineField({
       name: 'author',
-      title: 'Auteur',
+      title: 'Author',
       type: 'string',
     }),
     defineField({
       name: 'publishedAt',
-      title: 'Publicatiedatum',
+      title: 'Publication Date',
       type: 'date',
       options: { dateFormat: 'DD-MM-YYYY' },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'category',
-      title: 'Categorie',
+      title: 'Category',
       type: 'string',
       options: {
         list: [
-          { value: 'stories', title: 'Reisverhalen' },
+          { value: 'stories', title: 'Tripverhalen' },
           { value: 'tips', title: 'Tips & Advies' },
           { value: 'wildlife', title: 'Wildlife' },
           { value: 'culture', title: 'Cultuur' },
-          { value: 'guides', title: 'Bestemmingsgidsen' },
+          { value: 'guides', title: 'Destinationsgidsen' },
           { value: 'news', title: 'Nieuws' },
         ],
       },
     }),
     defineField({
       name: 'summary',
-      title: 'Samenvatting (teaser)',
+      title: 'Summary (teaser)',
       type: 'text',
       rows: 3,
       description: 'Korte intro die getoond wordt op de bloglijst. Max. 300 tekens.',
@@ -99,7 +99,7 @@ export default defineType({
     }),
     defineField({
       name: 'content',
-      title: 'Inhoud',
+      title: 'Content',
       type: 'array',
       of: [
         {
@@ -144,8 +144,8 @@ export default defineType({
           type: 'image',
           options: { hotspot: true },
           fields: [
-            { name: 'alt', type: 'string', title: 'Alt tekst' },
-            { name: 'caption', type: 'string', title: 'Bijschrift' },
+            { name: 'alt', type: 'string', title: 'Alt text' },
+            { name: 'caption', type: 'string', title: 'Caption' },
           ],
         },
       ],
@@ -166,7 +166,7 @@ export default defineType({
             }),
             {
               name: 'placement',
-              title: 'Plaatsing',
+              title: 'Placeing',
               type: 'string',
               options: {
                 list: [
@@ -214,10 +214,10 @@ export default defineType({
     }),
     defineField({
       name: 'relatedTrips',
-      title: 'Gerelateerde Reizen',
+      title: 'Related Trips',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'trip' }] }],
-      description: 'Optioneel: koppel relevante safari reizen aan dit artikel.',
+      description: 'Optional: koppel relevante safari reizen aan dit artikel.',
     }),
     defineField({
       name: 'seo',
@@ -249,7 +249,7 @@ export default defineType({
   },
   orderings: [
     {
-      title: 'Publicatiedatum (nieuwste eerst)',
+      title: 'Publication Date (newest first)',
       name: 'publishedAtDesc',
       by: [{ field: 'publishedAt', direction: 'desc' }],
     },

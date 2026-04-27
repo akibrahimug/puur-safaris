@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { getNlRewrites } from './src/i18n/routes'
 
 const nextConfig: NextConfig = {
   images: {
@@ -20,19 +21,7 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 86400,
   },
   async rewrites() {
-    return [
-      // Dutch URL aliases → English page files
-      { source: '/nl/safari-reizen', destination: '/nl/safaris' },
-      { source: '/nl/safari-reizen/:slug', destination: '/nl/safaris/:slug' },
-      { source: '/nl/safari-reizen/:slug/boeken', destination: '/nl/safaris/:slug/book' },
-      { source: '/nl/bestemmingen', destination: '/nl/destinations' },
-      { source: '/nl/bestemmingen/:slug', destination: '/nl/destinations/:slug' },
-      { source: '/nl/over-ons', destination: '/nl/about' },
-      { source: '/nl/eigen-reisschema', destination: '/nl/custom-itinerary' },
-      { source: '/nl/blog/inzenden', destination: '/nl/blog/submit' },
-      { source: '/nl/privacybeleid', destination: '/nl/privacy' },
-      { source: '/nl/algemene-voorwaarden', destination: '/nl/terms' },
-    ]
+    return getNlRewrites()
   },
   async headers() {
     return [

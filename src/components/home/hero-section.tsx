@@ -31,7 +31,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
 
   const heroImageUrl = homePage?.heroImage?.asset?.url
   const heroLqip = homePage?.heroImage?.asset?.metadata?.lqip
-  const heroImageAlt = homePage?.heroImage?.alt ?? d?.heroImageAlt ?? 'Safari in Africa'
+  const heroImageAlt = homePage?.heroImage?.alt ?? ''
 
   return (
     <section ref={ref} className="relative flex min-h-[640px] md:min-h-[100svh] items-center overflow-hidden bg-ink grain">
@@ -61,18 +61,6 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
         style={{ opacity: contentOpacity, y: contentY }}
         className="relative z-10 w-full container mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 pt-24 pb-20 sm:pt-28 sm:pb-24"
       >
-        {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mb-7"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-xs font-medium tracking-[0.2em] uppercase text-gold backdrop-blur-sm">
-            {homePage?.heroEyebrow ?? d?.heroEyebrow ?? 'Authentieke Safari Ervaringen'}
-          </span>
-        </motion.div>
-
         {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
@@ -80,9 +68,9 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           transition={{ duration: 0.9, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="font-serif text-display font-bold text-white max-w-3xl break-words hyphens-auto"
         >
-          {homePage?.heroHeadline ?? d?.heroHeadline ?? 'Ontdek Afrika'}
+          {homePage?.heroHeadline}
           <br />
-          <span className="text-gold">{homePage?.heroHeadlineAccent ?? d?.heroHeadlineAccent ?? 'op zijn puurste'}</span>
+          <span className="text-gold">{homePage?.heroHeadlineAccent}</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -92,7 +80,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
           transition={{ duration: 0.7, delay: 0.65 }}
           className="mt-5 sm:mt-7 max-w-lg text-base sm:text-lg leading-relaxed text-white/65"
         >
-          {homePage?.heroSubtitle ?? d?.heroSubtitle ?? 'Persoonlijke safari reizen op maat, afgestemd op uw wensen. Van wildlife in Queen Elizabeth tot gorilla treks in Bwindi.'}
+          {homePage?.heroSubtitle}
         </motion.p>
 
         {/* CTAs */}
@@ -106,14 +94,14 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
             href={`/${locale}${cmsPathToLocale(stegaClean(homePage?.heroCta1Link) ?? '/safari-reizen', locale as Locale)}`}
             className="group inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full bg-gold px-6 sm:px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-gold-dark hover:shadow-[0_0_40px_rgba(42,125,88,0.4)]"
           >
-            {homePage?.heroCta1Text ?? d?.heroCta1 ?? 'Bekijk onze reizen'}
+            {homePage?.heroCta1Text}
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
           <Link
             href={`/${locale}${cmsPathToLocale(stegaClean(homePage?.heroCta2Link) ?? '/eigen-reisschema', locale as Locale)}`}
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 sm:px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/35"
           >
-            {homePage?.heroCta2Text ?? d?.heroCta2 ?? 'Eigen Reisschema'}
+            {homePage?.heroCta2Text}
           </Link>
         </motion.div>
 
@@ -144,7 +132,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
                 </svg>
               ))}
             </div>
-            <p className="text-xs text-white/50">{homePage?.heroSocialProofText ?? d?.heroSocialProof ?? '500+ tevreden reizigers'}</p>
+            <p className="text-xs text-white/50">{homePage?.heroSocialProofText}</p>
           </div>
         </motion.div>
       </motion.div>

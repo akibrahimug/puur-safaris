@@ -13,12 +13,14 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang } = await params
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
-  const dict = await getDictionary(locale)
-  const settings = await getSiteSettings(lang)
+  const [settings, eigenReisschemaPage] = await Promise.all([
+    getSiteSettings(lang),
+    getEigenReisschemaPage(lang),
+  ])
   return buildMetadata(
     {
-      title: dict.customItinerary.heroTitle,
-      description: dict.customItinerary.heroSubtitle,
+      title: eigenReisschemaPage?.heroTitle,
+      description: eigenReisschemaPage?.heroSubtitle,
       canonical: `/${lang}/custom-itinerary`,
       locale,
       alternates: { nl: '/nl/eigen-reisschema', en: '/en/custom-itinerary' },
@@ -38,9 +40,9 @@ export default async function EigenReisschemaPage({ params }: Props) {
   return (
     <>
       <PageHero
-        title={eigenReisschemaPage?.heroTitle ?? dict.customItinerary.heroTitle}
-        subtitle={eigenReisschemaPage?.heroSubtitle ?? dict.customItinerary.heroSubtitle}
-        eyebrow={eigenReisschemaPage?.heroEyebrow ?? dict.customItinerary.heroEyebrow}
+        title={eigenReisschemaPage?.heroTitle}
+        subtitle={eigenReisschemaPage?.heroSubtitle}
+        eyebrow={eigenReisschemaPage?.heroEyebrow}
         image={eigenReisschemaPage?.heroImage ?? trips[0]?.heroImage}
       />
       <section className="py-16 section-page">

@@ -8,21 +8,27 @@
 
 import translate from 'google-translate-api-x'
 import type { TranslatableFieldConfig } from './config'
+import { applyGlossary, restoreGlossary } from './glossary'
 
 // ─── Batch translate ─────────────────────────────────────────────────────────
 
 /**
  * Translate an array of strings. Uses google-translate-api-x's batch mode
  * which sends all strings in a single request.
+ *
+ * Glossary handling: each string is pre-processed to swap forced phrases /
+ * protected proper nouns with opaque placeholders, then sent to Google, then
+ * restored. This keeps brand terms and place names intact.
  */
 async function translateTexts(
   texts: (string | null | undefined)[],
   targetLang: string,
 ): Promise<(string | null | undefined)[]> {
-  const entries: { index: number; text: string }[] = []
+  const entries: { index: number; text: string; restorations: Map<string, string> }[] = []
   for (let i = 0; i < texts.length; i++) {
     if (texts[i] && typeof texts[i] === 'string' && texts[i]!.trim()) {
-      entries.push({ index: i, text: texts[i]! })
+      const { text, restorations } = applyGlossary(texts[i]!)
+      entries.push({ index: i, text, restorations })
     }
   }
   if (entries.length === 0) return texts
@@ -37,7 +43,8 @@ async function translateTexts(
     )
     const resArray = Array.isArray(res) ? res : [res]
     for (let i = 0; i < entries.length; i++) {
-      results[entries[i].index] = resArray[i]?.text ?? texts[entries[i].index]
+      const translated = resArray[i]?.text ?? entries[i].text
+      results[entries[i].index] = restoreGlossary(translated, entries[i].restorations)
     }
   } catch (error) {
     console.error('[translation] Google Translate error:', (error as Error).message)

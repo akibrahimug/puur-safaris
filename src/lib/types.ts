@@ -275,7 +275,6 @@ export interface FeatureCard {
 }
 
 export interface HomePage {
-  heroEyebrow?: string
   heroHeadline?: string
   heroHeadlineAccent?: string
   heroSubtitle?: string

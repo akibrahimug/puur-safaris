@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import { FadeUp } from '@/components/motion/fade-up'
 
 interface SectionHeadingProps {
-  title: string
+  title?: string
   subtitle?: string
   eyebrow?: string
   centered?: boolean
