@@ -50,25 +50,32 @@ describe('DestinationCard', () => {
     expect(screen.getByText('Beautiful')).toBeInTheDocument()
   })
 
-  it('shows trip count with plural "reizen" for > 1', () => {
-    render(<DestinationCard destination={baseDestination} />)
-    expect(screen.getByText(/3 reizen beschikbaar/)).toBeInTheDocument()
-  })
-
-  it('shows trip count with singular "reis" for 1', () => {
-    const dest = { ...baseDestination, tripCount: 1 }
-    render(<DestinationCard destination={dest} />)
-    expect(screen.getByText(/1 reis beschikbaar/)).toBeInTheDocument()
-  })
-
-  it('respects custom labels', () => {
+  it('renders the plural trip-count label from props for tripCount > 1', () => {
     render(
       <DestinationCard
         destination={baseDestination}
-        labels={{
-          tripPluralLabel: 'trips',
-          availableLabel: 'available',
-        }}
+        labels={{ tripPluralLabel: 'reizen', availableLabel: 'beschikbaar' }}
+      />
+    )
+    expect(screen.getByText(/3 reizen beschikbaar/)).toBeInTheDocument()
+  })
+
+  it('renders the singular trip-count label from props for tripCount === 1', () => {
+    const dest = { ...baseDestination, tripCount: 1 }
+    render(
+      <DestinationCard
+        destination={dest}
+        labels={{ tripSingularLabel: 'reis', availableLabel: 'beschikbaar' }}
+      />
+    )
+    expect(screen.getByText(/1 reis beschikbaar/)).toBeInTheDocument()
+  })
+
+  it('respects custom (English) labels', () => {
+    render(
+      <DestinationCard
+        destination={baseDestination}
+        labels={{ tripPluralLabel: 'trips', availableLabel: 'available' }}
       />
     )
     expect(screen.getByText(/3 trips available/)).toBeInTheDocument()

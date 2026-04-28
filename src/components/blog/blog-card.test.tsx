@@ -51,19 +51,20 @@ describe('BlogCard', () => {
     expect(screen.queryByText('John')).not.toBeInTheDocument()
   })
 
-  it('shows category badge when category exists', () => {
+  it('shows the Dutch category fallback when locale is nl', () => {
     render(<BlogCard post={basePost} />)
-    // 'tips' maps to 'Tips & Advies'
+    // 'tips' maps to 'Tips & Advies' under the NL default fallback
     expect(screen.getByText('Tips & Advies')).toBeInTheDocument()
   })
 
-  it('shows custom readArticleLabel when provided', () => {
-    render(<BlogCard post={basePost} labels={{ readArticleLabel: 'Read more' }} />)
-    expect(screen.getByText('Read more')).toBeInTheDocument()
+  it('shows the English category fallback when locale is en', () => {
+    render(<BlogCard post={basePost} locale="en" />)
+    // 'tips' maps to 'Tips & Advice' under the EN default fallback
+    expect(screen.getByText('Tips & Advice')).toBeInTheDocument()
   })
 
-  it('defaults to "Lees artikel" label', () => {
-    render(<BlogCard post={basePost} />)
-    expect(screen.getByText('Lees artikel')).toBeInTheDocument()
+  it('renders the read-article label from props', () => {
+    render(<BlogCard post={basePost} labels={{ readArticleLabel: 'Read more' }} />)
+    expect(screen.getByText('Read more')).toBeInTheDocument()
   })
 })

@@ -89,6 +89,17 @@ vi.mock('@sanity/client/stega', () => ({
   stegaClean: (val: unknown) => val,
 }))
 
+// ── Mock @/sanity/image ──────────────────────────────────────────────────────
+// Card components import sanityImageUrl which transitively loads
+// @/sanity/client — that module instantiates a Sanity client at import time
+// and throws "Configuration must contain `projectId`" without env vars.
+// Stub it so component tests don't need a real Sanity config.
+vi.mock('@/sanity/image', () => ({
+  sanityImageUrl: (image: { asset?: { url?: string } } | undefined) =>
+    image?.asset?.url ?? '',
+  urlFor: () => ({ width: () => ({ auto: () => ({ url: () => '' }) }) }),
+}))
+
 // ── Mock motion components ───────────────────────────────────────────────────
 vi.mock('@/components/motion/hover-card', () => ({
   HoverCard: ({ children }: { children: React.ReactNode }) =>

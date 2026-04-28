@@ -39,6 +39,11 @@ export function truncate(str: string, length: number): string {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type CatDict = Record<string, any> | undefined
 
+// Label lookup order for the helpers below: 1) the passed dictionary (`cats`,
+// usually `dict.categories`), 2) the per-locale default map, 3) the raw key.
+// `locale` defaults to 'nl' because Dutch is the source language — but EN
+// callers MUST pass it, otherwise EN pages render Dutch fallbacks like
+// "Combinatiereis" / "Uitdagend".
 const defaultCategoryLabels: Record<string, Record<string, string>> = {
   nl: {
     wildlife: 'Wildlife Safari',
@@ -67,6 +72,8 @@ const defaultDifficultyLabels: Record<string, Record<string, string>> = {
 }
 
 export function difficultyLabel(difficulty: string, locale: string = 'nl', cats?: CatDict): string {
+  // The dict stores difficulty under prefixed keys (`difficultyEasy`, …) so
+  // they don't collide with `categories` keys living in the same map.
   const key = `difficulty${difficulty.charAt(0).toUpperCase()}${difficulty.slice(1)}`
   const fallbacks = defaultDifficultyLabels[locale] ?? defaultDifficultyLabels.nl
   return cats?.[key] ?? fallbacks[difficulty] ?? difficulty

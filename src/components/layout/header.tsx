@@ -15,6 +15,11 @@ import type { SiteSettings } from "@/lib/types";
 
 // Navigation is CMS-driven. This is a minimal fallback only used if settings fail to load.
 
+// Localized chrome strings (aria-labels, mostly). The site layout passes
+// `dict.header` here. Kept as a prop instead of read inside the component
+// because Header is a `'use client'` component and can't reach into the
+// server-side dictionary directly. Dutch fallbacks live at every consumer
+// in case the prop isn't threaded through.
 interface HeaderLabels {
   menuLabel?: string;
   menuCloseLabel?: string;
@@ -176,7 +181,18 @@ export function Header({ settings, locale = "nl", labels }: HeaderProps) {
         </div>
       </div>
 
-      {/* Mobile nav */}
+      {/*
+        Mobile nav — two invariants worth preserving (we previously violated
+        both and the menu looked broken):
+          1. The panel uses a SOLID background (`bg-ink` / `bg-[#f7faf8]`),
+             not the `glass-*` classes. Translucent + auto-height let the
+             page content show through under the menu items.
+          2. The panel is FIXED full-viewport below the header
+             (`top-16 bottom-0`), not `height: auto`. Auto-height made the
+             menu shorter than the page and the hero peeked out under it.
+        The backdrop dim is `bg-black/55` — anything weaker doesn't visually
+        separate the menu from the hero behind it.
+      */}
       <AnimatePresence>
         {menuOpen && (
           <>

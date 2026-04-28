@@ -144,3 +144,77 @@ describe('faqCategoryLabel', () => {
     expect(faqCategoryLabel('misc')).toBe('misc')
   })
 })
+
+// Locale-aware fallbacks: ensure EN callers see EN strings, not Dutch ones.
+// This is the regression we guard against — `dict.categories` may not be passed
+// at every call site, and silently rendering Dutch on /en is the resulting bug.
+describe('locale-aware label fallbacks', () => {
+  describe('categoryLabel', () => {
+    it.each([
+      ['wildlife', 'Wildlife Safari'],
+      ['hiking', 'Mountain & Trekking'],
+      ['culture', 'Culture & Community'],
+      ['beach', 'Beach & Relaxation'],
+      ['combined', 'Combination Trip'],
+    ])('returns the EN fallback for "%s" when locale is en', (key, label) => {
+      expect(categoryLabel(key, 'en')).toBe(label)
+    })
+
+    it('falls back to NL when locale is unrecognised', () => {
+      expect(categoryLabel('combined', 'fr')).toBe('Combinatiereis')
+    })
+
+    it('prefers the passed dict over the locale fallback', () => {
+      expect(categoryLabel('combined', 'en', { combined: 'Custom Label' })).toBe('Custom Label')
+    })
+  })
+
+  describe('difficultyLabel', () => {
+    it.each([
+      ['easy', 'Easy'],
+      ['moderate', 'Moderate'],
+      ['challenging', 'Challenging'],
+    ])('returns the EN fallback for "%s" when locale is en', (key, label) => {
+      expect(difficultyLabel(key, 'en')).toBe(label)
+    })
+
+    it('looks up the dict using the prefixed key shape (`difficultyEasy`)', () => {
+      expect(difficultyLabel('easy', 'en', { difficultyEasy: 'Beginner' })).toBe('Beginner')
+    })
+  })
+
+  describe('blogCategoryLabel', () => {
+    it.each([
+      ['stories', 'Travel Stories'],
+      ['tips', 'Tips & Advice'],
+      ['guides', 'Destination Guides'],
+      ['news', 'News'],
+    ])('returns the EN fallback for "%s" when locale is en', (key, label) => {
+      expect(blogCategoryLabel(key, 'en')).toBe(label)
+    })
+  })
+
+  describe('faqCategoryLabel', () => {
+    it.each([
+      ['general', 'General'],
+      ['booking', 'Booking & Payment'],
+      ['travel', 'Travel & Visa'],
+      ['accommodation', 'Accommodation'],
+      ['safety', 'Safety & Health'],
+      ['packing', 'Packing & Preparation'],
+    ])('returns the EN fallback for "%s" when locale is en', (key, label) => {
+      expect(faqCategoryLabel(key, 'en')).toBe(label)
+    })
+  })
+})
+
+describe('formatDate locale awareness', () => {
+  it('formats in Dutch by default', () => {
+    expect(formatDate('2026-06-15')).toMatch(/15 juni 2026/)
+  })
+
+  it('formats in English when locale is en', () => {
+    // en-GB locale produces "15 June 2026" (no comma, no ordinal)
+    expect(formatDate('2026-06-15', 'en')).toMatch(/15 June 2026/)
+  })
+})

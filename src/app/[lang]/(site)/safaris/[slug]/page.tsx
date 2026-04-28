@@ -58,6 +58,10 @@ export default async function SafariDetailPage({ params }: Props) {
   const [trip, settings, safariListingPage] = await Promise.all([
     getTripDetail(slug, lang),
     getSiteSettings(lang),
+    // We need the listing page only for the breadcrumb crumb name. The
+    // intermediate "/safaris" segment in the JSON-LD breadcrumb must match the
+    // listing page's CMS-authored heroTitle (no `dict.safari` namespace exists
+    // — that's by design, per the no-dictionary-cascade rule).
     getSafariListingPage(lang),
   ])
   const labels = settings?.safariDetailLabels
@@ -66,6 +70,8 @@ export default async function SafariDetailPage({ params }: Props) {
 
   const baseUrl = getBaseUrl()
   const heroUrl = trip.heroImage?.asset?.url ? sanityImageUrl(trip.heroImage, 2560) : null
+  // stegaClean strips visual-editor metadata; falls back to '' so the schema
+  // still validates if the listing page hasn't been authored yet.
   const safarisCrumbName = stegaClean(safariListingPage?.heroTitle) ?? ''
 
   const breadcrumbSchema = breadcrumbJsonLd([

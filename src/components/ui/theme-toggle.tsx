@@ -6,6 +6,10 @@ import { useEffect, useState } from 'react'
 
 interface ThemeToggleProps {
   scrolled?: boolean
+  // Localized aria-labels — passed in because this is a `'use client'`
+  // component and can't reach into the server-side dictionary directly.
+  // The Dutch fallbacks are what gets read on `/nl` when no labels prop is
+  // provided (e.g. ad-hoc usage outside the site layout).
   labels?: {
     toLight?: string
     toDark?: string
@@ -19,6 +23,9 @@ export function ThemeToggle({ scrolled = false, labels }: ThemeToggleProps) {
   // eslint-disable-next-line react-hooks/set-state-in-effect -- standard hydration guard pattern
   useEffect(() => setMounted(true), [])
 
+  // Render a same-size placeholder until mounted so the server HTML and the
+  // first client render agree (avoids hydration mismatch — `theme` is unknown
+  // server-side because next-themes reads from localStorage).
   if (!mounted) return <div className="h-11 w-11" aria-hidden="true" />
 
   const isDark = theme === 'dark'

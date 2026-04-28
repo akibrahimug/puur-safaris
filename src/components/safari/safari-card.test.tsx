@@ -38,14 +38,14 @@ describe('SafariCard', () => {
     expect(screen.getByText(/€/)).toBeInTheDocument()
   })
 
-  it('shows "per persoon" for per_person price type', () => {
-    render(<SafariCard trip={baseTrip} />)
+  it('renders the per-person price label from props', () => {
+    render(<SafariCard trip={baseTrip} labels={{ pricePerPerson: 'per persoon' }} />)
     expect(screen.getByText('per persoon')).toBeInTheDocument()
   })
 
-  it('shows "per groep" for per_group price type', () => {
+  it('renders the per-group price label from props for per_group price type', () => {
     const trip = { ...baseTrip, priceType: 'per_group' as const }
-    render(<SafariCard trip={trip} />)
+    render(<SafariCard trip={trip} labels={{ pricePerGroup: 'per groep' }} />)
     expect(screen.getByText('per groep')).toBeInTheDocument()
   })
 
@@ -54,26 +54,40 @@ describe('SafariCard', () => {
     expect(screen.getByText('7 dagen')).toBeInTheDocument()
   })
 
-  it('shows difficulty label when provided', () => {
+  it('shows the Dutch difficulty fallback when locale is nl', () => {
     render(<SafariCard trip={baseTrip} />)
-    // 'moderate' maps to 'Gemiddeld'
+    // 'moderate' maps to 'Gemiddeld' under the NL default fallback
     expect(screen.getByText('Gemiddeld')).toBeInTheDocument()
   })
 
-  it('shows category label when provided', () => {
+  it('shows the English difficulty fallback when locale is en', () => {
+    render(<SafariCard trip={baseTrip} locale="en" />)
+    // 'moderate' maps to 'Moderate' under the EN default fallback
+    expect(screen.getByText('Moderate')).toBeInTheDocument()
+  })
+
+  it('shows the Dutch category fallback when locale is nl', () => {
     render(<SafariCard trip={baseTrip} />)
-    // 'wildlife' maps to 'Wildlife Safari'
+    // 'wildlife' maps to 'Wildlife Safari' (same in NL and EN)
     expect(screen.getByText('Wildlife Safari')).toBeInTheDocument()
   })
 
-  it('shows featured badge when featured is true', () => {
-    render(<SafariCard trip={baseTrip} />)
+  it('shows the English category fallback when locale is en', () => {
+    const trip = { ...baseTrip, category: 'combined' }
+    render(<SafariCard trip={trip} locale="en" />)
+    // 'combined' maps to 'Combination Trip' under the EN default fallback
+    // (would be 'Combinatiereis' under NL — this is the regression we guard against)
+    expect(screen.getByText('Combination Trip')).toBeInTheDocument()
+  })
+
+  it('renders the featured badge from props when featured is true', () => {
+    render(<SafariCard trip={baseTrip} labels={{ featuredBadge: 'Aanbevolen' }} />)
     expect(screen.getByText('Aanbevolen')).toBeInTheDocument()
   })
 
-  it('does not show featured badge when featured is false', () => {
+  it('does not render the featured badge when featured is false', () => {
     const trip = { ...baseTrip, featured: false }
-    render(<SafariCard trip={trip} />)
+    render(<SafariCard trip={trip} labels={{ featuredBadge: 'Aanbevolen' }} />)
     expect(screen.queryByText('Aanbevolen')).not.toBeInTheDocument()
   })
 
