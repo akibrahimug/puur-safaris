@@ -36,17 +36,20 @@ function isLocale(value: string | undefined): value is typeof locales[number] {
 }
 
 /**
- * Decide the locale for an unprefixed request.
- * Priority: sticky cookie → Accept-Language → EN fallback.
+ * Decide the locale for an unprefixed request from the browser's Accept-Language.
+ *
+ * Priority: ranked Accept-Language → EN fallback. There is intentionally **no
+ * cookie persistence**: with no UI language switcher, the cookie was just
+ * hidden state that latched onto whichever locale-prefixed URL the visitor
+ * accidentally landed on (a shared link, an old bookmark) and overrode their
+ * actual browser-language preference for a year. Accept-Language is set by
+ * the visitor's OS/browser settings and is the authoritative signal.
  *
  * NL only when the browser explicitly signals it (`nl`, `nl-NL`, etc.) and
  * outranks any English preference. Visitors whose Accept-Language is
  * something else entirely (German, French, Spanish, …) see EN.
  */
 function getPreferredLocale(request: NextRequest): string {
-  const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value
-  if (isLocale(cookieLocale)) return cookieLocale
-
   const acceptLang = request.headers.get('accept-language') ?? ''
   // Parse "en-US,en;q=0.9,nl;q=0.8" → ranked list of base languages
   const ranked = acceptLang
@@ -80,27 +83,27 @@ export function proxy(request: NextRequest) {
 
   const pathnameLocale = getPathnameLocale(pathname)
   if (pathnameLocale) {
-    // Persist the URL's locale as the sticky cookie so future unprefixed
-    // visits land in the same locale. This makes locale "remember" itself
-    // without needing a UI switcher.
+    // Forward to the page; the root layout reads `x-locale` to render the
+    // correct <html lang="…">. We also clear any legacy NEXT_LOCALE cookie
+    // from the previous sticky-cookie implementation so it stops overriding
+    // Accept-Language on root visits.
     const response = NextResponse.next()
     response.headers.set('x-locale', pathnameLocale)
-    if (request.cookies.get(LOCALE_COOKIE)?.value !== pathnameLocale) {
-      response.cookies.set(LOCALE_COOKIE, pathnameLocale, {
-        path: '/',
-        maxAge: 60 * 60 * 24 * 365,
-      })
+    if (request.cookies.has(LOCALE_COOKIE)) {
+      response.cookies.delete(LOCALE_COOKIE)
     }
     return response
   }
 
-  // No locale prefix → redirect to /{locale}{pathname}
+  // No locale prefix → redirect based on Accept-Language only.
   const locale = getPreferredLocale(request)
   const url = request.nextUrl.clone()
   url.pathname = `/${locale}${pathname}`
 
   const response = NextResponse.redirect(url)
-  response.cookies.set(LOCALE_COOKIE, locale, { path: '/', maxAge: 60 * 60 * 24 * 365 })
+  if (request.cookies.has(LOCALE_COOKIE)) {
+    response.cookies.delete(LOCALE_COOKIE)
+  }
   return response
 }
 

@@ -16,7 +16,7 @@ export default defineType({
       name: 'alt',
       title: 'Alt text',
       type: 'string',
-      description: 'Description voor zoekmachines en bezoekers met visuele beperkingen.',
+      description: 'Description for search engines and visitors with visual impairments.',
     }),
     defineField({
       name: 'caption',
@@ -27,7 +27,7 @@ export default defineType({
   preview: {
     select: { title: 'alt', media: 'image' },
     prepare({ title, media }) {
-      return { title: title || 'Afbeelding', media }
+      return { title: title || 'Image', media }
     },
   },
 })

@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'bookingPage',
-  title: 'Bookingspagina',
+  title: 'Booking Page',
   type: 'document',
   fields: [
     defineField({
@@ -16,16 +16,16 @@ export default defineType({
       name: 'heroEyebrow',
       title: 'Hero Eyebrow',
       type: 'string',
-      description: 'E.g. "Boeking".',
+      description: 'E.g. "Booking".',
     }),
     defineField({
       name: 'heroSubtitle',
       title: 'Hero Subtitle',
       type: 'string',
-      description: 'E.g. "Vul uw gegevens in en wij bevestigen uw boeking binnen 2 werkdagen.".',
+      description: 'E.g. "Fill in your details and we will confirm your booking within 2 business days.".',
     }),
   ],
   preview: {
-    prepare: () => ({ title: 'Bookingspagina' }),
+    prepare: () => ({ title: 'Booking Page' }),
   },
 })

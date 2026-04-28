@@ -39,19 +39,19 @@ const TRANSLATABLE_TYPES = [
 // Pages with existing random-ID documents — show as document list
 const listPages = [
   { type: "homePage", title: "Homepage" },
-  { type: "aboutPage", title: "Over Ons Pagina" },
+  { type: "aboutPage", title: "About Page" },
 ];
 
 // Pages with fixed-ID documents — strict singletons
 const singletonPages = [
-  { type: "contactPage", title: "Contact Pagina" },
-  { type: "safariListingPage", title: "Safari Overzicht Pagina" },
-  { type: "destinationListingPage", title: "Bestemmingen Pagina" },
-  { type: "faqPage", title: "FAQ Pagina" },
-  { type: "blogPage", title: "Blog Pagina" },
-  { type: "eigenReisschemaPage", title: "Eigen Reisschema Pagina" },
-  { type: "blogSubmissionPage", title: "Blog Inzenden Pagina" },
-  { type: "bookingPage", title: "Boekingen Pagina" },
+  { type: "contactPage", title: "Contact Page" },
+  { type: "safariListingPage", title: "Safari Listing Page" },
+  { type: "destinationListingPage", title: "Destinations Page" },
+  { type: "faqPage", title: "FAQ Page" },
+  { type: "blogPage", title: "Blog Page" },
+  { type: "eigenReisschemaPage", title: "Custom Itinerary Page" },
+  { type: "blogSubmissionPage", title: "Blog Submission Page" },
+  { type: "bookingPage", title: "Booking Page" },
 ];
 
 const singletonTypeNames = new Set<string>([
@@ -81,7 +81,7 @@ function createDeleteAction(typeLabel: string): DocumentActionComponent {
           .delete(publishedId)
           .commit({ visibility: "async" });
       } catch (err) {
-        console.error("Verwijderen mislukt:", err);
+        console.error("Delete failed:", err);
       } finally {
         setIsDeleting(false);
         setShowDialog(false);
@@ -90,7 +90,7 @@ function createDeleteAction(typeLabel: string): DocumentActionComponent {
     };
 
     return {
-      label: `${typeLabel} verwijderen`,
+      label: `Delete ${typeLabel.toLowerCase()}`,
       icon: TrashIcon,
       tone: "critical",
       group: ["default", "paneActions"],
@@ -106,7 +106,7 @@ function createDeleteAction(typeLabel: string): DocumentActionComponent {
         onConfirm: () => {
           void runDelete();
         },
-        message: `Weet je zeker dat je deze ${typeLabel.toLowerCase()} permanent wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.`,
+        message: `Are you sure you want to permanently delete this ${typeLabel.toLowerCase()}? This action cannot be undone.`,
       },
     };
   };
@@ -145,7 +145,7 @@ function createAutoPublishAction(
 
 export default defineConfig({
   name: "puur-uganda-reizen",
-  title: "Puur Uganda Reizen Studio",
+  title: "Pure Uganda Safaris Studio",
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
   basePath: "/studio",
@@ -153,15 +153,15 @@ export default defineConfig({
     structureTool({
       structure: (S) =>
         S.list()
-          .title("Inhoud Beheer")
+          .title("Content Management")
           .items([
-            S.documentTypeListItem("trip").title("Safari Reizen"),
-            S.documentTypeListItem("destination").title("Bestemmingen"),
-            S.documentTypeListItem("blogPost").title("Blog Berichten"),
-            S.documentTypeListItem("testimonial").title("Getuigenissen"),
+            S.documentTypeListItem("trip").title("Safari Trips"),
+            S.documentTypeListItem("destination").title("Destinations"),
+            S.documentTypeListItem("blogPost").title("Blog Posts"),
+            S.documentTypeListItem("testimonial").title("Testimonials"),
             S.documentTypeListItem("googleReview").title("Google Reviews"),
-            S.documentTypeListItem("faqItem").title("Veelgestelde Vragen"),
-            S.documentTypeListItem("booking").title("Boekingen"),
+            S.documentTypeListItem("faqItem").title("FAQ"),
+            S.documentTypeListItem("booking").title("Bookings"),
             S.divider(),
             // ── Pages — list view per type so editors see both NL and EN ──
             //
@@ -180,12 +180,12 @@ export default defineConfig({
                 ),
             ),
             S.divider(),
-            S.documentTypeListItem("legalPage").title("Juridische Pagina's"),
+            S.documentTypeListItem("legalPage").title("Legal Pages"),
             S.listItem()
-              .title("Site Instellingen")
+              .title("Site Settings")
               .id("siteSettings")
               .child(
-                S.documentTypeList("siteSettings").title("Site Instellingen"),
+                S.documentTypeList("siteSettings").title("Site Settings"),
               ),
           ]),
     }),
@@ -242,11 +242,11 @@ export default defineConfig({
         );
       }
 
-      // Content types with an explicit, visible delete button (Dutch label + trash icon).
+      // Content types with an explicit, visible delete button (English label + trash icon).
       const deleteLabels: Record<string, string> = {
-        blogPost: "Blog bericht",
-        trip: "Safari reis",
-        destination: "Bestemming",
+        blogPost: "Blog post",
+        trip: "Safari trip",
+        destination: "Destination",
         googleReview: "Google review",
       };
       const typeLabel = deleteLabels[context.schemaType];

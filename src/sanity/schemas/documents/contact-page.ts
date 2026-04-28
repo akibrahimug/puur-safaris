@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'contactPage',
-  title: 'Contactpagina',
+  title: 'Contact Page',
   type: 'document',
   groups: [
     { name: 'hero', title: 'Hero' },
@@ -20,7 +20,7 @@ export default defineType({
       fields: [
         defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
       ],
-      description: 'Backgroundafbeelding voor de hero sectie.',
+      description: 'Background image for the hero section.',
     }),
     defineField({
       name: 'heroTitle',
@@ -39,14 +39,14 @@ export default defineType({
     // ─── CONTENT ───────────────────────────────────────────────────
     defineField({
       name: 'sidebarHeading',
-      title: 'Zijbalk Heading',
+      title: 'Sidebar Heading',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Onze gegevens".',
+      description: 'E.g. "Our details".',
     }),
     defineField({
       name: 'sidebarDescription',
-      title: 'Zijbalk Description',
+      title: 'Sidebar Description',
       type: 'text',
       rows: 2,
       group: 'content',
@@ -56,28 +56,28 @@ export default defineType({
       title: 'Phone Label',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Telefoon".',
+      description: 'E.g. "Phone".',
     }),
     defineField({
       name: 'emailLabel',
       title: 'Email Label',
       type: 'string',
       group: 'content',
-      description: 'E.g. "E-mail".',
+      description: 'E.g. "Email".',
     }),
     defineField({
       name: 'addressLabel',
       title: 'Address Label',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Adres".',
+      description: 'E.g. "Address".',
     }),
     defineField({
       name: 'openingHoursLabel',
-      title: 'Bereikbaarheid Label',
+      title: 'Availability Label',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Bereikbaarheid".',
+      description: 'E.g. "Availability".',
     }),
     defineField({
       name: 'whatsappCtaLabel',
@@ -88,10 +88,10 @@ export default defineType({
     }),
     defineField({
       name: 'responseTimeText',
-      title: 'Reactietijd Text',
+      title: 'Response Time Text',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Gemiddelde reactietijd: binnen 24 uur".',
+      description: 'E.g. "Average response time: within 24 hours".',
     }),
 
     // ─── SEO ───────────────────────────────────────────────────────

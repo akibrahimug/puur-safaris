@@ -23,7 +23,7 @@ export default defineType({
       title: 'Title',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Privacybeleid" of "Algemene Voorwaarden".',
+      description: 'E.g. "Privacy Policy" or "Terms & Conditions".',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -61,7 +61,7 @@ export default defineType({
                 title: 'Link',
                 fields: [
                   defineField({ name: 'href', type: 'url', title: 'URL' }),
-                  defineField({ name: 'openInNewTab', type: 'boolean', title: 'Open in nieuw tabblad' }),
+                  defineField({ name: 'openInNewTab', type: 'boolean', title: 'Open in new tab' }),
                 ],
               },
             ],

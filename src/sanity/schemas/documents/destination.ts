@@ -71,30 +71,30 @@ export default defineType({
     }),
     defineField({
       name: 'excerpt',
-      title: 'Korte Omschrijving',
+      title: 'Short Description',
       type: 'text',
       rows: 3,
       group: 'general',
-      description: 'Max. 200 tekens. Wordt gebruikt op kaarten.',
+      description: 'Max. 200 characters. Used on cards.',
       validation: (Rule) => Rule.max(200),
     }),
     defineField({
       name: 'description',
-      title: 'Volledige Description',
+      title: 'Full Description',
       type: 'array',
       group: 'general',
       of: [
         {
           type: 'block',
           styles: [
-            { title: 'Normaal', value: 'normal' },
-            { title: 'Kop 2', value: 'h2' },
-            { title: 'Kop 3', value: 'h3' },
+            { title: 'Normal', value: 'normal' },
+            { title: 'Heading 2', value: 'h2' },
+            { title: 'Heading 3', value: 'h3' },
           ],
           marks: {
             decorators: [
-              { title: 'Vet', value: 'strong' },
-              { title: 'Cursief', value: 'em' },
+              { title: 'Bold', value: 'strong' },
+              { title: 'Italic', value: 'em' },
             ],
           },
         },
@@ -106,28 +106,28 @@ export default defineType({
       type: 'text',
       rows: 2,
       group: 'general',
-      description: 'Korte beschrijving van het klimaat en weerpatronen.',
+      description: 'Short description of the climate and weather patterns.',
     }),
     defineField({
       name: 'bestTimeToVisit',
-      title: 'Beste Tijd om te Bezoeken',
+      title: 'Best Time to Visit',
       type: 'string',
       group: 'general',
-      description: 'E.g. "Juni t/m oktober (droge seizoen)"',
+      description: 'E.g. "June through October (dry season)"',
     }),
     defineField({
       name: 'displayOrder',
-      title: 'Weergavevolgorde',
+      title: 'Display Order',
       type: 'number',
       group: 'general',
-      description: 'Lagere nummers worden eerder getoond.',
+      description: 'Lower numbers are shown earlier.',
       initialValue: 99,
     }),
 
     // ─── GALLERY ──────────────────────────────────────────────
     defineField({
       name: 'gallery',
-      title: 'Photogalerij',
+      title: 'Photo Gallery',
       type: 'array',
       group: 'gallery',
       of: [
@@ -140,7 +140,7 @@ export default defineType({
           ],
         },
       ],
-      description: 'Imageen voor de fotogalerij op de bestemmingspagina.',
+      description: 'Images for the photo gallery on the destination page.',
     }),
 
     // ─── WILDLIFE ─────────────────────────────────────────────
@@ -149,7 +149,7 @@ export default defineType({
       title: 'Wildlife Heading',
       type: 'string',
       group: 'wildlife',
-      description: 'E.g. "Wildlife & Natuur"',
+      description: 'E.g. "Wildlife & Nature"',
     }),
     defineField({
       name: 'wildlifeDescription',
@@ -192,7 +192,7 @@ export default defineType({
       title: 'Gemeenschap Heading',
       type: 'string',
       group: 'community',
-      description: 'E.g. "Lokale Gemeenschap & Cultuur"',
+      description: 'E.g. "Local Community & Culture"',
     }),
     defineField({
       name: 'communityDescription',
@@ -267,7 +267,7 @@ export default defineType({
               name: 'coordinates',
               title: 'Coordinates',
               type: 'geopoint',
-              description: 'Location van de accommodatie op de kaart.',
+              description: 'Location of the accommodation on the map.',
             }),
           ],
           preview: {
@@ -283,14 +283,14 @@ export default defineType({
       title: 'Coordinates',
       type: 'geopoint',
       group: 'location',
-      description: 'Centrale locatie van de bestemming voor de kaart.',
+      description: 'Central location of the destination for the map.',
     }),
     defineField({
       name: 'mapZoom',
       title: 'Kaartzoom',
       type: 'number',
       group: 'location',
-      description: 'Zoomniveau voor de kaart (8-14). Default: 10.',
+      description: 'Zoomniveau for the kaart (8-14). Default: 10.',
       initialValue: 10,
       validation: (Rule) => Rule.min(1).max(20),
     }),
@@ -305,7 +305,7 @@ export default defineType({
   ],
   orderings: [
     {
-      title: 'Weergavevolgorde',
+      title: 'Display Order',
       name: 'displayOrder',
       by: [{ field: 'displayOrder', direction: 'asc' }],
     },

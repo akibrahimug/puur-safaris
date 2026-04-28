@@ -20,14 +20,14 @@ export default defineType({
       fields: [
         defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
       ],
-      description: 'Backgroundafbeelding voor de hero sectie.',
+      description: 'Background image for the hero section.',
     }),
     defineField({
       name: 'heroTitle',
       title: 'Hero Title',
       type: 'string',
       group: 'hero',
-      description: 'E.g. "Veelgestelde Vragen".',
+      description: 'E.g. "Frequently Asked Questions".',
     }),
     defineField({
       name: 'heroSubtitle',
@@ -39,38 +39,38 @@ export default defineType({
     // ─── CONTENT ───────────────────────────────────────────────────
     defineField({
       name: 'searchPlaceholder',
-      title: 'Zoek Placeholder',
+      title: 'Search Placeholder',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Zoek een vraag...".',
+      description: 'E.g. "Search a question...".',
     }),
     defineField({
       name: 'categoriesHeading',
-      title: 'Categorys Heading',
+      title: 'Categories Heading',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Categorieën".',
+      description: 'E.g. "Categories".',
     }),
     defineField({
       name: 'viewAllLabel',
-      title: 'Alls Viewen Label',
+      title: 'View All Label',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Alles Bekijken".',
+      description: 'E.g. "View All".',
     }),
     defineField({
       name: 'noResultsText',
-      title: 'Geen Resultaten Text',
+      title: 'No Results Text',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Geen resultaten gevonden voor".',
+      description: 'E.g. "No results found for".',
     }),
     defineField({
       name: 'resetSearchLabel',
-      title: 'Reset Zoekopdracht Label',
+      title: 'Reset Search Label',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Reset zoekopdracht".',
+      description: 'E.g. "Reset search".',
     }),
 
     // ─── SEO ───────────────────────────────────────────────────────

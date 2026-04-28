@@ -27,14 +27,14 @@ export default defineType({
       title: 'Hero Title',
       type: 'string',
       group: 'hero',
-      description: 'Main Title, e.g. "Ontdek Afrika".',
+      description: 'Main Title, e.g. "Discover Africa".',
     }),
     defineField({
       name: 'heroHeadlineAccent',
       title: 'Hero Title Accent',
       type: 'string',
       group: 'hero',
-      description: 'Geaccentueerd deel van de titel (in goud), e.g. "op zijn puurste".',
+      description: 'Accented part of the title (in gold), e.g. "in its purest form".',
     }),
     defineField({
       name: 'heroSubtitle',
@@ -48,7 +48,7 @@ export default defineType({
       title: 'CTA 1 Text',
       type: 'string',
       group: 'hero',
-      description: 'Primaire knoptekst, e.g. "Bekijk onze reizen".',
+      description: 'Primary button text, e.g. "View our trips".',
     }),
     defineField({
       name: 'heroCta1Link',
@@ -61,7 +61,7 @@ export default defineType({
       title: 'CTA 2 Text',
       type: 'string',
       group: 'hero',
-      description: 'Secundaire knoptekst, e.g. "Eigen Reisschema".',
+      description: 'Secondary button text, e.g. "Custom Itinerary".',
     }),
     defineField({
       name: 'heroCta2Link',
@@ -74,7 +74,7 @@ export default defineType({
       title: 'Social Proof Avatars',
       type: 'array',
       group: 'hero',
-      description: 'Profile Photo\'s van reizigers (max. 4). Worden als kleine ronde foto\'s naast de social proof tekst getoond.',
+      description: 'Profile photos of travellers (max. 4). Shown as small round photos next to the social proof text.',
       validation: (Rule) => Rule.max(4),
       of: [
         {
@@ -89,7 +89,7 @@ export default defineType({
       title: 'Social Proof Text',
       type: 'string',
       group: 'hero',
-      description: 'E.g. "500+ tevreden reizigers".',
+      description: 'E.g. "500+ happy travellers".',
     }),
 
     // ─── TRUST STRIP ───────────────────────────────────────────────
@@ -98,14 +98,14 @@ export default defineType({
       title: 'Trust Items',
       type: 'array',
       group: 'trustStrip',
-      description: 'Maximum 4 statistieken voor de vertrouwensstrook.',
+      description: 'Maximum 4 statistics for the trust strip.',
       validation: (Rule) => Rule.max(4),
       of: [
         {
           type: 'object',
           fields: [
             defineField({ name: 'value', title: 'Value', type: 'string', validation: (Rule) => Rule.required() }),
-            defineField({ name: 'phrase', title: 'Omschrijving', type: 'string', validation: (Rule) => Rule.required() }),
+            defineField({ name: 'phrase', title: 'Description', type: 'string', validation: (Rule) => Rule.required() }),
           ],
           preview: {
             select: { title: 'value', subtitle: 'phrase' },
@@ -120,7 +120,7 @@ export default defineType({
       title: 'Features Eyebrow',
       type: 'string',
       group: 'features',
-      description: 'E.g. "Waarom Puur Uganda Reizen".',
+      description: 'E.g. "Why Pure Uganda Safaris".',
     }),
     defineField({
       name: 'featuresTitle',
@@ -133,7 +133,7 @@ export default defineType({
       title: 'Features',
       type: 'array',
       group: 'features',
-      description: 'Maximum 6 USP kaarten.',
+      description: 'Maximum 6 USP cards.',
       validation: (Rule) => Rule.max(6),
       of: [
         {
@@ -231,21 +231,21 @@ export default defineType({
       title: 'All Trips Button Text',
       type: 'string',
       group: 'sections',
-      description: 'E.g. "Alle reizen".',
+      description: 'E.g. "All trips".',
     }),
     defineField({
       name: 'destinationsCtaLabel',
       title: 'All Destinations Button Text',
       type: 'string',
       group: 'sections',
-      description: 'E.g. "Alle bestemmingen".',
+      description: 'E.g. "All destinations".',
     }),
     defineField({
       name: 'ctaButton1Label',
       title: 'CTA Button 1 Text',
       type: 'string',
       group: 'sections',
-      description: 'E.g. "Eigen Reisschema".',
+      description: 'E.g. "Custom Itinerary".',
     }),
     defineField({
       name: 'ctaButton1Link',
@@ -258,7 +258,7 @@ export default defineType({
       title: 'CTA Button 2 Text',
       type: 'string',
       group: 'sections',
-      description: 'E.g. "Bekijk alle reizen".',
+      description: 'E.g. "View all trips".',
     }),
     defineField({
       name: 'ctaButton2Link',
@@ -273,14 +273,14 @@ export default defineType({
       title: 'Reviews Eyebrow',
       type: 'string',
       group: 'testimonials',
-      description: 'E.g. "Reizigersverhalen".',
+      description: 'E.g. "Traveller Stories".',
     }),
     defineField({
       name: 'testimonialsTitle',
       title: 'Reviews Title',
       type: 'string',
       group: 'testimonials',
-      description: 'E.g. "Wat onze reizigers zeggen".',
+      description: 'E.g. "What our travellers say".',
     }),
     defineField({
       name: 'testimonialsSubtitle',
@@ -290,7 +290,7 @@ export default defineType({
     }),
     defineField({
       name: 'testimonialsVerifiedLabel',
-      title: 'Geverifieerd Label',
+      title: 'Verified Label',
       type: 'string',
       group: 'testimonials',
       description: 'E.g. "Geverifieerd".',
@@ -307,7 +307,7 @@ export default defineType({
       title: 'Start Button Text',
       type: 'string',
       group: 'testimonials',
-      description: 'E.g. "Begin" (na laatste pagina).',
+      description: 'E.g. "Begin" (after last page).',
     }),
 
     // ─── SEO ───────────────────────────────────────────────────────

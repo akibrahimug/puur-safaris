@@ -13,13 +13,13 @@ export default defineType({
     }),
     defineField({
       name: 'country',
-      title: 'Country / Woonplaats',
+      title: 'Country / City',
       type: 'string',
-      description: 'E.g. "Amsterdam, Nederland"',
+      description: 'E.g. "Amsterdam, Netherlands"',
     }),
     defineField({
       name: 'rating',
-      title: 'Rating (1-5 sterren)',
+      title: 'Rating (1-5 stars)',
       type: 'number',
       validation: (Rule) => Rule.required().min(1).max(5),
       initialValue: 5,
@@ -51,10 +51,10 @@ export default defineType({
     }),
     defineField({
       name: 'visible',
-      title: 'Weergeven op website?',
+      title: 'Show on website?',
       type: 'boolean',
       initialValue: true,
-      description: 'Vink uit om deze getuigenis tijdelijk te verbergen.',
+      description: 'Untick to temporarily hide this testimonial.',
     }),
   ],
   preview: {

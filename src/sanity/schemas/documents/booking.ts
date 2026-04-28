@@ -7,7 +7,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'bookingNumber',
-      title: 'Bookingsnummer',
+      title: 'Booking Number',
       type: 'string',
       validation: (Rule) => Rule.required(),
       readOnly: true,
@@ -26,7 +26,7 @@ export default defineType({
     }),
     defineField({
       name: 'email',
-      title: 'Emailadres',
+      title: 'Email Address',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
@@ -52,12 +52,12 @@ export default defineType({
     }),
     defineField({
       name: 'aantalVolwassenen',
-      title: 'Count Adults',
+      title: 'Number of Adults',
       type: 'number',
     }),
     defineField({
       name: 'aantalKinderen',
-      title: 'Count Children',
+      title: 'Number of Children',
       type: 'number',
     }),
     defineField({
@@ -66,9 +66,9 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          { value: 'pending', title: 'In behandeling' },
+          { value: 'pending', title: 'Pending' },
           { value: 'confirmed', title: 'Confirmed' },
-          { value: 'completed', title: 'Afgerond' },
+          { value: 'completed', title: 'Completed' },
           { value: 'cancelled', title: 'Cancelled' },
         ],
       },
@@ -91,14 +91,14 @@ export default defineType({
     },
     prepare({ bookingNumber, voornaam, achternaam, tripTitle, status }) {
       const statusLabels: Record<string, string> = {
-        pending: 'In behandeling',
-        confirmed: 'Bevestigd',
-        completed: 'Afgerond',
-        cancelled: 'Geannuleerd',
+        pending: 'Pending',
+        confirmed: 'Confirmed',
+        completed: 'Completed',
+        cancelled: 'Cancelled',
       }
       return {
         title: `${bookingNumber} — ${voornaam} ${achternaam}`,
-        subtitle: `${tripTitle ?? 'Onbekende reis'} (${statusLabels[status] ?? status})`,
+        subtitle: `${tripTitle ?? 'Unknown trip'} (${statusLabels[status] ?? status})`,
       }
     },
   },

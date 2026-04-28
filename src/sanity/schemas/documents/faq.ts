@@ -18,11 +18,11 @@ export default defineType({
       of: [
         {
           type: 'block',
-          styles: [{ title: 'Normaal', value: 'normal' }],
+          styles: [{ title: 'Normal', value: 'normal' }],
           marks: {
             decorators: [
-              { title: 'Vet', value: 'strong' },
-              { title: 'Cursief', value: 'em' },
+              { title: 'Bold', value: 'strong' },
+              { title: 'Italic', value: 'em' },
             ],
             annotations: [
               {
@@ -44,19 +44,19 @@ export default defineType({
       options: {
         list: [
           { value: 'general', title: 'General' },
-          { value: 'booking', title: 'Booking & Betaling' },
+          { value: 'booking', title: 'Booking & Payment' },
           { value: 'travel', title: 'Trips & Visa' },
-          { value: 'accommodation', title: 'Accommodatie' },
-          { value: 'safety', title: 'Veiligheid & Gezondheid' },
-          { value: 'packing', title: 'Inpakken & Voorbereiding' },
+          { value: 'accommodation', title: 'Accommodation' },
+          { value: 'safety', title: 'Safety & Health' },
+          { value: 'packing', title: 'Packing & Preparation' },
         ],
       },
     }),
     defineField({
       name: 'order',
-      title: 'Weergavevolgorde',
+      title: 'Display Order',
       type: 'number',
-      description: 'Lagere nummers worden eerder getoond.',
+      description: 'Lower numbers are shown earlier.',
       initialValue: 99,
     }),
   ],

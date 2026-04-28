@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'eigenReisschemaPage',
-  title: 'Eigen Itinerary Page',
+  title: 'Custom Itinerary Page',
   type: 'document',
   groups: [
     { name: 'hero', title: 'Hero' },
@@ -18,21 +18,21 @@ export default defineType({
       fields: [
         defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
       ],
-      description: 'Backgroundafbeelding voor de hero sectie.',
+      description: 'Background image for the hero section.',
     }),
     defineField({
       name: 'heroEyebrow',
       title: 'Hero Eyebrow',
       type: 'string',
       group: 'hero',
-      description: 'E.g. "Op maat gemaakt".',
+      description: 'E.g. "Tailor-made".',
     }),
     defineField({
       name: 'heroTitle',
       title: 'Hero Title',
       type: 'string',
       group: 'hero',
-      description: 'E.g. "Eigen Reisschema".',
+      description: 'E.g. "Custom Itinerary".',
     }),
     defineField({
       name: 'heroSubtitle',
@@ -49,6 +49,6 @@ export default defineType({
     }),
   ],
   preview: {
-    prepare: () => ({ title: 'Eigen Itinerary Page' }),
+    prepare: () => ({ title: 'Custom Itinerary Page' }),
   },
 })

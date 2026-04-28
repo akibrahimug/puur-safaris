@@ -2,6 +2,46 @@
 
 Notable changes to the Puur Uganda Reizen / Pure Uganda Safaris site. Newest entries first.
 
+## 2026-04-28 — Routing no longer sticks visitors on the wrong locale, studio UI English-ised, EN docs published, repair tooling
+
+### Locale routing: dropped sticky cookie
+
+**Symptom**: a UK visitor landing on `/` was being redirected to `/nl` despite an `Accept-Language: en-GB` header that should have routed them to `/en`.
+
+**Cause**: the proxy used to set a 1-year sticky `NEXT_LOCALE` cookie on every locale-prefixed visit. Anyone who ever touched a `/nl/...` URL (a shared link, an old bookmark, a test during development) had their browser-language preference silently overridden for a year. The cookie was added so locale "remembered itself" without a UI switcher, but in practice it just latched onto accidental URLs.
+
+**Fix** (`src/proxy.ts`):
+- `getPreferredLocale` now uses Accept-Language only. Cookie is gone from the priority list.
+- Both the locale-prefixed branch and the redirect branch actively `cookies.delete(LOCALE_COOKIE)` so old visitors get unstuck on their next visit instead of waiting out the cookie's expiry.
+- NL is still shown only when the browser explicitly prefers Dutch (e.g. `nl,en;q=0.5`); everyone else (English, German, French, anything else) lands on `/en`.
+
+If you still see `/nl` after this change, you have a stale cookie — clear it once via DevTools → Application → Cookies, or wait for one more page load (the proxy will delete it automatically the next time it sees you).
+
+
+
+### Studio editor UI translated to English
+
+Every editor-facing label across the schemas and the studio config is now English. This includes:
+
+- **Schemas** (`src/sanity/schemas/**`): every `title:` / `description:` / group label / dropdown option title / `prepare()` status label across all 19 documents (`home-page`, `about-page`, `safari`, `destination`, `blog-post`, `site-settings`, `contact-page`, `legal-page`, all `*-page` singletons, `booking`, `testimonial`, `google-review`, `faq`) plus the three objects (`itinerary-day`, `gallery-image`, `seo-fields`).
+- **Studio config** (`sanity.config.ts`): structure list titles ("Content Management", "Safari Trips", "Destinations", "Bookings", etc.), singleton page list entries ("Contact Page", "FAQ Page", etc.), the studio title ("Pure Uganda Safaris Studio"), and the custom delete action's confirmation dialog ("Delete safari trip" / "Are you sure you want to permanently delete this…").
+
+This is editor-facing only — it does not affect the public-facing copy on `/nl` or `/en`, which comes from CMS document content (still in NL on `/nl`, translated/CMS-authored on `/en`). The change makes the studio editing UI consistent for the English-speaking editorial team.
+
+The hidden `language: "Taal"` field added by `withLanguage()` keeps its Dutch label since the field is hidden + readOnly anyway. The plugin's own dropdown labels ("Nederlands" / "English") are also unchanged because the supported-languages array uses native-language names by convention.
+
+### EN docs are now published
+
+Ran `scripts/publish-en-drafts.ts --run` — promoted all 56 EN drafts to published. The data layer now hits step 1 of `fetchAndTranslate` (`fetch where language == "en"`) and returns the EN doc directly. The auto-translate fallback path is reserved for future docs that haven't been authored in EN yet. Click-to-edit on `/en` works end-to-end because the EN doc strings carry stega encoding.
+
+### Silent translation failure repaired
+
+The first `seed-en-translations` run silently caught a Google Translate rate-limit on the homePage doc and wrote NL strings into the EN doc (the homePage was the only casualty). `scripts/retranslate-en-docs.ts --run` walks every published EN doc, looks up its NL sibling, and patches only fields that come back changed from a fresh translate. Documented in CLAUDE.md as the standard step after any bulk seed.
+
+### Sanity client perspective gotcha
+
+`@sanity/client` defaults to `perspective: 'published'`, which silently filters out every `drafts.*` doc from `client.fetch`. The first version of `publish-en-drafts.ts` reported "0 drafts" with 56 actually present. Scripts that need to see drafts must opt in with `perspective: 'raw'`. Documented in CLAUDE.md.
+
 ## 2026-04-27 — Bilingual content shipped end-to-end
 
 The full NL/EN parallel-document migration is complete. `/en` now serves real CMS content, identical layout to `/nl`, with the auto-translate path reserved as a fallback for newly-authored NL docs that don't have an EN sibling yet.

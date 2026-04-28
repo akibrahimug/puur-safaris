@@ -13,13 +13,13 @@ export default defineType({
     }),
     defineField({
       name: 'country',
-      title: 'Country / Woonplaats',
+      title: 'Country / City',
       type: 'string',
-      description: 'Optional. E.g. "Rotterdam, Nederland"',
+      description: 'Optional. E.g. "Rotterdam, Netherlands"',
     }),
     defineField({
       name: 'rating',
-      title: 'Rating (1-5 sterren)',
+      title: 'Rating (1-5 stars)',
       type: 'number',
       validation: (Rule) => Rule.required().integer().min(1).max(5),
       initialValue: 5,
@@ -33,7 +33,7 @@ export default defineType({
     }),
     defineField({
       name: 'reviewDate',
-      title: 'Date review',
+      title: 'Review Date',
       type: 'date',
       options: { dateFormat: 'YYYY-MM-DD' },
     }),
@@ -42,33 +42,33 @@ export default defineType({
       title: 'Profile Photo',
       type: 'image',
       options: { hotspot: true },
-      description: 'Optional. Zonder foto toont een gekleurde initiaal.',
+      description: 'Optional. Without a photo a coloured initial is shown.',
     }),
     defineField({
       name: 'sourceUrl',
       title: 'Google review URL',
       type: 'url',
-      description: 'Optional. Directe link naar de review op Google.',
+      description: 'Optional. Direct link to the review on Google.',
     }),
     defineField({
       name: 'featured',
-      title: 'Featured op homepage?',
+      title: 'Featured on homepage?',
       type: 'boolean',
       initialValue: true,
-      description: 'Vink aan om deze review op de homepage te tonen.',
+      description: 'Tick to show this review on the homepage.',
     }),
     defineField({
       name: 'displayOrder',
-      title: 'Order (uitgelicht)',
+      title: 'Order (featured)',
       type: 'number',
-      description: 'Lager = eerder. Laat leeg om op datum te sorteren.',
+      description: 'Lower = earlier. Leave empty to sort by date.',
     }),
     defineField({
       name: 'visible',
-      title: 'Weergeven op website?',
+      title: 'Show on website?',
       type: 'boolean',
       initialValue: true,
-      description: 'Vink uit om deze review tijdelijk te verbergen zonder te verwijderen.',
+      description: 'Untick to temporarily hide this review without deleting it.',
     }),
   ],
   preview: {
@@ -82,9 +82,9 @@ export default defineType({
     },
     prepare({ title, subtitle, media, rating, featured, visible }) {
       const stars = '★'.repeat(rating ?? 0) + '☆'.repeat(Math.max(0, 5 - (rating ?? 0)))
-      const flags = [!visible && '(verborgen)', featured && '★ uitgelicht'].filter(Boolean).join(' ')
+      const flags = [!visible && '(hidden)', featured && '★ featured'].filter(Boolean).join(' ')
       return {
-        title: `${title ?? 'Onbekend'} — ${stars}`,
+        title: `${title ?? 'Unknown'} — ${stars}`,
         subtitle: [flags, subtitle ? subtitle.slice(0, 70) + (subtitle.length > 70 ? '…' : '') : ''].filter(Boolean).join(' · '),
         media,
       }
@@ -93,7 +93,7 @@ export default defineType({
   orderings: [
     {
       name: 'displayOrder',
-      title: 'Order (uitgelicht eerst)',
+      title: 'Order (featured first)',
       by: [
         { field: 'featured', direction: 'desc' },
         { field: 'displayOrder', direction: 'asc' },
@@ -102,7 +102,7 @@ export default defineType({
     },
     {
       name: 'dateDesc',
-      title: 'Date (nieuwste eerst)',
+      title: 'Date (newest first)',
       by: [{ field: 'reviewDate', direction: 'desc' }],
     },
   ],

@@ -8,7 +8,7 @@ export default defineType({
     { name: 'hero', title: 'Hero' },
     { name: 'stories', title: 'Stories Section' },
     { name: 'wildlife', title: 'Wildlife Section' },
-    { name: 'guides', title: 'Gidsen Section' },
+    { name: 'guides', title: 'Guides Section' },
     { name: 'readerCta', title: 'Reader CTA' },
     { name: 'seo', title: 'SEO' },
   ],
@@ -27,14 +27,14 @@ export default defineType({
           type: 'string',
         }),
       ],
-      description: 'Backgroundafbeelding voor de hero sectie van de blog pagina.',
+      description: 'Background image for the hero section of the blog page.',
     }),
     defineField({
       name: 'heroTitle',
       title: 'Hero Title',
       type: 'string',
       group: 'hero',
-      description: 'E.g. "Safari Verhalen & Gidsen".',
+      description: 'E.g. "Safari Stories & Guides".',
     }),
     defineField({
       name: 'heroSubtitle',
@@ -50,21 +50,21 @@ export default defineType({
       title: 'Stories Section Heading',
       type: 'string',
       group: 'stories',
-      description: 'E.g. "Verhalen uit de Bush".',
+      description: 'E.g. "Stories from the Bush".',
     }),
     defineField({
       name: 'featuredBadgeText',
       title: 'Featured Badge Text',
       type: 'string',
       group: 'stories',
-      description: 'E.g. "Uitgelicht Verhaal".',
+      description: 'E.g. "Featured Story".',
     }),
     defineField({
       name: 'readArticleLabel',
-      title: '"Lees Artikel" Label',
+      title: '"Read Article" Label',
       type: 'string',
       group: 'stories',
-      description: 'Link tekst op de uitgelichte kaart.',
+      description: 'Link text on the featured card.',
     }),
 
     // ─── WILDLIFE SECTION ──────────────────────────────────────────
@@ -80,7 +80,7 @@ export default defineType({
       title: 'Wildlife Title',
       type: 'string',
       group: 'wildlife',
-      description: 'E.g. "Wildlife Ontdekkingen".',
+      description: 'E.g. "Wildlife Discoveries".',
     }),
     defineField({
       name: 'wildlifeSubtitle',
@@ -93,28 +93,28 @@ export default defineType({
     // ─── GUIDES SECTION ────────────────────────────────────────────
     defineField({
       name: 'guidesSectionTitle',
-      title: 'Gidsen Section Title',
+      title: 'Guides Section Title',
       type: 'string',
       group: 'guides',
-      description: 'E.g. "Puur Praktisch".',
+      description: 'E.g. "Pure & Practical".',
     }),
     defineField({
       name: 'guidesDescription',
-      title: 'Gidsen Description',
+      title: 'Guides Description',
       type: 'text',
       rows: 3,
       group: 'guides',
     }),
     defineField({
       name: 'guidesCtaLabel',
-      title: 'Gidsen CTA Label',
+      title: 'Guides CTA Label',
       type: 'string',
       group: 'guides',
-      description: 'E.g. "Vraag Advies Aan Expert".',
+      description: 'E.g. "Ask Expert Advice".',
     }),
     defineField({
       name: 'guidesCtaLink',
-      title: 'Gidsen CTA Link',
+      title: 'Guides CTA Link',
       type: 'string',
       group: 'guides',
     }),
@@ -125,7 +125,7 @@ export default defineType({
       title: 'Reader CTA Badge',
       type: 'string',
       group: 'readerCta',
-      description: 'E.g. "Voor Onze Reizigers".',
+      description: 'E.g. "For Our Travellers".',
     }),
     defineField({
       name: 'readerCtaHeading',
@@ -145,7 +145,7 @@ export default defineType({
       title: 'Reader CTA Button Text',
       type: 'string',
       group: 'readerCta',
-      description: 'E.g. "Schrijf Jouw Reisdagboek".',
+      description: 'E.g. "Write Your Travel Journal".',
     }),
 
     // ─── SEO ───────────────────────────────────────────────────────

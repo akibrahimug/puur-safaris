@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'itineraryDay',
-  title: 'Itinerary Dag',
+  title: 'Itinerary Day',
   type: 'object',
   fields: [
     defineField({
@@ -15,7 +15,7 @@ export default defineType({
       name: 'title',
       title: 'Day Title',
       type: 'string',
-      description: 'E.g. "Aankomst Nairobi & transfer naar lodge"',
+      description: 'E.g. "Arrival Nairobi & transfer to lodge"',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -48,7 +48,7 @@ export default defineType({
   preview: {
     select: { title: 'title', subtitle: 'day' },
     prepare({ title, subtitle }) {
-      return { title: `Dag ${subtitle}: ${title}` }
+      return { title: `Day ${subtitle}: ${title}` }
     },
   },
 })

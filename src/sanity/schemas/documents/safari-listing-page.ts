@@ -18,14 +18,14 @@ export default defineType({
       fields: [
         defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
       ],
-      description: 'Backgroundafbeelding voor de hero sectie.',
+      description: 'Background image for the hero section.',
     }),
     defineField({
       name: 'heroTitle',
       title: 'Hero Title',
       type: 'string',
       group: 'hero',
-      description: 'E.g. "Safari Reizen".',
+      description: 'E.g. "Safari Trips".',
     }),
     defineField({
       name: 'heroSubtitle',
