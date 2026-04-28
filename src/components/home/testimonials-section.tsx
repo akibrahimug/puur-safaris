@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { SectionHeading } from '@/components/shared/section-heading'
 import { Button } from '@/components/ui/button'
 import { formatMonth } from '@/lib/utils'
+import { sanityImageUrl } from '@/sanity/image'
 import type { Testimonial } from '@/lib/types'
 
 interface TestimonialsSectionProps {
@@ -46,7 +47,7 @@ export function TestimonialsSection({ testimonials, eyebrow, title, subtitle, ve
           viewport={{ once: true, margin: '-60px' }}
         >
           {visible.map((t) => {
-            const avatarUrl = t.profilePhoto?.asset?.url || null
+            const avatarUrl = t.profilePhoto?.asset?.url ? sanityImageUrl(t.profilePhoto, 200) : null
             return (
               <motion.article
                 key={t._id}

@@ -1,0 +1,250 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /en
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Trips" [ref=e9] [cursor=pointer]:
+          - /url: /en/safaris
+          - text: Safari Trips
+        - link "Destinations" [ref=e10] [cursor=pointer]:
+          - /url: /en/destinations
+          - text: Destinations
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /en/blog
+          - text: Blog
+        - link "About Us" [ref=e12] [cursor=pointer]:
+          - /url: /en/about
+          - text: About Us
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /en/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /en/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - button "Schakel naar donkere modus" [ref=e19]:
+          - img [ref=e20]
+        - link "Custom Itinerary" [ref=e22] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+  - main [ref=e23]:
+    - generic [ref=e27]:
+      - navigation "Breadcrumb" [ref=e28]:
+        - link "Home" [ref=e29] [cursor=pointer]:
+          - /url: /en
+          - img [ref=e30]
+          - generic [ref=e33]: Home
+        - generic [ref=e34]:
+          - img
+          - link "Destinations" [ref=e35] [cursor=pointer]:
+            - /url: /en/destinations
+        - generic [ref=e36]:
+          - img
+          - generic [ref=e37]: Bwindi Impenetrable Nationaal Park
+      - heading "Bwindi Impenetrable National Park" [level=1] [ref=e38]
+      - generic [ref=e39]:
+        - img [ref=e40]
+        - generic [ref=e43]: Uganda · Africa
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e47]:
+          - paragraph [ref=e49]: Bwindi Impenetrable National Park covers 331 km² and is a UNESCO World Heritage area. The 25,000-year-old rainforest is home to about 400 mountain gorillas — nearly half the world's population — divided into 14 habituated groups. The park also offers excellent birding opportunities with more than 350 species.
+          - generic [ref=e50]:
+            - heading "Photo Gallery" [level=2] [ref=e51]
+            - generic [ref=e52]:
+              - img "Bwindi safari photo 1" [ref=e54]
+              - img "Bwindi safari photo 2" [ref=e56]
+              - img "Bwindi safari photo 3" [ref=e58]
+              - img "Bwindi safari photo 4" [ref=e60]
+        - complementary [ref=e61]:
+          - generic [ref=e62]:
+            - generic [ref=e63]:
+              - img [ref=e64]
+              - heading "Climate" [level=3] [ref=e66]
+            - paragraph [ref=e67]: Cool and humid tropical mountain climate. Rain is possible all year round.
+          - generic [ref=e68]:
+            - generic [ref=e69]:
+              - img [ref=e70]
+              - heading "Best time to visit" [level=3] [ref=e76]
+            - paragraph [ref=e77]: June to August & December to February (dry seasons)
+          - generic [ref=e78]:
+            - generic [ref=e79]:
+              - img [ref=e80]
+              - heading "Location" [level=3] [ref=e83]
+            - iframe [ref=e85]:
+              - generic [ref=f1e2]:
+                - img
+                - generic:
+                  - region "Map" [ref=f1e3]
+                  - button "[missing \"en-GB.javascripts.map.marker.title\" translation]" [ref=f1e4]:
+                    - img [ref=f1e5]
+                - generic:
+                  - generic [ref=f1e8]:
+                    - button "Zoom In" [ref=f1e9] [cursor=pointer]
+                    - button "Zoom Out" [ref=f1e11] [cursor=pointer]
+                  - group [ref=f1e13]:
+                    - generic [ref=f1e14]:
+                      - link "Report a problem" [ref=f1e15] [cursor=pointer]:
+                        - /url: /fixthemap?lat=-1.05001&lon=29.61500&zoom=7
+                      - text: "| ©"
+                      - link "OpenStreetMap contributors" [ref=f1e16] [cursor=pointer]:
+                        - /url: /copyright
+                      - text: ♥️
+                      - link "Make a Donation" [ref=f1e17] [cursor=pointer]:
+                        - /url: https://supporting.openstreetmap.org
+                      - text: .
+                      - link "Website and API terms" [ref=f1e18] [cursor=pointer]:
+                        - /url: https://wiki.osmfoundation.org/wiki/Terms_of_Use
+      - generic [ref=e86]:
+        - generic [ref=e87]:
+          - img [ref=e88]
+          - heading "Wildlife & Nature" [level=2] [ref=e91]
+        - paragraph [ref=e92]: Bwindi is home to almost half the world's population of mountain gorillas. The ancient rainforest is home to more than 350 bird species and 120 mammal species.
+        - generic [ref=e93]:
+          - generic [ref=e94]:
+            - img "Berggorilla" [ref=e96]
+            - generic [ref=e97]:
+              - heading "Mountain gorilla" [level=3] [ref=e98]
+              - paragraph [ref=e99]: Approximately 459 mountain gorillas live in 14 habituated groups. Gorilla tracking is the most popular activity.
+          - generic [ref=e100]:
+            - img "Chimpansee" [ref=e102]
+            - generic [ref=e103]:
+              - heading "Chimpanzee" [level=3] [ref=e104]
+              - paragraph [ref=e105]: A population of about 90 chimpanzees lives in the southern part of the park.
+          - generic [ref=e106]:
+            - img "L'Hoest's Aap" [ref=e108]
+            - generic [ref=e109]:
+              - heading "L'Hoest's Monkey" [level=3] [ref=e110]
+              - paragraph [ref=e111]: A rare mountain monkey endemic to the Albertine Rift Mountains.
+          - generic [ref=e112]:
+            - img "Afrikaanse Bosolifant" [ref=e114]
+            - generic [ref=e115]:
+              - heading "African Forest Elephant" [level=3] [ref=e116]
+              - paragraph [ref=e117]: A small number of forest elephants live in the dense vegetation of the park.
+      - generic [ref=e119]:
+        - img "Bwindi local community" [ref=e121]
+        - generic [ref=e122]:
+          - generic [ref=e123]:
+            - img [ref=e124]
+            - heading "Local Community & Culture" [level=2] [ref=e129]
+          - paragraph [ref=e131]: The Batwa pygmies are the original inhabitants of the Bwindi forest. Following their move from the park, Puur Safaris supports local community projects offering cultural heritage tours, introducing visitors to traditional dance, music and forest survival techniques.
+      - generic [ref=e132]:
+        - generic [ref=e133]:
+          - img [ref=e134]
+          - heading "Lodging & Accommodations" [level=2] [ref=e137]
+        - generic [ref=e138]:
+          - generic [ref=e139]:
+            - img "Mihingo Lodge" [ref=e141]
+            - generic [ref=e142]:
+              - generic [ref=e143]:
+                - heading "Mihingo Lodge" [level=3] [ref=e144]
+                - generic [ref=e145]: luxury
+              - paragraph [ref=e146]: Located on a ridge overlooking the park. Exclusive bandas with private terrace and outdoor shower.
+          - generic [ref=e147]:
+            - img "Bwindi Lodge" [ref=e149]
+            - generic [ref=e150]:
+              - generic [ref=e151]:
+                - heading "Bwindi Lodge" [level=3] [ref=e152]
+                - generic [ref=e153]: lodge
+              - paragraph [ref=e154]: Cozy lodge on the edge of the rainforest. Comfortable rooms with views of the valley.
+          - generic [ref=e155]:
+            - img "Gorilla Safari Lodge" [ref=e157]
+            - generic [ref=e158]:
+              - generic [ref=e159]:
+                - heading "Gorilla Safari Lodge" [level=3] [ref=e160]
+                - generic [ref=e161]: luxury
+              - paragraph [ref=e162]: Premium accommodation at Rushaga with heated pool and spa. Ideal base for gorilla tracking.
+  - contentinfo [ref=e163]:
+    - generic [ref=e164]:
+      - generic [ref=e165]:
+        - generic [ref=e166]:
+          - link "puur uganda reizen logo" [ref=e167] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e168]
+          - paragraph [ref=e169]: Discover Africa at its purest
+          - paragraph [ref=e170]: Puur Uganda Reizen organizes authentic safari trips tailor-made. We connect travellers with the magic of Africa.
+          - generic [ref=e171]:
+            - link "Instagram" [ref=e172] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e173]
+            - link "Facebook" [ref=e175] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e176]
+            - link "YouTube" [ref=e178] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e179]
+            - link "WhatsApp" [ref=e181] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e182]
+        - generic [ref=e184]:
+          - heading "Safari Trips" [level=3] [ref=e185]
+          - list [ref=e186]:
+            - listitem [ref=e187]:
+              - link "All safari trips" [ref=e188] [cursor=pointer]:
+                - /url: /en/safaris
+            - listitem [ref=e189]:
+              - link "Wildlife Safaris" [ref=e190] [cursor=pointer]:
+                - /url: /en/safaris?category=wildlife
+            - listitem [ref=e191]:
+              - link "Mountain & Trekking" [ref=e192] [cursor=pointer]:
+                - /url: /en/safaris?category=hiking
+            - listitem [ref=e193]:
+              - link "Combination trip" [ref=e194] [cursor=pointer]:
+                - /url: /en/safaris?category=combined
+            - listitem [ref=e195]:
+              - link "Destinations" [ref=e196] [cursor=pointer]:
+                - /url: /en/destinations
+        - generic [ref=e197]:
+          - heading "About Us" [level=3] [ref=e198]
+          - list [ref=e199]:
+            - listitem [ref=e200]:
+              - link "About Pure Safaris" [ref=e201] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e202]:
+              - link "Travel blog" [ref=e203] [cursor=pointer]:
+                - /url: /en/blog
+            - listitem [ref=e204]:
+              - link "Frequently asked questions" [ref=e205] [cursor=pointer]:
+                - /url: /en/faq
+            - listitem [ref=e206]:
+              - link "Contact" [ref=e207] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e208]:
+          - heading "Contact" [level=3] [ref=e209]
+          - list [ref=e210]:
+            - listitem [ref=e211]:
+              - link "+31 653536011" [ref=e212] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e213]
+                - generic [ref=e215]: +31 653536011
+            - listitem [ref=e216]:
+              - link "info@puurugandareizen.nl" [ref=e217] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e218]
+                - generic [ref=e221]: info@puurugandareizen.nl
+            - listitem [ref=e222]:
+              - img [ref=e223]
+              - generic [ref=e226]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e227]:
+              - img [ref=e228]
+              - generic [ref=e231]: The Netherlands
+            - listitem [ref=e232]:
+              - link "WhatsApp" [ref=e233] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e234]
+                - text: WhatsApp
+      - generic [ref=e236]:
+        - paragraph [ref=e237]: "© 2026 Puur Uganda Reizen. All rights reserved. · KvK: 12345678"
+        - generic [ref=e238]:
+          - link "Privacy Policy" [ref=e239] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "General Terms and Conditions" [ref=e240] [cursor=pointer]:
+            - /url: /en/terms
+  - button "Open Next.js Dev Tools" [ref=e246] [cursor=pointer]:
+    - img [ref=e247]
+  - alert [ref=e250]

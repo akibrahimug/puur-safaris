@@ -9,17 +9,26 @@ import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { localePath, cmsPathToLocale } from "@/i18n/routes";
+import { sanityImageUrl } from "@/sanity/image";
 import type { Locale } from "@/i18n/config";
 import type { SiteSettings } from "@/lib/types";
 
 // Navigation is CMS-driven. This is a minimal fallback only used if settings fail to load.
 
+interface HeaderLabels {
+  menuLabel?: string;
+  menuCloseLabel?: string;
+  themeToLightLabel?: string;
+  themeToDarkLabel?: string;
+}
+
 interface HeaderProps {
   settings?: SiteSettings | null;
   locale?: string;
+  labels?: HeaderLabels;
 }
 
-export function Header({ settings, locale = "nl" }: HeaderProps) {
+export function Header({ settings, locale = "nl", labels }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -79,7 +88,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
                 }`}
               >
                 <Image
-                  src={settings.logo.asset.url}
+                  src={sanityImageUrl(settings.logo, 360)}
                   alt={settings.logo.alt ?? settings.siteName}
                   width={120}
                   height={40}
@@ -131,7 +140,7 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
                 {settings.phone}
               </a>
             )}
-            <ThemeToggle scrolled={scrolled} />
+            <ThemeToggle scrolled={scrolled} labels={{ toLight: labels?.themeToLightLabel, toDark: labels?.themeToDarkLabel }} />
             <Link
               href={settings?.headerCtaLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.headerCtaLink), loc)}` : localePath(loc, 'customItinerary')}
               className={`rounded-full border px-3 xl:px-5 py-1.5 xl:py-2 text-xs xl:text-sm font-medium whitespace-nowrap transition-all duration-300 ${
@@ -146,14 +155,14 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
 
           {/* Mobile controls */}
           <div className="flex lg:hidden items-center gap-2">
-            <ThemeToggle scrolled={scrolled} />
+            <ThemeToggle scrolled={scrolled} labels={{ toLight: labels?.themeToLightLabel, toDark: labels?.themeToDarkLabel }} />
             <button
               type="button"
               className={`inline-flex items-center justify-center min-h-11 min-w-11 rounded-lg transition-colors touch-manipulation ${
                 scrolled && !isDark ? "text-stone-700" : "text-white"
               }`}
               onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Menu"
+              aria-label={menuOpen ? (labels?.menuCloseLabel ?? 'Menu sluiten') : (labels?.menuLabel ?? 'Menu')}
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
             >
@@ -174,28 +183,28 @@ export function Header({ settings, locale = "nl" }: HeaderProps) {
             {/* Backdrop — click to dismiss */}
             <motion.button
               type="button"
-              aria-label="Menu sluiten"
+              aria-label={labels?.menuCloseLabel ?? 'Menu sluiten'}
               tabIndex={-1}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setMenuOpen(false)}
-              className="lg:hidden fixed inset-0 top-16 z-40 bg-black/30 backdrop-blur-[1px] cursor-default"
+              className="lg:hidden fixed inset-0 top-16 z-40 bg-black/55 backdrop-blur-sm cursor-default"
             />
             <motion.div
               id="mobile-nav"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className={`lg:hidden relative z-50 overflow-hidden border-t pb-[env(safe-area-inset-bottom)] ${
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className={`lg:hidden fixed inset-x-0 top-16 bottom-0 z-50 overflow-hidden border-t pb-[env(safe-area-inset-bottom)] ${
                 isDark
-                  ? "glass-dark border-white/6"
-                  : "glass-light border-stone-200/60"
+                  ? "bg-ink border-white/6"
+                  : "bg-[#f7faf8] border-stone-200/80"
               }`}
             >
-              <nav className="flex flex-col px-6 py-4 gap-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
+              <nav className="flex flex-col px-6 py-4 gap-1 h-full overflow-y-auto">
                 {navLinks.map((link) => (
                   <Link
                     key={stegaClean(link.href)}

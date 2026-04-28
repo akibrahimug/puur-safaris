@@ -18,9 +18,10 @@ interface FaqClientProps {
   noResultsText?: string
   resetSearchLabel?: string
   dict?: Dict
+  locale?: string
 }
 
-export function FaqClient({ groupedFaqs, searchPlaceholder, categoriesHeading, viewAllLabel, noResultsText, resetSearchLabel, dict }: FaqClientProps) {
+export function FaqClient({ groupedFaqs, searchPlaceholder, categoriesHeading, viewAllLabel, noResultsText, resetSearchLabel, dict, locale = 'nl' }: FaqClientProps) {
   const cats = dict?.categories
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState<string>('all')
@@ -103,7 +104,7 @@ export function FaqClient({ groupedFaqs, searchPlaceholder, categoriesHeading, v
                     onClick={() => setActiveCategory(cat)}
                     className={`w-full min-h-[44px] whitespace-nowrap lg:whitespace-normal text-left px-5 py-3 rounded-2xl transition-colors duration-300 font-medium flex items-center justify-between gap-3 ${activeCategory === cat ? 'bg-gold text-white shadow-md' : 'bg-[var(--bg-secondary)] lg:bg-transparent text-[var(--text-muted)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]'}`}
                   >
-                    <span>{faqCategoryLabel(cat, cats)}</span>
+                    <span>{faqCategoryLabel(cat, locale, cats)}</span>
                     <span className={`px-2 py-0.5 rounded-full text-xs shrink-0 ${activeCategory === cat ? 'bg-white/20 text-white' : 'bg-[var(--bg-primary)] opacity-70'}`}>
                       {groupedFaqs[cat].length}
                     </span>
@@ -125,7 +126,7 @@ export function FaqClient({ groupedFaqs, searchPlaceholder, categoriesHeading, v
                 <div key={category}>
                   {(activeCategory === 'all' || searchQuery !== '') && (
                     <h2 className="font-display text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6 ml-1 sm:ml-2 break-words">
-                      {faqCategoryLabel(category)}
+                      {faqCategoryLabel(category, locale)}
                     </h2>
                   )}
                   <div className="space-y-3 sm:space-y-4">

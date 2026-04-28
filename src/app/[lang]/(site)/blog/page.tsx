@@ -8,6 +8,7 @@ import { localePath, cmsPathToLocale } from '@/i18n/routes'
 import { PageHero } from '@/components/shared/page-hero'
 import { BlogCard } from '@/components/blog/blog-card'
 import { getSiteSettings, getBlogPosts, getBlogPage } from '@/lib/data'
+import { sanityImageUrl } from '@/sanity/image'
 import { buildMetadata, autoSeo, blogCollectionJsonLd } from '@/lib/seo'
 import { formatDate } from '@/lib/utils'
 
@@ -84,7 +85,7 @@ export default async function BlogIndexPage({ params }: Props) {
                     <article className="relative h-full min-h-[400px] flex flex-col justify-end p-8 sm:p-12 overflow-hidden rounded-3xl border border-[var(--border-subtle)] group-hover:shadow-2xl transition-all duration-700 ease-out group-hover:-translate-y-1">
                       {featuredStory.featuredImage?.asset?.url && (
                         <Image
-                          src={featuredStory.featuredImage.asset.url}
+                          src={sanityImageUrl(featuredStory.featuredImage, 2000)}
                           alt={featuredStory.featuredImage.alt ?? featuredStory.title}
                           fill
                           className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"

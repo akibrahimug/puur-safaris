@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { FadeUp } from '@/components/motion/fade-up'
 import { Breadcrumbs } from '@/components/shared/breadcrumbs'
+import { sanityImageUrl } from '@/sanity/image'
 import type { SanityImage } from '@/lib/types'
 
 interface PageHeroProps {
@@ -14,7 +15,7 @@ interface PageHeroProps {
 }
 
 export function PageHero({ title, subtitle, image, eyebrow, className, children }: PageHeroProps) {
-  const imageUrl = image?.asset?.url || null
+  const imageUrl = image?.asset?.url ? sanityImageUrl(image, 2560) : null
   const lqip = image?.asset?.metadata?.lqip
 
   return (

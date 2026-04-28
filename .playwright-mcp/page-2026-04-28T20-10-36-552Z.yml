@@ -1,0 +1,436 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /en
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Trips" [ref=e9] [cursor=pointer]:
+          - /url: /en/safaris
+          - text: Safari Trips
+        - link "Destinations" [ref=e10] [cursor=pointer]:
+          - /url: /en/destinations
+          - text: Destinations
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /en/blog
+          - text: Blog
+        - link "About Us" [ref=e12] [cursor=pointer]:
+          - /url: /en/about
+          - text: About Us
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /en/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /en/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - button "Schakel naar donkere modus" [ref=e19]:
+          - img [ref=e20]
+        - link "Custom Itinerary" [ref=e22] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+  - main [ref=e23]:
+    - generic [ref=e24]:
+      - img "Three tourists holding sticks in the mountains of Uganda" [ref=e25]
+      - generic [ref=e30]:
+        - navigation "Breadcrumb" [ref=e31]:
+          - link "Home" [ref=e32] [cursor=pointer]:
+            - /url: /en
+            - img [ref=e33]
+            - generic [ref=e36]: Home
+          - generic [ref=e37]:
+            - img
+            - generic [ref=e38]: Safaris
+        - heading "Our Safari Trips" [level=1] [ref=e39]
+        - paragraph [ref=e40]: Discover our carefully curated safari adventures through the most beautiful parts of Africa.
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - button "View all 11" [ref=e44] [cursor=pointer]:
+          - text: View all
+          - generic [ref=e45]: "11"
+        - button "Wildlife Safari 5" [ref=e46] [cursor=pointer]:
+          - text: Wildlife Safari
+          - generic [ref=e47]: "5"
+        - button "Mountain & Trekking 2" [ref=e48] [cursor=pointer]:
+          - text: Mountain & Trekking
+          - generic [ref=e49]: "2"
+        - button "Combination Trip 4" [ref=e50] [cursor=pointer]:
+          - text: Combination Trip
+          - generic [ref=e51]: "4"
+      - generic [ref=e52]:
+        - link [ref=e55] [cursor=pointer]:
+          - /url: /en/safaris/22-dagen-diep-in-oeganda
+          - article [ref=e56]:
+            - generic [ref=e57]:
+              - img "22 dagen diep in uganda, 22 days deep in uganda, national park" [ref=e58]
+              - generic [ref=e60]:
+                - generic [ref=e61]: Combinatiereis
+                - generic [ref=e62]: Recommended
+            - generic [ref=e63]:
+              - generic [ref=e65]:
+                - generic [ref=e66]:
+                  - img [ref=e67]
+                  - generic [ref=e70]: Queen Elizabeth Nationaal Park, Oeganda
+                - heading "22 Days Deep in Uganda" [level=3] [ref=e71]
+                - generic [ref=e72]:
+                  - generic [ref=e73]:
+                    - img [ref=e74]
+                    - text: 22 days / 21 nights
+                  - generic [ref=e77]:
+                    - img [ref=e78]
+                    - text: Uitdagend
+              - generic [ref=e83]:
+                - generic [ref=e84]:
+                  - paragraph [ref=e85]: From
+                  - paragraph [ref=e86]: € 7.200
+                  - paragraph [ref=e87]: per person
+                - generic [ref=e88]:
+                  - generic [ref=e89]: Look at
+                  - img [ref=e90]
+        - link [ref=e95] [cursor=pointer]:
+          - /url: /en/safaris/12-dagen-noordwest-oeganda
+          - article [ref=e96]:
+            - generic [ref=e97]:
+              - img "Zebra uganda gorilla" [ref=e98]
+              - generic [ref=e100]:
+                - generic [ref=e101]: Combinatiereis
+                - generic [ref=e102]: Recommended
+            - generic [ref=e103]:
+              - generic [ref=e105]:
+                - generic [ref=e106]:
+                  - img [ref=e107]
+                  - generic [ref=e110]: Bwindi Impenetrable Nationaal Park, Oeganda
+                - heading "12 Days Northwest Uganda" [level=3] [ref=e111]
+                - generic [ref=e112]:
+                  - generic [ref=e113]:
+                    - img [ref=e114]
+                    - text: 12 days / 11 nights
+                  - generic [ref=e117]:
+                    - img [ref=e118]
+                    - text: Gemiddeld
+              - generic [ref=e123]:
+                - generic [ref=e124]:
+                  - paragraph [ref=e125]: From
+                  - paragraph [ref=e126]: € 3.950
+                  - paragraph [ref=e127]: per person
+                - generic [ref=e128]:
+                  - generic [ref=e129]: Look at
+                  - img [ref=e130]
+        - link [ref=e135] [cursor=pointer]:
+          - /url: /en/safaris/14-dagen-noord-west-zuid-oeganda
+          - article [ref=e136]:
+            - generic [ref=e140]:
+              - generic [ref=e141]: Combinatiereis
+              - generic [ref=e142]: Recommended
+            - generic [ref=e143]:
+              - generic [ref=e145]:
+                - generic [ref=e146]:
+                  - img [ref=e147]
+                  - generic [ref=e150]: Queen Elizabeth Nationaal Park, Oeganda
+                - heading "14 Days North, West & South Uganda" [level=3] [ref=e151]
+                - generic [ref=e152]:
+                  - generic [ref=e153]:
+                    - img [ref=e154]
+                    - text: 14 days / 13 nights
+                  - generic [ref=e157]:
+                    - img [ref=e158]
+                    - text: Uitdagend
+              - generic [ref=e163]:
+                - generic [ref=e164]:
+                  - paragraph [ref=e165]: From
+                  - paragraph [ref=e166]: € 5.074
+                  - paragraph [ref=e167]: per person
+                - generic [ref=e168]:
+                  - generic [ref=e169]: Look at
+                  - img [ref=e170]
+        - link [ref=e175] [cursor=pointer]:
+          - /url: /en/safaris/6-dagen-primaten-en-safari
+          - article [ref=e176]:
+            - generic [ref=e180]:
+              - generic [ref=e181]: Wildlife Safari
+              - generic [ref=e182]: Recommended
+            - generic [ref=e183]:
+              - generic [ref=e185]:
+                - generic [ref=e186]:
+                  - img [ref=e187]
+                  - generic [ref=e190]: Bwindi Impenetrable Nationaal Park, Oeganda
+                - heading "6 Days Primates & Safari" [level=3] [ref=e191]
+                - generic [ref=e192]:
+                  - generic [ref=e193]:
+                    - img [ref=e194]
+                    - text: 6 days / 5 nights
+                  - generic [ref=e197]:
+                    - img [ref=e198]
+                    - text: Gemiddeld
+              - generic [ref=e203]:
+                - generic [ref=e204]:
+                  - paragraph [ref=e205]: From
+                  - paragraph [ref=e206]: € 2.300
+                  - paragraph [ref=e207]: per person
+                - generic [ref=e208]:
+                  - generic [ref=e209]: Look at
+                  - img [ref=e210]
+        - link [ref=e215] [cursor=pointer]:
+          - /url: /en/safaris/10-dagen-rwenzori-bergtrekking
+          - article [ref=e216]:
+            - generic [ref=e221]: Berg & Trekking
+            - generic [ref=e222]:
+              - generic [ref=e224]:
+                - heading "10 Days Rwenzori Mountain Trekking" [level=3] [ref=e225]
+                - generic [ref=e226]:
+                  - generic [ref=e227]:
+                    - img [ref=e228]
+                    - text: 10 days / 9 nights
+                  - generic [ref=e231]:
+                    - img [ref=e232]
+                    - text: Uitdagend
+              - generic [ref=e238]:
+                - generic [ref=e239]:
+                  - paragraph [ref=e240]: From
+                  - paragraph [ref=e241]: € 1.950
+                  - paragraph [ref=e242]: per person
+                - generic [ref=e243]:
+                  - generic [ref=e244]: Look at
+                  - img [ref=e245]
+        - link [ref=e250] [cursor=pointer]:
+          - /url: /en/safaris/6-dagen-jinja-en-sipi-falls
+          - article [ref=e251]:
+            - generic [ref=e256]: Berg & Trekking
+            - generic [ref=e257]:
+              - generic [ref=e259]:
+                - generic [ref=e260]:
+                  - img [ref=e261]
+                  - generic [ref=e264]: Murchison Falls Nationaal Park, Oeganda
+                - heading "6 Days Jinja & Sipi Falls" [level=3] [ref=e265]
+                - generic [ref=e266]:
+                  - generic [ref=e267]:
+                    - img [ref=e268]
+                    - text: 6 days / 5 nights
+                  - generic [ref=e271]:
+                    - img [ref=e272]
+                    - text: Uitdagend
+              - generic [ref=e277]:
+                - generic [ref=e278]:
+                  - paragraph [ref=e279]: From
+                  - paragraph [ref=e280]: € 1.650
+                  - paragraph [ref=e281]: per person
+                - generic [ref=e282]:
+                  - generic [ref=e283]: Look at
+                  - img [ref=e284]
+        - link [ref=e289] [cursor=pointer]:
+          - /url: /en/safaris/6-dagen-luxe-safari-tour
+          - article [ref=e290]:
+            - generic [ref=e295]: Wildlife Safari
+            - generic [ref=e296]:
+              - generic [ref=e298]:
+                - generic [ref=e299]:
+                  - img [ref=e300]
+                  - generic [ref=e303]: Bwindi Impenetrable Nationaal Park, Oeganda
+                - heading "6 Days Luxury Safari Tour" [level=3] [ref=e304]
+                - generic [ref=e305]:
+                  - generic [ref=e306]:
+                    - img [ref=e307]
+                    - text: 6 days / 5 nights
+                  - generic [ref=e310]:
+                    - img [ref=e311]
+                    - text: Gemiddeld
+              - generic [ref=e316]:
+                - generic [ref=e317]:
+                  - paragraph [ref=e318]: From
+                  - paragraph [ref=e319]: € 2.160
+                  - paragraph [ref=e320]: per person
+                - generic [ref=e321]:
+                  - generic [ref=e322]: Look at
+                  - img [ref=e323]
+        - link [ref=e328] [cursor=pointer]:
+          - /url: /en/safaris/5-dagen-kidepo-valley-safari
+          - article [ref=e329]:
+            - generic [ref=e334]: Wildlife Safari
+            - generic [ref=e335]:
+              - generic [ref=e337]:
+                - generic [ref=e338]:
+                  - img [ref=e339]
+                  - generic [ref=e342]: Kidepo Valley Nationaal Park, Oeganda
+                - heading "5 Days Kidepo Valley Safari" [level=3] [ref=e343]
+                - generic [ref=e344]:
+                  - generic [ref=e345]:
+                    - img [ref=e346]
+                    - text: 5 days / 4 nights
+                  - generic [ref=e349]:
+                    - img [ref=e350]
+                    - text: Gemiddeld
+              - generic [ref=e355]:
+                - generic [ref=e356]:
+                  - paragraph [ref=e357]: From
+                  - paragraph [ref=e358]: € 1.200
+                  - paragraph [ref=e359]: per person
+                - generic [ref=e360]:
+                  - generic [ref=e361]: Look at
+                  - img [ref=e362]
+        - link [ref=e367] [cursor=pointer]:
+          - /url: /en/safaris/5-dagen-chimpansees-en-queen-elizabeth
+          - article [ref=e368]:
+            - generic [ref=e373]: Wildlife Safari
+            - generic [ref=e374]:
+              - generic [ref=e376]:
+                - generic [ref=e377]:
+                  - img [ref=e378]
+                  - generic [ref=e381]: Queen Elizabeth Nationaal Park, Oeganda
+                - heading "5 Days Chimpanzees & Queen Elizabeth" [level=3] [ref=e382]
+                - generic [ref=e383]:
+                  - generic [ref=e384]:
+                    - img [ref=e385]
+                    - text: 5 days / 4 nights
+                  - generic [ref=e388]:
+                    - img [ref=e389]
+                    - text: Gemiddeld
+              - generic [ref=e394]:
+                - generic [ref=e395]:
+                  - paragraph [ref=e396]: From
+                  - paragraph [ref=e397]: € 1.300
+                  - paragraph [ref=e398]: per person
+                - generic [ref=e399]:
+                  - generic [ref=e400]: Look at
+                  - img [ref=e401]
+        - link [ref=e406] [cursor=pointer]:
+          - /url: /en/safaris/3-dagen-murchison-falls
+          - article [ref=e407]:
+            - generic [ref=e412]: Wildlife Safari
+            - generic [ref=e413]:
+              - generic [ref=e415]:
+                - generic [ref=e416]:
+                  - img [ref=e417]
+                  - generic [ref=e420]: Murchison Falls Nationaal Park, Oeganda
+                - heading "3 Days Murchison Falls" [level=3] [ref=e421]
+                - generic [ref=e422]:
+                  - generic [ref=e423]:
+                    - img [ref=e424]
+                    - text: 3 days / 2 nights
+                  - generic [ref=e427]:
+                    - img [ref=e428]
+                    - text: Makkelijk
+              - generic [ref=e433]:
+                - generic [ref=e434]:
+                  - paragraph [ref=e435]: From
+                  - paragraph [ref=e436]: € 500
+                  - paragraph [ref=e437]: per person
+                - generic [ref=e438]:
+                  - generic [ref=e439]: Look at
+                  - img [ref=e440]
+        - link [ref=e445] [cursor=pointer]:
+          - /url: /en/safaris/12-dagen-noordoost-oeganda
+          - article [ref=e446]:
+            - generic [ref=e451]: Combinatiereis
+            - generic [ref=e452]:
+              - generic [ref=e454]:
+                - generic [ref=e455]:
+                  - img [ref=e456]
+                  - generic [ref=e459]: Kidepo Valley Nationaal Park, Oeganda
+                - heading "12 Days Northeast Uganda" [level=3] [ref=e460]
+                - generic [ref=e461]:
+                  - generic [ref=e462]:
+                    - img [ref=e463]
+                    - text: 12 days / 11 nights
+                  - generic [ref=e466]:
+                    - img [ref=e467]
+                    - text: Uitdagend
+              - generic [ref=e472]:
+                - generic [ref=e473]:
+                  - paragraph [ref=e474]: From
+                  - paragraph [ref=e475]: € 3.350
+                  - paragraph [ref=e476]: per person
+                - generic [ref=e477]:
+                  - generic [ref=e478]: Look at
+                  - img [ref=e479]
+  - contentinfo [ref=e482]:
+    - generic [ref=e483]:
+      - generic [ref=e484]:
+        - generic [ref=e485]:
+          - link "puur uganda reizen logo" [ref=e486] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e487]
+          - paragraph [ref=e488]: Discover Africa at its purest
+          - paragraph [ref=e489]: Puur Uganda Reizen organizes authentic safari trips tailor-made. We connect travellers with the magic of Africa.
+          - generic [ref=e490]:
+            - link "Instagram" [ref=e491] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e492]
+            - link "Facebook" [ref=e494] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e495]
+            - link "YouTube" [ref=e497] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e498]
+            - link "WhatsApp" [ref=e500] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e501]
+        - generic [ref=e503]:
+          - heading "Safari Trips" [level=3] [ref=e504]
+          - list [ref=e505]:
+            - listitem [ref=e506]:
+              - link "All safari trips" [ref=e507] [cursor=pointer]:
+                - /url: /en/safaris
+            - listitem [ref=e508]:
+              - link "Wildlife Safaris" [ref=e509] [cursor=pointer]:
+                - /url: /en/safaris?category=wildlife
+            - listitem [ref=e510]:
+              - link "Mountain & Trekking" [ref=e511] [cursor=pointer]:
+                - /url: /en/safaris?category=hiking
+            - listitem [ref=e512]:
+              - link "Combination trip" [ref=e513] [cursor=pointer]:
+                - /url: /en/safaris?category=combined
+            - listitem [ref=e514]:
+              - link "Destinations" [ref=e515] [cursor=pointer]:
+                - /url: /en/destinations
+        - generic [ref=e516]:
+          - heading "About Us" [level=3] [ref=e517]
+          - list [ref=e518]:
+            - listitem [ref=e519]:
+              - link "About Pure Safaris" [ref=e520] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e521]:
+              - link "Travel blog" [ref=e522] [cursor=pointer]:
+                - /url: /en/blog
+            - listitem [ref=e523]:
+              - link "Frequently asked questions" [ref=e524] [cursor=pointer]:
+                - /url: /en/faq
+            - listitem [ref=e525]:
+              - link "Contact" [ref=e526] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e527]:
+          - heading "Contact" [level=3] [ref=e528]
+          - list [ref=e529]:
+            - listitem [ref=e530]:
+              - link "+31 653536011" [ref=e531] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e532]
+                - generic [ref=e534]: +31 653536011
+            - listitem [ref=e535]:
+              - link "info@puurugandareizen.nl" [ref=e536] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e537]
+                - generic [ref=e540]: info@puurugandareizen.nl
+            - listitem [ref=e541]:
+              - img [ref=e542]
+              - generic [ref=e545]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e546]:
+              - img [ref=e547]
+              - generic [ref=e550]: The Netherlands
+            - listitem [ref=e551]:
+              - link "WhatsApp" [ref=e552] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e553]
+                - text: WhatsApp
+      - generic [ref=e555]:
+        - paragraph [ref=e556]: "© 2026 Puur Uganda Reizen. All rights reserved. · KvK: 12345678"
+        - generic [ref=e557]:
+          - link "Privacy Policy" [ref=e558] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "General Terms and Conditions" [ref=e559] [cursor=pointer]:
+            - /url: /en/terms
+  - button "Open Next.js Dev Tools" [ref=e565] [cursor=pointer]:
+    - img [ref=e566]
+  - alert [ref=e569]

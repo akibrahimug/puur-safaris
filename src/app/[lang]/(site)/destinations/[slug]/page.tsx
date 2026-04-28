@@ -5,6 +5,7 @@ import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { localePath } from '@/i18n/routes'
 import { getSiteSettings, getDestinationDetail, getDestinationSlugs } from '@/lib/data'
+import { sanityImageUrl } from '@/sanity/image'
 import { buildMetadata, autoSeo, getBaseUrl, breadcrumbJsonLd } from '@/lib/seo'
 import { Breadcrumbs } from '@/components/shared/breadcrumbs'
 import { PortableTextRenderer } from '@/components/shared/portable-text-renderer'
@@ -55,7 +56,7 @@ export default async function DestinationDetailPage({ params }: Props) {
   if (!destination) notFound()
 
   const baseUrl = getBaseUrl()
-  const heroUrl = destination.heroImage?.asset?.url || null
+  const heroUrl = destination.heroImage?.asset?.url ? sanityImageUrl(destination.heroImage, 2560) : null
   const relatedTrips = destination.relatedTrips ?? []
   const gallery = destination.gallery ?? []
   const wildlife = destination.wildlifeHighlights ?? []
@@ -148,7 +149,7 @@ export default async function DestinationDetailPage({ params }: Props) {
                         }`}
                       >
                         <Image
-                          src={img.asset.url}
+                          src={sanityImageUrl(img, 1600)}
                           alt={img.alt ?? destination.name}
                           fill
                           className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -228,7 +229,7 @@ export default async function DestinationDetailPage({ params }: Props) {
                     {animal.image?.asset?.url && (
                       <div className="relative aspect-square overflow-hidden">
                         <Image
-                          src={animal.image.asset.url}
+                          src={sanityImageUrl(animal.image, 800)}
                           alt={animal.image.alt ?? animal.name}
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -256,7 +257,7 @@ export default async function DestinationDetailPage({ params }: Props) {
               {destination.communityImage?.asset?.url && (
                 <div className="relative min-h-[300px] lg:min-h-full">
                   <Image
-                    src={destination.communityImage.asset.url}
+                    src={sanityImageUrl(destination.communityImage, 1600)}
                     alt={destination.communityImage.alt ?? 'Community'}
                     fill
                     className="object-cover"
@@ -294,7 +295,7 @@ export default async function DestinationDetailPage({ params }: Props) {
                   {acc.image?.asset?.url && (
                     <div className="relative aspect-[16/10] overflow-hidden">
                       <Image
-                        src={acc.image.asset.url}
+                        src={sanityImageUrl(acc.image, 1080)}
                         alt={acc.image.alt ?? acc.name}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"

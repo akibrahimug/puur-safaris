@@ -25,7 +25,7 @@ export default async function SiteLayout({
 
   return (
     <>
-      <Header settings={settings} locale={locale} />
+      <Header settings={settings} locale={locale} labels={dict.header} />
       <main className="flex-1">{children}</main>
       <Footer settings={settings} locale={locale} dict={dict} />
     </>

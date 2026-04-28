@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'eigenReisschemaPage',
-  title: 'Custom Itinerary Page',
+  title: 'Eigen Reisschema Pagina',
   type: 'document',
   groups: [
     { name: 'hero', title: 'Hero' },
@@ -11,32 +11,32 @@ export default defineType({
   fields: [
     defineField({
       name: 'heroImage',
-      title: 'Hero Image',
+      title: 'Hero Afbeelding',
       type: 'image',
       options: { hotspot: true },
       group: 'hero',
       fields: [
-        defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
+        defineField({ name: 'alt', title: 'Alt tekst', type: 'string' }),
       ],
-      description: 'Background image for the hero section.',
+      description: 'Achtergrondafbeelding voor de hero sectie.',
     }),
     defineField({
       name: 'heroEyebrow',
       title: 'Hero Eyebrow',
       type: 'string',
       group: 'hero',
-      description: 'E.g. "Tailor-made".',
+      description: 'Bijv. "Op maat gemaakt".',
     }),
     defineField({
       name: 'heroTitle',
-      title: 'Hero Title',
+      title: 'Hero Titel',
       type: 'string',
       group: 'hero',
-      description: 'E.g. "Custom Itinerary".',
+      description: 'Bijv. "Eigen Reisschema".',
     }),
     defineField({
       name: 'heroSubtitle',
-      title: 'Hero Subtitle',
+      title: 'Hero Ondertitel',
       type: 'text',
       rows: 2,
       group: 'hero',
@@ -49,6 +49,6 @@ export default defineType({
     }),
   ],
   preview: {
-    prepare: () => ({ title: 'Custom Itinerary Page' }),
+    prepare: () => ({ title: 'Eigen Reisschema Pagina' }),
   },
 })

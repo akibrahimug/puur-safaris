@@ -5,6 +5,7 @@ import { HoverCard } from "@/components/motion/hover-card";
 import { localePath } from "@/i18n/routes";
 import type { Locale } from "@/i18n/config";
 import { formatPrice, categoryLabel, difficultyLabel } from "@/lib/utils";
+import { sanityImageUrl } from "@/sanity/image";
 import type { TripCard } from "@/lib/types";
 
 export interface SafariCardLabels {
@@ -22,7 +23,7 @@ interface SafariCardProps {
 }
 
 export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
-  const imageUrl = trip.heroImage?.asset?.url || null;
+  const imageUrl = trip.heroImage?.asset?.url ? sanityImageUrl(trip.heroImage, 1080) : null;
 
   return (
     <HoverCard lift={5} className="h-full">
@@ -66,7 +67,7 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
                 <span
                   className="rounded-full px-2.5 py-1 sm:px-3 sm:py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-black/40 text-white/95 border border-white/10 shadow-sm max-w-[60%] truncate"
                 >
-                  {categoryLabel(trip.category)}
+                  {categoryLabel(trip.category, locale)}
                 </span>
               )}
               {trip.featured && (
@@ -137,7 +138,7 @@ export function SafariCard({ trip, labels, locale = "nl" }: SafariCardProps) {
                     }}
                   >
                     <TrendingUp className="h-2.5 w-2.5" />
-                    {difficultyLabel(trip.difficulty)}
+                    {difficultyLabel(trip.difficulty, locale)}
                   </span>
                 )}
               </div>

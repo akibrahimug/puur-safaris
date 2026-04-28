@@ -2,32 +2,32 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'galleryImage',
-  title: 'Gallery Image',
+  title: 'Galerij Afbeelding',
   type: 'object',
   fields: [
     defineField({
       name: 'image',
-      title: 'Image',
+      title: 'Afbeelding',
       type: 'image',
       options: { hotspot: true },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'alt',
-      title: 'Alt text',
+      title: 'Alt tekst',
       type: 'string',
-      description: 'Description for search engines and visitors with visual impairments.',
+      description: 'Beschrijving voor zoekmachines en bezoekers met visuele beperkingen.',
     }),
     defineField({
       name: 'caption',
-      title: 'Caption',
+      title: 'Bijschrift',
       type: 'string',
     }),
   ],
   preview: {
     select: { title: 'alt', media: 'image' },
     prepare({ title, media }) {
-      return { title: title || 'Image', media }
+      return { title: title || 'Afbeelding', media }
     },
   },
 })

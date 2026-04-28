@@ -2,44 +2,44 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'itineraryDay',
-  title: 'Itinerary Day',
+  title: 'Reisschema Dag',
   type: 'object',
   fields: [
     defineField({
       name: 'day',
-      title: 'Day Number',
+      title: 'Dag Nummer',
       type: 'number',
       validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
       name: 'title',
-      title: 'Day Title',
+      title: 'Dag Titel',
       type: 'string',
-      description: 'E.g. "Arrival Nairobi & transfer to lodge"',
+      description: 'Bijv. "Aankomst Nairobi & transfer naar lodge"',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'description',
-      title: 'Day Description',
+      title: 'Beschrijving van de dag',
       type: 'text',
       rows: 4,
     }),
     defineField({
       name: 'location',
-      title: 'Location / Stay',
+      title: 'Locatie / Verblijf',
       type: 'string',
-      description: 'E.g. "Amboseli Serena Lodge"',
+      description: 'Bijv. "Amboseli Serena Lodge"',
     }),
     defineField({
       name: 'meals',
-      title: 'Included Meals',
+      title: 'Inbegrepen Maaltijden',
       type: 'array',
       of: [{ type: 'string' }],
       options: {
         list: [
-          { value: 'breakfast', title: 'Breakfast' },
+          { value: 'breakfast', title: 'Ontbijt' },
           { value: 'lunch', title: 'Lunch' },
-          { value: 'dinner', title: 'Dinner' },
+          { value: 'dinner', title: 'Diner' },
         ],
         layout: 'grid',
       },
@@ -48,7 +48,7 @@ export default defineType({
   preview: {
     select: { title: 'title', subtitle: 'day' },
     prepare({ title, subtitle }) {
-      return { title: `Day ${subtitle}: ${title}` }
+      return { title: `Dag ${subtitle}: ${title}` }
     },
   },
 })

@@ -8,7 +8,11 @@
     "contact": "Contact"
   },
   "header": {
-    "ctaLabel": "Custom Itinerary"
+    "ctaLabel": "Custom Itinerary",
+    "menuLabel": "Menu",
+    "menuCloseLabel": "Close menu",
+    "themeToLightLabel": "Switch to light mode",
+    "themeToDarkLabel": "Switch to dark mode"
   },
   "footer": {
     "col1Heading": "Safari Trips",
@@ -92,6 +96,8 @@
     "fieldLastname": "Last name",
     "fieldEmail": "Email",
     "fieldPhone": "Phone (optional)",
+    "optionalLabel": "(optional)",
+    "confidentialOptionalLabel": "(confidential, optional)",
     "fieldBirthdate": "Date of birth",
     "fieldNationality": "Nationality",
     "fieldPassport": "Passport number",
@@ -137,8 +143,9 @@
       "sectionMessageDesc": "Tell us how we can help you.",
       "fieldName": "Name",
       "fieldEmail": "Email address",
-      "fieldPhone": "Phone number (optional)",
-      "fieldPreference": "Preferred contact method (optional)",
+      "fieldPhone": "Phone number",
+      "fieldPreference": "Preferred contact method",
+      "optionalLabel": "(optional)",
       "fieldTravelers": "Number of travellers",
       "fieldPeriod": "Travel period",
       "fieldBudget": "Budget indication",

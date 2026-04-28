@@ -96,7 +96,9 @@
       "Bash(curl *)",
       "Bash(ps -o pid,command -p 57385)",
       "Bash(md5 *)",
-      "Bash(xargs -r kill -9)"
+      "Bash(xargs -r kill -9)",
+      "Bash(npm run *)",
+      "Bash(echo \"Started pid $!\")"
     ]
   }
 }

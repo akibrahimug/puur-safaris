@@ -1,0 +1,336 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /en
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Trips" [ref=e9] [cursor=pointer]:
+          - /url: /en/safaris
+          - text: Safari Trips
+        - link "Destinations" [ref=e10] [cursor=pointer]:
+          - /url: /en/destinations
+          - text: Destinations
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /en/blog
+          - text: Blog
+        - link "About Us" [ref=e12] [cursor=pointer]:
+          - /url: /en/about
+          - text: About Us
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /en/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /en/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - link "Custom Itinerary" [ref=e20] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+  - main [ref=e21]:
+    - generic [ref=e22]:
+      - img "a family of giraffes grazing in the savana" [ref=e24]
+      - generic [ref=e27]:
+        - heading "Discover Uganda In its purest form" [level=1] [ref=e28]:
+          - text: Discover Uganda
+          - text: In its purest form
+        - paragraph [ref=e29]: Pure Africa, Pure Adventure
+        - generic [ref=e30]:
+          - link "View our trips" [ref=e31] [cursor=pointer]:
+            - /url: /en/safaris
+            - text: View our trips
+            - img [ref=e32]
+          - link "Create your own trip" [ref=e34] [cursor=pointer]:
+            - /url: /en/custom-itinerary
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - img [ref=e43]
+            - img [ref=e45]
+            - img [ref=e47]
+            - img [ref=e49]
+            - img [ref=e51]
+          - paragraph [ref=e53]: 50+ happy travellers
+      - generic [ref=e54]:
+        - generic [ref=e55]: Scroll
+        - img [ref=e57]
+    - generic [ref=e63]:
+      - generic [ref=e66]:
+        - paragraph [ref=e67]: 100+
+        - paragraph [ref=e68]: travellers found their dream safari
+      - generic [ref=e71]:
+        - paragraph [ref=e72]: 10 years
+        - paragraph [ref=e73]: Expertise in Uganda
+      - generic [ref=e76]:
+        - paragraph [ref=e77]: 4.9★
+        - paragraph [ref=e78]: average rating from travellers
+    - generic [ref=e80]:
+      - generic [ref=e82]:
+        - generic [ref=e83]:
+          - paragraph [ref=e84]: Featured Trips
+          - heading "Safari Trips" [level=2] [ref=e85]
+          - paragraph [ref=e86]: Suggestions for unforgettable adventures in Uganda
+        - link "All trips" [ref=e87] [cursor=pointer]:
+          - /url: /en/safaris
+          - text: All trips
+          - img [ref=e88]
+      - generic [ref=e90]:
+        - link [ref=e93] [cursor=pointer]:
+          - /url: /en/safaris/22-dagen-diep-in-oeganda
+          - article [ref=e94]:
+            - generic [ref=e95]:
+              - img "22 dagen diep in uganda, 22 days deep in uganda, national park" [ref=e96]
+              - generic [ref=e98]:
+                - generic [ref=e99]: Combinatiereis
+                - generic [ref=e100]: Recommended
+            - generic [ref=e101]:
+              - generic [ref=e103]:
+                - generic [ref=e104]:
+                  - img [ref=e105]
+                  - generic [ref=e108]: Queen Elizabeth Nationaal Park, Oeganda
+                - heading "22 Days Deep in Uganda" [level=3] [ref=e109]
+                - generic [ref=e110]:
+                  - generic [ref=e111]:
+                    - img [ref=e112]
+                    - text: 22 days / 21 nights
+                  - generic [ref=e115]:
+                    - img [ref=e116]
+                    - text: Uitdagend
+              - generic [ref=e121]:
+                - generic [ref=e122]:
+                  - paragraph [ref=e123]: From
+                  - paragraph [ref=e124]: € 7.200
+                  - paragraph [ref=e125]: per person
+                - generic [ref=e126]:
+                  - generic [ref=e127]: Look at
+                  - img [ref=e128]
+        - link [ref=e133] [cursor=pointer]:
+          - /url: /en/safaris/12-dagen-noordwest-oeganda
+          - article [ref=e134]:
+            - generic [ref=e135]:
+              - img "Zebra uganda gorilla" [ref=e136]
+              - generic [ref=e138]:
+                - generic [ref=e139]: Combinatiereis
+                - generic [ref=e140]: Recommended
+            - generic [ref=e141]:
+              - generic [ref=e143]:
+                - generic [ref=e144]:
+                  - img [ref=e145]
+                  - generic [ref=e148]: Bwindi Impenetrable Nationaal Park, Oeganda
+                - heading "12 Days Northwest Uganda" [level=3] [ref=e149]
+                - generic [ref=e150]:
+                  - generic [ref=e151]:
+                    - img [ref=e152]
+                    - text: 12 days / 11 nights
+                  - generic [ref=e155]:
+                    - img [ref=e156]
+                    - text: Gemiddeld
+              - generic [ref=e161]:
+                - generic [ref=e162]:
+                  - paragraph [ref=e163]: From
+                  - paragraph [ref=e164]: € 3.950
+                  - paragraph [ref=e165]: per person
+                - generic [ref=e166]:
+                  - generic [ref=e167]: Look at
+                  - img [ref=e168]
+        - link [ref=e173] [cursor=pointer]:
+          - /url: /en/safaris/14-dagen-noord-west-zuid-oeganda
+          - article [ref=e174]:
+            - generic [ref=e178]:
+              - generic [ref=e179]: Combinatiereis
+              - generic [ref=e180]: Recommended
+            - generic [ref=e181]:
+              - generic [ref=e183]:
+                - generic [ref=e184]:
+                  - img [ref=e185]
+                  - generic [ref=e188]: Queen Elizabeth Nationaal Park, Oeganda
+                - heading "14 Days North, West & South Uganda" [level=3] [ref=e189]
+                - generic [ref=e190]:
+                  - generic [ref=e191]:
+                    - img [ref=e192]
+                    - text: 14 days / 13 nights
+                  - generic [ref=e195]:
+                    - img [ref=e196]
+                    - text: Uitdagend
+              - generic [ref=e201]:
+                - generic [ref=e202]:
+                  - paragraph [ref=e203]: From
+                  - paragraph [ref=e204]: € 5.074
+                  - paragraph [ref=e205]: per person
+                - generic [ref=e206]:
+                  - generic [ref=e207]: Look at
+                  - img [ref=e208]
+    - generic [ref=e212]:
+      - generic [ref=e213]:
+        - paragraph [ref=e214]: Pure Uganda
+        - heading "Because We believe in trips that leave an impression for life." [level=2] [ref=e215]
+      - generic [ref=e216]:
+        - generic [ref=e217]:
+          - generic: "01"
+          - img [ref=e219]
+          - heading "Personal & tailor-made" [level=3] [ref=e221]
+          - paragraph [ref=e222]: Each safari is designed especially for you. Your wishes, your pace, your dream trip.
+        - generic [ref=e223]:
+          - generic: "02"
+          - img [ref=e225]
+          - heading "Safety first" [level=3] [ref=e227]
+          - paragraph [ref=e228]: All our guides are certified and have years of experience in the field.
+        - generic [ref=e229]:
+          - generic: "03"
+          - img [ref=e231]
+          - heading "Small groups" [level=3] [ref=e236]
+          - paragraph [ref=e237]: We work with small, intimate groups for a real and authentic experience.
+        - generic [ref=e238]:
+          - generic: "04"
+          - img [ref=e240]
+          - heading "Top quality" [level=3] [ref=e242]
+          - paragraph [ref=e243]: Carefully selected lodges and camps with excellent service and comfort.
+        - generic [ref=e244]:
+          - generic: "05"
+          - img [ref=e246]
+          - heading "Local expertise" [level=3] [ref=e249]
+          - paragraph [ref=e250]: Our African partners know every path, every shelter and every season.
+        - generic [ref=e251]:
+          - generic: "06"
+          - img [ref=e253]
+          - heading "24/7 support" [level=3] [ref=e255]
+          - paragraph [ref=e256]: Before, during and after your trip, our team is ready for questions and support.
+    - generic [ref=e258]:
+      - generic [ref=e260]:
+        - generic [ref=e261]:
+          - paragraph [ref=e262]: Destinations
+          - heading "Discover Uganda" [level=2] [ref=e263]
+          - paragraph [ref=e264]: Every destination a different adventure. Discover the unspoilt nature of Uganda.
+        - link "All destinations" [ref=e265] [cursor=pointer]:
+          - /url: /en/destinations
+          - text: All destinations
+          - img [ref=e266]
+      - generic [ref=e268]:
+        - link "Africa • Uganda Bwindi Impenetrable National Park UNESCO World Heritage Site with approximately 400 mountain gorillas in 25,000 year old rainforest. Fourteen habituated groups." [ref=e270] [cursor=pointer]:
+          - /url: /en/destinations/bwindi-impenetrable-nationaal-park
+          - generic [ref=e274]:
+            - generic [ref=e275]:
+              - generic [ref=e276]:
+                - img [ref=e277]
+                - generic [ref=e280]: Africa • Uganda
+              - heading "Bwindi Impenetrable National Park" [level=3] [ref=e281]
+              - paragraph [ref=e282]: UNESCO World Heritage Site with approximately 400 mountain gorillas in 25,000 year old rainforest. Fourteen habituated groups.
+            - img [ref=e284]
+        - link "warthog Africa • Uganda Kidepo Valley National Park Remote wilderness of 1,442 km² in the northeast, home to Uganda's only cheetah population and 475 bird species." [ref=e288] [cursor=pointer]:
+          - /url: /en/destinations/kidepo-valley-nationaal-park
+          - img "warthog" [ref=e289]
+          - generic [ref=e293]:
+            - generic [ref=e294]:
+              - generic [ref=e295]:
+                - img [ref=e296]
+                - generic [ref=e299]: Africa • Uganda
+              - heading "Kidepo Valley National Park" [level=3] [ref=e300]
+              - paragraph [ref=e301]: Remote wilderness of 1,442 km² in the northeast, home to Uganda's only cheetah population and 475 bird species.
+            - img [ref=e303]
+        - 'link "Africa • Uganda Queen Elizabeth National Park Uganda''s most popular park: 1,978 km² with tree-climbing lions, the Kazinga Channel and more than 600 bird species." [ref=e307] [cursor=pointer]':
+          - /url: /en/destinations/queen-elizabeth-nationaal-park
+          - generic [ref=e311]:
+            - generic [ref=e312]:
+              - generic [ref=e313]:
+                - img [ref=e314]
+                - generic [ref=e317]: Africa • Uganda
+              - heading "Queen Elizabeth National Park" [level=3] [ref=e318]
+              - paragraph [ref=e319]: "Uganda's most popular park: 1,978 km² with tree-climbing lions, the Kazinga Channel and more than 600 bird species."
+            - img [ref=e321]
+    - generic [ref=e327]:
+      - paragraph [ref=e328]: Start your adventure
+      - heading "Ready for your dream safari?" [level=2] [ref=e329]
+      - paragraph [ref=e330]: Let us put together a personalised quote for you. Free and without obligation — we know every trail in Uganda.
+      - generic [ref=e331]:
+        - link "Custom Itinerary" [ref=e332] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+        - link "View all trips" [ref=e333] [cursor=pointer]:
+          - /url: /en/safaris
+  - contentinfo [ref=e334]:
+    - generic [ref=e335]:
+      - generic [ref=e336]:
+        - generic [ref=e337]:
+          - link "puur uganda reizen logo" [ref=e338] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e339]
+          - paragraph [ref=e340]: Discover Africa at its purest
+          - paragraph [ref=e341]: Puur Uganda Reizen organizes authentic safari trips tailor-made. We connect travellers with the magic of Africa.
+          - generic [ref=e342]:
+            - link "Instagram" [ref=e343] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e344]
+            - link "Facebook" [ref=e346] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e347]
+            - link "YouTube" [ref=e349] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e350]
+            - link "WhatsApp" [ref=e352] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e353]
+        - generic [ref=e355]:
+          - heading "Safari Trips" [level=3] [ref=e356]
+          - list [ref=e357]:
+            - listitem [ref=e358]:
+              - link "All safari trips" [ref=e359] [cursor=pointer]:
+                - /url: /en/safaris
+            - listitem [ref=e360]:
+              - link "Wildlife Safaris" [ref=e361] [cursor=pointer]:
+                - /url: /en/safaris?category=wildlife
+            - listitem [ref=e362]:
+              - link "Mountain & Trekking" [ref=e363] [cursor=pointer]:
+                - /url: /en/safaris?category=hiking
+            - listitem [ref=e364]:
+              - link "Combination trip" [ref=e365] [cursor=pointer]:
+                - /url: /en/safaris?category=combined
+            - listitem [ref=e366]:
+              - link "Destinations" [ref=e367] [cursor=pointer]:
+                - /url: /en/destinations
+        - generic [ref=e368]:
+          - heading "About Us" [level=3] [ref=e369]
+          - list [ref=e370]:
+            - listitem [ref=e371]:
+              - link "About Pure Safaris" [ref=e372] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e373]:
+              - link "Travel blog" [ref=e374] [cursor=pointer]:
+                - /url: /en/blog
+            - listitem [ref=e375]:
+              - link "Frequently asked questions" [ref=e376] [cursor=pointer]:
+                - /url: /en/faq
+            - listitem [ref=e377]:
+              - link "Contact" [ref=e378] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e379]:
+          - heading "Contact" [level=3] [ref=e380]
+          - list [ref=e381]:
+            - listitem [ref=e382]:
+              - link "+31 653536011" [ref=e383] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e384]
+                - generic [ref=e386]: +31 653536011
+            - listitem [ref=e387]:
+              - link "info@puurugandareizen.nl" [ref=e388] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e389]
+                - generic [ref=e392]: info@puurugandareizen.nl
+            - listitem [ref=e393]:
+              - img [ref=e394]
+              - generic [ref=e397]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e398]:
+              - img [ref=e399]
+              - generic [ref=e402]: The Netherlands
+            - listitem [ref=e403]:
+              - link "WhatsApp" [ref=e404] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e405]
+                - text: WhatsApp
+      - generic [ref=e407]:
+        - paragraph [ref=e408]: "© 2026 Puur Uganda Reizen. All rights reserved. · KvK: 12345678"
+        - generic [ref=e409]:
+          - link "Privacy Policy" [ref=e410] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "General Terms and Conditions" [ref=e411] [cursor=pointer]:
+            - /url: /en/terms

@@ -39,53 +39,85 @@ export function truncate(str: string, length: number): string {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type CatDict = Record<string, any> | undefined
 
-const defaultCategoryLabels: Record<string, string> = {
-  wildlife: 'Wildlife Safari',
-  hiking: 'Berg & Trekking',
-  culture: 'Cultuur & Gemeenschap',
-  beach: 'Strand & Ontspanning',
-  combined: 'Combinatiereis',
+const defaultCategoryLabels: Record<string, Record<string, string>> = {
+  nl: {
+    wildlife: 'Wildlife Safari',
+    hiking: 'Berg & Trekking',
+    culture: 'Cultuur & Gemeenschap',
+    beach: 'Strand & Ontspanning',
+    combined: 'Combinatiereis',
+  },
+  en: {
+    wildlife: 'Wildlife Safari',
+    hiking: 'Mountain & Trekking',
+    culture: 'Culture & Community',
+    beach: 'Beach & Relaxation',
+    combined: 'Combination Trip',
+  },
 }
 
-export function categoryLabel(category: string, cats?: CatDict): string {
-  return cats?.[category] ?? defaultCategoryLabels[category] ?? category
+export function categoryLabel(category: string, locale: string = 'nl', cats?: CatDict): string {
+  const fallbacks = defaultCategoryLabels[locale] ?? defaultCategoryLabels.nl
+  return cats?.[category] ?? fallbacks[category] ?? category
 }
 
-const defaultDifficultyLabels: Record<string, string> = {
-  easy: 'Makkelijk',
-  moderate: 'Gemiddeld',
-  challenging: 'Uitdagend',
+const defaultDifficultyLabels: Record<string, Record<string, string>> = {
+  nl: { easy: 'Makkelijk', moderate: 'Gemiddeld', challenging: 'Uitdagend' },
+  en: { easy: 'Easy', moderate: 'Moderate', challenging: 'Challenging' },
 }
 
-export function difficultyLabel(difficulty: string, cats?: CatDict): string {
+export function difficultyLabel(difficulty: string, locale: string = 'nl', cats?: CatDict): string {
   const key = `difficulty${difficulty.charAt(0).toUpperCase()}${difficulty.slice(1)}`
-  return cats?.[key] ?? defaultDifficultyLabels[difficulty] ?? difficulty
+  const fallbacks = defaultDifficultyLabels[locale] ?? defaultDifficultyLabels.nl
+  return cats?.[key] ?? fallbacks[difficulty] ?? difficulty
 }
 
-const defaultBlogCategoryLabels: Record<string, string> = {
-  stories: 'Reisverhalen',
-  tips: 'Tips & Advies',
-  wildlife: 'Wildlife',
-  culture: 'Cultuur',
-  guides: 'Bestemmingsgidsen',
-  news: 'Nieuws',
+const defaultBlogCategoryLabels: Record<string, Record<string, string>> = {
+  nl: {
+    stories: 'Reisverhalen',
+    tips: 'Tips & Advies',
+    wildlife: 'Wildlife',
+    culture: 'Cultuur',
+    guides: 'Bestemmingsgidsen',
+    news: 'Nieuws',
+  },
+  en: {
+    stories: 'Travel Stories',
+    tips: 'Tips & Advice',
+    wildlife: 'Wildlife',
+    culture: 'Culture',
+    guides: 'Destination Guides',
+    news: 'News',
+  },
 }
 
-export function blogCategoryLabel(category: string, cats?: CatDict): string {
+export function blogCategoryLabel(category: string, locale: string = 'nl', cats?: CatDict): string {
   const key = `blog${category.charAt(0).toUpperCase()}${category.slice(1)}`
-  return cats?.[key] ?? defaultBlogCategoryLabels[category] ?? category
+  const fallbacks = defaultBlogCategoryLabels[locale] ?? defaultBlogCategoryLabels.nl
+  return cats?.[key] ?? fallbacks[category] ?? category
 }
 
-const defaultFaqCategoryLabels: Record<string, string> = {
-  general: 'Algemeen',
-  booking: 'Boeking & Betaling',
-  travel: 'Reizen & Visa',
-  accommodation: 'Accommodatie',
-  safety: 'Veiligheid & Gezondheid',
-  packing: 'Inpakken & Voorbereiding',
+const defaultFaqCategoryLabels: Record<string, Record<string, string>> = {
+  nl: {
+    general: 'Algemeen',
+    booking: 'Boeking & Betaling',
+    travel: 'Reizen & Visa',
+    accommodation: 'Accommodatie',
+    safety: 'Veiligheid & Gezondheid',
+    packing: 'Inpakken & Voorbereiding',
+  },
+  en: {
+    general: 'General',
+    booking: 'Booking & Payment',
+    travel: 'Travel & Visa',
+    accommodation: 'Accommodation',
+    safety: 'Safety & Health',
+    packing: 'Packing & Preparation',
+  },
 }
 
-export function faqCategoryLabel(category: string, cats?: CatDict): string {
+export function faqCategoryLabel(category: string, locale: string = 'nl', cats?: CatDict): string {
   const key = `faq${category.charAt(0).toUpperCase()}${category.slice(1)}`
-  return cats?.[key] ?? defaultFaqCategoryLabels[category] ?? category
+  const fallbacks = defaultFaqCategoryLabels[locale] ?? defaultFaqCategoryLabels.nl
+  return cats?.[key] ?? fallbacks[category] ?? category
 }

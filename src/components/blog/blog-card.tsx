@@ -7,6 +7,7 @@ import type { Locale } from '@/i18n/config'
 import { HoverCard } from '@/components/motion/hover-card'
 import { formatDate, blogCategoryLabel } from '@/lib/utils'
 import { BlogTags } from '@/components/blog/blog-tags'
+import { sanityImageUrl } from '@/sanity/image'
 import type { BlogPostCard } from '@/lib/types'
 
 interface BlogCardProps {
@@ -17,7 +18,7 @@ interface BlogCardProps {
 
 export function BlogCard({ post, labels, locale = "nl" }: BlogCardProps) {
   const clean = stegaClean(post)
-  const imageUrl = clean.featuredImage?.asset?.url || null
+  const imageUrl = clean.featuredImage?.asset?.url ? sanityImageUrl(clean.featuredImage, 1080) : null
 
   return (
     <HoverCard lift={5} className="h-full">
@@ -48,7 +49,7 @@ export function BlogCard({ post, labels, locale = "nl" }: BlogCardProps) {
             {clean.category && (
               <div className="absolute top-4 left-4 pointer-events-none group-hover:pointer-events-auto opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
                 <span className="rounded-full px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xl bg-black/40 text-white/95 border border-white/10 shadow-sm">
-                  {blogCategoryLabel(clean.category)}
+                  {blogCategoryLabel(clean.category, locale)}
                 </span>
               </div>
             )}
@@ -74,7 +75,7 @@ export function BlogCard({ post, labels, locale = "nl" }: BlogCardProps) {
               <div className="flex flex-wrap gap-x-3 gap-y-1.5 mb-3 text-[11px] sm:text-[10px]" style={{ color: 'var(--card-strip-muted)' }}>
                 <span className="flex items-center gap-1 min-w-0">
                   <Calendar className="h-3 w-3 sm:h-2.5 sm:w-2.5 shrink-0" />
-                  <span className="truncate">{formatDate(clean.publishedAt)}</span>
+                  <span className="truncate">{formatDate(clean.publishedAt, locale)}</span>
                 </span>
                 {clean.author && (
                   <span className="flex items-center gap-1 min-w-0">

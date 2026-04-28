@@ -2,43 +2,43 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'blogPage',
-  title: 'Blog Page',
+  title: 'Blog Pagina',
   type: 'document',
   groups: [
     { name: 'hero', title: 'Hero' },
-    { name: 'stories', title: 'Stories Section' },
-    { name: 'wildlife', title: 'Wildlife Section' },
-    { name: 'guides', title: 'Guides Section' },
-    { name: 'readerCta', title: 'Reader CTA' },
+    { name: 'stories', title: 'Verhalen Sectie' },
+    { name: 'wildlife', title: 'Wildlife Sectie' },
+    { name: 'guides', title: 'Gidsen Sectie' },
+    { name: 'readerCta', title: 'Lezer CTA' },
     { name: 'seo', title: 'SEO' },
   ],
   fields: [
     // ─── HERO ──────────────────────────────────────────────────────
     defineField({
       name: 'heroImage',
-      title: 'Hero Image',
+      title: 'Hero Afbeelding',
       type: 'image',
       options: { hotspot: true },
       group: 'hero',
       fields: [
         defineField({
           name: 'alt',
-          title: 'Alt text',
+          title: 'Alt tekst',
           type: 'string',
         }),
       ],
-      description: 'Background image for the hero section of the blog page.',
+      description: 'Achtergrondafbeelding voor de hero sectie van de blog pagina.',
     }),
     defineField({
       name: 'heroTitle',
-      title: 'Hero Title',
+      title: 'Hero Titel',
       type: 'string',
       group: 'hero',
-      description: 'E.g. "Safari Stories & Guides".',
+      description: 'Bijv. "Safari Verhalen & Gidsen".',
     }),
     defineField({
       name: 'heroSubtitle',
-      title: 'Hero Subtitle',
+      title: 'Hero Ondertitel',
       type: 'text',
       rows: 2,
       group: 'hero',
@@ -47,24 +47,24 @@ export default defineType({
     // ─── STORIES SECTION ───────────────────────────────────────────
     defineField({
       name: 'storiesSectionHeading',
-      title: 'Stories Section Heading',
+      title: 'Verhalen Sectie Koptekst',
       type: 'string',
       group: 'stories',
-      description: 'E.g. "Stories from the Bush".',
+      description: 'Bijv. "Verhalen uit de Bush".',
     }),
     defineField({
       name: 'featuredBadgeText',
-      title: 'Featured Badge Text',
+      title: 'Uitgelicht Badge Tekst',
       type: 'string',
       group: 'stories',
-      description: 'E.g. "Featured Story".',
+      description: 'Bijv. "Uitgelicht Verhaal".',
     }),
     defineField({
       name: 'readArticleLabel',
-      title: '"Read Article" Label',
+      title: '"Lees Artikel" Label',
       type: 'string',
       group: 'stories',
-      description: 'Link text on the featured card.',
+      description: 'Link tekst op de uitgelichte kaart.',
     }),
 
     // ─── WILDLIFE SECTION ──────────────────────────────────────────
@@ -73,18 +73,18 @@ export default defineType({
       title: 'Wildlife Eyebrow',
       type: 'string',
       group: 'wildlife',
-      description: 'E.g. "Flora & Fauna".',
+      description: 'Bijv. "Flora & Fauna".',
     }),
     defineField({
       name: 'wildlifeTitle',
-      title: 'Wildlife Title',
+      title: 'Wildlife Titel',
       type: 'string',
       group: 'wildlife',
-      description: 'E.g. "Wildlife Discoveries".',
+      description: 'Bijv. "Wildlife Ontdekkingen".',
     }),
     defineField({
       name: 'wildlifeSubtitle',
-      title: 'Wildlife Subtitle',
+      title: 'Wildlife Ondertitel',
       type: 'text',
       rows: 2,
       group: 'wildlife',
@@ -93,28 +93,28 @@ export default defineType({
     // ─── GUIDES SECTION ────────────────────────────────────────────
     defineField({
       name: 'guidesSectionTitle',
-      title: 'Guides Section Title',
+      title: 'Gidsen Sectie Titel',
       type: 'string',
       group: 'guides',
-      description: 'E.g. "Pure & Practical".',
+      description: 'Bijv. "Puur Praktisch".',
     }),
     defineField({
       name: 'guidesDescription',
-      title: 'Guides Description',
+      title: 'Gidsen Beschrijving',
       type: 'text',
       rows: 3,
       group: 'guides',
     }),
     defineField({
       name: 'guidesCtaLabel',
-      title: 'Guides CTA Label',
+      title: 'Gidsen CTA Label',
       type: 'string',
       group: 'guides',
-      description: 'E.g. "Ask Expert Advice".',
+      description: 'Bijv. "Vraag Advies Aan Expert".',
     }),
     defineField({
       name: 'guidesCtaLink',
-      title: 'Guides CTA Link',
+      title: 'Gidsen CTA Link',
       type: 'string',
       group: 'guides',
     }),
@@ -122,30 +122,30 @@ export default defineType({
     // ─── READER CTA ────────────────────────────────────────────────
     defineField({
       name: 'readerCtaBadge',
-      title: 'Reader CTA Badge',
+      title: 'Lezer CTA Badge',
       type: 'string',
       group: 'readerCta',
-      description: 'E.g. "For Our Travellers".',
+      description: 'Bijv. "Voor Onze Reizigers".',
     }),
     defineField({
       name: 'readerCtaHeading',
-      title: 'Reader CTA Heading',
+      title: 'Lezer CTA Koptekst',
       type: 'string',
       group: 'readerCta',
     }),
     defineField({
       name: 'readerCtaBody',
-      title: 'Reader CTA Text',
+      title: 'Lezer CTA Tekst',
       type: 'text',
       rows: 3,
       group: 'readerCta',
     }),
     defineField({
       name: 'readerCtaButton',
-      title: 'Reader CTA Button Text',
+      title: 'Lezer CTA Knoptekst',
       type: 'string',
       group: 'readerCta',
-      description: 'E.g. "Write Your Travel Journal".',
+      description: 'Bijv. "Schrijf Jouw Reisdagboek".',
     }),
 
     // ─── SEO ───────────────────────────────────────────────────────
@@ -157,6 +157,6 @@ export default defineType({
     }),
   ],
   preview: {
-    prepare: () => ({ title: 'Blog Page' }),
+    prepare: () => ({ title: 'Blog Pagina' }),
   },
 })

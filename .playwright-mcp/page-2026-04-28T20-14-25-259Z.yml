@@ -1,0 +1,279 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /en
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Trips" [ref=e9] [cursor=pointer]:
+          - /url: /en/safaris
+          - text: Safari Trips
+        - link "Destinations" [ref=e10] [cursor=pointer]:
+          - /url: /en/destinations
+          - text: Destinations
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /en/blog
+          - text: Blog
+        - link "About Us" [ref=e12] [cursor=pointer]:
+          - /url: /en/about
+          - text: About Us
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /en/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /en/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - button "Schakel naar donkere modus" [ref=e19]:
+          - img [ref=e20]
+        - link "Custom Itinerary" [ref=e22] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+  - main [ref=e23]:
+    - generic [ref=e24]:
+      - img "Tourists sitting on top of two tourist cars" [ref=e25]
+      - generic [ref=e30]:
+        - navigation "Breadcrumb" [ref=e31]:
+          - link "Home" [ref=e32] [cursor=pointer]:
+            - /url: /en
+            - img [ref=e33]
+            - generic [ref=e36]: Home
+          - generic [ref=e37]:
+            - img
+            - generic [ref=e38]: Blog
+        - heading "Safari Stories & Guides" [level=1] [ref=e39]
+        - paragraph [ref=e40]: Dive into our adventures. From personal travel reports to animal guides and useful packing tips for your next safari.
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - heading "Stories from the Bush" [level=2] [ref=e45]
+        - generic [ref=e47]:
+          - link [ref=e48] [cursor=pointer]:
+            - /url: /en/blog/gorilla-trekking-rwanda-onvergetelijke-ervaring
+            - article [ref=e49]:
+              - generic [ref=e51]:
+                - generic [ref=e52]: Featured Story
+                - 'heading "Gorilla Trekking in Rwanda: An Unforgettable Experience" [level=3] [ref=e53]'
+                - paragraph [ref=e54]: Coming face to face with a mountain gorilla is one of the most intimate and moving experiences Africa has to offer. In this article our traveller shares her personal story.
+                - generic [ref=e55]:
+                  - generic [ref=e56]:
+                    - generic [ref=e57]:
+                      - img [ref=e58]
+                      - text: 20 juni 2024
+                    - generic [ref=e60]:
+                      - img [ref=e61]
+                      - text: Sarah de Boer
+                  - generic [ref=e64]:
+                    - generic [ref=e65]: Read Article
+                    - img [ref=e67]
+          - link [ref=e72] [cursor=pointer]:
+            - /url: /en/blog/kilimanjaro-beklimming-tips-ervaring
+            - article [ref=e73]:
+              - generic [ref=e74]:
+                - generic: Reisverhalen
+              - generic [ref=e77]:
+                - generic [ref=e79]:
+                  - generic [ref=e80]:
+                    - generic [ref=e81]:
+                      - img [ref=e82]
+                      - generic [ref=e84]: 28 februari 2024
+                    - generic [ref=e85]:
+                      - img [ref=e86]
+                      - generic [ref=e89]: Tom Bergman
+                  - 'heading "Climbing the Kilimanjaro: Tips and Experience" [level=2] [ref=e90]'
+                  - paragraph [ref=e91]: Climbing the Kilimanjaro is a dream for many travellers. In this article Tom talks about his journey via the Lemosho route to the highest peak in Africa.
+                - generic [ref=e94]:
+                  - generic [ref=e95]: Read Article
+                  - img [ref=e97]
+      - generic [ref=e100]:
+        - generic [ref=e101]:
+          - generic [ref=e102]: Flora & Fauna
+          - heading "Wildlife Discoveries" [level=2] [ref=e103]
+          - paragraph [ref=e104]: From the mass migrations on the endless savannahs to spotting rare predators in the bushes.
+        - generic [ref=e105]:
+          - link [ref=e107] [cursor=pointer]:
+            - /url: /en/blog/de-grote-trek-alles-wat-je-moet-weten
+            - article [ref=e108]:
+              - generic [ref=e109]:
+                - generic: Wildlife
+              - generic [ref=e112]:
+                - generic [ref=e114]:
+                  - generic [ref=e115]:
+                    - generic [ref=e116]:
+                      - img [ref=e117]
+                      - generic [ref=e119]: 15 juli 2024
+                    - generic [ref=e120]:
+                      - img [ref=e121]
+                      - generic [ref=e124]: Pure Safaris Team
+                  - 'heading "The Great Trek: Everything you need to know" [level=2] [ref=e125]'
+                  - paragraph [ref=e126]: The annual Great Trek is one of the most spectacular natural phenomena on earth. More than 1.5 million wildebeest, 200,000 zebras and 500,000 gazelles migrate from Serengeti to Maasai Mara.
+                - generic [ref=e129]:
+                  - generic [ref=e130]: Read Article
+                  - img [ref=e132]
+          - link [ref=e136] [cursor=pointer]:
+            - /url: /en/blog/okavango-delta-oase-kalahari
+            - article [ref=e137]:
+              - generic [ref=e138]:
+                - generic: Wildlife
+              - generic [ref=e141]:
+                - generic [ref=e143]:
+                  - generic [ref=e144]:
+                    - generic [ref=e145]:
+                      - img [ref=e146]
+                      - generic [ref=e148]: 5 april 2024
+                    - generic [ref=e149]:
+                      - img [ref=e150]
+                      - generic [ref=e153]: Mark van Dijk
+                  - 'heading "The Okavango Delta: An Oasis in the Kalahari" [level=2] [ref=e154]'
+                  - paragraph [ref=e155]: The Okavango Delta in Botswana is one of the few large inland deltas in the world. Every year the river water flows into the dry Kalahari desert and creates a temporary oasis full of life.
+                - generic [ref=e158]:
+                  - generic [ref=e159]: Read Article
+                  - img [ref=e161]
+      - generic [ref=e164]:
+        - img [ref=e166]
+        - generic [ref=e168]:
+          - generic [ref=e169]:
+            - heading "Purely Practical" [level=2] [ref=e170]
+            - paragraph [ref=e171]: Preparation is essential for a worry-free safari. Check out our practical guides and tips on what to pack, the best times to travel and how to get the most out of your trip.
+            - link "Ask Expert Advice" [ref=e172] [cursor=pointer]:
+              - /url: /en/contact
+          - generic [ref=e173]:
+            - link [ref=e175] [cursor=pointer]:
+              - /url: /en/blog/beste-tijd-kenya
+              - article [ref=e176]:
+                - generic [ref=e177]:
+                  - generic: Bestemmingsgidsen
+                - generic [ref=e180]:
+                  - generic [ref=e182]:
+                    - generic [ref=e183]:
+                      - generic [ref=e184]:
+                        - img [ref=e185]
+                        - generic [ref=e187]: 10 mei 2024
+                      - generic [ref=e188]:
+                        - img [ref=e189]
+                        - generic [ref=e192]: Pure Safaris Team
+                    - heading "When is the best time to go to Kenya?" [level=2] [ref=e193]
+                    - paragraph [ref=e194]: Kenya has two dry seasons and two rainy seasons. We explain which time best suits your wishes, budget and which wildlife you want to see.
+                  - generic [ref=e197]:
+                    - generic [ref=e198]: Read Article
+                    - img [ref=e200]
+            - link [ref=e204] [cursor=pointer]:
+              - /url: /en/blog/wat-inpakken-voor-safari
+              - article [ref=e205]:
+                - generic [ref=e206]:
+                  - generic: Tips & Advies
+                - generic [ref=e209]:
+                  - generic [ref=e211]:
+                    - generic [ref=e212]:
+                      - generic [ref=e213]:
+                        - img [ref=e214]
+                        - generic [ref=e216]: 18 maart 2024
+                      - generic [ref=e217]:
+                        - img [ref=e218]
+                        - generic [ref=e221]: Pure Safaris Team
+                    - heading "What to pack for a safari?" [level=2] [ref=e222]
+                    - paragraph [ref=e223]: Good preparation is half the battle. In our extensive packing list you will find everything you need for a comfortable and successful safari trip.
+                  - generic [ref=e227]:
+                    - generic [ref=e228]: Read Article
+                    - img [ref=e230]
+      - generic [ref=e233]:
+        - img [ref=e235]
+        - generic [ref=e238]:
+          - generic [ref=e239]: For Our Travellers
+          - heading "Have you recently experienced an unforgettable safari with us?" [level=2] [ref=e240]
+          - paragraph [ref=e241]: We are passionate about telling real stories. Develop your own blog article, share your favorite travel photos, and inspire the next generation of travellers with your adventure.
+          - link "Write Your Travel Diary" [ref=e242] [cursor=pointer]:
+            - /url: /en/blog/submit
+            - text: Write Your Travel Diary
+            - img [ref=e243]
+  - contentinfo [ref=e245]:
+    - generic [ref=e246]:
+      - generic [ref=e247]:
+        - generic [ref=e248]:
+          - link "puur uganda reizen logo" [ref=e249] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e250]
+          - paragraph [ref=e251]: Discover Africa at its purest
+          - paragraph [ref=e252]: Puur Uganda Reizen organizes authentic safari trips tailor-made. We connect travellers with the magic of Africa.
+          - generic [ref=e253]:
+            - link "Instagram" [ref=e254] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e255]
+            - link "Facebook" [ref=e257] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e258]
+            - link "YouTube" [ref=e260] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e261]
+            - link "WhatsApp" [ref=e263] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e264]
+        - generic [ref=e266]:
+          - heading "Safari Trips" [level=3] [ref=e267]
+          - list [ref=e268]:
+            - listitem [ref=e269]:
+              - link "All safari trips" [ref=e270] [cursor=pointer]:
+                - /url: /en/safaris
+            - listitem [ref=e271]:
+              - link "Wildlife Safaris" [ref=e272] [cursor=pointer]:
+                - /url: /en/safaris?category=wildlife
+            - listitem [ref=e273]:
+              - link "Mountain & Trekking" [ref=e274] [cursor=pointer]:
+                - /url: /en/safaris?category=hiking
+            - listitem [ref=e275]:
+              - link "Combination trip" [ref=e276] [cursor=pointer]:
+                - /url: /en/safaris?category=combined
+            - listitem [ref=e277]:
+              - link "Destinations" [ref=e278] [cursor=pointer]:
+                - /url: /en/destinations
+        - generic [ref=e279]:
+          - heading "About Us" [level=3] [ref=e280]
+          - list [ref=e281]:
+            - listitem [ref=e282]:
+              - link "About Pure Safaris" [ref=e283] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e284]:
+              - link "Travel blog" [ref=e285] [cursor=pointer]:
+                - /url: /en/blog
+            - listitem [ref=e286]:
+              - link "Frequently asked questions" [ref=e287] [cursor=pointer]:
+                - /url: /en/faq
+            - listitem [ref=e288]:
+              - link "Contact" [ref=e289] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e290]:
+          - heading "Contact" [level=3] [ref=e291]
+          - list [ref=e292]:
+            - listitem [ref=e293]:
+              - link "+31 653536011" [ref=e294] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e295]
+                - generic [ref=e297]: +31 653536011
+            - listitem [ref=e298]:
+              - link "info@puurugandareizen.nl" [ref=e299] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e300]
+                - generic [ref=e303]: info@puurugandareizen.nl
+            - listitem [ref=e304]:
+              - img [ref=e305]
+              - generic [ref=e308]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e309]:
+              - img [ref=e310]
+              - generic [ref=e313]: The Netherlands
+            - listitem [ref=e314]:
+              - link "WhatsApp" [ref=e315] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e316]
+                - text: WhatsApp
+      - generic [ref=e318]:
+        - paragraph [ref=e319]: "© 2026 Puur Uganda Reizen. All rights reserved. · KvK: 12345678"
+        - generic [ref=e320]:
+          - link "Privacy Policy" [ref=e321] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "General Terms and Conditions" [ref=e322] [cursor=pointer]:
+            - /url: /en/terms
+  - button "Open Next.js Dev Tools" [ref=e328] [cursor=pointer]:
+    - img [ref=e329]
+  - alert [ref=e332]

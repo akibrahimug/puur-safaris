@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import { stegaClean } from "@sanity/client/stega";
 import type { Locale } from "@/i18n/config";
 import { localePath, cmsPathToLocale } from "@/i18n/routes";
+import { sanityImageUrl } from "@/sanity/image";
 import type { SiteSettings } from "@/lib/types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,7 +30,7 @@ export function Footer({ settings, locale = "nl", dict }: FooterProps) {
             <Link href="/" className="inline-block mb-6">
               {settings?.logo?.asset?.url ? (
                 <Image
-                  src={settings.logo.asset.url}
+                  src={sanityImageUrl(settings.logo, 560)}
                   alt={
                     settings.logo.alt ?? settings?.siteName ?? "Puur Uganda Reizen"
                   }

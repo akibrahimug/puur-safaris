@@ -2,28 +2,28 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'legalPage',
-  title: 'Legal Page',
+  title: 'Juridische Pagina',
   type: 'document',
   groups: [
-    { name: 'content', title: 'Content' },
+    { name: 'content', title: 'Inhoud' },
     { name: 'seo', title: 'SEO' },
   ],
   fields: [
     // ─── CONTENT ───────────────────────────────────────────────────
     defineField({
       name: 'heroImage',
-      title: 'Hero Image',
+      title: 'Hero Afbeelding',
       type: 'image',
       group: 'content',
       options: { hotspot: true },
-      fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
+      fields: [defineField({ name: 'alt', title: 'Alt tekst', type: 'string' })],
     }),
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Titel',
       type: 'string',
       group: 'content',
-      description: 'E.g. "Privacy Policy" or "Terms & Conditions".',
+      description: 'Bijv. "Privacybeleid" of "Algemene Voorwaarden".',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -36,7 +36,7 @@ export default defineType({
     }),
     defineField({
       name: 'body',
-      title: 'Content',
+      title: 'Inhoud',
       type: 'array',
       group: 'content',
       of: [
@@ -61,7 +61,7 @@ export default defineType({
                 title: 'Link',
                 fields: [
                   defineField({ name: 'href', type: 'url', title: 'URL' }),
-                  defineField({ name: 'openInNewTab', type: 'boolean', title: 'Open in new tab' }),
+                  defineField({ name: 'openInNewTab', type: 'boolean', title: 'Open in nieuw tabblad' }),
                 ],
               },
             ],
@@ -75,8 +75,8 @@ export default defineType({
           type: 'image',
           options: { hotspot: true },
           fields: [
-            defineField({ name: 'alt', type: 'string', title: 'Alt text' }),
-            defineField({ name: 'caption', type: 'string', title: 'Caption' }),
+            defineField({ name: 'alt', type: 'string', title: 'Alt tekst' }),
+            defineField({ name: 'caption', type: 'string', title: 'Bijschrift' }),
           ],
         },
       ],

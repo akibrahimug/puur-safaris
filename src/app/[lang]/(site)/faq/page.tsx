@@ -86,6 +86,7 @@ export default async function FaqPage({ params }: Props) {
         noResultsText={faqPage?.noResultsText}
         resetSearchLabel={faqPage?.resetSearchLabel}
         dict={dict}
+        locale={locale}
       />
     </>
   )

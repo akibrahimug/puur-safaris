@@ -2,27 +2,27 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'faqItem',
-  title: 'FAQ',
+  title: 'Veelgestelde Vragen',
   type: 'document',
   fields: [
     defineField({
       name: 'question',
-      title: 'Question',
+      title: 'Vraag',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'answer',
-      title: 'Answer',
+      title: 'Antwoord',
       type: 'array',
       of: [
         {
           type: 'block',
-          styles: [{ title: 'Normal', value: 'normal' }],
+          styles: [{ title: 'Normaal', value: 'normal' }],
           marks: {
             decorators: [
-              { title: 'Bold', value: 'strong' },
-              { title: 'Italic', value: 'em' },
+              { title: 'Vet', value: 'strong' },
+              { title: 'Cursief', value: 'em' },
             ],
             annotations: [
               {
@@ -39,30 +39,30 @@ export default defineType({
     }),
     defineField({
       name: 'category',
-      title: 'Category',
+      title: 'Categorie',
       type: 'string',
       options: {
         list: [
-          { value: 'general', title: 'General' },
-          { value: 'booking', title: 'Booking & Payment' },
-          { value: 'travel', title: 'Trips & Visa' },
-          { value: 'accommodation', title: 'Accommodation' },
-          { value: 'safety', title: 'Safety & Health' },
-          { value: 'packing', title: 'Packing & Preparation' },
+          { value: 'general', title: 'Algemeen' },
+          { value: 'booking', title: 'Boeking & Betaling' },
+          { value: 'travel', title: 'Reizen & Visa' },
+          { value: 'accommodation', title: 'Accommodatie' },
+          { value: 'safety', title: 'Veiligheid & Gezondheid' },
+          { value: 'packing', title: 'Inpakken & Voorbereiding' },
         ],
       },
     }),
     defineField({
       name: 'order',
-      title: 'Display Order',
+      title: 'Weergavevolgorde',
       type: 'number',
-      description: 'Lower numbers are shown earlier.',
+      description: 'Lagere nummers worden eerder getoond.',
       initialValue: 99,
     }),
   ],
   orderings: [
     {
-      title: 'Category & Order',
+      title: 'Categorie & Volgorde',
       name: 'categoryOrder',
       by: [
         { field: 'category', direction: 'asc' },

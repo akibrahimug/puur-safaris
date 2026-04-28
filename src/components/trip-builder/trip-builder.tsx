@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Check, ChevronRight, ChevronLeft, Minus, Plus, Send, PartyPopper, AlertCircle, Loader2 } from 'lucide-react'
+import { sanityImageUrl } from '@/sanity/image'
 import type { DestinationCard } from '@/lib/types'
 
 interface TripBuilderProps {
@@ -310,7 +311,7 @@ export function TripBuilder({ destinations, dict }: TripBuilderProps) {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         {destinations.map(dest => {
           const selected = selectedDests.includes(dest._id)
-          const imageUrl = dest.heroImage?.asset?.url || null
+          const imageUrl = dest.heroImage?.asset?.url ? sanityImageUrl(dest.heroImage, 600) : null
           return (
             <button
               key={dest._id}

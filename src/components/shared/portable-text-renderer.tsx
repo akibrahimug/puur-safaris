@@ -1,5 +1,6 @@
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
 import Image from 'next/image'
+import { sanityImageUrl } from '@/sanity/image'
 
 const components: PortableTextComponents = {
   block: {
@@ -85,7 +86,7 @@ const components: PortableTextComponents = {
             {images.map((img: any, idx: number) => (
               <div key={idx} className="relative aspect-square sm:aspect-[4/3] overflow-hidden rounded-2xl sm:rounded-3xl border border-[var(--border-subtle)] shadow-sm group">
                 <Image
-                  src={img.asset.url}
+                  src={sanityImageUrl(img, 1200)}
                   alt={img.alt ?? ''}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

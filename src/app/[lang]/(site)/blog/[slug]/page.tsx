@@ -90,12 +90,12 @@ export default async function BlogDetailPage({ params }: Props) {
         title={post.title}
         subtitle={post.summary}
         image={post.featuredImage}
-        eyebrow={post.category ? blogCategoryLabel(post.category) : undefined}
+        eyebrow={post.category ? blogCategoryLabel(post.category, locale) : undefined}
       >
         <div className="mt-4 flex flex-wrap items-center gap-4 text-sm" style={{ color: 'rgba(255,255,255,0.75)' }}>
           <span className="flex items-center gap-1.5">
             <Calendar className="h-4 w-4 text-gold" />
-            {formatDate(post.publishedAt)}
+            {formatDate(post.publishedAt, locale)}
           </span>
           {post.author && (
             <span className="flex items-center gap-1.5 border-l border-white/20 pl-4">

@@ -506,7 +506,7 @@ export function BookingForm({
           className="block text-xs font-semibold uppercase tracking-wider mb-2"
           style={{ color: 'var(--text-muted)' }}
         >
-          {d?.fieldPhone ?? 'Telefoon (optioneel)'}
+          {d?.fieldPhone ?? `Telefoon ${d?.optionalLabel ?? '(optioneel)'}`}
         </label>
         <input
           type="tel"
@@ -542,7 +542,7 @@ export function BookingForm({
           >
             {d?.fieldNationality ?? 'Nationaliteit'}{' '}
             <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
-              (optioneel)
+              {d?.optionalLabel ?? '(optioneel)'}
             </span>
           </label>
           <input
@@ -563,7 +563,7 @@ export function BookingForm({
           >
             {d?.fieldPassport ?? 'Paspoortnummer'}{' '}
             <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
-              (optioneel)
+              {d?.optionalLabel ?? '(optioneel)'}
             </span>
           </label>
           <input
@@ -614,7 +614,7 @@ export function BookingForm({
         >
           Dieetwensen{' '}
           <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
-            (optioneel)
+            {d?.optionalLabel ?? '(optioneel)'}
           </span>
         </label>
         <textarea
@@ -634,7 +634,7 @@ export function BookingForm({
         >
           Medische bijzonderheden{' '}
           <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
-            (vertrouwelijk, optioneel)
+            {d?.confidentialOptionalLabel ?? '(vertrouwelijk, optioneel)'}
           </span>
         </label>
         <textarea
@@ -654,7 +654,7 @@ export function BookingForm({
         >
           Speciale verzoeken{' '}
           <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
-            (optioneel)
+            {d?.optionalLabel ?? '(optioneel)'}
           </span>
         </label>
         <textarea
@@ -674,7 +674,7 @@ export function BookingForm({
         >
           Hoe heeft u ons gevonden?{' '}
           <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
-            (optioneel)
+            {d?.optionalLabel ?? '(optioneel)'}
           </span>
         </label>
         <div className="flex flex-wrap gap-2">

@@ -4,6 +4,7 @@ import { MapPin, ArrowUpRight } from 'lucide-react'
 import { localePath } from '@/i18n/routes'
 import type { Locale } from '@/i18n/config'
 import { HoverCard } from '@/components/motion/hover-card'
+import { sanityImageUrl } from '@/sanity/image'
 import type { DestinationCard as DestinationCardType } from '@/lib/types'
 
 export interface DestinationCardLabels {
@@ -19,7 +20,7 @@ interface DestinationCardProps {
 }
 
 export function DestinationCard({ destination, labels, locale = "nl" }: DestinationCardProps) {
-  const imageUrl = destination.heroImage?.asset?.url || null
+  const imageUrl = destination.heroImage?.asset?.url ? sanityImageUrl(destination.heroImage, 1080) : null
 
   return (
     <HoverCard>

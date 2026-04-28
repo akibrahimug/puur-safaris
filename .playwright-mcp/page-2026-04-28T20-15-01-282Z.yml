@@ -1,0 +1,166 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /en
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Trips" [ref=e9] [cursor=pointer]:
+          - /url: /en/safaris
+          - text: Safari Trips
+        - link "Destinations" [ref=e10] [cursor=pointer]:
+          - /url: /en/destinations
+          - text: Destinations
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /en/blog
+          - text: Blog
+        - link "About Us" [ref=e12] [cursor=pointer]:
+          - /url: /en/about
+          - text: About Us
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /en/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /en/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - link "Custom Itinerary" [ref=e20] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+  - main [ref=e21]:
+    - generic [ref=e28]:
+      - navigation "Breadcrumb" [ref=e29]:
+        - link "Home" [ref=e30] [cursor=pointer]:
+          - /url: /en
+          - img [ref=e31]
+          - generic [ref=e34]: Home
+        - generic [ref=e35]:
+          - img
+          - link "Blog" [ref=e36] [cursor=pointer]:
+            - /url: /en/blog
+        - generic [ref=e37]:
+          - img
+          - generic [ref=e38]: Gorilla Trekking Rwanda Onvergetelijke Ervaring
+      - paragraph [ref=e39]: Reisverhalen
+      - 'heading "Gorilla Trekking in Rwanda: An Unforgettable Experience" [level=1] [ref=e40]'
+      - paragraph [ref=e41]: Coming face to face with a mountain gorilla is one of the most intimate and moving experiences Africa has to offer. In this article our traveller shares her personal story.
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - img [ref=e45]
+          - text: 20 juni 2024
+        - generic [ref=e47]:
+          - img [ref=e48]
+          - text: Sarah de Boer
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - img [ref=e55]
+        - generic [ref=e58]:
+          - paragraph [ref=e59]: Written by
+          - paragraph [ref=e60]: Sarah de Boer
+      - generic [ref=e62]:
+        - paragraph [ref=e63]: It was early in the morning when we entered Volcanoes National Park. The mist still hung low over the hills as our ranger pointed us in the direction of the Susa group — one of the largest gorilla families in Rwanda.
+        - heading "The draw" [level=2] [ref=e64]
+        - paragraph [ref=e65]: After two hours of walking through dense bamboo forest, suddenly a sound right next to the path. Our guide put his hand on my arm and pointed. There, just three meters away, a young gorilla sat quietly eating leaves. My heart stood still.
+        - heading "The hour with the gorillas" [level=2] [ref=e66]
+        - paragraph [ref=e67]: You have exactly one hour in the presence of the gorillas. It seemed both an eternity and a second. The silverback lay lazily on his back as the young clambered over him. No zoo, no documentary can prepare for this.
+        - heading "Practical information" [level=2] [ref=e68]
+        - paragraph [ref=e69]: A gorilla trekking permit costs $1500 per person. This directly contributes to the protection of the gorillas and the local community. The trekking takes 2-8 hours depending on where the gorillas are located. Good fitness is a requirement.
+      - link "← Back to all blog posts" [ref=e71] [cursor=pointer]:
+        - /url: /en/blog
+      - generic [ref=e72]:
+        - img [ref=e74]
+        - heading "Inspired by this trip?" [level=3] [ref=e79]
+        - paragraph [ref=e80]: What you read in this blog can also become your reality. We are happy to help you design a fully personalized adventure in Africa.
+        - link "Compose your Dream safari" [ref=e81] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+  - contentinfo [ref=e82]:
+    - generic [ref=e83]:
+      - generic [ref=e84]:
+        - generic [ref=e85]:
+          - link "puur uganda reizen logo" [ref=e86] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e87]
+          - paragraph [ref=e88]: Discover Africa at its purest
+          - paragraph [ref=e89]: Puur Uganda Reizen organizes authentic safari trips tailor-made. We connect travellers with the magic of Africa.
+          - generic [ref=e90]:
+            - link "Instagram" [ref=e91] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e92]
+            - link "Facebook" [ref=e94] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e95]
+            - link "YouTube" [ref=e97] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e98]
+            - link "WhatsApp" [ref=e100] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e101]
+        - generic [ref=e103]:
+          - heading "Safari Trips" [level=3] [ref=e104]
+          - list [ref=e105]:
+            - listitem [ref=e106]:
+              - link "All safari trips" [ref=e107] [cursor=pointer]:
+                - /url: /en/safaris
+            - listitem [ref=e108]:
+              - link "Wildlife Safaris" [ref=e109] [cursor=pointer]:
+                - /url: /en/safaris?category=wildlife
+            - listitem [ref=e110]:
+              - link "Mountain & Trekking" [ref=e111] [cursor=pointer]:
+                - /url: /en/safaris?category=hiking
+            - listitem [ref=e112]:
+              - link "Combination trip" [ref=e113] [cursor=pointer]:
+                - /url: /en/safaris?category=combined
+            - listitem [ref=e114]:
+              - link "Destinations" [ref=e115] [cursor=pointer]:
+                - /url: /en/destinations
+        - generic [ref=e116]:
+          - heading "About Us" [level=3] [ref=e117]
+          - list [ref=e118]:
+            - listitem [ref=e119]:
+              - link "About Pure Safaris" [ref=e120] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e121]:
+              - link "Travel blog" [ref=e122] [cursor=pointer]:
+                - /url: /en/blog
+            - listitem [ref=e123]:
+              - link "Frequently asked questions" [ref=e124] [cursor=pointer]:
+                - /url: /en/faq
+            - listitem [ref=e125]:
+              - link "Contact" [ref=e126] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e127]:
+          - heading "Contact" [level=3] [ref=e128]
+          - list [ref=e129]:
+            - listitem [ref=e130]:
+              - link "+31 653536011" [ref=e131] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e132]
+                - generic [ref=e134]: +31 653536011
+            - listitem [ref=e135]:
+              - link "info@puurugandareizen.nl" [ref=e136] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e137]
+                - generic [ref=e140]: info@puurugandareizen.nl
+            - listitem [ref=e141]:
+              - img [ref=e142]
+              - generic [ref=e145]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e146]:
+              - img [ref=e147]
+              - generic [ref=e150]: The Netherlands
+            - listitem [ref=e151]:
+              - link "WhatsApp" [ref=e152] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e153]
+                - text: WhatsApp
+      - generic [ref=e155]:
+        - paragraph [ref=e156]: "© 2026 Puur Uganda Reizen. All rights reserved. · KvK: 12345678"
+        - generic [ref=e157]:
+          - link "Privacy Policy" [ref=e158] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "General Terms and Conditions" [ref=e159] [cursor=pointer]:
+            - /url: /en/terms
+  - button "Open Next.js Dev Tools" [ref=e165] [cursor=pointer]:
+    - img [ref=e166]

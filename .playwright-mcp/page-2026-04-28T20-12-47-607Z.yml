@@ -1,0 +1,536 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /en
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Trips" [ref=e9] [cursor=pointer]:
+          - /url: /en/safaris
+          - text: Safari Trips
+        - link "Destinations" [ref=e10] [cursor=pointer]:
+          - /url: /en/destinations
+          - text: Destinations
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /en/blog
+          - text: Blog
+        - link "About Us" [ref=e12] [cursor=pointer]:
+          - /url: /en/about
+          - text: About Us
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /en/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /en/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - link "Custom Itinerary" [ref=e20] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+  - main [ref=e21]:
+    - generic [ref=e22]:
+      - img "22 dagen diep in uganda, 22 days deep in uganda, national park" [ref=e23]
+      - generic [ref=e26]:
+        - navigation "Breadcrumb" [ref=e27]:
+          - link "Home" [ref=e28] [cursor=pointer]:
+            - /url: /en
+            - img [ref=e29]
+            - generic [ref=e32]: Home
+          - generic [ref=e33]:
+            - img
+            - link "Safaris" [ref=e34] [cursor=pointer]:
+              - /url: /en/safaris
+          - generic [ref=e35]:
+            - img
+            - generic [ref=e36]: 22 Dagen Diep In Oeganda
+        - heading "22 Days Deep in Uganda" [level=1] [ref=e37]
+        - generic [ref=e38]:
+          - img [ref=e39]
+          - generic [ref=e42]: Queen Elizabeth Nationaal Park, Oeganda
+    - generic [ref=e44]:
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - img [ref=e48]
+          - paragraph [ref=e51]: Duration
+          - paragraph [ref=e52]: 22 days / 21 nights
+        - generic [ref=e53]:
+          - img [ref=e54]
+          - paragraph [ref=e57]: Level
+          - paragraph [ref=e58]: Uitdagend
+        - generic [ref=e59]:
+          - img [ref=e60]
+          - paragraph [ref=e65]: Group size
+          - paragraph [ref=e66]: 4–32 pers.
+        - generic [ref=e67]:
+          - img [ref=e68]
+          - paragraph [ref=e71]: Type
+          - paragraph [ref=e72]: Combinatiereis
+      - complementary [ref=e73]:
+        - generic [ref=e74]:
+          - generic [ref=e75]:
+            - text: Price from
+            - paragraph [ref=e76]: € 7.200
+            - text: per person
+          - generic [ref=e77]:
+            - generic [ref=e78]:
+              - generic [ref=e79]: Duration
+              - generic [ref=e80]: 22 days / 21 nights
+            - generic [ref=e81]:
+              - generic [ref=e82]: Level
+              - generic [ref=e83]: Uitdagend
+          - link "Book this trip" [ref=e84] [cursor=pointer]:
+            - /url: /en/safaris/22-dagen-diep-in-oeganda/book
+          - link "Custom Itinerary" [ref=e85] [cursor=pointer]:
+            - /url: /en/custom-itinerary
+      - generic [ref=e86]:
+        - generic [ref=e87]:
+          - heading "Highlights" [level=2] [ref=e88]
+          - list [ref=e89]:
+            - listitem [ref=e90]:
+              - img [ref=e91]
+              - generic [ref=e94]: Boda-boda city tour by Kampala
+            - listitem [ref=e95]:
+              - img [ref=e96]
+              - generic [ref=e99]: Zip lining and Nile rafting in Jinja
+            - listitem [ref=e100]:
+              - img [ref=e101]
+              - generic [ref=e104]: Sipi Falls walks
+            - listitem [ref=e105]:
+              - img [ref=e106]
+              - generic [ref=e109]: Kidepo Valley game drives
+            - listitem [ref=e110]:
+              - img [ref=e111]
+              - generic [ref=e114]: Murchison Falls boat cruise
+            - listitem [ref=e115]:
+              - img [ref=e116]
+              - generic [ref=e119]: Chimpanzee trekking in Kibale
+            - listitem [ref=e120]:
+              - img [ref=e121]
+              - generic [ref=e124]: Tree climbing lions from Ishasha
+            - listitem [ref=e125]:
+              - img [ref=e126]
+              - generic [ref=e129]: Gorilla trekking in Bwindi
+            - listitem [ref=e130]:
+              - img [ref=e131]
+              - generic [ref=e134]: Canoe trip on Lake Bunyonyi
+            - listitem [ref=e135]:
+              - img [ref=e136]
+              - generic [ref=e139]: Mountain bike safari in Lake Mburo
+        - generic [ref=e140]:
+          - heading "Day-to-day Itinerary" [level=2] [ref=e141]
+          - generic [ref=e142]:
+            - button "1 Kampala city tour Kampala Dinner" [ref=e144]:
+              - generic [ref=e145]: "1"
+              - generic [ref=e146]:
+                - generic [ref=e147]: Kampala city tour
+                - generic [ref=e148]:
+                  - generic [ref=e149]:
+                    - img [ref=e150]
+                    - generic [ref=e153]: Kampala
+                  - generic [ref=e154]:
+                    - img [ref=e155]
+                    - generic [ref=e158]: Dinner
+              - img [ref=e159]
+            - button "2 Jinja — zip lining Jinja Breakfast · Lunch · Dinner" [ref=e162]:
+              - generic [ref=e163]: "2"
+              - generic [ref=e164]:
+                - generic [ref=e165]: Jinja — zip lining
+                - generic [ref=e166]:
+                  - generic [ref=e167]:
+                    - img [ref=e168]
+                    - generic [ref=e171]: Jinja
+                  - generic [ref=e172]:
+                    - img [ref=e173]
+                    - generic [ref=e176]: Breakfast · Lunch · Dinner
+              - img [ref=e177]
+            - button "3 Nile rafting Jinja Breakfast · Lunch · Dinner" [ref=e180]:
+              - generic [ref=e181]: "3"
+              - generic [ref=e182]:
+                - generic [ref=e183]: Nile rafting
+                - generic [ref=e184]:
+                  - generic [ref=e185]:
+                    - img [ref=e186]
+                    - generic [ref=e189]: Jinja
+                  - generic [ref=e190]:
+                    - img [ref=e191]
+                    - generic [ref=e194]: Breakfast · Lunch · Dinner
+              - img [ref=e195]
+            - button "4 Sipi Falls Sipi Falls Breakfast · Lunch · Dinner" [ref=e198]:
+              - generic [ref=e199]: "4"
+              - generic [ref=e200]:
+                - generic [ref=e201]: Sipi Falls
+                - generic [ref=e202]:
+                  - generic [ref=e203]:
+                    - img [ref=e204]
+                    - generic [ref=e207]: Sipi Falls
+                  - generic [ref=e208]:
+                    - img [ref=e209]
+                    - generic [ref=e212]: Breakfast · Lunch · Dinner
+              - img [ref=e213]
+            - button "5 Sipi Falls walk Sipi Falls Breakfast · Lunch · Dinner" [ref=e216]:
+              - generic [ref=e217]: "5"
+              - generic [ref=e218]:
+                - generic [ref=e219]: Sipi Falls walk
+                - generic [ref=e220]:
+                  - generic [ref=e221]:
+                    - img [ref=e222]
+                    - generic [ref=e225]: Sipi Falls
+                  - generic [ref=e226]:
+                    - img [ref=e227]
+                    - generic [ref=e230]: Breakfast · Lunch · Dinner
+              - img [ref=e231]
+            - button "6 Travel to Moroto Moroto Breakfast · Lunch · Dinner" [ref=e234]:
+              - generic [ref=e235]: "6"
+              - generic [ref=e236]:
+                - generic [ref=e237]: Travel to Moroto
+                - generic [ref=e238]:
+                  - generic [ref=e239]:
+                    - img [ref=e240]
+                    - generic [ref=e243]: Moroto
+                  - generic [ref=e244]:
+                    - img [ref=e245]
+                    - generic [ref=e248]: Breakfast · Lunch · Dinner
+              - img [ref=e249]
+            - button "7 Mountain biking & culture Moroto Breakfast · Lunch · Dinner" [ref=e252]:
+              - generic [ref=e253]: "7"
+              - generic [ref=e254]:
+                - generic [ref=e255]: Mountain biking & culture
+                - generic [ref=e256]:
+                  - generic [ref=e257]:
+                    - img [ref=e258]
+                    - generic [ref=e261]: Moroto
+                  - generic [ref=e262]:
+                    - img [ref=e263]
+                    - generic [ref=e266]: Breakfast · Lunch · Dinner
+              - img [ref=e267]
+            - button "8 Kidepo Valley & game drive Kidepo Valley NP Breakfast · Lunch · Dinner" [ref=e270]:
+              - generic [ref=e271]: "8"
+              - generic [ref=e272]:
+                - generic [ref=e273]: Kidepo Valley & game drive
+                - generic [ref=e274]:
+                  - generic [ref=e275]:
+                    - img [ref=e276]
+                    - generic [ref=e279]: Kidepo Valley NP
+                  - generic [ref=e280]:
+                    - img [ref=e281]
+                    - generic [ref=e284]: Breakfast · Lunch · Dinner
+              - img [ref=e285]
+            - button "9 Kidepo game drive Kidepo Valley NP Breakfast · Lunch · Dinner" [ref=e288]:
+              - generic [ref=e289]: "9"
+              - generic [ref=e290]:
+                - generic [ref=e291]: Kidepo game drive
+                - generic [ref=e292]:
+                  - generic [ref=e293]:
+                    - img [ref=e294]
+                    - generic [ref=e297]: Kidepo Valley NP
+                  - generic [ref=e298]:
+                    - img [ref=e299]
+                    - generic [ref=e302]: Breakfast · Lunch · Dinner
+              - img [ref=e303]
+            - button "10 Travel to Murchison Falls Murchison Falls NP Breakfast · Lunch · Dinner" [ref=e306]:
+              - generic [ref=e307]: "10"
+              - generic [ref=e308]:
+                - generic [ref=e309]: Travel to Murchison Falls
+                - generic [ref=e310]:
+                  - generic [ref=e311]:
+                    - img [ref=e312]
+                    - generic [ref=e315]: Murchison Falls NP
+                  - generic [ref=e316]:
+                    - img [ref=e317]
+                    - generic [ref=e320]: Breakfast · Lunch · Dinner
+              - img [ref=e321]
+            - button "11 Game drive & boat cruise Murchison Falls NP Breakfast · Lunch · Dinner" [ref=e324]:
+              - generic [ref=e325]: "11"
+              - generic [ref=e326]:
+                - generic [ref=e327]: Game drive & boat cruise
+                - generic [ref=e328]:
+                  - generic [ref=e329]:
+                    - img [ref=e330]
+                    - generic [ref=e333]: Murchison Falls NP
+                  - generic [ref=e334]:
+                    - img [ref=e335]
+                    - generic [ref=e338]: Breakfast · Lunch · Dinner
+              - img [ref=e339]
+            - button "12 Travel to Kibale Forest Kibale Forest Breakfast · Lunch · Dinner" [ref=e342]:
+              - generic [ref=e343]: "12"
+              - generic [ref=e344]:
+                - generic [ref=e345]: Travel to Kibale Forest
+                - generic [ref=e346]:
+                  - generic [ref=e347]:
+                    - img [ref=e348]
+                    - generic [ref=e351]: Kibale Forest
+                  - generic [ref=e352]:
+                    - img [ref=e353]
+                    - generic [ref=e356]: Breakfast · Lunch · Dinner
+              - img [ref=e357]
+            - button "13 Chimpanzee trekking Kibale Forest Breakfast · Lunch · Dinner" [ref=e360]:
+              - generic [ref=e361]: "13"
+              - generic [ref=e362]:
+                - generic [ref=e363]: Chimpanzee trekking
+                - generic [ref=e364]:
+                  - generic [ref=e365]:
+                    - img [ref=e366]
+                    - generic [ref=e369]: Kibale Forest
+                  - generic [ref=e370]:
+                    - img [ref=e371]
+                    - generic [ref=e374]: Breakfast · Lunch · Dinner
+              - img [ref=e375]
+            - button "14 Queen Elizabeth National Park Queen Elizabeth NP Breakfast · Lunch · Dinner" [ref=e378]:
+              - generic [ref=e379]: "14"
+              - generic [ref=e380]:
+                - generic [ref=e381]: Queen Elizabeth National Park
+                - generic [ref=e382]:
+                  - generic [ref=e383]:
+                    - img [ref=e384]
+                    - generic [ref=e387]: Queen Elizabeth NP
+                  - generic [ref=e388]:
+                    - img [ref=e389]
+                    - generic [ref=e392]: Breakfast · Lunch · Dinner
+              - img [ref=e393]
+            - button "15 Kazinga canal boat cruise Queen Elizabeth NP Breakfast · Lunch · Dinner" [ref=e396]:
+              - generic [ref=e397]: "15"
+              - generic [ref=e398]:
+                - generic [ref=e399]: Kazinga canal boat cruise
+                - generic [ref=e400]:
+                  - generic [ref=e401]:
+                    - img [ref=e402]
+                    - generic [ref=e405]: Queen Elizabeth NP
+                  - generic [ref=e406]:
+                    - img [ref=e407]
+                    - generic [ref=e410]: Breakfast · Lunch · Dinner
+              - img [ref=e411]
+            - button "16 Ishasha tree climbing lions Ishasha Breakfast · Lunch · Dinner" [ref=e414]:
+              - generic [ref=e415]: "16"
+              - generic [ref=e416]:
+                - generic [ref=e417]: Ishasha tree climbing lions
+                - generic [ref=e418]:
+                  - generic [ref=e419]:
+                    - img [ref=e420]
+                    - generic [ref=e423]: Ishasha
+                  - generic [ref=e424]:
+                    - img [ref=e425]
+                    - generic [ref=e428]: Breakfast · Lunch · Dinner
+              - img [ref=e429]
+            - button "17 Travel to Bwindi Bwindi Breakfast · Lunch · Dinner" [ref=e432]:
+              - generic [ref=e433]: "17"
+              - generic [ref=e434]:
+                - generic [ref=e435]: Travel to Bwindi
+                - generic [ref=e436]:
+                  - generic [ref=e437]:
+                    - img [ref=e438]
+                    - generic [ref=e441]: Bwindi
+                  - generic [ref=e442]:
+                    - img [ref=e443]
+                    - generic [ref=e446]: Breakfast · Lunch · Dinner
+              - img [ref=e447]
+            - button "18 Gorilla trekking Bwindi Breakfast · Lunch · Dinner" [ref=e450]:
+              - generic [ref=e451]: "18"
+              - generic [ref=e452]:
+                - generic [ref=e453]: Gorilla trekking
+                - generic [ref=e454]:
+                  - generic [ref=e455]:
+                    - img [ref=e456]
+                    - generic [ref=e459]: Bwindi
+                  - generic [ref=e460]:
+                    - img [ref=e461]
+                    - generic [ref=e464]: Breakfast · Lunch · Dinner
+              - img [ref=e465]
+            - button "19 Lake Bunyonyi canoe trip Lake Bunyonyi Breakfast · Lunch · Dinner" [ref=e468]:
+              - generic [ref=e469]: "19"
+              - generic [ref=e470]:
+                - generic [ref=e471]: Lake Bunyonyi canoe trip
+                - generic [ref=e472]:
+                  - generic [ref=e473]:
+                    - img [ref=e474]
+                    - generic [ref=e477]: Lake Bunyonyi
+                  - generic [ref=e478]:
+                    - img [ref=e479]
+                    - generic [ref=e482]: Breakfast · Lunch · Dinner
+              - img [ref=e483]
+            - button "20 Lake Mburo National Park Lake Mburo NP Breakfast · Lunch · Dinner" [ref=e486]:
+              - generic [ref=e487]: "20"
+              - generic [ref=e488]:
+                - generic [ref=e489]: Lake Mburo National Park
+                - generic [ref=e490]:
+                  - generic [ref=e491]:
+                    - img [ref=e492]
+                    - generic [ref=e495]: Lake Mburo NP
+                  - generic [ref=e496]:
+                    - img [ref=e497]
+                    - generic [ref=e500]: Breakfast · Lunch · Dinner
+              - img [ref=e501]
+            - button "21 Mountain bike safari Lake Mburo NP Breakfast · Lunch · Dinner" [ref=e504]:
+              - generic [ref=e505]: "21"
+              - generic [ref=e506]:
+                - generic [ref=e507]: Mountain bike safari
+                - generic [ref=e508]:
+                  - generic [ref=e509]:
+                    - img [ref=e510]
+                    - generic [ref=e513]: Lake Mburo NP
+                  - generic [ref=e514]:
+                    - img [ref=e515]
+                    - generic [ref=e518]: Breakfast · Lunch · Dinner
+              - img [ref=e519]
+            - button "22 Return trip to Entebbe Entebbe Breakfast · Lunch" [ref=e522]:
+              - generic [ref=e523]: "22"
+              - generic [ref=e524]:
+                - generic [ref=e525]: Return trip to Entebbe
+                - generic [ref=e526]:
+                  - generic [ref=e527]:
+                    - img [ref=e528]
+                    - generic [ref=e531]: Entebbe
+                  - generic [ref=e532]:
+                    - img [ref=e533]
+                    - generic [ref=e536]: Breakfast · Lunch
+              - img [ref=e537]
+        - generic [ref=e539]:
+          - heading "Included and excluded" [level=2] [ref=e540]
+          - generic [ref=e541]:
+            - generic [ref=e542]:
+              - paragraph [ref=e543]: Included
+              - generic [ref=e544]:
+                - generic [ref=e545]:
+                  - generic [ref=e546]: ✓
+                  - text: Airport transfers
+                - generic [ref=e547]:
+                  - generic [ref=e548]: ✓
+                  - text: 4x4 safari vehicle with English-speaking guide
+                - generic [ref=e549]:
+                  - generic [ref=e550]: ✓
+                  - text: 21 nights accommodation
+                - generic [ref=e551]:
+                  - generic [ref=e552]: ✓
+                  - text: All meals (full board)
+                - generic [ref=e553]:
+                  - generic [ref=e554]: ✓
+                  - text: Park entrance fees
+                - generic [ref=e555]:
+                  - generic [ref=e556]: ✓
+                  - text: All mentioned activities and permits
+                - generic [ref=e557]:
+                  - generic [ref=e558]: ✓
+                  - text: Gorilla trekking permit
+                - generic [ref=e559]:
+                  - generic [ref=e560]: ✓
+                  - text: Chimpanzee migration permit
+                - generic [ref=e561]:
+                  - generic [ref=e562]: ✓
+                  - text: Drinking water during safari
+            - generic [ref=e563]:
+              - paragraph [ref=e564]: Not included
+              - generic [ref=e565]:
+                - generic [ref=e566]:
+                  - generic [ref=e567]: ✕
+                  - text: International flights
+                - generic [ref=e568]:
+                  - generic [ref=e569]: ✕
+                  - text: Visa for Uganda
+                - generic [ref=e570]:
+                  - generic [ref=e571]: ✕
+                  - text: Travel insurance
+                - generic [ref=e572]:
+                  - generic [ref=e573]: ✕
+                  - text: Accommodation upgrades
+                - generic [ref=e574]:
+                  - generic [ref=e575]: ✕
+                  - text: Alcoholic drinks
+                - generic [ref=e576]:
+                  - generic [ref=e577]: ✕
+                  - text: Personal expenses
+                - generic [ref=e578]:
+                  - generic [ref=e579]: ✕
+                  - text: Tips for guides and staff
+                - generic [ref=e580]:
+                  - generic [ref=e581]: ✕
+                  - text: Medical tests (e.g. COVID)
+  - contentinfo [ref=e582]:
+    - generic [ref=e583]:
+      - generic [ref=e584]:
+        - generic [ref=e585]:
+          - link "puur uganda reizen logo" [ref=e586] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e587]
+          - paragraph [ref=e588]: Discover Africa at its purest
+          - paragraph [ref=e589]: Puur Uganda Reizen organizes authentic safari trips tailor-made. We connect travellers with the magic of Africa.
+          - generic [ref=e590]:
+            - link "Instagram" [ref=e591] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e592]
+            - link "Facebook" [ref=e594] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e595]
+            - link "YouTube" [ref=e597] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e598]
+            - link "WhatsApp" [ref=e600] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e601]
+        - generic [ref=e603]:
+          - heading "Safari Trips" [level=3] [ref=e604]
+          - list [ref=e605]:
+            - listitem [ref=e606]:
+              - link "All safari trips" [ref=e607] [cursor=pointer]:
+                - /url: /en/safaris
+            - listitem [ref=e608]:
+              - link "Wildlife Safaris" [ref=e609] [cursor=pointer]:
+                - /url: /en/safaris?category=wildlife
+            - listitem [ref=e610]:
+              - link "Mountain & Trekking" [ref=e611] [cursor=pointer]:
+                - /url: /en/safaris?category=hiking
+            - listitem [ref=e612]:
+              - link "Combination trip" [ref=e613] [cursor=pointer]:
+                - /url: /en/safaris?category=combined
+            - listitem [ref=e614]:
+              - link "Destinations" [ref=e615] [cursor=pointer]:
+                - /url: /en/destinations
+        - generic [ref=e616]:
+          - heading "About Us" [level=3] [ref=e617]
+          - list [ref=e618]:
+            - listitem [ref=e619]:
+              - link "About Pure Safaris" [ref=e620] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e621]:
+              - link "Travel blog" [ref=e622] [cursor=pointer]:
+                - /url: /en/blog
+            - listitem [ref=e623]:
+              - link "Frequently asked questions" [ref=e624] [cursor=pointer]:
+                - /url: /en/faq
+            - listitem [ref=e625]:
+              - link "Contact" [ref=e626] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e627]:
+          - heading "Contact" [level=3] [ref=e628]
+          - list [ref=e629]:
+            - listitem [ref=e630]:
+              - link "+31 653536011" [ref=e631] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e632]
+                - generic [ref=e634]: +31 653536011
+            - listitem [ref=e635]:
+              - link "info@puurugandareizen.nl" [ref=e636] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e637]
+                - generic [ref=e640]: info@puurugandareizen.nl
+            - listitem [ref=e641]:
+              - img [ref=e642]
+              - generic [ref=e645]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e646]:
+              - img [ref=e647]
+              - generic [ref=e650]: The Netherlands
+            - listitem [ref=e651]:
+              - link "WhatsApp" [ref=e652] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e653]
+                - text: WhatsApp
+      - generic [ref=e655]:
+        - paragraph [ref=e656]: "© 2026 Puur Uganda Reizen. All rights reserved. · KvK: 12345678"
+        - generic [ref=e657]:
+          - link "Privacy Policy" [ref=e658] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "General Terms and Conditions" [ref=e659] [cursor=pointer]:
+            - /url: /en/terms
+  - button "Open Next.js Dev Tools" [ref=e665] [cursor=pointer]:
+    - img [ref=e666]

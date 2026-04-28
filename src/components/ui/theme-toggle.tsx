@@ -6,9 +6,13 @@ import { useEffect, useState } from 'react'
 
 interface ThemeToggleProps {
   scrolled?: boolean
+  labels?: {
+    toLight?: string
+    toDark?: string
+  }
 }
 
-export function ThemeToggle({ scrolled = false }: ThemeToggleProps) {
+export function ThemeToggle({ scrolled = false, labels }: ThemeToggleProps) {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -18,12 +22,15 @@ export function ThemeToggle({ scrolled = false }: ThemeToggleProps) {
   if (!mounted) return <div className="h-11 w-11" aria-hidden="true" />
 
   const isDark = theme === 'dark'
+  const ariaLabel = isDark
+    ? labels?.toLight ?? 'Schakel naar lichte modus'
+    : labels?.toDark ?? 'Schakel naar donkere modus'
 
   return (
     <button
       type="button"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      aria-label={isDark ? 'Schakel naar lichte modus' : 'Schakel naar donkere modus'}
+      aria-label={ariaLabel}
       aria-pressed={isDark}
       className={`flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border transition-all duration-300 active:scale-95 [-webkit-tap-highlight-color:transparent] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
         scrolled

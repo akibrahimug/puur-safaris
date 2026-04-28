@@ -267,7 +267,7 @@ export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
               <label className={labelClass} style={labelStyle}>
                 {f?.fieldPhone ?? 'Telefoonnummer'}{' '}
                 <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
-                  (optioneel)
+                  {f?.optionalLabel ?? '(optioneel)'}
                 </span>
               </label>
               <input
@@ -289,7 +289,7 @@ export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
               <label className={labelClass} style={labelStyle}>
                 {f?.fieldPreference ?? 'Voorkeur contact'}{' '}
                 <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
-                  (optioneel)
+                  {f?.optionalLabel ?? '(optioneel)'}
                 </span>
               </label>
               <div className="relative">

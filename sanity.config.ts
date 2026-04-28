@@ -9,6 +9,8 @@ import { TrashIcon } from "@sanity/icons";
 import { resolve } from "./src/sanity/presentation/resolve";
 import { schemaTypes } from "./src/sanity/schemas";
 import { TranslateFromNlAction } from "./src/sanity/actions/translate-from-nl";
+import { LocalizedField } from "./src/sanity/components/LocalizedField";
+import { LocalizedInput } from "./src/sanity/components/LocalizedInput";
 
 /* ── Translatable document types ──────────────────────────────────── *
  * Every doc here gets a `language` field plus a Translations panel    *
@@ -39,19 +41,19 @@ const TRANSLATABLE_TYPES = [
 // Pages with existing random-ID documents — show as document list
 const listPages = [
   { type: "homePage", title: "Homepage" },
-  { type: "aboutPage", title: "About Page" },
+  { type: "aboutPage", title: "Over Ons Pagina" },
 ];
 
 // Pages with fixed-ID documents — strict singletons
 const singletonPages = [
-  { type: "contactPage", title: "Contact Page" },
-  { type: "safariListingPage", title: "Safari Listing Page" },
-  { type: "destinationListingPage", title: "Destinations Page" },
-  { type: "faqPage", title: "FAQ Page" },
-  { type: "blogPage", title: "Blog Page" },
-  { type: "eigenReisschemaPage", title: "Custom Itinerary Page" },
-  { type: "blogSubmissionPage", title: "Blog Submission Page" },
-  { type: "bookingPage", title: "Booking Page" },
+  { type: "contactPage", title: "Contact Pagina" },
+  { type: "safariListingPage", title: "Safari Overzicht Pagina" },
+  { type: "destinationListingPage", title: "Bestemmingen Pagina" },
+  { type: "faqPage", title: "FAQ Pagina" },
+  { type: "blogPage", title: "Blog Pagina" },
+  { type: "eigenReisschemaPage", title: "Eigen Reisschema Pagina" },
+  { type: "blogSubmissionPage", title: "Blog Inzenden Pagina" },
+  { type: "bookingPage", title: "Boekingen Pagina" },
 ];
 
 const singletonTypeNames = new Set<string>([
@@ -81,7 +83,7 @@ function createDeleteAction(typeLabel: string): DocumentActionComponent {
           .delete(publishedId)
           .commit({ visibility: "async" });
       } catch (err) {
-        console.error("Delete failed:", err);
+        console.error("Verwijderen mislukt:", err);
       } finally {
         setIsDeleting(false);
         setShowDialog(false);
@@ -90,7 +92,7 @@ function createDeleteAction(typeLabel: string): DocumentActionComponent {
     };
 
     return {
-      label: `Delete ${typeLabel.toLowerCase()}`,
+      label: `${typeLabel} verwijderen`,
       icon: TrashIcon,
       tone: "critical",
       group: ["default", "paneActions"],
@@ -106,7 +108,7 @@ function createDeleteAction(typeLabel: string): DocumentActionComponent {
         onConfirm: () => {
           void runDelete();
         },
-        message: `Are you sure you want to permanently delete this ${typeLabel.toLowerCase()}? This action cannot be undone.`,
+        message: `Weet je zeker dat je deze ${typeLabel.toLowerCase()} permanent wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.`,
       },
     };
   };
@@ -145,7 +147,7 @@ function createAutoPublishAction(
 
 export default defineConfig({
   name: "puur-uganda-reizen",
-  title: "Pure Uganda Safaris Studio",
+  title: "Puur Uganda Reizen Studio",
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
   basePath: "/studio",
@@ -153,15 +155,15 @@ export default defineConfig({
     structureTool({
       structure: (S) =>
         S.list()
-          .title("Content Management")
+          .title("Inhoud Beheer")
           .items([
-            S.documentTypeListItem("trip").title("Safari Trips"),
-            S.documentTypeListItem("destination").title("Destinations"),
-            S.documentTypeListItem("blogPost").title("Blog Posts"),
-            S.documentTypeListItem("testimonial").title("Testimonials"),
+            S.documentTypeListItem("trip").title("Safari Reizen"),
+            S.documentTypeListItem("destination").title("Bestemmingen"),
+            S.documentTypeListItem("blogPost").title("Blog Berichten"),
+            S.documentTypeListItem("testimonial").title("Getuigenissen"),
             S.documentTypeListItem("googleReview").title("Google Reviews"),
-            S.documentTypeListItem("faqItem").title("FAQ"),
-            S.documentTypeListItem("booking").title("Bookings"),
+            S.documentTypeListItem("faqItem").title("Veelgestelde Vragen"),
+            S.documentTypeListItem("booking").title("Boekingen"),
             S.divider(),
             // ── Pages — list view per type so editors see both NL and EN ──
             //
@@ -180,12 +182,12 @@ export default defineConfig({
                 ),
             ),
             S.divider(),
-            S.documentTypeListItem("legalPage").title("Legal Pages"),
+            S.documentTypeListItem("legalPage").title("Juridische Pagina's"),
             S.listItem()
-              .title("Site Settings")
+              .title("Site Instellingen")
               .id("siteSettings")
               .child(
-                S.documentTypeList("siteSettings").title("Site Settings"),
+                S.documentTypeList("siteSettings").title("Site Instellingen"),
               ),
           ]),
     }),
@@ -221,6 +223,21 @@ export default defineConfig({
           t.schemaType !== "siteSettings",
       ),
   },
+  form: {
+    components: {
+      // Overrides field titles & descriptions to English when editing a
+      // language: "en" document. Dutch schema titles are the source of
+      // truth; the labels swap per-field via `englishLabels`.
+      //
+      // Why both `field` and `input`?
+      // - `field` wraps the FormField (label + description) for most types
+      // - `input` wraps the actual input control; some types (boolean,
+      //   some objects) render their own label inline from schemaType.title
+      //   and bypass the field wrapper. The input override catches those.
+      field: LocalizedField,
+      input: LocalizedInput,
+    },
+  },
   document: {
     actions: (prev, context) => {
       // Add "Vertaal van Nederlands" to every translatable type (the action
@@ -242,11 +259,11 @@ export default defineConfig({
         );
       }
 
-      // Content types with an explicit, visible delete button (English label + trash icon).
+      // Content types with an explicit, visible delete button (Dutch label + trash icon).
       const deleteLabels: Record<string, string> = {
-        blogPost: "Blog post",
-        trip: "Safari trip",
-        destination: "Destination",
+        blogPost: "Blog bericht",
+        trip: "Safari reis",
+        destination: "Bestemming",
         googleReview: "Google review",
       };
       const typeLabel = deleteLabels[context.schemaType];

@@ -5,7 +5,8 @@ import { notFound } from 'next/navigation'
 import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { localePath } from '@/i18n/routes'
-import { getSiteSettings, getTripDetail, getTripSlugs } from '@/lib/data'
+import { getSafariListingPage, getSiteSettings, getTripDetail, getTripSlugs } from '@/lib/data'
+import { sanityImageUrl } from '@/sanity/image'
 import { buildMetadata, mergeWithSeoFields, getBaseUrl, breadcrumbJsonLd } from '@/lib/seo'
 import { formatPrice, categoryLabel, difficultyLabel } from '@/lib/utils'
 import { Breadcrumbs } from '@/components/shared/breadcrumbs'
@@ -54,17 +55,22 @@ export default async function SafariDetailPage({ params }: Props) {
   const locale = hasLocale(lang) ? lang as Locale : 'nl'
   const dict = await getDictionary(locale)
 
-  const [trip, settings] = await Promise.all([getTripDetail(slug, lang), getSiteSettings(lang)])
+  const [trip, settings, safariListingPage] = await Promise.all([
+    getTripDetail(slug, lang),
+    getSiteSettings(lang),
+    getSafariListingPage(lang),
+  ])
   const labels = settings?.safariDetailLabels
 
   if (!trip) notFound()
 
   const baseUrl = getBaseUrl()
-  const heroUrl = trip.heroImage?.asset?.url || null
+  const heroUrl = trip.heroImage?.asset?.url ? sanityImageUrl(trip.heroImage, 2560) : null
+  const safarisCrumbName = stegaClean(safariListingPage?.heroTitle) ?? ''
 
   const breadcrumbSchema = breadcrumbJsonLd([
     { name: dict.common.home, path: `/${lang}` },
-    { name: dict.safari.heroTitle, path: `/${lang}/safaris` },
+    { name: safarisCrumbName, path: `/${lang}/safaris` },
     { name: stegaClean(trip.title)!, path: `/${lang}/safaris/${stegaClean(slug)}` },
   ])
 
@@ -76,7 +82,7 @@ export default async function SafariDetailPage({ params }: Props) {
     url: `${baseUrl}/${lang}/safaris/${stegaClean(slug)}`,
     ...(heroUrl && { image: stegaClean(heroUrl) }),
     ...(trip.destination && {
-      touristType: trip.category ? categoryLabel(stegaClean(trip.category)!) : undefined,
+      touristType: trip.category ? categoryLabel(stegaClean(trip.category)!, locale) : undefined,
       itinerary: {
         '@type': 'ItemList',
         itemListElement: trip.itinerary?.map((day, i) => ({
@@ -156,7 +162,7 @@ export default async function SafariDetailPage({ params }: Props) {
                   <TrendingUp className="h-5 w-5 text-gold mx-auto mb-1" />
                   <p className="text-xs text-[var(--text-muted)] mb-0.5">{labels?.levelLabel}</p>
                   <p className="font-semibold text-[var(--text-primary)] text-sm">
-                    {difficultyLabel(trip.difficulty)}
+                    {difficultyLabel(trip.difficulty, locale)}
                   </p>
                 </div>
               )}
@@ -175,7 +181,7 @@ export default async function SafariDetailPage({ params }: Props) {
                   <MapPin className="h-5 w-5 text-gold mx-auto mb-1" />
                   <p className="text-xs text-[var(--text-muted)] mb-0.5">{labels?.typeLabel}</p>
                   <p className="font-semibold text-[var(--text-primary)] text-sm">
-                    {categoryLabel(trip.category)}
+                    {categoryLabel(trip.category, locale)}
                   </p>
                 </div>
               )}
@@ -203,7 +209,7 @@ export default async function SafariDetailPage({ params }: Props) {
                 {trip.difficulty && (
                   <div className="flex justify-between text-sm">
                     <span className="text-[var(--text-muted)]">{labels?.levelLabel}</span>
-                    <Badge variant="secondary">{difficultyLabel(trip.difficulty)}</Badge>
+                    <Badge variant="secondary">{difficultyLabel(trip.difficulty, locale)}</Badge>
                   </div>
                 )}
               </div>

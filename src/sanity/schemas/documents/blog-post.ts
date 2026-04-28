@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'blogPost',
-  title: 'Blog Posts',
+  title: 'Blog Berichten',
   type: 'document',
   fields: [
     defineField({
@@ -11,32 +11,32 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          { value: 'submitted', title: 'Submitted' },
-          { value: 'pending_review', title: 'Pending Review' },
-          { value: 'published', title: 'Published' },
-          { value: 'rejected', title: 'Rejected' },
+          { value: 'submitted', title: 'Ingediend' },
+          { value: 'pending_review', title: 'Wacht op beoordeling' },
+          { value: 'published', title: 'Gepubliceerd' },
+          { value: 'rejected', title: 'Afgewezen' },
         ],
       },
       initialValue: 'published',
     }),
     defineField({
       name: 'submitterEmail',
-      title: 'Submitter Email',
+      title: 'E-mail inzender',
       type: 'string',
-      description: 'Email address of the person who submitted the trip story.',
+      description: 'E-mailadres van de persoon die het reisverslag heeft ingediend.',
       readOnly: true,
     }),
     defineField({
       name: 'submitterBooking',
-      title: 'Linked Booking',
+      title: 'Gekoppelde boeking',
       type: 'reference',
       to: [{ type: 'booking' }],
-      description: 'The booking that was used to verify this trip story.',
+      description: 'De boeking waarmee dit reisverslag is geverifieerd.',
       readOnly: true,
     }),
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Titel',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
@@ -49,13 +49,13 @@ export default defineType({
     }),
     defineField({
       name: 'featuredImage',
-      title: 'Featured Image',
+      title: 'Uitgelichte Afbeelding',
       type: 'image',
       options: { hotspot: true },
       fields: [
         defineField({
           name: 'alt',
-          title: 'Alt text',
+          title: 'Alt tekst',
           type: 'string',
           validation: (Rule) => Rule.required(),
         }),
@@ -64,57 +64,57 @@ export default defineType({
     }),
     defineField({
       name: 'author',
-      title: 'Author',
+      title: 'Auteur',
       type: 'string',
     }),
     defineField({
       name: 'publishedAt',
-      title: 'Publication Date',
+      title: 'Publicatiedatum',
       type: 'date',
       options: { dateFormat: 'DD-MM-YYYY' },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'category',
-      title: 'Category',
+      title: 'Categorie',
       type: 'string',
       options: {
         list: [
-          { value: 'stories', title: 'Trip Stories' },
-          { value: 'tips', title: 'Tips & Advice' },
+          { value: 'stories', title: 'Reisverhalen' },
+          { value: 'tips', title: 'Tips & Advies' },
           { value: 'wildlife', title: 'Wildlife' },
-          { value: 'culture', title: 'Culture' },
-          { value: 'guides', title: 'Destination Guides' },
-          { value: 'news', title: 'News' },
+          { value: 'culture', title: 'Cultuur' },
+          { value: 'guides', title: 'Bestemmingsgidsen' },
+          { value: 'news', title: 'Nieuws' },
         ],
       },
     }),
     defineField({
       name: 'summary',
-      title: 'Summary (teaser)',
+      title: 'Samenvatting (teaser)',
       type: 'text',
       rows: 3,
-      description: 'Short intro shown on the blog list. Max. 300 characters.',
+      description: 'Korte intro die getoond wordt op de bloglijst. Max. 300 tekens.',
       validation: (Rule) => Rule.required().max(300),
     }),
     defineField({
       name: 'content',
-      title: 'Content',
+      title: 'Inhoud',
       type: 'array',
       of: [
         {
           type: 'block',
           styles: [
-            { title: 'Normal', value: 'normal' },
-            { title: 'Heading 2', value: 'h2' },
-            { title: 'Heading 3', value: 'h3' },
+            { title: 'Normaal', value: 'normal' },
+            { title: 'Kop 2', value: 'h2' },
+            { title: 'Kop 3', value: 'h3' },
             { title: 'Quote', value: 'blockquote' },
           ],
           marks: {
             decorators: [
-              { title: 'Bold', value: 'strong' },
-              { title: 'Italic', value: 'em' },
-              { title: 'Underline', value: 'underline' },
+              { title: 'Vet', value: 'strong' },
+              { title: 'Cursief', value: 'em' },
+              { title: 'Onderstrepen', value: 'underline' },
             ],
             annotations: [
               {
@@ -131,7 +131,7 @@ export default defineType({
                   },
                   {
                     name: 'openInNewTab',
-                    title: 'Open in new tab',
+                    title: 'Openen in nieuw tabblad',
                     type: 'boolean',
                     initialValue: false,
                   },
@@ -144,8 +144,8 @@ export default defineType({
           type: 'image',
           options: { hotspot: true },
           fields: [
-            { name: 'alt', type: 'string', title: 'Alt text' },
-            { name: 'caption', type: 'string', title: 'Caption' },
+            { name: 'alt', type: 'string', title: 'Alt tekst' },
+            { name: 'caption', type: 'string', title: 'Bijschrift' },
           ],
         },
       ],
@@ -166,13 +166,13 @@ export default defineType({
             }),
             {
               name: 'placement',
-              title: 'Placement',
+              title: 'Plaatsing',
               type: 'string',
               options: {
                 list: [
-                  { value: 'hero', title: 'Hero (top, near image)' },
-                  { value: 'sidebar', title: 'Sidebar / below meta' },
-                  { value: 'bottom', title: 'Bottom of article' },
+                  { value: 'hero', title: 'Hero (bovenaan bij afbeelding)' },
+                  { value: 'sidebar', title: 'Zijbalk / onder meta' },
+                  { value: 'bottom', title: 'Onderaan artikel' },
                 ],
                 layout: 'radio',
               },
@@ -180,15 +180,15 @@ export default defineType({
             },
             {
               name: 'color',
-              title: 'Colour',
+              title: 'Kleur',
               type: 'string',
               options: {
                 list: [
-                  { value: 'gold', title: 'Gold' },
-                  { value: 'green', title: 'Green' },
-                  { value: 'blue', title: 'Blue' },
-                  { value: 'red', title: 'Red' },
-                  { value: 'neutral', title: 'Neutral' },
+                  { value: 'gold', title: 'Goud' },
+                  { value: 'green', title: 'Groen' },
+                  { value: 'blue', title: 'Blauw' },
+                  { value: 'red', title: 'Rood' },
+                  { value: 'neutral', title: 'Neutraal' },
                 ],
               },
               initialValue: 'gold',
@@ -199,8 +199,8 @@ export default defineType({
             prepare({ title, subtitle }: { title?: string; subtitle?: string }) {
               const placements: Record<string, string> = {
                 hero: 'Hero',
-                sidebar: 'Sidebar',
-                bottom: 'Bottom',
+                sidebar: 'Zijbalk',
+                bottom: 'Onderaan',
               }
               return {
                 title: title ?? 'Tag',
@@ -210,18 +210,18 @@ export default defineType({
           },
         },
       ],
-      description: 'Add tags and choose where they appear on the page.',
+      description: 'Voeg tags toe en kies waar ze op de pagina verschijnen.',
     }),
     defineField({
       name: 'relatedTrips',
-      title: 'Related Trips',
+      title: 'Gerelateerde Reizen',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'trip' }] }],
-      description: 'Optional: link relevant safari trips to this article.',
+      description: 'Optioneel: koppel relevante safari reizen aan dit artikel.',
     }),
     defineField({
       name: 'seo',
-      title: 'SEO Settings',
+      title: 'SEO Instellingen',
       type: 'seoFields',
     }),
   ],
@@ -234,10 +234,10 @@ export default defineType({
     },
     prepare({ title, publishedAt, status, media }) {
       const statusLabels: Record<string, string> = {
-        submitted: 'Submitted',
-        pending_review: 'Pending Review',
-        published: 'Published',
-        rejected: 'Rejected',
+        submitted: 'Ingediend',
+        pending_review: 'Wacht op beoordeling',
+        published: 'Gepubliceerd',
+        rejected: 'Afgewezen',
       }
       const statusText = status ? ` [${statusLabels[status] ?? status}]` : ''
       return {
@@ -249,7 +249,7 @@ export default defineType({
   },
   orderings: [
     {
-      title: 'Publication Date (newest first)',
+      title: 'Publicatiedatum (nieuwste eerst)',
       name: 'publishedAtDesc',
       by: [{ field: 'publishedAt', direction: 'desc' }],
     },

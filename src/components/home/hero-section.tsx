@@ -9,6 +9,7 @@ import { ArrowRight, ChevronDown } from 'lucide-react'
 
 import type { Locale } from '@/i18n/config'
 import { cmsPathToLocale } from '@/i18n/routes'
+import { sanityImageUrl } from '@/sanity/image'
 import type { SiteSettings, HomePage } from '@/lib/types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,7 +30,7 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
   const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
   const contentY = useTransform(scrollYProgress, [0, 0.6], ['0%', '-8%'])
 
-  const heroImageUrl = homePage?.heroImage?.asset?.url
+  const heroImageUrl = homePage?.heroImage?.asset?.url ? sanityImageUrl(homePage.heroImage, 2560) : undefined
   const heroLqip = homePage?.heroImage?.asset?.metadata?.lqip
   const heroImageAlt = homePage?.heroImage?.alt ?? ''
 

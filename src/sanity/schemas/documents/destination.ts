@@ -2,22 +2,22 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'destination',
-  title: 'Destinations',
+  title: 'Bestemmingen',
   type: 'document',
   groups: [
-    { name: 'general', title: 'General', default: true },
-    { name: 'gallery', title: 'Gallery' },
+    { name: 'general', title: 'Algemeen', default: true },
+    { name: 'gallery', title: 'Galerij' },
     { name: 'community', title: 'Gemeenschap' },
     { name: 'wildlife', title: 'Wildlife' },
-    { name: 'accommodations', title: 'Accommodations' },
-    { name: 'location', title: 'Location' },
+    { name: 'accommodations', title: 'Accommodaties' },
+    { name: 'location', title: 'Locatie' },
     { name: 'seo', title: 'SEO' },
   ],
   fields: [
     // ─── GENERAL ──────────────────────────────────────────────
     defineField({
       name: 'name',
-      title: 'Name',
+      title: 'Naam',
       type: 'string',
       group: 'general',
       validation: (Rule) => Rule.required(),
@@ -32,14 +32,14 @@ export default defineType({
     }),
     defineField({
       name: 'heroImage',
-      title: 'Hero Image',
+      title: 'Hero Afbeelding',
       type: 'image',
       group: 'general',
       options: { hotspot: true },
       fields: [
         defineField({
           name: 'alt',
-          title: 'Alt text',
+          title: 'Alt tekst',
           type: 'string',
           validation: (Rule) => Rule.required(),
         }),
@@ -48,7 +48,7 @@ export default defineType({
     }),
     defineField({
       name: 'country',
-      title: 'Country',
+      title: 'Land',
       type: 'string',
       group: 'general',
       validation: (Rule) => Rule.required(),
@@ -71,30 +71,30 @@ export default defineType({
     }),
     defineField({
       name: 'excerpt',
-      title: 'Short Description',
+      title: 'Korte Omschrijving',
       type: 'text',
       rows: 3,
       group: 'general',
-      description: 'Max. 200 characters. Used on cards.',
+      description: 'Max. 200 tekens. Wordt gebruikt op kaarten.',
       validation: (Rule) => Rule.max(200),
     }),
     defineField({
       name: 'description',
-      title: 'Full Description',
+      title: 'Volledige Beschrijving',
       type: 'array',
       group: 'general',
       of: [
         {
           type: 'block',
           styles: [
-            { title: 'Normal', value: 'normal' },
-            { title: 'Heading 2', value: 'h2' },
-            { title: 'Heading 3', value: 'h3' },
+            { title: 'Normaal', value: 'normal' },
+            { title: 'Kop 2', value: 'h2' },
+            { title: 'Kop 3', value: 'h3' },
           ],
           marks: {
             decorators: [
-              { title: 'Bold', value: 'strong' },
-              { title: 'Italic', value: 'em' },
+              { title: 'Vet', value: 'strong' },
+              { title: 'Cursief', value: 'em' },
             ],
           },
         },
@@ -102,32 +102,32 @@ export default defineType({
     }),
     defineField({
       name: 'climate',
-      title: 'Climate',
+      title: 'Klimaat',
       type: 'text',
       rows: 2,
       group: 'general',
-      description: 'Short description of the climate and weather patterns.',
+      description: 'Korte beschrijving van het klimaat en weerpatronen.',
     }),
     defineField({
       name: 'bestTimeToVisit',
-      title: 'Best Time to Visit',
+      title: 'Beste Tijd om te Bezoeken',
       type: 'string',
       group: 'general',
-      description: 'E.g. "June through October (dry season)"',
+      description: 'Bijv. "Juni t/m oktober (droge seizoen)"',
     }),
     defineField({
       name: 'displayOrder',
-      title: 'Display Order',
+      title: 'Weergavevolgorde',
       type: 'number',
       group: 'general',
-      description: 'Lower numbers are shown earlier.',
+      description: 'Lagere nummers worden eerder getoond.',
       initialValue: 99,
     }),
 
     // ─── GALLERY ──────────────────────────────────────────────
     defineField({
       name: 'gallery',
-      title: 'Photo Gallery',
+      title: 'Fotogalerij',
       type: 'array',
       group: 'gallery',
       of: [
@@ -135,47 +135,47 @@ export default defineType({
           type: 'image',
           options: { hotspot: true },
           fields: [
-            defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
-            defineField({ name: 'caption', title: 'Caption', type: 'string' }),
+            defineField({ name: 'alt', title: 'Alt tekst', type: 'string' }),
+            defineField({ name: 'caption', title: 'Bijschrift', type: 'string' }),
           ],
         },
       ],
-      description: 'Images for the photo gallery on the destination page.',
+      description: 'Afbeeldingen voor de fotogalerij op de bestemmingspagina.',
     }),
 
     // ─── WILDLIFE ─────────────────────────────────────────────
     defineField({
       name: 'wildlifeHeading',
-      title: 'Wildlife Heading',
+      title: 'Wildlife Koptekst',
       type: 'string',
       group: 'wildlife',
-      description: 'E.g. "Wildlife & Nature"',
+      description: 'Bijv. "Wildlife & Natuur"',
     }),
     defineField({
       name: 'wildlifeDescription',
-      title: 'Wildlife Description',
+      title: 'Wildlife Beschrijving',
       type: 'text',
       rows: 4,
       group: 'wildlife',
     }),
     defineField({
       name: 'wildlifeHighlights',
-      title: 'Diersoorten Highlights',
+      title: 'Diersoorten Hoogtepunten',
       type: 'array',
       group: 'wildlife',
       of: [
         {
           type: 'object',
           fields: [
-            defineField({ name: 'name', title: 'Name', type: 'string' }),
-            defineField({ name: 'description', title: 'Description', type: 'string' }),
+            defineField({ name: 'name', title: 'Naam', type: 'string' }),
+            defineField({ name: 'description', title: 'Beschrijving', type: 'string' }),
             defineField({
               name: 'image',
-              title: 'Image',
+              title: 'Afbeelding',
               type: 'image',
               options: { hotspot: true },
               fields: [
-                defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
+                defineField({ name: 'alt', title: 'Alt tekst', type: 'string' }),
               ],
             }),
           ],
@@ -189,14 +189,14 @@ export default defineType({
     // ─── COMMUNITY ────────────────────────────────────────────
     defineField({
       name: 'communityHeading',
-      title: 'Gemeenschap Heading',
+      title: 'Gemeenschap Koptekst',
       type: 'string',
       group: 'community',
-      description: 'E.g. "Local Community & Culture"',
+      description: 'Bijv. "Lokale Gemeenschap & Cultuur"',
     }),
     defineField({
       name: 'communityDescription',
-      title: 'Gemeenschap Description',
+      title: 'Gemeenschap Beschrijving',
       type: 'array',
       group: 'community',
       of: [
@@ -217,33 +217,33 @@ export default defineType({
     }),
     defineField({
       name: 'communityImage',
-      title: 'Gemeenschap Image',
+      title: 'Gemeenschap Afbeelding',
       type: 'image',
       group: 'community',
       options: { hotspot: true },
       fields: [
-        defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
+        defineField({ name: 'alt', title: 'Alt tekst', type: 'string' }),
       ],
     }),
 
     // ─── ACCOMMODATIONS ───────────────────────────────────────
     defineField({
       name: 'accommodationsHeading',
-      title: 'Accommodations Heading',
+      title: 'Accommodaties Koptekst',
       type: 'string',
       group: 'accommodations',
-      description: 'E.g. "Verblijf & Accommodaties"',
+      description: 'Bijv. "Verblijf & Accommodaties"',
     }),
     defineField({
       name: 'accommodations',
-      title: 'Accommodations',
+      title: 'Accommodaties',
       type: 'array',
       group: 'accommodations',
       of: [
         {
           type: 'object',
           fields: [
-            defineField({ name: 'name', title: 'Name', type: 'string', validation: (Rule) => Rule.required() }),
+            defineField({ name: 'name', title: 'Naam', type: 'string', validation: (Rule) => Rule.required() }),
             defineField({ name: 'type', title: 'Type', type: 'string', options: {
               list: [
                 { value: 'lodge', title: 'Lodge' },
@@ -253,21 +253,21 @@ export default defineType({
                 { value: 'luxury', title: 'Luxe Lodge' },
               ],
             }}),
-            defineField({ name: 'description', title: 'Description', type: 'text', rows: 2 }),
+            defineField({ name: 'description', title: 'Beschrijving', type: 'text', rows: 2 }),
             defineField({
               name: 'image',
-              title: 'Image',
+              title: 'Afbeelding',
               type: 'image',
               options: { hotspot: true },
               fields: [
-                defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
+                defineField({ name: 'alt', title: 'Alt tekst', type: 'string' }),
               ],
             }),
             defineField({
               name: 'coordinates',
-              title: 'Coordinates',
+              title: 'Coördinaten',
               type: 'geopoint',
-              description: 'Location of the accommodation on the map.',
+              description: 'Locatie van de accommodatie op de kaart.',
             }),
           ],
           preview: {
@@ -280,17 +280,17 @@ export default defineType({
     // ─── LOCATION ─────────────────────────────────────────────
     defineField({
       name: 'coordinates',
-      title: 'Coordinates',
+      title: 'Coördinaten',
       type: 'geopoint',
       group: 'location',
-      description: 'Central location of the destination for the map.',
+      description: 'Centrale locatie van de bestemming voor de kaart.',
     }),
     defineField({
       name: 'mapZoom',
       title: 'Kaartzoom',
       type: 'number',
       group: 'location',
-      description: 'Zoomniveau for the kaart (8-14). Default: 10.',
+      description: 'Zoomniveau voor de kaart (8-14). Standaard: 10.',
       initialValue: 10,
       validation: (Rule) => Rule.min(1).max(20),
     }),
@@ -305,7 +305,7 @@ export default defineType({
   ],
   orderings: [
     {
-      title: 'Display Order',
+      title: 'Weergavevolgorde',
       name: 'displayOrder',
       by: [{ field: 'displayOrder', direction: 'asc' }],
     },
