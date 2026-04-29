@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { Calendar, User, CheckCircle2, X, Camera, Pencil, Plus, Trash2, ImageIcon, LayoutGrid } from 'lucide-react'
+import { validateBlogSubmission } from './blog-submission-form.validation'
 
 /* ── Types ── */
 interface ImageState {
@@ -293,38 +294,26 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
   }
 
   const validate = (): boolean => {
-    const errors: Record<string, string> = {}
-
-    // Verification fields
-    if (!bookingNumber.trim()) errors.bookingNumber = d?.validationBookingRequired ?? 'Boekingsnummer is verplicht'
-    else if (!/^PS-\d{4}-[A-Z0-9]{4}$/.test(bookingNumber.trim())) errors.bookingNumber = d?.validationBookingFormat ?? 'Ongeldig formaat (bijv. PS-2024-AB12)'
-    if (!email.trim()) errors.email = d?.validationEmailRequired ?? 'E-mailadres is verplicht'
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errors.email = d?.validationEmailInvalid ?? 'Ongeldig e-mailadres'
-    if (telefoon && !/^[+]?[\d\s\-().]{7,20}$/.test(telefoon)) errors.telefoon = d?.validationPhoneInvalid ?? 'Ongeldig telefoonnummer'
-
-    // Blog content
-    if (!heroImage) errors.heroImage = d?.validationHeroImageRequired ?? 'Upload een omslagfoto'
-    if (!title.trim()) errors.title = d?.validationTitleRequired ?? 'Titel is verplicht'
-    if (!authorName.trim()) errors.authorName = d?.validationAuthorNameRequired ?? 'Auteur naam is verplicht'
-    if (!authorBio.trim()) errors.authorBio = d?.validationAuthorBioRequired ?? 'Een korte bio is verplicht'
-    if (!authorPhoto) errors.authorPhoto = d?.validationAuthorPhotoRequired ?? 'Upload een profielfoto'
-    if (!intro.trim()) errors.intro = d?.validationIntroRequired ?? 'Introductie is verplicht'
-    if (gallery.length === 0) errors.gallery = d?.validationGalleryRequired ?? 'Upload minimaal één foto voor de galerij'
-
-    // Sections — at least 3 must be filled
-    let filledCount = 0
-    sections.forEach((s, i) => {
-      if (!s.title.trim() && !s.body.trim()) return // empty section, skip
-      if (!s.title.trim()) errors[`section_${i}_title`] = 'Sectie titel is verplicht'
-      if (!s.body.trim()) errors[`section_${i}_body`] = 'Sectie tekst is verplicht'
-      if (s.imageLayout !== 'none' && s.images.length === 0) errors[`section_${i}_images`] = 'Upload minimaal één foto of kies "Geen"'
-      if (s.title.trim() && s.body.trim()) filledCount++
-    })
-    if (filledCount < 3) errors.sections = d?.validationSectionsRequired ?? 'Je verhaal moet minimaal 3 volledige secties bevatten (titel + tekst)'
+    const { errors, valid } = validateBlogSubmission(
+      {
+        bookingNumber,
+        email,
+        telefoon,
+        title,
+        authorName,
+        authorBio,
+        intro,
+        heroImage,
+        authorPhoto,
+        gallery,
+        sections,
+      },
+      d,
+    )
 
     setFieldErrors(errors)
 
-    if (Object.keys(errors).length > 0) {
+    if (!valid) {
       // Scroll to first error
       const firstErrorKey = Object.keys(errors)[0]
       const el = document.querySelector(`[data-field="${firstErrorKey}"]`)
