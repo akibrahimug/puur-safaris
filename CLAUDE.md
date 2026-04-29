@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 - `npm run dev` — Next.js dev server (includes `/studio` Sanity embed at `/studio`). **Triggers `predev` first** (`vitest run && tsc --noEmit`); won't start if either fails.
-- `npm run build` / `npm run start` — production build / serve. **Triggers `prebuild` first** (`vitest run && tsc --noEmit && playwright test`); the full E2E suite runs before the build, so a broken page can't ship.
+- `npm run build` / `npm run start` — production build / serve. **Triggers `prebuild` first** (`vitest run && tsc --noEmit`); a broken unit test or type error blocks the build. E2E runs in GitHub Actions (`.github/workflows/e2e.yml`) on every PR and push to `master`, not in the build, so Vercel deploys aren't gated on browser binaries.
 - `npm run lint` — ESLint (`eslint-config-next` v16, flat config in `eslint.config.mjs`)
 - `npm run tsc:check` — `tsc --noEmit`. Other `tsc:*` aliases all resolve to the same thing.
 - `npm run test` — Vitest (jsdom env, `src/**/*.test.{ts,tsx}`)
@@ -15,11 +15,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - `test:watch`, `test:ui`, `test:coverage` also available
 - `npm run test:e2e` — Playwright (`e2e/**/*.spec.ts`). Auto-starts a dev server on port 3000 (`reuseExistingServer` locally). Use `test:e2e:ui` for the inspector.
 - `npm run verify:fast` — vitest + tsc. Used by `predev` and the pre-commit hook.
-- `npm run verify:all` — vitest + tsc + e2e. The full gate; mirrors what `prebuild` runs.
+- `npm run verify:all` — vitest + tsc + e2e. Local-only full gate (mirrors what GitHub Actions runs); `prebuild` only runs `verify:fast` since e2e moved to CI.
 
 ### Pre-commit hook (husky)
 
-`.husky/pre-commit` runs `verify:fast` (vitest + tsc) before every commit. Husky is installed via the `prepare` npm script so the hook is portable — fresh `npm install` on a new machine wires it up automatically. **Do not bypass with `--no-verify`** (per the project memory rule); fix the failure instead. E2E is intentionally NOT in pre-commit because the ~20s overhead would punish every commit; it gates `npm run build` instead, which is the closer surface to a deploy.
+`.husky/pre-commit` runs `verify:fast` (vitest + tsc) before every commit. Husky is installed via the `prepare` npm script so the hook is portable — fresh `npm install` on a new machine wires it up automatically. **Do not bypass with `--no-verify`** (per the project memory rule); fix the failure instead. E2E is intentionally NOT in pre-commit because the ~20s overhead would punish every commit; it runs in GitHub Actions on every PR and push to `master` (`.github/workflows/e2e.yml`).
 
 ## Stack
 

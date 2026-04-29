@@ -5,7 +5,7 @@
   "scripts": {
     "predev": "npm run verify:fast",
     "dev": "next dev",
-    "prebuild": "npm run verify:fast && npm run test:e2e",
+    "prebuild": "npm run verify:fast",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
