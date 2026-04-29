@@ -1,0 +1,183 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /en
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Trips" [ref=e9] [cursor=pointer]:
+          - /url: /en/safaris
+          - text: Safari Trips
+        - link "Destinations" [ref=e10] [cursor=pointer]:
+          - /url: /en/destinations
+          - text: Destinations
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /en/blog
+          - text: Blog
+        - link "About Us" [ref=e12] [cursor=pointer]:
+          - /url: /en/about
+          - text: About Us
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /en/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /en/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - link "Custom Itinerary" [ref=e20] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+  - main [ref=e21]:
+    - generic [ref=e22]:
+      - img "Custom Itinerary" [ref=e23]
+      - generic [ref=e28]:
+        - navigation "Breadcrumb" [ref=e29]:
+          - link "Home" [ref=e30] [cursor=pointer]:
+            - /url: /en
+            - img [ref=e31]
+            - generic [ref=e34]: Home
+          - generic [ref=e35]:
+            - img
+            - generic [ref=e36]: Custom Itinerary
+        - paragraph [ref=e37]: Tailor-made Done
+        - heading "Compose Your Dream safari" [level=1] [ref=e38]
+        - paragraph [ref=e39]: Tell us about your ideal safari and we will design a fully personalized itinerary.
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - generic [ref=e45]:
+          - generic [ref=e46]: "1"
+          - generic [ref=e47]: Destinations
+        - generic [ref=e50]:
+          - generic [ref=e51]: "2"
+          - generic [ref=e52]: Trip Details
+        - generic [ref=e55]:
+          - generic [ref=e56]: "3"
+          - generic [ref=e57]: Your Details
+      - generic [ref=e58]:
+        - generic [ref=e59]:
+          - heading "Where do you want to go?" [level=2] [ref=e61]
+          - paragraph [ref=e62]: Select one or more destinations. We will combine them into the perfect route.
+          - generic [ref=e63]:
+            - button "Bwindi Impenetrable National Park Uganda" [ref=e64]:
+              - generic [ref=e68]:
+                - heading "Bwindi Impenetrable National Park" [level=3] [ref=e69]
+                - paragraph [ref=e70]: Uganda
+            - button "Kidepo Valley National Park Kidepo Valley National Park Uganda" [ref=e71]:
+              - img "Kidepo Valley National Park" [ref=e73]
+              - generic [ref=e75]:
+                - heading "Kidepo Valley National Park" [level=3] [ref=e76]
+                - paragraph [ref=e77]: Uganda
+            - button "Queen Elizabeth National Park Uganda" [ref=e78]:
+              - generic [ref=e82]:
+                - heading "Queen Elizabeth National Park" [level=3] [ref=e83]
+                - paragraph [ref=e84]: Uganda
+            - button "Mgahinga Gorilla National Park Uganda" [ref=e85]:
+              - generic [ref=e89]:
+                - heading "Mgahinga Gorilla National Park" [level=3] [ref=e90]
+                - paragraph [ref=e91]: Uganda
+            - button "Murchison Falls National Park Uganda" [ref=e92]:
+              - generic [ref=e96]:
+                - heading "Murchison Falls National Park" [level=3] [ref=e97]
+                - paragraph [ref=e98]: Uganda
+            - button "Semuliki National Park Uganda" [ref=e99]:
+              - generic [ref=e103]:
+                - heading "Semuliki National Park" [level=3] [ref=e104]
+                - paragraph [ref=e105]: Uganda
+        - generic [ref=e106]:
+          - button:
+            - img
+            - text: Back
+          - button "Next" [ref=e107]:
+            - text: Next
+            - img [ref=e108]
+  - contentinfo [ref=e110]:
+    - generic [ref=e111]:
+      - generic [ref=e112]:
+        - generic [ref=e113]:
+          - link "puur uganda reizen logo" [ref=e114] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e115]
+          - paragraph [ref=e116]: Discover Africa at its purest
+          - paragraph [ref=e117]: Puur Uganda Reizen organizes authentic safari trips tailor-made. We connect travellers with the magic of Africa.
+          - generic [ref=e118]:
+            - link "Instagram" [ref=e119] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e120]
+            - link "Facebook" [ref=e122] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e123]
+            - link "YouTube" [ref=e125] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e126]
+            - link "WhatsApp" [ref=e128] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e129]
+        - generic [ref=e131]:
+          - heading "Safari Trips" [level=3] [ref=e132]
+          - list [ref=e133]:
+            - listitem [ref=e134]:
+              - link "All safari trips" [ref=e135] [cursor=pointer]:
+                - /url: /en/safaris
+            - listitem [ref=e136]:
+              - link "Wildlife Safaris" [ref=e137] [cursor=pointer]:
+                - /url: /en/safaris?category=wildlife
+            - listitem [ref=e138]:
+              - link "Mountain & Trekking" [ref=e139] [cursor=pointer]:
+                - /url: /en/safaris?category=hiking
+            - listitem [ref=e140]:
+              - link "Combination trip" [ref=e141] [cursor=pointer]:
+                - /url: /en/safaris?category=combined
+            - listitem [ref=e142]:
+              - link "Destinations" [ref=e143] [cursor=pointer]:
+                - /url: /en/destinations
+        - generic [ref=e144]:
+          - heading "About Us" [level=3] [ref=e145]
+          - list [ref=e146]:
+            - listitem [ref=e147]:
+              - link "About Pure Safaris" [ref=e148] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e149]:
+              - link "Travel blog" [ref=e150] [cursor=pointer]:
+                - /url: /en/blog
+            - listitem [ref=e151]:
+              - link "Frequently asked questions" [ref=e152] [cursor=pointer]:
+                - /url: /en/faq
+            - listitem [ref=e153]:
+              - link "Contact" [ref=e154] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e155]:
+          - heading "Contact" [level=3] [ref=e156]
+          - list [ref=e157]:
+            - listitem [ref=e158]:
+              - link "+31 653536011" [ref=e159] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e160]
+                - generic [ref=e162]: +31 653536011
+            - listitem [ref=e163]:
+              - link "info@puurugandareizen.nl" [ref=e164] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e165]
+                - generic [ref=e168]: info@puurugandareizen.nl
+            - listitem [ref=e169]:
+              - img [ref=e170]
+              - generic [ref=e173]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e174]:
+              - img [ref=e175]
+              - generic [ref=e178]: The Netherlands
+            - listitem [ref=e179]:
+              - link "WhatsApp" [ref=e180] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e181]
+                - text: WhatsApp
+      - generic [ref=e183]:
+        - paragraph [ref=e184]: "© 2026 Puur Uganda Reizen. All rights reserved. · KvK: 12345678"
+        - generic [ref=e185]:
+          - link "Privacy Policy" [ref=e186] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "General Terms and Conditions" [ref=e187] [cursor=pointer]:
+            - /url: /en/terms
+  - button "Open Next.js Dev Tools" [ref=e193] [cursor=pointer]:
+    - img [ref=e194]

@@ -68,6 +68,26 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'authorBio',
+      title: 'Auteur bio',
+      type: 'text',
+      rows: 3,
+      description: 'Korte biografie van de auteur (1–3 zinnen).',
+    }),
+    defineField({
+      name: 'authorImage',
+      title: 'Auteur foto',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt-tekst',
+          type: 'string',
+        }),
+      ],
+    }),
+    defineField({
       name: 'publishedAt',
       title: 'Publicatiedatum',
       type: 'date',

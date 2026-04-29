@@ -160,7 +160,7 @@ function FieldError({ message }: { message?: string }) {
   return <p className="mt-1.5 text-xs text-red-400">{message}</p>
 }
 
-const FOUND_OPTIONS = ['Google', 'Social Media', 'Vrienden/Familie', 'Blog/Artikel', 'Anders']
+const FOUND_OPTIONS_FALLBACK = ['Google', 'Social Media', 'Vrienden/Familie', 'Blog/Artikel', 'Anders']
 
 // ── Main component ─────────────────────────────────────────────────────────────
 
@@ -176,6 +176,7 @@ export function BookingForm({
   const d = dict?.booking
   const [step, setStep] = useState(0)
   const [submitted, setSubmitted] = useState(false)
+  const [bookingNumber, setBookingNumber] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
@@ -247,6 +248,10 @@ export function BookingForm({
         }),
       })
       if (!res.ok) throw new Error(d?.errorSend ?? 'Versturen mislukt')
+      // Capture the booking number so we can show it on success — this is the
+      // user's recovery path if their confirmation email lands in spam.
+      const json = (await res.json().catch(() => null)) as { bookingNumber?: string } | null
+      if (json?.bookingNumber) setBookingNumber(json.bookingNumber)
       setSubmitted(true)
     } catch {
       setError(d?.errorMessage ?? 'Er is iets misgegaan. Probeer het opnieuw of neem contact met ons op.')
@@ -279,11 +284,36 @@ export function BookingForm({
         <h2 className="font-serif text-3xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
           {d?.successHeading ?? 'Boeking aangevraagd!'}
         </h2>
-        <p className="text-base max-w-md leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-          Bedankt {voornaam}. We hebben uw boekingsaanvraag voor{' '}
-          <strong style={{ color: 'var(--text-primary)' }}>{tripTitle}</strong> ontvangen en sturen
-          u een bevestiging per e-mail.
+        <p className="text-base max-w-md leading-relaxed mb-6" style={{ color: 'var(--text-muted)' }}>
+          {(() => {
+            const template = d?.successBody ?? 'Bedankt {firstName}. We hebben uw boekingsaanvraag voor {tripTitle} ontvangen en sturen u een bevestiging per e-mail.'
+            const parts = (template as string).split('{tripTitle}')
+            const before = parts[0]?.replace('{firstName}', voornaam) ?? ''
+            const after = parts[1] ?? ''
+            return (
+              <>
+                {before}
+                <strong style={{ color: 'var(--text-primary)' }}>{tripTitle}</strong>
+                {after}
+              </>
+            )
+          })()}
         </p>
+        {bookingNumber && (
+          <div
+            className="rounded-2xl px-6 py-4 text-center"
+            style={{
+              background: 'rgba(42,125,88,0.08)',
+              border: '1px solid rgba(42,125,88,0.25)',
+              color: 'var(--text-primary)',
+            }}
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-[2px] mb-1" style={{ color: 'var(--text-muted)' }}>
+              {d?.bookingNumberLabel ?? 'Uw boekingsnummer'}
+            </p>
+            <p className="font-mono text-2xl font-bold tracking-[3px] text-gold">{bookingNumber}</p>
+          </div>
+        )}
       </div>
     )
   }
@@ -326,18 +356,18 @@ export function BookingForm({
         <div className="flex flex-wrap gap-4 text-sm">
           <span style={{ color: 'var(--text-muted)' }}>
             <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-              Duur:{' '}
+              {d?.tripDurationLabel ?? 'Duur:'}{' '}
             </span>
             {tripDuration}
           </span>
           <span style={{ color: 'var(--text-muted)' }}>
             <span className="font-semibold" style={{ color: '#2a7d58' }}>
-              Vanaf{' '}
+              {d?.tripFromLabel ?? 'Vanaf'}{' '}
             </span>
             <span className="font-bold text-base" style={{ color: '#2a7d58' }}>
               {formatPrice(tripPrice)}
             </span>
-            <span className="text-xs"> {tripPriceType === 'per_group' ? 'p.gr.' : 'p.p.'}</span>
+            <span className="text-xs"> {tripPriceType === 'per_group' ? (d?.perGroupShort ?? 'p.gr.') : (d?.perPersonShort ?? 'p.p.')}</span>
           </span>
         </div>
       </div>
@@ -549,7 +579,7 @@ export function BookingForm({
             type="text"
             value={nationaliteit}
             onChange={(e) => setNationaliteit(e.target.value)}
-            placeholder="Nederlandse"
+            placeholder={d?.placeholderNationality ?? 'Nederlandse'}
             className={inputClass}
             style={inputStyle}
             autoComplete="country-name"
@@ -588,7 +618,7 @@ export function BookingForm({
       >
         <Shield className="h-4 w-4 shrink-0 mt-0.5 text-gold" />
         <p className="text-xs leading-relaxed" style={{ color: 'var(--text-subtle)' }}>
-          Uw gegevens worden uitsluitend gebruikt voor het verwerken van deze boekingsaanvraag en worden niet gedeeld met derden.
+          {d?.privacyNote ?? 'Uw gegevens worden uitsluitend gebruikt voor het verwerken van deze boekingsaanvraag en worden niet gedeeld met derden.'}
         </p>
       </div>
     </div>
@@ -600,10 +630,10 @@ export function BookingForm({
     <div className="space-y-6">
       <div>
         <h2 className="font-serif text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-          Bijzonderheden & Bevestiging
+          {d?.step3Heading ?? 'Bijzonderheden & Bevestiging'}
         </h2>
         <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-          Optionele informatie die ons helpt uw reis optimaal voor te bereiden.
+          {d?.step3Desc ?? 'Optionele informatie die ons helpt uw reis optimaal voor te bereiden.'}
         </p>
       </div>
 
@@ -612,7 +642,7 @@ export function BookingForm({
           className="block text-xs font-semibold uppercase tracking-wider mb-2"
           style={{ color: 'var(--text-muted)' }}
         >
-          Dieetwensen{' '}
+          {d?.fieldDiet ?? 'Dieetwensen'}{' '}
           <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
             {d?.optionalLabel ?? '(optioneel)'}
           </span>
@@ -621,7 +651,7 @@ export function BookingForm({
           value={dieetwensen}
           onChange={(e) => setDieetwensen(e.target.value)}
           rows={3}
-          placeholder="Vegetarisch, glutenvrij, allergieën…"
+          placeholder={d?.placeholderDiet ?? 'Vegetarisch, glutenvrij, allergieën…'}
           className={`${inputClass} resize-none`}
           style={inputStyle}
         />
@@ -632,7 +662,7 @@ export function BookingForm({
           className="block text-xs font-semibold uppercase tracking-wider mb-2"
           style={{ color: 'var(--text-muted)' }}
         >
-          Medische bijzonderheden{' '}
+          {d?.fieldMedical ?? 'Medische bijzonderheden'}{' '}
           <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
             {d?.confidentialOptionalLabel ?? '(vertrouwelijk, optioneel)'}
           </span>
@@ -641,7 +671,7 @@ export function BookingForm({
           value={medischeBijzonderheden}
           onChange={(e) => setMedischeBijzonderheden(e.target.value)}
           rows={3}
-          placeholder="Relevante medische informatie die wij moeten weten…"
+          placeholder={d?.placeholderMedical ?? 'Relevante medische informatie die wij moeten weten…'}
           className={`${inputClass} resize-none`}
           style={inputStyle}
         />
@@ -652,7 +682,7 @@ export function BookingForm({
           className="block text-xs font-semibold uppercase tracking-wider mb-2"
           style={{ color: 'var(--text-muted)' }}
         >
-          Speciale verzoeken{' '}
+          {d?.fieldSpecialRequests ?? 'Speciale verzoeken'}{' '}
           <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
             {d?.optionalLabel ?? '(optioneel)'}
           </span>
@@ -672,13 +702,13 @@ export function BookingForm({
           className="block text-xs font-semibold uppercase tracking-wider mb-3"
           style={{ color: 'var(--text-muted)' }}
         >
-          Hoe heeft u ons gevonden?{' '}
+          {d?.fieldFoundUs ?? 'Hoe heeft u ons gevonden?'}{' '}
           <span className="text-[10px] normal-case" style={{ color: 'var(--text-subtle)' }}>
             {d?.optionalLabel ?? '(optioneel)'}
           </span>
         </label>
         <div className="flex flex-wrap gap-2">
-          {FOUND_OPTIONS.map((opt) => (
+          {(Array.isArray(d?.foundOptions) ? (d.foundOptions as string[]) : FOUND_OPTIONS_FALLBACK).map((opt) => (
             <Pill
               key={opt}
               active={gevonden === opt}
@@ -696,20 +726,20 @@ export function BookingForm({
         style={{ background: 'rgba(42,125,88,0.05)', border: '1px solid rgba(42,125,88,0.15)' }}
       >
         <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#2a7d58' }}>
-          Samenvatting
+          {d?.summaryHeading ?? 'Samenvatting'}
         </p>
         <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
-          <span style={{ color: 'var(--text-subtle)' }}>Reis:</span>
+          <span style={{ color: 'var(--text-subtle)' }}>{d?.summaryTrip ?? 'Reis:'}</span>
           <span className="font-medium min-w-0 break-words" style={{ color: 'var(--text-primary)' }}>{tripTitle}</span>
-          <span style={{ color: 'var(--text-subtle)' }}>Datum:</span>
+          <span style={{ color: 'var(--text-subtle)' }}>{d?.summaryDate ?? 'Datum:'}</span>
           <span className="font-medium min-w-0 break-words" style={{ color: 'var(--text-primary)' }}>
-            {flexibel ? 'Flexibel' : vertrekdatum || '—'}
+            {flexibel ? (d?.summaryFlexible ?? 'Flexibel') : vertrekdatum || '—'}
           </span>
-          <span style={{ color: 'var(--text-subtle)' }}>Reizigers:</span>
+          <span style={{ color: 'var(--text-subtle)' }}>{d?.summaryTravelers ?? 'Reizigers:'}</span>
           <span className="font-medium min-w-0 break-words" style={{ color: 'var(--text-primary)' }}>
-            {aantalVolwassenen} volw.{aantalKinderen > 0 ? `, ${aantalKinderen} kind.` : ''}
+            {aantalVolwassenen} {d?.summaryAdultsShort ?? 'volw.'}{aantalKinderen > 0 ? `, ${aantalKinderen} ${d?.summaryChildrenShort ?? 'kind.'}` : ''}
           </span>
-          <span style={{ color: 'var(--text-subtle)' }}>Naam:</span>
+          <span style={{ color: 'var(--text-subtle)' }}>{d?.summaryName ?? 'Naam:'}</span>
           <span className="font-medium min-w-0 break-words" style={{ color: 'var(--text-primary)' }}>
             {voornaam} {achternaam}
           </span>
@@ -738,7 +768,7 @@ export function BookingForm({
             {terms && <Check className="h-3 w-3 text-white" />}
           </span>
           <span className="text-sm leading-relaxed min-w-0 flex-1 break-words" style={{ color: 'var(--text-muted)' }}>
-            Ik ga akkoord met de reisvoorwaarden en het privacybeleid van Puur Uganda Reizen{' '}
+            {d?.termsConsent ?? 'Ik ga akkoord met de reisvoorwaarden en het privacybeleid van Puur Uganda Reizen'}{' '}
             <span style={{ color: '#2a7d58' }}>*</span>
           </span>
         </button>
@@ -784,7 +814,7 @@ export function BookingForm({
             }}
           >
             <AlertCircle className="h-4 w-4 shrink-0" />
-            Controleer de gemarkeerde velden hierboven
+            {d?.fieldErrorSummary ?? 'Controleer de gemarkeerde velden hierboven'}
           </div>
         )}
 
@@ -806,7 +836,7 @@ export function BookingForm({
               border: '1px solid rgba(42,125,88,0.2)',
             }}
           >
-            <ChevronLeft className="h-4 w-4" /> Terug
+            <ChevronLeft className="h-4 w-4" /> {d?.backButton ?? 'Terug'}
           </button>
 
           <button
@@ -822,7 +852,7 @@ export function BookingForm({
           >
             {step < 2 ? (
               <>
-                Volgende <ChevronRight className="h-4 w-4" />
+                {d?.nextButton ?? 'Volgende'} <ChevronRight className="h-4 w-4" />
               </>
             ) : submitting ? (
               <>

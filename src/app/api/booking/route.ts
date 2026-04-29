@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { writeClient } from '@/sanity/write-client'
 import { BookingAdminEmail } from '@/emails/booking-admin'
 import { BookingConfirmEmail } from '@/emails/booking-confirm'
+import { getClientIp, rateLimit } from '@/lib/rate-limit'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -39,6 +40,17 @@ const schema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    // Booking submissions are higher-stakes (writes to Sanity, sends real
+    // confirmations) — keep the per-IP limit tighter. A real human takes
+    // minutes to fill the multi-step form so 3/min is plenty.
+    const limit = rateLimit({ endpoint: 'booking', ip: getClientIp(req), limit: 3, windowMs: 60_000 })
+    if (!limit.ok) {
+      return NextResponse.json(
+        { error: 'Te veel verzoeken. Probeer het later opnieuw.' },
+        { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } },
+      )
+    }
+
     const body = await req.json()
     const data = schema.parse(body)
 
@@ -48,37 +60,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Server niet geconfigureerd' }, { status: 500 })
     }
 
-    // Generate booking number and save to Sanity
     const bookingNumber = generateBookingNumber()
 
-    // Email 1: to admin
-    await resend.emails.send({
-      from: fromEmail,
-      to: toEmail,
-      replyTo: data.email,
-      subject: `Nieuwe boeking: ${data.tripTitle} — ${data.voornaam} ${data.achternaam}`,
-      react: BookingAdminEmail({
-        bookingNumber,
-        tripTitle: data.tripTitle,
-        tripSlug: data.tripSlug,
-        vertrekdatum: data.vertrekdatum,
-        retourdatum: data.retourdatum,
-        aantalVolwassenen: data.aantalVolwassenen,
-        aantalKinderen: data.aantalKinderen,
-        voornaam: data.voornaam,
-        achternaam: data.achternaam,
-        email: data.email,
-        telefoon: data.telefoon,
-        geboortedatum: data.geboortedatum,
-        nationaliteit: data.nationaliteit,
-        paspoortnummer: data.paspoortnummer,
-        dieetwensen: data.dieetwensen,
-        medischeBijzonderheden: data.medischeBijzonderheden,
-        speciale_verzoeken: data.speciale_verzoeken,
-        gevonden: data.gevonden,
-      }),
-    })
-
+    // Order matters: persist the booking FIRST so the lead is captured in the
+    // CMS even if downstream email sending flakes. Then send the customer
+    // confirmation (most critical — gives the user proof of submission with
+    // their booking number). The admin notification is wrapped in try/catch
+    // because by that point we already have the booking saved AND the
+    // customer has been confirmed; failing the request would just cause the
+    // user to retry and create a duplicate booking.
     await writeClient.create({
       _type: 'booking',
       bookingNumber,
@@ -95,7 +85,6 @@ export async function POST(req: NextRequest) {
       createdAt: new Date().toISOString(),
     })
 
-    // Email 2: confirmation to customer (includes booking number)
     await resend.emails.send({
       from: fromEmail,
       to: data.email,
@@ -106,6 +95,39 @@ export async function POST(req: NextRequest) {
         bookingNumber,
       }),
     })
+
+    try {
+      await resend.emails.send({
+        from: fromEmail,
+        to: toEmail,
+        replyTo: data.email,
+        subject: `Nieuwe boeking: ${data.tripTitle} — ${data.voornaam} ${data.achternaam}`,
+        react: BookingAdminEmail({
+          bookingNumber,
+          tripTitle: data.tripTitle,
+          tripSlug: data.tripSlug,
+          vertrekdatum: data.vertrekdatum,
+          retourdatum: data.retourdatum,
+          aantalVolwassenen: data.aantalVolwassenen,
+          aantalKinderen: data.aantalKinderen,
+          voornaam: data.voornaam,
+          achternaam: data.achternaam,
+          email: data.email,
+          telefoon: data.telefoon,
+          geboortedatum: data.geboortedatum,
+          nationaliteit: data.nationaliteit,
+          paspoortnummer: data.paspoortnummer,
+          dieetwensen: data.dieetwensen,
+          medischeBijzonderheden: data.medischeBijzonderheden,
+          speciale_verzoeken: data.speciale_verzoeken,
+          gevonden: data.gevonden,
+        }),
+      })
+    } catch (adminMailError) {
+      // Booking is in Sanity, customer has confirmation. Admin can recover
+      // the lead from the CMS (filter by createdAt) or these logs.
+      console.error('Booking form: admin notification failed', { bookingNumber, email: data.email, error: adminMailError })
+    }
 
     return NextResponse.json({ success: true, bookingNumber })
   } catch (error) {

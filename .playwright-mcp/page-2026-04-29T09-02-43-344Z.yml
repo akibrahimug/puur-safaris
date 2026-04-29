@@ -1,0 +1,284 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /en
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Trips" [ref=e9] [cursor=pointer]:
+          - /url: /en/safaris
+          - text: Safari Trips
+        - link "Destinations" [ref=e10] [cursor=pointer]:
+          - /url: /en/destinations
+          - text: Destinations
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /en/blog
+          - text: Blog
+        - link "About Us" [ref=e12] [cursor=pointer]:
+          - /url: /en/about
+          - text: About Us
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /en/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /en/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - button "Switch to dark mode" [ref=e19]:
+          - img [ref=e20]
+        - link "Custom Itinerary" [ref=e22] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+  - main [ref=e23]:
+    - generic [ref=e24]:
+      - img "Share Your Safari Story" [ref=e25]
+      - generic [ref=e30]:
+        - navigation "Breadcrumb" [ref=e31]:
+          - link "Home" [ref=e32] [cursor=pointer]:
+            - /url: /en
+            - img [ref=e33]
+            - generic [ref=e36]: Home
+          - generic [ref=e37]:
+            - img
+            - link "Blog" [ref=e38] [cursor=pointer]:
+              - /url: /en/blog
+          - generic [ref=e39]:
+            - img
+            - generic [ref=e40]: Submit
+        - heading "Share Your Travel Story" [level=1] [ref=e41]
+        - paragraph [ref=e42]: Have you experienced an unforgettable safari with us? Share your adventure and inspire other travellers.
+    - generic [ref=e43]:
+      - generic [ref=e45]:
+        - heading "How does it work?" [level=2] [ref=e46]
+        - list [ref=e47]:
+          - listitem [ref=e48]:
+            - generic [ref=e49]: "1."
+            - generic [ref=e50]: Verify your booking with your booking number and email address.
+          - listitem [ref=e51]:
+            - generic [ref=e52]: "2."
+            - generic [ref=e53]: Write your story with at least 3 sections and add photos.
+          - listitem [ref=e54]:
+            - generic [ref=e55]: "3."
+            - generic [ref=e56]: Submit your story. We will review it and publish it on our blog.
+      - generic [ref=e57]:
+        - generic [ref=e58]:
+          - paragraph [ref=e59]: Verification
+          - generic [ref=e60]:
+            - generic [ref=e61]:
+              - generic [ref=e62]: Booking number (e.g. PS-2024-XXXX)
+              - textbox "Booking number (e.g. PS-2024-XXXX)" [ref=e63]
+            - generic [ref=e64]:
+              - generic [ref=e65]: Email address from your booking
+              - textbox "Email address from your booking" [ref=e66]
+            - generic [ref=e67]:
+              - generic [ref=e68]: Phone number (optional)
+              - textbox "Phone number (optional)" [ref=e69]
+        - generic [ref=e70]:
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - button "Edit" [ref=e73]:
+                - img [ref=e74]
+              - button "Upload a photo" [ref=e77]:
+                - img [ref=e78]
+                - generic [ref=e81]: Upload a photo
+            - generic [ref=e82]:
+              - button "Edit" [ref=e83]:
+                - img [ref=e84]
+              - heading "Klik om een titel toe te voegen..." [level=1] [ref=e87]
+            - generic [ref=e88]:
+              - button "Edit" [ref=e89]:
+                - img [ref=e90]
+              - generic [ref=e93]:
+                - generic [ref=e94]:
+                  - img [ref=e95]
+                  - text: 29 april 2026
+                - generic [ref=e97]:
+                  - img [ref=e98]
+                  - generic [ref=e101]: Auteur naam
+            - generic [ref=e102]:
+              - button "Edit" [ref=e103]:
+                - img [ref=e104]
+              - button [ref=e108] [cursor=pointer]:
+                - img [ref=e110]
+              - generic [ref=e113]:
+                - heading "Written by ..." [level=3] [ref=e114]
+                - paragraph [ref=e115]: "\"Klik op het potlood om je bio toe te voegen...\""
+            - generic [ref=e116]:
+              - button "Edit" [ref=e117]:
+                - img [ref=e118]
+              - paragraph [ref=e121]: Klik om je introductie te schrijven...
+            - generic [ref=e122]:
+              - generic [ref=e124]: "1"
+              - generic [ref=e126]:
+                - button "Edit" [ref=e127]:
+                  - img [ref=e128]
+                - heading "Sectie titel..." [level=2] [ref=e131]
+              - generic [ref=e132]:
+                - button "Edit" [ref=e133]:
+                  - img [ref=e134]
+                - paragraph [ref=e137]: Klik om deze sectie te schrijven...
+              - generic [ref=e138]:
+                - generic [ref=e139]: "Afbeelding:"
+                - button "None" [ref=e140]:
+                  - img [ref=e141]
+                  - text: None
+                - button "Single photo" [ref=e144]:
+                  - img [ref=e145]
+                  - text: Single photo
+                - button "Photo grid" [ref=e149]:
+                  - img [ref=e150]
+                  - text: Photo grid
+            - generic [ref=e155]:
+              - generic [ref=e157]: "2"
+              - generic [ref=e159]:
+                - button "Edit" [ref=e160]:
+                  - img [ref=e161]
+                - heading "Sectie titel..." [level=2] [ref=e164]
+              - generic [ref=e165]:
+                - button "Edit" [ref=e166]:
+                  - img [ref=e167]
+                - paragraph [ref=e170]: Klik om deze sectie te schrijven...
+              - generic [ref=e171]:
+                - generic [ref=e172]: "Afbeelding:"
+                - button "None" [ref=e173]:
+                  - img [ref=e174]
+                  - text: None
+                - button "Single photo" [ref=e177]:
+                  - img [ref=e178]
+                  - text: Single photo
+                - button "Photo grid" [ref=e182]:
+                  - img [ref=e183]
+                  - text: Photo grid
+            - generic [ref=e188]:
+              - generic [ref=e190]: "3"
+              - generic [ref=e192]:
+                - button "Edit" [ref=e193]:
+                  - img [ref=e194]
+                - heading "Sectie titel..." [level=2] [ref=e197]
+              - generic [ref=e198]:
+                - button "Edit" [ref=e199]:
+                  - img [ref=e200]
+                - paragraph [ref=e203]: Klik om deze sectie te schrijven...
+              - generic [ref=e204]:
+                - generic [ref=e205]: "Afbeelding:"
+                - button "None" [ref=e206]:
+                  - img [ref=e207]
+                  - text: None
+                - button "Single photo" [ref=e210]:
+                  - img [ref=e211]
+                  - text: Single photo
+                - button "Photo grid" [ref=e215]:
+                  - img [ref=e216]
+                  - text: Photo grid
+            - button "Sectie toevoegen" [ref=e221]:
+              - img [ref=e222]
+              - generic [ref=e223]: Sectie toevoegen
+          - generic [ref=e226]:
+            - button "Edit" [ref=e227]:
+              - img [ref=e228]
+            - heading "Photo gallery" [level=3] [ref=e231]
+            - paragraph [ref=e232]: Add your best travel photos.
+            - button "Add photo" [ref=e234]:
+              - img [ref=e235]
+              - generic [ref=e238]: Add photo
+        - generic [ref=e239]:
+          - generic [ref=e240]:
+            - generic [ref=e241] [cursor=pointer]:
+              - checkbox "I agree to publish my story and photos on the Puur Safaris website." [ref=e242]
+              - generic [ref=e243]: I agree to publish my story and photos on the Puur Safaris website.
+            - generic [ref=e244] [cursor=pointer]:
+              - checkbox "I confirm that all submitted photos are my property." [ref=e245]
+              - generic [ref=e246]: I confirm that all submitted photos are my property.
+          - button "Send Travel Report" [ref=e247]
+  - contentinfo [ref=e248]:
+    - generic [ref=e249]:
+      - generic [ref=e250]:
+        - generic [ref=e251]:
+          - link "puur uganda reizen logo" [ref=e252] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e253]
+          - paragraph [ref=e254]: Discover Africa at its purest
+          - paragraph [ref=e255]: Puur Uganda Reizen organizes authentic safari trips tailor-made. We connect travellers with the magic of Africa.
+          - generic [ref=e256]:
+            - link "Instagram" [ref=e257] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e258]
+            - link "Facebook" [ref=e260] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e261]
+            - link "YouTube" [ref=e263] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e264]
+            - link "WhatsApp" [ref=e266] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e267]
+        - generic [ref=e269]:
+          - heading "Safari Trips" [level=3] [ref=e270]
+          - list [ref=e271]:
+            - listitem [ref=e272]:
+              - link "All safari trips" [ref=e273] [cursor=pointer]:
+                - /url: /en/safaris
+            - listitem [ref=e274]:
+              - link "Wildlife Safaris" [ref=e275] [cursor=pointer]:
+                - /url: /en/safaris?category=wildlife
+            - listitem [ref=e276]:
+              - link "Mountain & Trekking" [ref=e277] [cursor=pointer]:
+                - /url: /en/safaris?category=hiking
+            - listitem [ref=e278]:
+              - link "Combination trip" [ref=e279] [cursor=pointer]:
+                - /url: /en/safaris?category=combined
+            - listitem [ref=e280]:
+              - link "Destinations" [ref=e281] [cursor=pointer]:
+                - /url: /en/destinations
+        - generic [ref=e282]:
+          - heading "About Us" [level=3] [ref=e283]
+          - list [ref=e284]:
+            - listitem [ref=e285]:
+              - link "About Pure Safaris" [ref=e286] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e287]:
+              - link "Travel blog" [ref=e288] [cursor=pointer]:
+                - /url: /en/blog
+            - listitem [ref=e289]:
+              - link "Frequently asked questions" [ref=e290] [cursor=pointer]:
+                - /url: /en/faq
+            - listitem [ref=e291]:
+              - link "Contact" [ref=e292] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e293]:
+          - heading "Contact" [level=3] [ref=e294]
+          - list [ref=e295]:
+            - listitem [ref=e296]:
+              - link "+31 653536011" [ref=e297] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e298]
+                - generic [ref=e300]: +31 653536011
+            - listitem [ref=e301]:
+              - link "info@puurugandareizen.nl" [ref=e302] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e303]
+                - generic [ref=e306]: info@puurugandareizen.nl
+            - listitem [ref=e307]:
+              - img [ref=e308]
+              - generic [ref=e311]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e312]:
+              - img [ref=e313]
+              - generic [ref=e316]: The Netherlands
+            - listitem [ref=e317]:
+              - link "WhatsApp" [ref=e318] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e319]
+                - text: WhatsApp
+      - generic [ref=e321]:
+        - paragraph [ref=e322]: "© 2026 Puur Uganda Reizen. All rights reserved. · KvK: 12345678"
+        - generic [ref=e323]:
+          - link "Privacy Policy" [ref=e324] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "General Terms and Conditions" [ref=e325] [cursor=pointer]:
+            - /url: /en/terms
+  - button "Open Next.js Dev Tools" [ref=e331] [cursor=pointer]:
+    - img [ref=e332]
+  - alert [ref=e335]

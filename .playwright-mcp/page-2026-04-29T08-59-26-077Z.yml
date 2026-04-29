@@ -1,0 +1,262 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /en
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Trips" [ref=e9] [cursor=pointer]:
+          - /url: /en/safaris
+          - text: Safari Trips
+        - link "Destinations" [ref=e10] [cursor=pointer]:
+          - /url: /en/destinations
+          - text: Destinations
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /en/blog
+          - text: Blog
+        - link "About Us" [ref=e12] [cursor=pointer]:
+          - /url: /en/about
+          - text: About Us
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /en/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /en/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - link "Custom Itinerary" [ref=e20] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+  - main [ref=e21]:
+    - generic [ref=e22]:
+      - img "Contact Puur Safaris" [ref=e23]
+      - generic [ref=e28]:
+        - navigation "Breadcrumb" [ref=e29]:
+          - link "Home" [ref=e30] [cursor=pointer]:
+            - /url: /en
+            - img [ref=e31]
+            - generic [ref=e34]: Home
+          - generic [ref=e35]:
+            - img
+            - generic [ref=e36]: Contact
+        - heading "Contact Us" [level=1] [ref=e37]
+        - paragraph [ref=e38]: Do you have any questions about our safari trips? We are happy to help you.
+    - generic [ref=e41]:
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - heading "Your details" [level=3] [ref=e46]
+          - paragraph [ref=e47]: So we can reach you personally.
+          - generic [ref=e48]:
+            - generic [ref=e49]:
+              - generic [ref=e50]:
+                - generic [ref=e51]: Name *
+                - textbox "John Smith" [ref=e52]
+              - generic [ref=e53]:
+                - generic [ref=e54]: Email address *
+                - textbox "john@example.com" [ref=e55]
+            - generic [ref=e56]:
+              - generic [ref=e57]:
+                - generic [ref=e58]: Phone number (optional)
+                - textbox "+44 7700 900000" [ref=e59]
+              - generic [ref=e60]:
+                - generic [ref=e61]: Preferred contact method (optional)
+                - generic [ref=e62]:
+                  - combobox [ref=e63]:
+                    - option "No preference" [selected]
+                    - option "Email"
+                    - option "Phone"
+                    - option "WhatsApp"
+                  - img
+        - generic [ref=e64]:
+          - heading "About your trip" [level=3] [ref=e65]
+          - paragraph [ref=e66]: Optional, but helps us give you a suitable answer faster.
+          - generic [ref=e67]:
+            - generic [ref=e68]:
+              - generic [ref=e69]: Number of travellers
+              - generic [ref=e70]:
+                - combobox [ref=e71]:
+                  - option "Select" [selected]
+                  - option "1 person"
+                  - option "2 people"
+                  - option "3–5 people"
+                  - option "6–10 people"
+                  - option "10+ people"
+                - img
+            - generic [ref=e72]:
+              - generic [ref=e73]: Travel period
+              - generic [ref=e74]:
+                - combobox [ref=e75]:
+                  - option "Select" [selected]
+                  - option "January"
+                  - option "February"
+                  - option "March"
+                  - option "April"
+                  - option "May"
+                  - option "June"
+                  - option "July"
+                  - option "August"
+                  - option "September"
+                  - option "October"
+                  - option "November"
+                  - option "December"
+                  - option "Flexible / Not sure yet"
+                - img
+            - generic [ref=e76]:
+              - generic [ref=e77]: Budget indication
+              - generic [ref=e78]:
+                - combobox [ref=e79]:
+                  - option "Select" [selected]
+                  - option "Up to €2,000 p.p."
+                  - option "€2,000 – €4,000 p.p."
+                  - option "€4,000 – €6,000 p.p."
+                  - option "€6,000+ p.p."
+                  - option "Not sure yet"
+                - img
+        - generic [ref=e80]:
+          - heading "Your message" [level=3] [ref=e81]
+          - paragraph [ref=e82]: Tell us how we can help you.
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - generic [ref=e85]: Subject *
+              - generic [ref=e86]:
+                - combobox [ref=e87]:
+                  - option "Choose a subject" [selected]
+                  - option "Quote request"
+                  - option "Information about a safari"
+                  - option "Question about existing booking"
+                  - option "Partnership / Business"
+                  - option "Other"
+                - img
+            - generic [ref=e88]:
+              - generic [ref=e89]: Message *
+              - textbox "Tell us about your dream safari, questions, or how we can help you..." [ref=e90]
+              - generic [ref=e92]: 0 / 2000
+        - status
+        - button "Send message" [ref=e93] [cursor=pointer]:
+          - text: Send message
+          - img [ref=e94]
+      - generic [ref=e97]:
+        - heading "Direct Contact" [level=2] [ref=e98]
+        - paragraph [ref=e99]: Our team is ready to answer all your questions.
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - img [ref=e103]
+            - generic [ref=e105]:
+              - paragraph [ref=e106]: Call Us
+              - link "+31 653536011" [ref=e107] [cursor=pointer]:
+                - /url: tel:+31 653536011
+          - generic [ref=e108]:
+            - img [ref=e110]
+            - generic [ref=e113]:
+              - paragraph [ref=e114]: E-mail
+              - link "info@puurugandareizen.nl" [ref=e115] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+          - generic [ref=e116]:
+            - img [ref=e118]
+            - generic [ref=e121]:
+              - paragraph [ref=e122]: Office
+              - paragraph [ref=e123]: Brittenburg 13 1082 BS Amsterdam Nederland
+          - generic [ref=e124]:
+            - img [ref=e126]
+            - generic [ref=e129]:
+              - paragraph [ref=e130]: Accessibility
+              - paragraph [ref=e131]:
+                - generic [ref=e132]: "Mon – Fri:"
+                - text: 09:00 – 17:30
+              - paragraph [ref=e133]:
+                - generic [ref=e134]: "Sat:"
+                - text: 10:00 – 14:00
+        - link "Chat via WhatsApp" [ref=e135] [cursor=pointer]:
+          - /url: https://wa.me/31201234567
+          - img [ref=e136]
+          - text: Chat via WhatsApp
+        - paragraph [ref=e139]: We usually respond within 24 hours
+  - contentinfo [ref=e140]:
+    - generic [ref=e141]:
+      - generic [ref=e142]:
+        - generic [ref=e143]:
+          - link "puur uganda reizen logo" [ref=e144] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e145]
+          - paragraph [ref=e146]: Discover Africa at its purest
+          - paragraph [ref=e147]: Puur Uganda Reizen organizes authentic safari trips tailor-made. We connect travellers with the magic of Africa.
+          - generic [ref=e148]:
+            - link "Instagram" [ref=e149] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e150]
+            - link "Facebook" [ref=e152] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e153]
+            - link "YouTube" [ref=e155] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e156]
+            - link "WhatsApp" [ref=e158] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e159]
+        - generic [ref=e161]:
+          - heading "Safari Trips" [level=3] [ref=e162]
+          - list [ref=e163]:
+            - listitem [ref=e164]:
+              - link "All safari trips" [ref=e165] [cursor=pointer]:
+                - /url: /en/safaris
+            - listitem [ref=e166]:
+              - link "Wildlife Safaris" [ref=e167] [cursor=pointer]:
+                - /url: /en/safaris?category=wildlife
+            - listitem [ref=e168]:
+              - link "Mountain & Trekking" [ref=e169] [cursor=pointer]:
+                - /url: /en/safaris?category=hiking
+            - listitem [ref=e170]:
+              - link "Combination trip" [ref=e171] [cursor=pointer]:
+                - /url: /en/safaris?category=combined
+            - listitem [ref=e172]:
+              - link "Destinations" [ref=e173] [cursor=pointer]:
+                - /url: /en/destinations
+        - generic [ref=e174]:
+          - heading "About Us" [level=3] [ref=e175]
+          - list [ref=e176]:
+            - listitem [ref=e177]:
+              - link "About Pure Safaris" [ref=e178] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e179]:
+              - link "Travel blog" [ref=e180] [cursor=pointer]:
+                - /url: /en/blog
+            - listitem [ref=e181]:
+              - link "Frequently asked questions" [ref=e182] [cursor=pointer]:
+                - /url: /en/faq
+            - listitem [ref=e183]:
+              - link "Contact" [ref=e184] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e185]:
+          - heading "Contact" [level=3] [ref=e186]
+          - list [ref=e187]:
+            - listitem [ref=e188]:
+              - link "+31 653536011" [ref=e189] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e190]
+                - generic [ref=e192]: +31 653536011
+            - listitem [ref=e193]:
+              - link "info@puurugandareizen.nl" [ref=e194] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e195]
+                - generic [ref=e198]: info@puurugandareizen.nl
+            - listitem [ref=e199]:
+              - img [ref=e200]
+              - generic [ref=e203]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e204]:
+              - img [ref=e205]
+              - generic [ref=e208]: The Netherlands
+            - listitem [ref=e209]:
+              - link "WhatsApp" [ref=e210] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e211]
+                - text: WhatsApp
+      - generic [ref=e213]:
+        - paragraph [ref=e214]: "© 2026 Puur Uganda Reizen. All rights reserved. · KvK: 12345678"
+        - generic [ref=e215]:
+          - link "Privacy Policy" [ref=e216] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "General Terms and Conditions" [ref=e217] [cursor=pointer]:
+            - /url: /en/terms

@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { writeClient } from '@/sanity/write-client'
 import { BlogSubmittedEmail } from '@/emails/blog-submitted'
 import { BlogReviewAdminEmail } from '@/emails/blog-review-admin'
+import { getClientIp, rateLimit } from '@/lib/rate-limit'
 import crypto from 'crypto'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
@@ -23,7 +24,7 @@ const schema = z.object({
   telefoon: z.string().optional(),
   title: z.string().min(1, 'Titel is verplicht'),
   authorName: z.string().min(1, 'Auteur is verplicht'),
-  authorBio: z.string().optional(),
+  authorBio: z.string().min(1, 'Bio is verplicht'),
   intro: z.string().min(1, 'Intro is verplicht'),
   sections: z.string().transform((val) => {
     const parsed = JSON.parse(val)
@@ -112,6 +113,17 @@ async function uploadImage(file: File): Promise<string> {
 
 export async function POST(req: NextRequest) {
   try {
+    // Blog submissions involve image uploads (heavier per-request cost) so
+    // keep the limit tight — 3/min/IP is enough for a real submitter who's
+    // editing inline; abuse is much more expensive than text-only forms.
+    const limit = rateLimit({ endpoint: 'blog-submit', ip: getClientIp(req), limit: 3, windowMs: 60_000 })
+    if (!limit.ok) {
+      return NextResponse.json(
+        { error: 'Te veel verzoeken. Probeer het later opnieuw.' },
+        { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } },
+      )
+    }
+
     const formData = await req.formData()
 
     // Extract text fields
@@ -151,10 +163,11 @@ export async function POST(req: NextRequest) {
     const heroImageFile = formData.get('heroImage') as File | null
     const heroImageRef = heroImageFile ? await uploadImage(heroImageFile) : null
 
-    // Upload author photo
+    // Upload author photo — persisted on the blog post so the byline can
+    // render an avatar. The blog form requires it (both client- and
+    // server-side validation) so dropping it would be silent data loss.
     const authorPhotoFile = formData.get('authorPhoto') as File | null
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _authorPhotoRef = authorPhotoFile ? await uploadImage(authorPhotoFile) : null
+    const authorPhotoRef = authorPhotoFile ? await uploadImage(authorPhotoFile) : null
 
     // Upload section images: section_0_image_0, section_0_image_1, etc.
     const sectionImageRefs: (string[] | null)[] = []
@@ -201,6 +214,14 @@ export async function POST(req: NextRequest) {
       title: data.title,
       slug: { _type: 'slug', current: slug },
       author: data.authorName,
+      authorBio: data.authorBio,
+      authorImage: authorPhotoRef
+        ? {
+            _type: 'image',
+            asset: { _type: 'reference', _ref: authorPhotoRef },
+            alt: data.authorName,
+          }
+        : undefined,
       publishedAt: today,
       category: 'stories',
       status: 'pending_review',

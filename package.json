@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npm run verify:fast",
     "dev": "next dev",
+    "prebuild": "npm run verify:fast && npm run test:e2e",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -11,6 +13,11 @@
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "verify:fast": "vitest run && tsc --noEmit",
+    "verify:all": "vitest run && tsc --noEmit && playwright test",
+    "prepare": "husky",
     "tsc:watch": "tsc --watch",
     "tsc": "tsc",
     "tsc:build": "tsc",
@@ -56,6 +63,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -65,6 +73,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
+    "husky": "^9.1.7",
     "jsdom": "^29.0.1",
     "tailwindcss": "^4",
     "typescript": "^5",

@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+# Block commits that don't pass the unit suite or typecheck.
+# E2E is intentionally excluded here — it spins up a dev server, takes ~20s,
+# and would punish every commit. E2E runs on `npm run build` (prebuild) and
+# can be invoked manually via `npm run verify:all`.
+#
+# To skip: don't. If a commit needs to bypass this, fix the underlying
+# failure first. The user has explicitly asked that hooks not be skipped
+# with --no-verify (see CLAUDE.md / memory).
+
+npm run verify:fast

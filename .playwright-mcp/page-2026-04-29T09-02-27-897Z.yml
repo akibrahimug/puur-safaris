@@ -1,0 +1,198 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /en
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Trips" [ref=e9] [cursor=pointer]:
+          - /url: /en/safaris
+          - text: Safari Trips
+        - link "Destinations" [ref=e10] [cursor=pointer]:
+          - /url: /en/destinations
+          - text: Destinations
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /en/blog
+          - text: Blog
+        - link "About Us" [ref=e12] [cursor=pointer]:
+          - /url: /en/about
+          - text: About Us
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /en/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /en/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - link "Custom Itinerary" [ref=e20] [cursor=pointer]:
+          - /url: /en/custom-itinerary
+  - main [ref=e21]:
+    - generic [ref=e22]:
+      - img "22 dagen diep in uganda, 22 days deep in uganda, national park" [ref=e23]
+      - generic [ref=e28]:
+        - navigation "Breadcrumb" [ref=e29]:
+          - link "Home" [ref=e30] [cursor=pointer]:
+            - /url: /en
+            - img [ref=e31]
+            - generic [ref=e34]: Home
+          - generic [ref=e35]:
+            - img
+            - link "Safaris" [ref=e36] [cursor=pointer]:
+              - /url: /en/safaris
+          - generic [ref=e37]:
+            - img
+            - link "22 Dagen Diep In Oeganda" [ref=e38] [cursor=pointer]:
+              - /url: /en/safaris/22-dagen-diep-in-oeganda
+          - generic [ref=e39]:
+            - img
+            - generic [ref=e40]: Book
+        - paragraph [ref=e41]: Book Now
+        - 'heading "Book Now: 22 Days Deep in Uganda" [level=1] [ref=e42]'
+        - paragraph [ref=e43]: Complete the form and we will contact you as soon as possible.
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - generic [ref=e49]:
+          - generic [ref=e50]: "1"
+          - generic [ref=e51]: Trip & Dates
+        - generic [ref=e54]:
+          - generic [ref=e55]: "2"
+          - generic [ref=e56]: Traveller
+        - generic [ref=e59]:
+          - generic [ref=e60]: "3"
+          - generic [ref=e61]: Confirmation
+      - generic [ref=e62]:
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - heading "Trip & Dates" [level=2] [ref=e65]
+            - paragraph [ref=e66]: Review the trip details and choose your preferred travel dates.
+          - generic [ref=e67]:
+            - paragraph [ref=e68]: Selected trip
+            - paragraph [ref=e69]: 22 Days Deep in Uganda
+            - paragraph [ref=e70]: Queen Elizabeth Nationaal Park, Oeganda
+            - generic [ref=e71]:
+              - generic [ref=e72]:
+                - generic [ref=e73]: "Duur:"
+                - text: 22 days / 21 nights
+              - generic [ref=e74]:
+                - generic [ref=e75]: Vanaf
+                - text: € 7.200
+                - generic [ref=e76]: p.p.
+          - checkbox "Flexible date" [ref=e77]:
+            - generic [ref=e79]: Flexible date
+          - generic [ref=e80]:
+            - generic [ref=e81]: Travel dates *
+            - button "Selecteer reisdata" [ref=e82]:
+              - generic [ref=e83]: Selecteer reisdata
+              - img [ref=e84]
+          - generic [ref=e86]:
+            - generic [ref=e87]:
+              - generic [ref=e88]: Number of adults *
+              - generic [ref=e89]:
+                - button [ref=e90]:
+                  - img [ref=e91]
+                - generic [ref=e92]: "1"
+                - button [ref=e93]:
+                  - img [ref=e94]
+            - generic [ref=e95]:
+              - generic [ref=e96]: Number of children
+              - generic [ref=e97]:
+                - button [ref=e98]:
+                  - img [ref=e99]
+                - generic [ref=e100]: "0"
+                - button [ref=e101]:
+                  - img [ref=e102]
+        - button "Volgende" [ref=e104] [cursor=pointer]:
+          - text: Volgende
+          - img [ref=e105]
+  - contentinfo [ref=e107]:
+    - generic [ref=e108]:
+      - generic [ref=e109]:
+        - generic [ref=e110]:
+          - link "puur uganda reizen logo" [ref=e111] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e112]
+          - paragraph [ref=e113]: Discover Africa at its purest
+          - paragraph [ref=e114]: Puur Uganda Reizen organizes authentic safari trips tailor-made. We connect travellers with the magic of Africa.
+          - generic [ref=e115]:
+            - link "Instagram" [ref=e116] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e117]
+            - link "Facebook" [ref=e119] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e120]
+            - link "YouTube" [ref=e122] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e123]
+            - link "WhatsApp" [ref=e125] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e126]
+        - generic [ref=e128]:
+          - heading "Safari Trips" [level=3] [ref=e129]
+          - list [ref=e130]:
+            - listitem [ref=e131]:
+              - link "All safari trips" [ref=e132] [cursor=pointer]:
+                - /url: /en/safaris
+            - listitem [ref=e133]:
+              - link "Wildlife Safaris" [ref=e134] [cursor=pointer]:
+                - /url: /en/safaris?category=wildlife
+            - listitem [ref=e135]:
+              - link "Mountain & Trekking" [ref=e136] [cursor=pointer]:
+                - /url: /en/safaris?category=hiking
+            - listitem [ref=e137]:
+              - link "Combination trip" [ref=e138] [cursor=pointer]:
+                - /url: /en/safaris?category=combined
+            - listitem [ref=e139]:
+              - link "Destinations" [ref=e140] [cursor=pointer]:
+                - /url: /en/destinations
+        - generic [ref=e141]:
+          - heading "About Us" [level=3] [ref=e142]
+          - list [ref=e143]:
+            - listitem [ref=e144]:
+              - link "About Pure Safaris" [ref=e145] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e146]:
+              - link "Travel blog" [ref=e147] [cursor=pointer]:
+                - /url: /en/blog
+            - listitem [ref=e148]:
+              - link "Frequently asked questions" [ref=e149] [cursor=pointer]:
+                - /url: /en/faq
+            - listitem [ref=e150]:
+              - link "Contact" [ref=e151] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e152]:
+          - heading "Contact" [level=3] [ref=e153]
+          - list [ref=e154]:
+            - listitem [ref=e155]:
+              - link "+31 653536011" [ref=e156] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e157]
+                - generic [ref=e159]: +31 653536011
+            - listitem [ref=e160]:
+              - link "info@puurugandareizen.nl" [ref=e161] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e162]
+                - generic [ref=e165]: info@puurugandareizen.nl
+            - listitem [ref=e166]:
+              - img [ref=e167]
+              - generic [ref=e170]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e171]:
+              - img [ref=e172]
+              - generic [ref=e175]: The Netherlands
+            - listitem [ref=e176]:
+              - link "WhatsApp" [ref=e177] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e178]
+                - text: WhatsApp
+      - generic [ref=e180]:
+        - paragraph [ref=e181]: "© 2026 Puur Uganda Reizen. All rights reserved. · KvK: 12345678"
+        - generic [ref=e182]:
+          - link "Privacy Policy" [ref=e183] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "General Terms and Conditions" [ref=e184] [cursor=pointer]:
+            - /url: /en/terms
+  - button "Open Next.js Dev Tools" [ref=e190] [cursor=pointer]:
+    - img [ref=e191]

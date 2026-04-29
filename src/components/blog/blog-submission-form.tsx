@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { Calendar, User, CheckCircle2, X, Camera, Pencil, Plus, Trash2, ImageIcon, LayoutGrid } from 'lucide-react'
+import { validateBlogSubmission } from './blog-submission-form.validation'
 
 /* ── Types ── */
 interface ImageState {
@@ -61,12 +62,14 @@ function ImageLayoutPicker({
   labelNone,
   labelSingle,
   labelGrid,
+  pickerLabel,
 }: {
   value: ImageLayout
   onChange: (v: ImageLayout) => void
   labelNone?: string
   labelSingle?: string
   labelGrid?: string
+  pickerLabel?: string
 }) {
   const options: { key: ImageLayout; icon: React.ReactNode; label: string }[] = [
     { key: 'none', icon: <X className="w-4 h-4" />, label: labelNone ?? 'Geen' },
@@ -76,7 +79,7 @@ function ImageLayoutPicker({
 
   return (
     <div className="flex items-center gap-2 my-4">
-      <span className="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mr-2">Afbeelding:</span>
+      <span className="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mr-2">{pickerLabel ?? 'Afbeelding:'}</span>
       {options.map((opt) => (
         <button
           key={opt.key}
@@ -293,38 +296,26 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
   }
 
   const validate = (): boolean => {
-    const errors: Record<string, string> = {}
-
-    // Verification fields
-    if (!bookingNumber.trim()) errors.bookingNumber = d?.validationBookingRequired ?? 'Boekingsnummer is verplicht'
-    else if (!/^PS-\d{4}-[A-Z0-9]{4}$/.test(bookingNumber.trim())) errors.bookingNumber = d?.validationBookingFormat ?? 'Ongeldig formaat (bijv. PS-2024-AB12)'
-    if (!email.trim()) errors.email = d?.validationEmailRequired ?? 'E-mailadres is verplicht'
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errors.email = d?.validationEmailInvalid ?? 'Ongeldig e-mailadres'
-    if (telefoon && !/^[+]?[\d\s\-().]{7,20}$/.test(telefoon)) errors.telefoon = d?.validationPhoneInvalid ?? 'Ongeldig telefoonnummer'
-
-    // Blog content
-    if (!heroImage) errors.heroImage = d?.validationHeroImageRequired ?? 'Upload een omslagfoto'
-    if (!title.trim()) errors.title = d?.validationTitleRequired ?? 'Titel is verplicht'
-    if (!authorName.trim()) errors.authorName = d?.validationAuthorNameRequired ?? 'Auteur naam is verplicht'
-    if (!authorBio.trim()) errors.authorBio = d?.validationAuthorBioRequired ?? 'Een korte bio is verplicht'
-    if (!authorPhoto) errors.authorPhoto = d?.validationAuthorPhotoRequired ?? 'Upload een profielfoto'
-    if (!intro.trim()) errors.intro = d?.validationIntroRequired ?? 'Introductie is verplicht'
-    if (gallery.length === 0) errors.gallery = d?.validationGalleryRequired ?? 'Upload minimaal één foto voor de galerij'
-
-    // Sections — at least 3 must be filled
-    let filledCount = 0
-    sections.forEach((s, i) => {
-      if (!s.title.trim() && !s.body.trim()) return // empty section, skip
-      if (!s.title.trim()) errors[`section_${i}_title`] = 'Sectie titel is verplicht'
-      if (!s.body.trim()) errors[`section_${i}_body`] = 'Sectie tekst is verplicht'
-      if (s.imageLayout !== 'none' && s.images.length === 0) errors[`section_${i}_images`] = 'Upload minimaal één foto of kies "Geen"'
-      if (s.title.trim() && s.body.trim()) filledCount++
-    })
-    if (filledCount < 3) errors.sections = d?.validationSectionsRequired ?? 'Je verhaal moet minimaal 3 volledige secties bevatten (titel + tekst)'
+    const { errors, valid } = validateBlogSubmission(
+      {
+        bookingNumber,
+        email,
+        telefoon,
+        title,
+        authorName,
+        authorBio,
+        intro,
+        heroImage,
+        authorPhoto,
+        gallery,
+        sections,
+      },
+      d,
+    )
 
     setFieldErrors(errors)
 
-    if (Object.keys(errors).length > 0) {
+    if (!valid) {
       // Scroll to first error
       const firstErrorKey = Object.keys(errors)[0]
       const el = document.querySelector(`[data-field="${firstErrorKey}"]`)
@@ -386,14 +377,14 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
       const result = await res.json()
 
       if (!res.ok) {
-        setErrorMessage(result.error || 'Er is iets misgegaan.')
+        setErrorMessage(result.error || (d?.errorGeneric ?? 'Er is iets misgegaan.'))
         return
       }
 
       setIsSuccess(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch {
-      setErrorMessage('Verbindingsfout. Controleer je internetverbinding en probeer het opnieuw.')
+      setErrorMessage(d?.errorConnection ?? 'Verbindingsfout. Controleer je internetverbinding en probeer het opnieuw.')
     } finally {
       setIsSubmitting(false)
     }
@@ -498,7 +489,7 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                 autoCapitalize="sentences"
                 className="w-full min-h-[44px] bg-transparent border-b-2 border-gold/30 outline-none font-serif text-3xl sm:text-4xl font-bold text-[var(--text-primary)] pb-2 placeholder:text-[var(--text-muted)]/30 focus:border-gold/60 transition-colors" autoFocus />
             ) : (
-              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[var(--text-primary)]">{title || <span className="text-[var(--text-muted)]/30">Klik om een titel toe te voegen...</span>}</h1>
+              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[var(--text-primary)]">{title || <span className="text-[var(--text-muted)]/30">{d?.displayTitlePlaceholder ?? 'Klik om een titel toe te voegen...'}</span>}</h1>
             )}
             <FieldError message={fieldErrors.title} />
           </div>
@@ -518,7 +509,7 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                     autoComplete="name" autoCapitalize="words" inputMode="text"
                     className="min-h-[44px] bg-transparent border-b border-gold/40 outline-none text-base sm:text-sm text-[var(--text-muted)]" autoFocus />
                 ) : (
-                  <span>{authorName || <span className="opacity-30">Auteur naam</span>}</span>
+                  <span>{authorName || <span className="opacity-30">{d?.displayAuthorNamePlaceholder ?? 'Auteur naam'}</span>}</span>
                 )}
               </span>
             </div>
@@ -540,13 +531,13 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
             <div className="flex-1">
               {editing.authorCard ? (
                 <>
-                  <label className="text-xs font-medium text-[var(--text-muted)] mb-1.5 block uppercase tracking-wider">Naam</label>
+                  <label className="text-xs font-medium text-[var(--text-muted)] mb-1.5 block uppercase tracking-wider">{d?.labelName ?? 'Naam'}</label>
                   <input type="text" value={authorName} onChange={(e) => { setAuthorName(e.target.value); clearFieldError('authorName') }} autoFocus placeholder={d?.placeholderAuthorName ?? "Je volledige naam"}
                     autoComplete="name" autoCapitalize="words" inputMode="text"
                     className={`w-full min-h-[44px] bg-transparent border-b-2 outline-none font-serif text-xl font-bold text-[var(--text-primary)] pb-1 mb-1 focus:border-gold/60 transition-colors ${fieldErrors.authorName ? 'border-red-400' : 'border-gold/30'}`} />
                   <FieldError message={fieldErrors.authorName} />
                   <div className="mb-3" />
-                  <label className="text-xs font-medium text-[var(--text-muted)] mb-1.5 block uppercase tracking-wider">Korte bio</label>
+                  <label className="text-xs font-medium text-[var(--text-muted)] mb-1.5 block uppercase tracking-wider">{d?.labelShortBio ?? 'Korte bio'}</label>
                   <textarea value={authorBio} onChange={(e) => { setAuthorBio(e.target.value); clearFieldError('authorBio') }} rows={4} placeholder={d?.placeholderAuthorBio ?? "Vertel iets over jezelf en waarom je dit verhaal deelt..."}
                     className={`w-full bg-[var(--bg-primary)] border rounded-xl outline-none resize-y min-h-[120px] text-[var(--text-muted)] leading-relaxed italic p-3 text-base sm:text-sm focus:border-gold/60 focus-visible:ring-2 focus-visible:ring-gold/30 transition-all ${fieldErrors.authorBio ? 'border-red-400' : 'border-gold/30'}`} />
                   <FieldError message={fieldErrors.authorBio} />
@@ -557,10 +548,10 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                     {labels?.writtenByPrefix ?? 'Geschreven door'} {authorName || '...'}
                   </h3>
                   <p className="text-[var(--text-muted)] leading-relaxed italic">
-                    &quot;{authorBio || 'Klik op het potlood om je bio toe te voegen...'}&quot;
+                    &quot;{authorBio || (d?.displayAuthorBioPlaceholder ?? 'Klik op het potlood om je bio toe te voegen...')}&quot;
                   </p>
                   {(fieldErrors.authorName || fieldErrors.authorBio) && !editing.authorCard && (
-                    <p className="text-xs text-red-500 mt-2">Klik op het potlood om je gegevens in te vullen</p>
+                    <p className="text-xs text-red-500 mt-2">{d?.editAuthorHint ?? 'Klik op het potlood om je gegevens in te vullen'}</p>
                   )}
                 </>
               )}
@@ -575,7 +566,7 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                 className="w-full bg-[var(--bg-secondary)] border border-gold/30 rounded-2xl outline-none resize-y min-h-[160px] text-[var(--text-muted)] leading-[1.9] p-5 text-base focus:border-gold/60 focus-visible:ring-2 focus-visible:ring-gold/30 transition-all"
                 placeholder={d?.placeholderIntro ?? "Begin je verhaal met een pakkende introductie..."} />
             ) : (
-              <p className="text-[var(--text-muted)] leading-[1.9]">{intro || <span className="opacity-30">Klik om je introductie te schrijven...</span>}</p>
+              <p className="text-[var(--text-muted)] leading-[1.9]">{intro || <span className="opacity-30">{d?.displayIntroPlaceholder ?? 'Klik om je introductie te schrijven...'}</span>}</p>
             )}
             <FieldError message={fieldErrors.intro} />
           </div>
@@ -606,9 +597,10 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                   <div className="flex-1 h-px bg-[var(--border-subtle)]" />
                   {sections.length > 3 && (
                     <button type="button" onClick={() => removeSection(idx)}
+                      aria-label={d?.deleteSectionLabel ?? 'Verwijder'}
                       className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium text-red-500 border border-red-200 dark:border-red-500/20 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">
                       <Trash2 className="w-3 h-3" />
-                      Verwijder
+                      {d?.deleteSectionLabel ?? 'Verwijder'}
                     </button>
                   )}
                 </div>
@@ -623,7 +615,7 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                       className={`w-full min-h-[44px] bg-transparent border-b-2 outline-none font-serif text-2xl font-bold text-[var(--text-primary)] pb-2 placeholder:text-[var(--text-muted)]/30 focus:border-gold/60 transition-colors ${hasTitleErr ? 'border-red-400' : 'border-gold/30'}`} />
                   ) : (
                     <h2 className="font-serif text-2xl font-bold text-[var(--text-primary)]">
-                      {section.title || <span className="opacity-30">Sectie titel...</span>}
+                      {section.title || <span className="opacity-30">{d?.displaySectionTitlePlaceholder ?? 'Sectie titel...'}</span>}
                     </h2>
                   )}
                   <FieldError message={fieldErrors[`section_${idx}_title`]} />
@@ -638,7 +630,7 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                       className={`w-full bg-[var(--bg-secondary)] border rounded-2xl outline-none resize-y min-h-[160px] text-[var(--text-muted)] leading-[1.9] p-5 text-base focus:border-gold/60 focus-visible:ring-2 focus-visible:ring-gold/30 transition-all ${hasBodyErr ? 'border-red-400' : 'border-gold/30'}`} />
                   ) : (
                     <p className="text-[var(--text-muted)] leading-[1.9]">
-                      {section.body || <span className="opacity-30">Klik om deze sectie te schrijven...</span>}
+                      {section.body || <span className="opacity-30">{d?.displaySectionBodyPlaceholder ?? 'Klik om deze sectie te schrijven...'}</span>}
                     </p>
                   )}
                   <FieldError message={fieldErrors[`section_${idx}_body`]} />
@@ -651,6 +643,7 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
                   labelNone={d?.layoutNone}
                   labelSingle={d?.layoutSingle}
                   labelGrid={d?.layoutGrid}
+                  pickerLabel={d?.imagePickerLabel}
                 />
                 <FieldError message={hasImgErr ? fieldErrors[`section_${idx}_images`] : undefined} />
 
@@ -672,7 +665,7 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
           <button type="button" onClick={addSection}
             className="w-full mt-8 mb-4 py-4 rounded-2xl border-2 border-dashed border-[var(--border-subtle)] flex items-center justify-center gap-2 text-[var(--text-muted)] hover:text-gold hover:border-gold/40 transition-colors">
             <Plus className="w-5 h-5" />
-            <span className="text-sm font-medium">Sectie toevoegen</span>
+            <span className="text-sm font-medium">{d?.addSectionLabel ?? 'Sectie toevoegen'}</span>
           </button>
 
         </div>

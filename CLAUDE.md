@@ -6,13 +6,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-- `npm run dev` — Next.js dev server (includes `/studio` Sanity embed at `/studio`)
-- `npm run build` / `npm run start` — production build / serve
+- `npm run dev` — Next.js dev server (includes `/studio` Sanity embed at `/studio`). **Triggers `predev` first** (`vitest run && tsc --noEmit`); won't start if either fails.
+- `npm run build` / `npm run start` — production build / serve. **Triggers `prebuild` first** (`vitest run && tsc --noEmit && playwright test`); the full E2E suite runs before the build, so a broken page can't ship.
 - `npm run lint` — ESLint (`eslint-config-next` v16, flat config in `eslint.config.mjs`)
 - `npm run tsc:check` — `tsc --noEmit`. Other `tsc:*` aliases all resolve to the same thing.
 - `npm run test` — Vitest (jsdom env, `src/**/*.test.{ts,tsx}`)
   - Single file: `npx vitest run src/lib/utils.test.ts`
   - `test:watch`, `test:ui`, `test:coverage` also available
+- `npm run test:e2e` — Playwright (`e2e/**/*.spec.ts`). Auto-starts a dev server on port 3000 (`reuseExistingServer` locally). Use `test:e2e:ui` for the inspector.
+- `npm run verify:fast` — vitest + tsc. Used by `predev` and the pre-commit hook.
+- `npm run verify:all` — vitest + tsc + e2e. The full gate; mirrors what `prebuild` runs.
+
+### Pre-commit hook (husky)
+
+`.husky/pre-commit` runs `verify:fast` (vitest + tsc) before every commit. Husky is installed via the `prepare` npm script so the hook is portable — fresh `npm install` on a new machine wires it up automatically. **Do not bypass with `--no-verify`** (per the project memory rule); fix the failure instead. E2E is intentionally NOT in pre-commit because the ~20s overhead would punish every commit; it gates `npm run build` instead, which is the closer surface to a deploy.
 
 ## Stack
 
@@ -111,7 +118,7 @@ CMS-backed copy is **never fallback-cascaded through dictionary or hardcoded lit
 
 - `POST /api/revalidate` — Sanity webhook trigger.
 - `POST /api/translate-doc` — pure translation utility. Body: `{ docType, fields, targetLang }`. Returns only the fields that changed. Does not mutate Sanity. Called by the **Vertaal van Nederlands** studio action; same-origin only.
-- `POST /api/booking`, `/api/blog/submit`, `/api/contact` — public form endpoints (rate-limited inside the route).
+- `POST /api/booking`, `/api/blog/submit`, `/api/contact` — public form endpoints. **Rate-limited via `rateLimit({ endpoint, ip, limit, windowMs })` from `src/lib/rate-limit.ts`** (in-memory token bucket keyed by IP from `x-forwarded-for`). Per-route limits live at the top of each handler — current values: contact 5/min, booking 3/min, blog-submit 3/min. Returns 429 + `Retry-After` header when exceeded. Buckets are in-process so they reset on deploy and don't coordinate across instances; if we ever scale horizontally swap the `Map` for an Upstash/Redis store with the same `RateLimitResult` shape. **`/api/contact` also has a honeypot field** (`website` in the schema; `<input type="text" tabIndex={-1}>` hidden via off-screen positioning in the form): non-empty values silently return 200 without sending email so bots don't learn they've been filtered.
 - `GET /api/draft-mode/enable|disable` — used by the visual editing handshake.
 
 ### SEO
