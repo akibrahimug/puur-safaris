@@ -1,0 +1,341 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /nl
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Reizen" [ref=e9] [cursor=pointer]:
+          - /url: /nl/safari-reizen
+          - text: Safari Reizen
+        - link "Bestemmingen" [ref=e10] [cursor=pointer]:
+          - /url: /nl/bestemmingen
+          - text: Bestemmingen
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /nl/blog
+          - text: Blog
+        - link "Over Ons" [ref=e12] [cursor=pointer]:
+          - /url: /nl/over-ons
+          - text: Over Ons
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /nl/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /nl/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - link "Eigen Reisschema" [ref=e20] [cursor=pointer]:
+          - /url: /nl/eigen-reisschema
+  - main [ref=e21]:
+    - generic [ref=e22]:
+      - img "a family of giraffes grazing in the savana" [ref=e24]
+      - generic [ref=e27]:
+        - heading "Ontdek Uganda In de meest pure vorm" [level=1] [ref=e28]:
+          - text: Ontdek Uganda
+          - text: In de meest pure vorm
+        - paragraph [ref=e29]: Puur Afrika, Puur Avontuur
+        - generic [ref=e30]:
+          - link "Bekijk onze reizen" [ref=e31] [cursor=pointer]:
+            - /url: /nl/safari-reizen
+            - text: Bekijk onze reizen
+            - img [ref=e32]
+          - link "Creëer je eigen reis" [ref=e34] [cursor=pointer]:
+            - /url: /nl/eigen-reisschema
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - img [ref=e43]
+            - img [ref=e45]
+            - img [ref=e47]
+            - img [ref=e49]
+            - img [ref=e51]
+          - paragraph [ref=e53]: 50+ tevreden reizigers
+      - generic [ref=e54]:
+        - generic [ref=e55]: Scroll
+        - img [ref=e57]
+    - generic [ref=e63]:
+      - generic [ref=e66]:
+        - paragraph [ref=e67]: 100+
+        - paragraph [ref=e68]: reizigers vonden hun droomsafari
+      - generic [ref=e71]:
+        - paragraph [ref=e72]: 10 jaar
+        - paragraph [ref=e73]: Expertise in Uganda
+      - generic [ref=e76]:
+        - paragraph [ref=e77]: 4.9★
+        - paragraph [ref=e78]: gemiddeld beoordeeld door reizigers
+    - generic [ref=e80]:
+      - generic [ref=e82]:
+        - generic [ref=e83]:
+          - paragraph [ref=e84]: Uitgelichte Reizen
+          - heading "Safari Reizen" [level=2] [ref=e85]
+          - paragraph [ref=e86]: Suggesties voor onvergetelijke avonturen in Uganda
+        - link "Alle reizen" [ref=e87] [cursor=pointer]:
+          - /url: /nl/safari-reizen
+          - text: Alle reizen
+          - img [ref=e88]
+      - generic [ref=e90]:
+        - link [ref=e93] [cursor=pointer]:
+          - /url: /nl/safari-reizen/12-dagen-noordwest-oeganda
+          - article [ref=e94]:
+            - generic [ref=e95]:
+              - img "Zebra uganda gorilla" [ref=e96]
+              - generic [ref=e98]:
+                - generic [ref=e99]: Combinatiereis
+                - generic [ref=e100]: Aanbevolen
+            - generic [ref=e101]:
+              - generic [ref=e103]:
+                - generic [ref=e104]:
+                  - img [ref=e105]
+                  - generic [ref=e108]: Bwindi Impenetrable Nationaal Park, Oeganda
+                - heading "12 Dagen Noordwest-Uganda" [level=3] [ref=e109]
+                - generic [ref=e110]:
+                  - generic [ref=e111]:
+                    - img [ref=e112]
+                    - text: 12 dagen / 11 nachten
+                  - generic [ref=e115]:
+                    - img [ref=e116]
+                    - text: Gemiddeld
+              - generic [ref=e121]:
+                - generic [ref=e122]:
+                  - paragraph [ref=e123]: Vanaf
+                  - paragraph [ref=e124]: € 3.950
+                  - paragraph [ref=e125]: per persoon
+                - generic [ref=e126]:
+                  - generic [ref=e127]: Bekijk
+                  - img [ref=e128]
+        - link [ref=e133] [cursor=pointer]:
+          - /url: /nl/safari-reizen/14-dagen-noord-west-zuid-oeganda
+          - article [ref=e134]:
+            - generic [ref=e138]:
+              - generic [ref=e139]: Combinatiereis
+              - generic [ref=e140]: Aanbevolen
+            - generic [ref=e141]:
+              - generic [ref=e143]:
+                - generic [ref=e144]:
+                  - img [ref=e145]
+                  - generic [ref=e148]: Queen Elizabeth Nationaal Park, Oeganda
+                - heading "14 Dagen Noord, West & Zuid Oeganda" [level=3] [ref=e149]
+                - generic [ref=e150]:
+                  - generic [ref=e151]:
+                    - img [ref=e152]
+                    - text: 14 dagen / 13 nachten
+                  - generic [ref=e155]:
+                    - img [ref=e156]
+                    - text: Uitdagend
+              - generic [ref=e161]:
+                - generic [ref=e162]:
+                  - paragraph [ref=e163]: Vanaf
+                  - paragraph [ref=e164]: € 5.074
+                  - paragraph [ref=e165]: per persoon
+                - generic [ref=e166]:
+                  - generic [ref=e167]: Bekijk
+                  - img [ref=e168]
+        - link [ref=e173] [cursor=pointer]:
+          - /url: /nl/safari-reizen/22-dagen-diep-in-oeganda
+          - article [ref=e174]:
+            - generic [ref=e175]:
+              - img "22 dagen diep in uganda, 22 days deep in uganda, national park" [ref=e176]
+              - generic [ref=e178]:
+                - generic [ref=e179]: Combinatiereis
+                - generic [ref=e180]: Aanbevolen
+            - generic [ref=e181]:
+              - generic [ref=e183]:
+                - generic [ref=e184]:
+                  - img [ref=e185]
+                  - generic [ref=e188]: Queen Elizabeth Nationaal Park, Oeganda
+                - heading "22 Dagen Diep in Uganda" [level=3] [ref=e189]
+                - generic [ref=e190]:
+                  - generic [ref=e191]:
+                    - img [ref=e192]
+                    - text: 22 dagen / 21 nachten
+                  - generic [ref=e195]:
+                    - img [ref=e196]
+                    - text: Uitdagend
+              - generic [ref=e201]:
+                - generic [ref=e202]:
+                  - paragraph [ref=e203]: Vanaf
+                  - paragraph [ref=e204]: € 7.200
+                  - paragraph [ref=e205]: per persoon
+                - generic [ref=e206]:
+                  - generic [ref=e207]: Bekijk
+                  - img [ref=e208]
+    - generic [ref=e212]:
+      - generic [ref=e213]:
+        - paragraph [ref=e214]: Puur Uganda
+        - heading "Omdat wij geloven in reizen die een indruk achterlaten voor het leven." [level=2] [ref=e215]
+      - generic [ref=e216]:
+        - generic [ref=e217]:
+          - generic: "01"
+          - img [ref=e219]
+          - heading "Persoonlijk & op maat" [level=3] [ref=e221]
+          - paragraph [ref=e222]: Elke safari wordt speciaal voor u ontworpen. Uw wensen, uw tempo, uw droomreis.
+        - generic [ref=e223]:
+          - generic: "02"
+          - img [ref=e225]
+          - heading "Veiligheid voorop" [level=3] [ref=e227]
+          - paragraph [ref=e228]: Al onze gidsen zijn gecertificeerd en hebben jarenlange ervaring in het veld.
+        - generic [ref=e229]:
+          - generic: "03"
+          - img [ref=e231]
+          - heading "Kleine groepen" [level=3] [ref=e236]
+          - paragraph [ref=e237]: Wij werken met kleine, intieme groepen voor een echte en authentieke ervaring.
+        - generic [ref=e238]:
+          - generic: "04"
+          - img [ref=e240]
+          - heading "Topkwaliteit" [level=3] [ref=e242]
+          - paragraph [ref=e243]: Zorgvuldig geselecteerde lodges en camps met uitstekende service en comfort.
+        - generic [ref=e244]:
+          - generic: "05"
+          - img [ref=e246]
+          - heading "Lokale expertise" [level=3] [ref=e249]
+          - paragraph [ref=e250]: Onze Afrikaanse partners kennen elk pad, elke schuilplaats en elk seizoen.
+        - generic [ref=e251]:
+          - generic: "06"
+          - img [ref=e253]
+          - heading "24/7 ondersteuning" [level=3] [ref=e255]
+          - paragraph [ref=e256]: Voor, tijdens en na uw reis staat ons team klaar voor vragen en ondersteuning.
+    - generic [ref=e258]:
+      - generic [ref=e260]:
+        - generic [ref=e261]:
+          - paragraph [ref=e262]: Bestemmingen
+          - heading "Ontdek Oeganda" [level=2] [ref=e263]
+          - paragraph [ref=e264]: Elke bestemming een ander avontuur. Ontdek de ongerepte natuur van Oeganda.
+        - link "Alle bestemmingen" [ref=e265] [cursor=pointer]:
+          - /url: /nl/bestemmingen
+          - text: Alle bestemmingen
+          - img [ref=e266]
+      - generic [ref=e268]:
+        - link "Africa • Oeganda Bwindi Impenetrable Nationaal Park UNESCO-werelderfgoed met circa 400 berggorilla's in 25.000 jaar oud regenwoud. Veertien gehabitueerde groepen. 6 reizen beschikbaar" [ref=e270] [cursor=pointer]:
+          - /url: /nl/bestemmingen/bwindi-impenetrable-nationaal-park
+          - generic [ref=e274]:
+            - generic [ref=e275]:
+              - generic [ref=e276]:
+                - img [ref=e277]
+                - generic [ref=e280]: Africa • Oeganda
+              - heading "Bwindi Impenetrable Nationaal Park" [level=3] [ref=e281]
+              - paragraph [ref=e282]: UNESCO-werelderfgoed met circa 400 berggorilla's in 25.000 jaar oud regenwoud. Veertien gehabitueerde groepen.
+              - paragraph [ref=e283]: 6 reizen beschikbaar
+            - img [ref=e285]
+        - link "warthog Africa • Oeganda Kidepo Valley Nationaal Park Afgelegen wildernis van 1.442 km² in het noordoosten, met de enige cheetah-populatie van Oeganda en 475 vogelsoorten. 4 reizen beschikbaar" [ref=e289] [cursor=pointer]:
+          - /url: /nl/bestemmingen/kidepo-valley-nationaal-park
+          - img "warthog" [ref=e290]
+          - generic [ref=e294]:
+            - generic [ref=e295]:
+              - generic [ref=e296]:
+                - img [ref=e297]
+                - generic [ref=e300]: Africa • Oeganda
+              - heading "Kidepo Valley Nationaal Park" [level=3] [ref=e301]
+              - paragraph [ref=e302]: Afgelegen wildernis van 1.442 km² in het noordoosten, met de enige cheetah-populatie van Oeganda en 475 vogelsoorten.
+              - paragraph [ref=e303]: 4 reizen beschikbaar
+            - img [ref=e305]
+        - 'link "Africa • Oeganda Queen Elizabeth Nationaal Park Oeganda''s populairste park: 1.978 km² met boomklimmende leeuwen, het Kazinga-kanaal en meer dan 600 vogelsoorten. 6 reizen beschikbaar" [ref=e309] [cursor=pointer]':
+          - /url: /nl/bestemmingen/queen-elizabeth-nationaal-park
+          - generic [ref=e313]:
+            - generic [ref=e314]:
+              - generic [ref=e315]:
+                - img [ref=e316]
+                - generic [ref=e319]: Africa • Oeganda
+              - heading "Queen Elizabeth Nationaal Park" [level=3] [ref=e320]
+              - paragraph [ref=e321]: "Oeganda's populairste park: 1.978 km² met boomklimmende leeuwen, het Kazinga-kanaal en meer dan 600 vogelsoorten."
+              - paragraph [ref=e322]: 6 reizen beschikbaar
+            - img [ref=e324]
+    - generic [ref=e330]:
+      - paragraph [ref=e331]: Begin uw avontuur
+      - heading "Klaar voor uw droomsafari?" [level=2] [ref=e332]
+      - paragraph [ref=e333]: Laat ons een gepersonaliseerde offerte voor u samenstellen. Gratis en vrijblijvend — wij kennen elk pad in Oeganda.
+      - generic [ref=e334]:
+        - link "Eigen Reisschema" [ref=e335] [cursor=pointer]:
+          - /url: /nl/eigen-reisschema
+        - link "Bekijk alle reizen" [ref=e336] [cursor=pointer]:
+          - /url: /nl/safari-reizen
+  - contentinfo [ref=e337]:
+    - generic [ref=e338]:
+      - generic [ref=e339]:
+        - generic [ref=e340]:
+          - link "puur uganda reizen logo" [ref=e341] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e342]
+          - paragraph [ref=e343]: Ontdek Afrika op zijn puurste
+          - paragraph [ref=e344]: Puur Uganda Reizen organiseert authentieke safari reizen op maat. Wij verbinden reizigers met de magie van Afrika.
+          - generic [ref=e345]:
+            - link "Instagram" [ref=e346] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e347]
+            - link "Facebook" [ref=e349] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e350]
+            - link "YouTube" [ref=e352] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e353]
+            - link "WhatsApp" [ref=e355] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e356]
+        - generic [ref=e358]:
+          - heading "Safari Reizen" [level=3] [ref=e359]
+          - list [ref=e360]:
+            - listitem [ref=e361]:
+              - link "Alle safari reizen" [ref=e362] [cursor=pointer]:
+                - /url: /nl/safari-reizen
+            - listitem [ref=e363]:
+              - link "Wildlife Safaris" [ref=e364] [cursor=pointer]:
+                - /url: /nl/safari-reizen?category=wildlife
+            - listitem [ref=e365]:
+              - link "Berg & Trekking" [ref=e366] [cursor=pointer]:
+                - /url: /nl/safari-reizen?category=hiking
+            - listitem [ref=e367]:
+              - link "Combinatiereis" [ref=e368] [cursor=pointer]:
+                - /url: /nl/safari-reizen?category=combined
+            - listitem [ref=e369]:
+              - link "Bestemmingen" [ref=e370] [cursor=pointer]:
+                - /url: /nl/bestemmingen
+        - generic [ref=e371]:
+          - heading "Over Ons" [level=3] [ref=e372]
+          - list [ref=e373]:
+            - listitem [ref=e374]:
+              - link "Over Puur Safaris" [ref=e375] [cursor=pointer]:
+                - /url: /nl/over-ons
+            - listitem [ref=e376]:
+              - link "Reisblog" [ref=e377] [cursor=pointer]:
+                - /url: /nl/blog
+            - listitem [ref=e378]:
+              - link "Veelgestelde vragen" [ref=e379] [cursor=pointer]:
+                - /url: /nl/faq
+            - listitem [ref=e380]:
+              - link "Contact" [ref=e381] [cursor=pointer]:
+                - /url: /nl/contact
+        - generic [ref=e382]:
+          - heading "Contact" [level=3] [ref=e383]
+          - list [ref=e384]:
+            - listitem [ref=e385]:
+              - link "+31 653536011" [ref=e386] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e387]
+                - generic [ref=e389]: +31 653536011
+            - listitem [ref=e390]:
+              - link "info@puurugandareizen.nl" [ref=e391] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e392]
+                - generic [ref=e395]: info@puurugandareizen.nl
+            - listitem [ref=e396]:
+              - img [ref=e397]
+              - generic [ref=e400]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e401]:
+              - img [ref=e402]
+              - generic [ref=e405]: Nederland
+            - listitem [ref=e406]:
+              - link "WhatsApp" [ref=e407] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e408]
+                - text: WhatsApp
+      - generic [ref=e410]:
+        - paragraph [ref=e411]: "© 2026 Puur Uganda Reizen. Alle rechten voorbehouden. · KvK: 12345678"
+        - generic [ref=e412]:
+          - link "Privacybeleid" [ref=e413] [cursor=pointer]:
+            - /url: /nl/privacybeleid
+          - link "Algemene Voorwaarden" [ref=e414] [cursor=pointer]:
+            - /url: /nl/algemene-voorwaarden
+  - button "Open Next.js Dev Tools" [ref=e420] [cursor=pointer]:
+    - img [ref=e421]

@@ -34,10 +34,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const lang = hdrs.get('x-locale') ?? defaultLocale
 
   return (
-    <html lang={lang} translate="no" className={`${sora.variable} ${barriecito.variable} h-full antialiased notranslate`} data-scroll-behavior="smooth" suppressHydrationWarning>
-      <head>
-        <meta name="google" content="notranslate" />
-      </head>
+    // `lang={lang}` (set from the proxy's x-locale header) is the signal
+    // browsers use to offer auto-translation as a fallback — e.g. an English
+    // visitor who lands on /nl despite the proxy still gets Chrome's
+    // "Translate this page?" prompt because the document's source language
+    // is correctly declared. We deliberately do NOT set translate="no" /
+    // <meta name="google" content="notranslate"> for this reason.
+    // `suppressHydrationWarning` stays because Sanity stega-encoded content
+    // and visual-editing live updates can perturb the DOM during hydration.
+    <html lang={lang} className={`${sora.variable} ${barriecito.variable} h-full antialiased`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         <ThemeProvider>
           {children}
