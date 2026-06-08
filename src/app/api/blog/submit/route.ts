@@ -5,6 +5,7 @@ import { writeClient } from '@/sanity/write-client'
 import { BlogSubmittedEmail } from '@/emails/blog-submitted'
 import { BlogReviewAdminEmail } from '@/emails/blog-review-admin'
 import { getClientIp, rateLimit } from '@/lib/rate-limit'
+import { getEmailFrom } from '@/lib/email'
 import crypto from 'crypto'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
@@ -239,7 +240,7 @@ export async function POST(req: NextRequest) {
     })
 
     // Send emails
-    const fromEmail = process.env.EMAIL_FROM || 'Puur Uganda Reizen <noreply@puurugandareizen.nl>'
+    const fromEmail = getEmailFrom() || 'Puur Uganda Reizen <noreply@puurugandareizen.nl>'
     const adminEmail = process.env.ADMIN_EMAIL
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puurugandareizen.nl'
 

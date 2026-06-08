@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { ContactAdminEmail } from '@/emails/contact-admin'
 import { ContactConfirmEmail } from '@/emails/contact-confirm'
 import { getClientIp, rateLimit } from '@/lib/rate-limit'
+import { getEmailFrom } from '@/lib/email'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -55,7 +56,7 @@ export async function POST(req: NextRequest) {
     }
 
     const toEmail = process.env.ADMIN_EMAIL
-    const fromEmail = process.env.EMAIL_FROM
+    const fromEmail = getEmailFrom()
     if (!toEmail || !fromEmail) {
       return NextResponse.json({ error: 'Server niet geconfigureerd' }, { status: 500 })
     }

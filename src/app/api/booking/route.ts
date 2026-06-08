@@ -5,6 +5,7 @@ import { writeClient } from '@/sanity/write-client'
 import { BookingAdminEmail } from '@/emails/booking-admin'
 import { BookingConfirmEmail } from '@/emails/booking-confirm'
 import { getClientIp, rateLimit } from '@/lib/rate-limit'
+import { getEmailFrom } from '@/lib/email'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -55,7 +56,7 @@ export async function POST(req: NextRequest) {
     const data = schema.parse(body)
 
     const toEmail = process.env.ADMIN_EMAIL
-    const fromEmail = process.env.EMAIL_FROM
+    const fromEmail = getEmailFrom()
     if (!toEmail || !fromEmail) {
       return NextResponse.json({ error: 'Server niet geconfigureerd' }, { status: 500 })
     }
