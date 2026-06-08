@@ -98,7 +98,10 @@
       "Bash(md5 *)",
       "Bash(xargs -r kill -9)",
       "Bash(npm run *)",
-      "Bash(echo \"Started pid $!\")"
+      "Bash(echo \"Started pid $!\")",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_fill_form"
     ]
   }
 }

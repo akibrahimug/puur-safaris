@@ -20,7 +20,9 @@ const schema = z.object({
   // Honeypot: a hidden input the client form leaves empty. Bots that auto-
   // fill every field will populate it; anything non-empty is silently
   // rejected as 200 so the spammer doesn't learn we're filtering them.
-  website: z.string().optional(),
+  // Named neutrally (NOT "website") so browser autofill / password managers
+  // don't fill it and silently drop real submissions — see contact-form.tsx.
+  referralSource: z.string().optional(),
 })
 
 const BUDGET_LABELS: Record<string, string> = {
@@ -48,7 +50,7 @@ export async function POST(req: NextRequest) {
 
     // Honeypot tripped — pretend success so the bot moves on without learning
     // why. Also short-circuits before we waste an email send.
-    if (data.website && data.website.trim() !== '') {
+    if (data.referralSource && data.referralSource.trim() !== '') {
       return NextResponse.json({ success: true })
     }
 

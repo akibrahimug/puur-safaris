@@ -168,7 +168,7 @@ describe('POST /api/contact', () => {
 
   describe('honeypot', () => {
     it('returns success without sending email when the honeypot field is filled', async () => {
-      const res = await POST(makeReq({ ...validBody, website: 'https://spammy.example' }))
+      const res = await POST(makeReq({ ...validBody, referralSource: 'https://spammy.example' }))
       // Silent 200 — bot shouldn't learn it was filtered
       expect(res.status).toBe(200)
       const body = await res.json()
@@ -178,7 +178,7 @@ describe('POST /api/contact', () => {
     })
 
     it('treats whitespace-only honeypot as empty (legitimate submission)', async () => {
-      const res = await POST(makeReq({ ...validBody, website: '   ' }))
+      const res = await POST(makeReq({ ...validBody, referralSource: '   ' }))
       expect(res.status).toBe(200)
       // Whitespace-only does NOT trigger honeypot — emails go out as usual
       expect(sendSpy).toHaveBeenCalledTimes(2)

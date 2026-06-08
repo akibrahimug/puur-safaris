@@ -31,7 +31,11 @@ function createSchema(f?: Record<string, any>) {
       .max(2000, f?.validationMessageMax ?? 'Uw bericht mag maximaal 2000 tekens zijn'),
     // Honeypot — humans never see this field; bots that auto-fill every
     // input will populate it. The API silently 200s on a non-empty value.
-    website: z.string().optional(),
+    // NOTE: must NOT be named "website"/"url"/etc. — browser autofill and
+    // password managers fill those by keyword even when off-screen, which
+    // silently dropped real submissions. Neutral name + the data-*-ignore
+    // attrs below keep autofill out.
+    referralSource: z.string().optional(),
   })
 }
 
@@ -211,15 +215,29 @@ export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8" noValidate>
       {/*
-        Honeypot — visually hidden + off the tab order + autocomplete=off so a
-        keyboard or screen-reader user never lands on it. Bots that blindly
-        fill every input will tick this and the API will silently drop their
-        submission. `aria-hidden` keeps assistive tech from announcing it.
+        Honeypot — visually hidden + off the tab order so a keyboard or
+        screen-reader user never lands on it. Bots that blindly fill every
+        input will tick this and the API will silently drop their submission.
+        `aria-hidden` keeps assistive tech from announcing it.
+
+        CRITICAL: the field is NOT named "website" and carries no "Website"
+        label, because browser autofill (Chrome/Safari address profiles) and
+        password managers fill those by keyword even off-screen — which was
+        silently dropping real visitors' submissions. The data-*-ignore attrs
+        explicitly opt the field out of 1Password / LastPass / Dashlane.
       */}
       <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
         <label>
-          Website
-          <input type="text" tabIndex={-1} autoComplete="off" {...register('website')} />
+          Laat dit veld leeg
+          <input
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            data-1p-ignore
+            data-lpignore="true"
+            data-form-type="other"
+            {...register('referralSource')}
+          />
         </label>
       </div>
 

@@ -30,9 +30,12 @@ export async function generateMetadata({
     ),
     metadataBase: new URL(baseUrl),
     applicationName: stegaClean(settings.siteName),
-    icons: settings.logo?.asset?.url
-      ? { icon: stegaClean(settings.logo.asset.url)!, apple: stegaClean(settings.logo.asset.url)! }
-      : undefined,
+    // NOTE: do NOT set `icons` from the Sanity logo's raw asset URL. The logo
+    // is a large, non-square JPG (the original upload) — using it as a favicon
+    // shadows the proper `src/app/favicon.ico` and renders blurry in the tab.
+    // Next.js serves the static multi-size favicon.ico automatically. If a
+    // CMS-driven favicon is ever wanted, generate a square optimised icon with
+    // `sanityImageUrl(settings.logo, 256)`, not `settings.logo.asset.url`.
     keywords: ['safari', 'Uganda safaris', 'gorilla trekking', 'wildlife safari', 'Africa travel', 'safari tours'],
     authors: [{ name: stegaClean(settings.siteName) }],
     creator: stegaClean(settings.siteName),

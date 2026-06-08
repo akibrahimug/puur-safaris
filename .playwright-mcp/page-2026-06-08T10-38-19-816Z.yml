@@ -1,0 +1,187 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "puur uganda reizen logo" [ref=e5] [cursor=pointer]:
+        - /url: /nl
+        - img "puur uganda reizen logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "Safari Reizen" [ref=e9] [cursor=pointer]:
+          - /url: /nl/safari-reizen
+          - text: Safari Reizen
+        - link "Bestemmingen" [ref=e10] [cursor=pointer]:
+          - /url: /nl/bestemmingen
+          - text: Bestemmingen
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /nl/blog
+          - text: Blog
+        - link "Over Ons" [ref=e12] [cursor=pointer]:
+          - /url: /nl/over-ons
+          - text: Over Ons
+        - link "FAQ" [ref=e13] [cursor=pointer]:
+          - /url: /nl/faq
+          - text: FAQ
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /nl/contact
+          - text: Contact
+      - generic [ref=e15]:
+        - link "+31 653536011" [ref=e16] [cursor=pointer]:
+          - /url: tel:+31653536011
+          - img [ref=e17]
+          - text: +31 653536011
+        - button "Schakel naar donkere modus" [ref=e230]:
+          - img [ref=e231]
+        - link "Eigen Reisschema" [ref=e20] [cursor=pointer]:
+          - /url: /nl/eigen-reisschema
+  - main [ref=e21]:
+    - generic [ref=e22]:
+      - img "Contact Puur Safaris" [ref=e23]
+      - generic [ref=e28]:
+        - navigation "Kruimelpad" [ref=e29]:
+          - link "Home" [ref=e30] [cursor=pointer]:
+            - /url: /nl
+            - img [ref=e31]
+            - generic [ref=e34]: Home
+          - generic [ref=e35]:
+            - img
+            - generic [ref=e36]: Contact
+        - heading "Neem Contact Op" [level=1] [ref=e37]
+        - paragraph [ref=e38]: Heeft u vragen over onze safari reizen? Wij helpen u graag.
+    - generic [ref=e41]:
+      - status [ref=e243]:
+        - img [ref=e245]
+        - heading "Bericht ontvangen!" [level=3] [ref=e248]
+        - paragraph [ref=e249]: Bedankt voor uw bericht. We nemen binnen 24 uur contact met u op.
+        - button "Nieuw bericht sturen" [ref=e250]
+      - generic [ref=e100]:
+        - heading "Direct Contact" [level=2] [ref=e101]
+        - paragraph [ref=e102]: Ons team staat voor u klaar om al uw vragen te beantwoorden.
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - img [ref=e106]
+            - generic [ref=e108]:
+              - paragraph [ref=e109]: Bel Ons
+              - link "+31 653536011" [ref=e110] [cursor=pointer]:
+                - /url: tel:+31 653536011
+          - generic [ref=e111]:
+            - img [ref=e113]
+            - generic [ref=e116]:
+              - paragraph [ref=e117]: E-mail
+              - link "info@puurugandareizen.nl" [ref=e118] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+          - generic [ref=e119]:
+            - img [ref=e121]
+            - generic [ref=e124]:
+              - paragraph [ref=e125]: Kantoor
+              - paragraph [ref=e126]: Brittenburg 13 1082 BS Amsterdam Nederland
+          - generic [ref=e127]:
+            - img [ref=e129]
+            - generic [ref=e132]:
+              - paragraph [ref=e133]: Bereikbaarheid
+              - paragraph [ref=e134]:
+                - generic [ref=e135]: "Ma – Vr:"
+                - text: 09:00 – 17:30
+              - paragraph [ref=e136]:
+                - generic [ref=e137]: "Za:"
+                - text: 10:00 – 14:00
+        - link "Chat via WhatsApp" [ref=e138] [cursor=pointer]:
+          - /url: https://wa.me/31201234567
+          - img [ref=e139]
+          - text: Chat via WhatsApp
+        - paragraph [ref=e142]: Wij reageren doorgaans binnen 24 uur
+  - contentinfo [ref=e143]:
+    - generic [ref=e144]:
+      - generic [ref=e145]:
+        - generic [ref=e146]:
+          - link "puur uganda reizen logo" [ref=e147] [cursor=pointer]:
+            - /url: /
+            - img "puur uganda reizen logo" [ref=e148]
+          - paragraph [ref=e149]: Ontdek Afrika op zijn puurste
+          - paragraph [ref=e150]: Puur Uganda Reizen organiseert authentieke safari reizen op maat. Wij verbinden reizigers met de magie van Afrika.
+          - generic [ref=e151]:
+            - link "Instagram" [ref=e152] [cursor=pointer]:
+              - /url: https://instagram.com/puursafaris
+              - img [ref=e153]
+            - link "Facebook" [ref=e155] [cursor=pointer]:
+              - /url: https://facebook.com/puursafaris
+              - img [ref=e156]
+            - link "YouTube" [ref=e158] [cursor=pointer]:
+              - /url: https://youtube.com/puursafaris
+              - img [ref=e159]
+            - link "WhatsApp" [ref=e161] [cursor=pointer]:
+              - /url: https://wa.me/31201234567
+              - img [ref=e162]
+        - generic [ref=e164]:
+          - heading "Safari Reizen" [level=3] [ref=e165]
+          - list [ref=e166]:
+            - listitem [ref=e167]:
+              - link "Alle safari reizen" [ref=e168] [cursor=pointer]:
+                - /url: /nl/safari-reizen
+            - listitem [ref=e169]:
+              - link "Wildlife Safaris" [ref=e170] [cursor=pointer]:
+                - /url: /nl/safari-reizen?category=wildlife
+            - listitem [ref=e171]:
+              - link "Berg & Trekking" [ref=e172] [cursor=pointer]:
+                - /url: /nl/safari-reizen?category=hiking
+            - listitem [ref=e173]:
+              - link "Combinatiereis" [ref=e174] [cursor=pointer]:
+                - /url: /nl/safari-reizen?category=combined
+            - listitem [ref=e175]:
+              - link "Bestemmingen" [ref=e176] [cursor=pointer]:
+                - /url: /nl/bestemmingen
+        - generic [ref=e177]:
+          - heading "Over Ons" [level=3] [ref=e178]
+          - list [ref=e179]:
+            - listitem [ref=e180]:
+              - link "Over Puur Safaris" [ref=e181] [cursor=pointer]:
+                - /url: /nl/over-ons
+            - listitem [ref=e182]:
+              - link "Reisblog" [ref=e183] [cursor=pointer]:
+                - /url: /nl/blog
+            - listitem [ref=e184]:
+              - link "Veelgestelde vragen" [ref=e185] [cursor=pointer]:
+                - /url: /nl/faq
+            - listitem [ref=e186]:
+              - link "Contact" [ref=e187] [cursor=pointer]:
+                - /url: /nl/contact
+        - generic [ref=e188]:
+          - heading "Contact" [level=3] [ref=e189]
+          - list [ref=e190]:
+            - listitem [ref=e191]:
+              - link "+31 653536011" [ref=e192] [cursor=pointer]:
+                - /url: tel:+31 653536011
+                - img [ref=e193]
+                - generic [ref=e195]: +31 653536011
+            - listitem [ref=e196]:
+              - link "info@puurugandareizen.nl" [ref=e197] [cursor=pointer]:
+                - /url: mailto:info@puurugandareizen.nl
+                - img [ref=e198]
+                - generic [ref=e201]: info@puurugandareizen.nl
+            - listitem [ref=e202]:
+              - img [ref=e203]
+              - generic [ref=e206]: Brittenburg 13 1082 BS Amsterdam Nederland
+            - listitem [ref=e207]:
+              - img [ref=e208]
+              - generic [ref=e211]: Nederland
+            - listitem [ref=e212]:
+              - link "WhatsApp" [ref=e213] [cursor=pointer]:
+                - /url: https://wa.me/31201234567
+                - img [ref=e214]
+                - text: WhatsApp
+      - generic [ref=e216]:
+        - paragraph [ref=e217]: "© 2026 Puur Uganda Reizen. Alle rechten voorbehouden. · KvK: 12345678"
+        - generic [ref=e218]:
+          - link "Privacybeleid" [ref=e219] [cursor=pointer]:
+            - /url: /nl/privacybeleid
+          - link "Algemene Voorwaarden" [ref=e220] [cursor=pointer]:
+            - /url: /nl/algemene-voorwaarden
+  - region "View in English" [ref=e233]:
+    - generic [ref=e234]:
+      - link "View in English" [ref=e235] [cursor=pointer]:
+        - /url: http://localhost:3000/en/contact
+        - text: View in English
+        - img [ref=e236]
+      - button "Dismiss" [ref=e238]:
+        - img [ref=e239]
+  - button "Open Next.js Dev Tools" [ref=e226] [cursor=pointer]:
+    - img [ref=e227]
+  - alert [ref=e242]
