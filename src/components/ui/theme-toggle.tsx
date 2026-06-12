@@ -39,7 +39,7 @@ export function ThemeToggle({ scrolled = false, labels }: ThemeToggleProps) {
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       aria-label={ariaLabel}
       aria-pressed={isDark}
-      className={`flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border transition-all duration-300 active:scale-95 [-webkit-tap-highlight-color:transparent] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
+      className={`flex h-11 w-11 min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center rounded-full border transition-all duration-300 active:scale-95 [-webkit-tap-highlight-color:transparent] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
         scrolled
           ? isDark
             ? 'border-white/15 text-white/60 hover:border-gold/50 hover:text-gold active:border-gold active:text-gold'

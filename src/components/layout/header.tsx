@@ -8,6 +8,7 @@ import { Menu, X, Phone } from "lucide-react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { LanguageToggle } from "@/components/ui/language-toggle";
 import { localePath, cmsPathToLocale } from "@/i18n/routes";
 import { sanityImageUrl } from "@/sanity/image";
 import type { Locale } from "@/i18n/config";
@@ -25,6 +26,7 @@ interface HeaderLabels {
   menuCloseLabel?: string;
   themeToLightLabel?: string;
   themeToDarkLabel?: string;
+  languageLabel?: string;
 }
 
 interface HeaderProps {
@@ -145,6 +147,7 @@ export function Header({ settings, locale = "nl", labels }: HeaderProps) {
                 {settings.phone}
               </a>
             )}
+            <LanguageToggle locale={locale} label={labels?.languageLabel} />
             <ThemeToggle scrolled={scrolled} labels={{ toLight: labels?.themeToLightLabel, toDark: labels?.themeToDarkLabel }} />
             <Link
               href={settings?.headerCtaLink ? `/${locale}${cmsPathToLocale(stegaClean(settings.headerCtaLink), loc)}` : localePath(loc, 'customItinerary')}
@@ -160,6 +163,7 @@ export function Header({ settings, locale = "nl", labels }: HeaderProps) {
 
           {/* Mobile controls */}
           <div className="flex lg:hidden items-center gap-2">
+            <LanguageToggle locale={locale} label={labels?.languageLabel} />
             <ThemeToggle scrolled={scrolled} labels={{ toLight: labels?.themeToLightLabel, toDark: labels?.themeToDarkLabel }} />
             <button
               type="button"

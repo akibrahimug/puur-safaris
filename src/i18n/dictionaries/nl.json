@@ -12,7 +12,8 @@
     "menuLabel": "Menu",
     "menuCloseLabel": "Menu sluiten",
     "themeToLightLabel": "Schakel naar lichte modus",
-    "themeToDarkLabel": "Schakel naar donkere modus"
+    "themeToDarkLabel": "Schakel naar donkere modus",
+    "languageLabel": "Schakel naar Engels"
   },
   "footer": {
     "col1Heading": "Safari Reizen",

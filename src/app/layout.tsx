@@ -41,7 +41,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     // layered on top. We have first-class translations for both locales, so the
     // browser's auto-translate only ever degraded the experience (e.g. machine-
     // translating Dutch on /nl for an English-browser visitor). Cross-locale
-    // switching is offered by <LanguageMismatchBanner> instead.
+    // switching is offered by <CountryBanner> instead.
     // `suppressHydrationWarning` stays because Sanity stega-encoded content
     // and visual-editing live updates can perturb the DOM during hydration.
     <html lang={lang} translate="no" className={`${sora.variable} ${barriecito.variable} h-full antialiased`} data-scroll-behavior="smooth" suppressHydrationWarning>

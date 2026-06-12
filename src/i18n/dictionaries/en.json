@@ -12,7 +12,8 @@
     "menuLabel": "Menu",
     "menuCloseLabel": "Close menu",
     "themeToLightLabel": "Switch to light mode",
-    "themeToDarkLabel": "Switch to dark mode"
+    "themeToDarkLabel": "Switch to dark mode",
+    "languageLabel": "Switch to Dutch"
   },
   "footer": {
     "col1Heading": "Safari Trips",

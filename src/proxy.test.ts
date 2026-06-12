@@ -142,13 +142,31 @@ describe('proxy — locale routing', () => {
       expect(res.headers.get('location')).toBe('http://localhost/nl/contact')
     })
 
-    it('country BE → /nl even when the browser is set to English', () => {
+    it('bilingual country BE follows browser language → /en for an English browser', () => {
       const req = makeRequest('http://localhost/contact', {
         country: 'BE',
         acceptLanguage: 'en-GB,en;q=0.9',
       })
       const res = proxy(req)
+      expect(res.headers.get('location')).toBe('http://localhost/en/contact')
+    })
+
+    it('bilingual country BE follows browser language → /nl for a Flemish browser', () => {
+      const req = makeRequest('http://localhost/contact', {
+        country: 'BE',
+        acceptLanguage: 'nl-BE,nl;q=0.9,fr;q=0.8',
+      })
+      const res = proxy(req)
       expect(res.headers.get('location')).toBe('http://localhost/nl/contact')
+    })
+
+    it('bilingual country BE with a French browser → /en (no NL signal)', () => {
+      const req = makeRequest('http://localhost/contact', {
+        country: 'BE',
+        acceptLanguage: 'fr-BE,fr;q=0.9',
+      })
+      const res = proxy(req)
+      expect(res.headers.get('location')).toBe('http://localhost/en/contact')
     })
 
     it('lowercase country header still matches (case-insensitive)', () => {
@@ -179,6 +197,81 @@ describe('proxy — locale routing', () => {
       })
       const res = proxy(req)
       expect(res.headers.get('location')).toBe('http://localhost/nl/contact')
+    })
+  })
+
+  describe('puur_locale choice cookie overrides geo on redirects', () => {
+    it('honors a saved en choice even from a Dutch country', () => {
+      const req = makeRequest('http://localhost/contact', {
+        country: 'NL',
+        cookies: { puur_locale: 'en' },
+      })
+      const res = proxy(req)
+      expect(res.headers.get('location')).toBe('http://localhost/en/contact')
+    })
+
+    it('honors a saved nl choice even from a non-Dutch country', () => {
+      const req = makeRequest('http://localhost/contact', {
+        country: 'US',
+        cookies: { puur_locale: 'nl' },
+      })
+      const res = proxy(req)
+      expect(res.headers.get('location')).toBe('http://localhost/nl/contact')
+    })
+
+    it('ignores a garbage choice value and falls back to geo', () => {
+      const req = makeRequest('http://localhost/contact', {
+        country: 'US',
+        cookies: { puur_locale: 'fr' },
+      })
+      const res = proxy(req)
+      expect(res.headers.get('location')).toBe('http://localhost/en/contact')
+    })
+  })
+
+  describe('country-banner decision (x-locale-banner header)', () => {
+    it('flags the banner on /nl for a non-Dutch visitor (target en)', () => {
+      const req = makeRequest('http://localhost/nl/contact', { country: 'US' })
+      const res = proxy(req)
+      expect(res.status).toBe(200)
+      expect(res.headers.get('x-middleware-override-headers')).toContain('x-locale-banner')
+    })
+
+    it('does not flag the banner when geo matches the path locale', () => {
+      // A Dutch-country visitor already on /nl → preferred === path → no banner.
+      const req = makeRequest('http://localhost/nl/contact', { country: 'NL' })
+      const res = proxy(req)
+      const overrides = res.headers.get('x-middleware-request-x-locale-banner')
+      expect(overrides).toBe('')
+    })
+
+    it('no banner when the saved choice matches the locale being viewed', () => {
+      // Visitor settled on /nl (Dismiss wrote nl) → no banner while on /nl.
+      const req = makeRequest('http://localhost/nl/contact', {
+        country: 'US',
+        cookies: { puur_locale: 'nl' },
+      })
+      const res = proxy(req)
+      const banner = res.headers.get('x-middleware-request-x-locale-banner')
+      expect(banner).toBe('')
+    })
+
+    it('RE-shows the banner when the visitor navigates back to the wrong locale after choosing', () => {
+      // Chose en, then manually opens /nl again → banner returns, offering en.
+      const req = makeRequest('http://localhost/nl/contact', {
+        country: 'US',
+        cookies: { puur_locale: 'en' },
+      })
+      const res = proxy(req)
+      const banner = res.headers.get('x-middleware-request-x-locale-banner')
+      expect(banner).toBe('en')
+    })
+
+    it('targets nl on /en for a Dutch visitor', () => {
+      const req = makeRequest('http://localhost/en/contact', { country: 'NL' })
+      const res = proxy(req)
+      const banner = res.headers.get('x-middleware-request-x-locale-banner')
+      expect(banner).toBe('nl')
     })
   })
 

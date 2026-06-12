@@ -101,7 +101,8 @@
       "Bash(echo \"Started pid $!\")",
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_snapshot",
-      "mcp__playwright__browser_fill_form"
+      "mcp__playwright__browser_fill_form",
+      "Bash(echo \"=== exit $? ===\")"
     ]
   }
 }
