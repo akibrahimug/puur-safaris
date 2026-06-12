@@ -34,15 +34,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const lang = hdrs.get('x-locale') ?? defaultLocale
 
   return (
-    // `lang={lang}` (set from the proxy's x-locale header) is the signal
-    // browsers use to offer auto-translation as a fallback — e.g. an English
-    // visitor who lands on /nl despite the proxy still gets Chrome's
-    // "Translate this page?" prompt because the document's source language
-    // is correctly declared. We deliberately do NOT set translate="no" /
-    // <meta name="google" content="notranslate"> for this reason.
+    // `lang={lang}` (set from the proxy's x-locale header) declares the page's
+    // authored source language. `translate="no"` (+ the notranslate meta) tells
+    // browsers NOT to offer "Translate this page?" — /nl always shows authored
+    // Dutch and /en always shows authored English, never a machine translation
+    // layered on top. We have first-class translations for both locales, so the
+    // browser's auto-translate only ever degraded the experience (e.g. machine-
+    // translating Dutch on /nl for an English-browser visitor). Cross-locale
+    // switching is offered by <LanguageMismatchBanner> instead.
     // `suppressHydrationWarning` stays because Sanity stega-encoded content
     // and visual-editing live updates can perturb the DOM during hydration.
-    <html lang={lang} className={`${sora.variable} ${barriecito.variable} h-full antialiased`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={lang} translate="no" className={`${sora.variable} ${barriecito.variable} h-full antialiased`} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <meta name="google" content="notranslate" />
+      </head>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         <ThemeProvider>
           {children}

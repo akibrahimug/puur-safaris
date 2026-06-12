@@ -4,11 +4,14 @@ import { proxy } from './proxy'
 
 function makeRequest(
   url: string,
-  init: { acceptLanguage?: string | null; cookies?: Record<string, string> } = {},
+  init: { acceptLanguage?: string | null; country?: string | null; cookies?: Record<string, string> } = {},
 ): NextRequest {
   const headers = new Headers()
   if (init.acceptLanguage !== null && init.acceptLanguage !== undefined) {
     headers.set('accept-language', init.acceptLanguage)
+  }
+  if (init.country) {
+    headers.set('x-vercel-ip-country', init.country)
   }
   if (init.cookies) {
     const cookieStr = Object.entries(init.cookies)
@@ -126,6 +129,56 @@ describe('proxy — locale routing', () => {
       })
       const res = proxy(req)
       expect(res.headers.get('location')).toBe('http://localhost/nl/about')
+    })
+  })
+
+  describe('geo-based routing (x-vercel-ip-country) takes priority over Accept-Language', () => {
+    it('country NL → /nl even when the browser is set to English', () => {
+      const req = makeRequest('http://localhost/contact', {
+        country: 'NL',
+        acceptLanguage: 'en-US,en;q=0.9',
+      })
+      const res = proxy(req)
+      expect(res.headers.get('location')).toBe('http://localhost/nl/contact')
+    })
+
+    it('country BE → /nl even when the browser is set to English', () => {
+      const req = makeRequest('http://localhost/contact', {
+        country: 'BE',
+        acceptLanguage: 'en-GB,en;q=0.9',
+      })
+      const res = proxy(req)
+      expect(res.headers.get('location')).toBe('http://localhost/nl/contact')
+    })
+
+    it('lowercase country header still matches (case-insensitive)', () => {
+      const req = makeRequest('http://localhost/contact', { country: 'nl' })
+      const res = proxy(req)
+      expect(res.headers.get('location')).toBe('http://localhost/nl/contact')
+    })
+
+    it('non-Dutch country (US) → /en even when the browser prefers Dutch', () => {
+      const req = makeRequest('http://localhost/contact', {
+        country: 'US',
+        acceptLanguage: 'nl-NL,nl;q=0.9',
+      })
+      const res = proxy(req)
+      expect(res.headers.get('location')).toBe('http://localhost/en/contact')
+    })
+
+    it('non-Dutch country (DE) → /en', () => {
+      const req = makeRequest('http://localhost/contact', { country: 'DE' })
+      const res = proxy(req)
+      expect(res.headers.get('location')).toBe('http://localhost/en/contact')
+    })
+
+    it('no country header → falls back to Accept-Language', () => {
+      const req = makeRequest('http://localhost/contact', {
+        country: null,
+        acceptLanguage: 'nl-NL,nl;q=0.9',
+      })
+      const res = proxy(req)
+      expect(res.headers.get('location')).toBe('http://localhost/nl/contact')
     })
   })
 

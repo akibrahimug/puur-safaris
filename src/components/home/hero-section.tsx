@@ -34,6 +34,9 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
   const heroLqip = homePage?.heroImage?.asset?.metadata?.lqip
   const heroImageAlt = homePage?.heroImage?.alt ?? ''
 
+  const socialProofAvatars = homePage?.heroSocialProofAvatars ?? []
+  const hasSocialProof = Boolean(homePage?.heroSocialProofText) || socialProofAvatars.length > 0
+
   return (
     <section ref={ref} className="relative flex min-h-[640px] md:min-h-[100svh] items-center overflow-hidden bg-ink grain">
       {/* Parallax background image */}
@@ -107,35 +110,38 @@ export function HeroSection({ homePage, dict, locale = 'nl' }: HeroSectionProps)
         </motion.div>
 
         {/* Social proof */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 1.0 }}
-          className="mt-10 sm:mt-14 flex items-center gap-4 sm:gap-6"
-        >
-          <div className="flex -space-x-2">
-            {(homePage?.heroSocialProofAvatars?.length
-              ? homePage.heroSocialProofAvatars
-              : [{ asset: { url: 'https://i.pravatar.cc/32?img=11' } }, { asset: { url: 'https://i.pravatar.cc/32?img=12' } }, { asset: { url: 'https://i.pravatar.cc/32?img=13' } }, { asset: { url: 'https://i.pravatar.cc/32?img=14' } }]
-            ).map((avatar: { asset?: { url?: string }; alt?: string }, i: number) => (
-              <div
-                key={i}
-                className="h-8 w-8 rounded-full border-2 border-white/20 bg-stone-700 ring-0"
-                style={{ backgroundImage: `url(${avatar.asset?.url})`, backgroundSize: 'cover' }}
-              />
-            ))}
-          </div>
-          <div>
-            <div className="flex items-center gap-1 mb-0.5">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <svg key={i} className="h-3.5 w-3.5 fill-gold text-gold" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
+        {hasSocialProof && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 1.0 }}
+            className="mt-10 sm:mt-14 flex items-center gap-4 sm:gap-6"
+          >
+            {socialProofAvatars.length > 0 && (
+              <div className="flex -space-x-2">
+                {socialProofAvatars.map((avatar, i) => (
+                  <div
+                    key={i}
+                    className="h-8 w-8 rounded-full border-2 border-white/20 bg-stone-700 ring-0"
+                    style={{ backgroundImage: `url(${avatar.asset?.url})`, backgroundSize: 'cover' }}
+                  />
+                ))}
+              </div>
+            )}
+            <div>
+              <div className="flex items-center gap-1 mb-0.5">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <svg key={i} className="h-3.5 w-3.5 fill-gold text-gold" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              {homePage?.heroSocialProofText && (
+                <p className="text-xs text-white/50">{homePage.heroSocialProofText}</p>
+              )}
             </div>
-            <p className="text-xs text-white/50">{homePage?.heroSocialProofText}</p>
-          </div>
-        </motion.div>
+          </motion.div>
+        )}
       </motion.div>
 
       {/* Scroll indicator */}
