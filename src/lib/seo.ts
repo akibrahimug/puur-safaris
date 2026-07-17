@@ -165,8 +165,10 @@ export function organizationJsonLd(settings?: SiteSettings | null) {
   return {
     '@context': 'https://schema.org',
     '@type': 'TravelAgency',
+    '@id': `${baseUrl}/#organization`,
     name: stegaClean(settings?.siteName ?? 'Puur Uganda Reizen'),
     url: baseUrl,
+    areaServed: { '@type': 'Country', name: 'Uganda' },
     ...(settings?.contactEmail && { email: stegaClean(settings.contactEmail) }),
     ...(settings?.phone && { telephone: stegaClean(settings.phone) }),
     ...(settings?.address && { address: stegaClean(settings.address) }),
