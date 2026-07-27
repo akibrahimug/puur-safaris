@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
+import { localePath } from '@/i18n/routes'
 import { getDestinations, getTrips, getEigenReisschemaPage, getSiteSettings } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
 import { PageHero } from '@/components/shared/page-hero'
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: eigenReisschemaPage?.heroTitle,
       description: eigenReisschemaPage?.heroSubtitle,
-      canonical: `/${lang}/custom-itinerary`,
+      canonical: localePath(locale, 'customItinerary'),
       locale,
       alternates: { nl: '/nl/eigen-reisschema', en: '/en/custom-itinerary' },
     },

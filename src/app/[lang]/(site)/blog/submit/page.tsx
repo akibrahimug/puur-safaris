@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
+import { localePath } from '@/i18n/routes'
 import { PageHero } from '@/components/shared/page-hero'
 import { BlogSubmissionForm } from '@/components/blog/blog-submission-form'
 import { getSiteSettings, getBlogSubmissionPage } from '@/lib/data'
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: page?.seo?.title ?? page?.heroTitle,
       description: page?.seo?.description ?? page?.heroSubtitle,
-      canonical: `/${lang}/blog/submit`,
+      canonical: localePath(locale, 'blogSubmit'),
       locale,
       alternates: { nl: '/nl/blog/inzenden', en: '/en/blog/submit' },
     },

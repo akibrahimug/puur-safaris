@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         { title: destination.name, subtitle: destination.excerpt, image: destination.heroImage },
         destination.seo,
       ),
-      canonical: `/${lang}/destinations/${slug}`,
+      canonical: localePath(locale, 'destinationDetail', slug),
       locale,
       alternates: { nl: `/nl/bestemmingen/${slug}`, en: `/en/destinations/${slug}` },
     },

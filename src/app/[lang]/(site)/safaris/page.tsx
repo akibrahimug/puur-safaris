@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
+import { localePath } from '@/i18n/routes'
 import { getSiteSettings, getTrips, getSafariListingPage } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
 import { stegaClean } from '@sanity/client/stega'
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: safariListingPage?.heroTitle,
       description: safariListingPage?.heroSubtitle,
-      canonical: `/${lang}/safaris`,
+      canonical: localePath(locale, 'safaris'),
       locale,
       alternates: { nl: '/nl/safari-reizen', en: '/en/safaris' },
     },

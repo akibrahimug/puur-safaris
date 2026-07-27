@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
+import { localePath } from '@/i18n/routes'
 import { getSiteSettings, getLegalPage } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
 import { PageHero } from '@/components/shared/page-hero'
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: page?.seo?.title ?? page?.title ?? dict.footer.privacyLabel,
       description: page?.seo?.description,
-      canonical: `/${lang}/privacy`,
+      canonical: localePath(locale, 'privacy'),
       locale,
       alternates: { nl: '/nl/privacybeleid', en: '/en/privacy' },
     },
