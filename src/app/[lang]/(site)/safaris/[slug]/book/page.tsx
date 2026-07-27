@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
+import { localePath } from '@/i18n/routes'
 import { getTripDetail, getBookingPage, getSiteSettings } from '@/lib/data'
 import { buildMetadata } from '@/lib/seo'
 import { PageHero } from '@/components/shared/page-hero'
@@ -24,8 +25,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: bookingPage?.heroEyebrow ? `${bookingPage.heroEyebrow}: ${trip.title}` : trip.title,
       description: bookingPage?.heroSubtitle,
-      canonical: `/${lang}/safaris/${slug}/book`,
+      canonical: localePath(locale, 'safariBook', slug),
       locale,
+      alternates: { nl: localePath('nl', 'safariBook', slug), en: localePath('en', 'safariBook', slug) },
     },
     settings,
   )

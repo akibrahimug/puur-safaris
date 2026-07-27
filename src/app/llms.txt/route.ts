@@ -1,6 +1,7 @@
 import { stegaClean } from '@sanity/client/stega'
 import { getSiteSettings, getTrips, getDestinations, getBlogPosts } from '@/lib/data'
 import { getBaseUrl } from '@/lib/seo'
+import { localePath } from '@/i18n/routes'
 
 export const dynamic = 'force-static'
 
@@ -38,25 +39,27 @@ export async function GET() {
   ]
 
   for (const trip of trips.slice(0, MAX_LINKS_PER_SECTION)) {
-    lines.push(link(baseUrl, `/nl/safaris/${stegaClean(trip.slug)}`, trip.title, trip.excerpt))
+    lines.push(link(baseUrl, localePath('nl', 'safariDetail', stegaClean(trip.slug)), trip.title, trip.excerpt))
   }
 
   lines.push('', '## Bestemmingen')
   for (const destination of destinations.slice(0, MAX_LINKS_PER_SECTION)) {
-    lines.push(link(baseUrl, `/nl/destinations/${stegaClean(destination.slug)}`, destination.name, destination.excerpt))
+    lines.push(
+      link(baseUrl, localePath('nl', 'destinationDetail', stegaClean(destination.slug)), destination.name, destination.excerpt),
+    )
   }
 
   lines.push('', '## Blog')
   for (const post of blogPosts.slice(0, MAX_LINKS_PER_SECTION)) {
-    lines.push(link(baseUrl, `/nl/blog/${stegaClean(post.slug)}`, post.title, post.summary))
+    lines.push(link(baseUrl, localePath('nl', 'blogDetail', stegaClean(post.slug)), post.title, post.summary))
   }
 
   lines.push(
     '',
     '## Overig',
-    link(baseUrl, '/nl/faq', 'Veelgestelde vragen'),
-    link(baseUrl, '/nl/contact', 'Contact'),
-    link(baseUrl, '/nl/about', 'Over ons'),
+    link(baseUrl, localePath('nl', 'faq'), 'Veelgestelde vragen'),
+    link(baseUrl, localePath('nl', 'contact'), 'Contact'),
+    link(baseUrl, localePath('nl', 'about'), 'Over ons'),
   )
 
   if (settings.contactEmail) {

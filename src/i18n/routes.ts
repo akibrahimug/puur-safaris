@@ -38,8 +38,11 @@ export type RouteKey = keyof typeof routeMap
  * @example localePath('en', 'safaris', 'serengeti') → '/en/safaris/serengeti'
  */
 export function localePath(locale: Locale, route: RouteKey, slug?: string): string {
-  const base = `/${locale}${routeMap[route][locale]}`
-  return slug ? `${base}/${slug}` : base
+  const routeConfig = routeMap[route]
+  const base = `/${locale}${routeConfig[locale]}`
+  if (!slug) return base
+  const tail = 'slugTail' in routeConfig && routeConfig.slugTail ? routeConfig.slugTail[locale] : ''
+  return `${base}/${slug}${tail}`
 }
 
 /**

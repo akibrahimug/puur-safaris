@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { hasLocale, type Locale } from '@/i18n/config'
+import { localePath } from '@/i18n/routes'
 import { getSiteSettings, getDestinations, getDestinationListingPage } from '@/lib/data'
 import { buildMetadata, getBaseUrl } from '@/lib/seo'
 import { PageHero } from '@/components/shared/page-hero'
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: destinationListingPage?.heroTitle,
       description: destinationListingPage?.heroSubtitle,
-      canonical: `/${lang}/destinations`,
+      canonical: localePath(locale, 'destinations'),
       locale,
       alternates: { nl: '/nl/bestemmingen', en: '/en/destinations' },
     },

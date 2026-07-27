@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title: trip.title,
         description: trip.excerpt,
         image: trip.heroImage,
-        canonical: `/${lang}/safaris/${slug}`,
+        canonical: localePath(locale, 'safariDetail', slug),
         locale,
         alternates: { nl: `/nl/safari-reizen/${slug}`, en: `/en/safaris/${slug}` },
       },
@@ -221,7 +221,7 @@ export default async function SafariDetailPage({ params }: Props) {
               </div>
 
               <Button asChild size="lg" className="w-full mb-3">
-                <Link href={`/${lang}/safaris/${slug}/book`}>{labels?.bookTripCtaLabel}</Link>
+                <Link href={localePath(locale, 'safariBook', slug)}>{labels?.bookTripCtaLabel}</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="w-full">
                 <Link href={localePath(locale, 'customItinerary')}>{labels?.eigenReisschemaCtaLabel}</Link>

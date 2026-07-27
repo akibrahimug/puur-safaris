@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     {
       title: aboutPage?.heroTitle,
       description: aboutPage?.heroSubtitle,
-      canonical: `/${lang}/about`,
+      canonical: localePath(locale, 'about'),
       locale,
       alternates: { nl: '/nl/over-ons', en: '/en/about' },
     },
