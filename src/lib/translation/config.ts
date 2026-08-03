@@ -164,7 +164,7 @@ export const translatableFields: Record<string, TranslatableFieldConfig> = {
   legalPage: {
     text: ['title', 'slug'],
     textArray: [],
-    portableText: ['content'],
+    portableText: ['body'],
     nested: {},
   },
 }

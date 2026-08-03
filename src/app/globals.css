@@ -136,6 +136,10 @@ body {
 
 html {
   overflow-x: clip;
+  /* framer-motion's useScroll (hero-section.tsx) measures scroll offset
+     against document.scrollingElement; a static position makes that
+     measurement unreliable and triggers a dev-only console warning. */
+  position: relative;
 }
 
 .font-serif {

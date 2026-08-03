@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Check, ChevronLeft, ChevronRight, Minus, Plus, PartyPopper, AlertCircle, Shield } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import { DateRangePicker, SingleDatePicker } from '@/components/ui/date-picker'
+import { trackEvent } from '@/lib/analytics/gtm'
 import { validateStep1, validateStep2, validateStep3, type FieldErrors } from './booking-form.validation'
 
 // ── Props ──────────────────────────────────────────────────────────────────────
@@ -252,6 +253,11 @@ export function BookingForm({
       // user's recovery path if their confirmation email lands in spam.
       const json = (await res.json().catch(() => null)) as { bookingNumber?: string } | null
       if (json?.bookingNumber) setBookingNumber(json.bookingNumber)
+      trackEvent('booking_form_submit', {
+        trip_title: tripTitle,
+        trip_slug: tripSlug,
+        booking_number: json?.bookingNumber,
+      })
       setSubmitted(true)
     } catch {
       setError(d?.errorMessage ?? 'Er is iets misgegaan. Probeer het opnieuw of neem contact met ons op.')
