@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import * as Sentry from '@sentry/nextjs'
 import { Resend } from 'resend'
 import { z } from 'zod'
 import { ContactAdminEmail } from '@/emails/contact-admin'
@@ -109,6 +110,7 @@ export async function POST(req: NextRequest) {
       // logs. Don't fail the request — surfacing an error here would cause
       // the user to retry and produce duplicate confirmation emails.
       console.error('Contact form: admin notification failed', { onderwerp: data.onderwerp, email: data.email, error: adminMailError })
+      Sentry.captureException(adminMailError, { tags: { route: 'contact', stage: 'admin-notification' } })
     }
 
     return NextResponse.json({ success: true })
@@ -117,6 +119,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Ongeldige invoer', details: error.issues }, { status: 400 })
     }
     console.error('Contact form error:', error)
+    Sentry.captureException(error, { tags: { route: 'contact' } })
     return NextResponse.json({ error: 'Versturen mislukt' }, { status: 500 })
   }
 }

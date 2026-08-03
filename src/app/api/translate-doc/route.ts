@@ -15,6 +15,7 @@
  */
 
 import { NextResponse } from 'next/server'
+import * as Sentry from '@sentry/nextjs'
 import { translatableFields } from '@/lib/translation/config'
 import { translateDocument } from '@/lib/translation/service'
 
@@ -69,6 +70,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, fields: changed })
   } catch (err) {
     console.error('[translate-doc] failed:', err)
+    Sentry.captureException(err, { tags: { route: 'translate-doc' } })
     return NextResponse.json(
       { error: 'Translation failed', detail: (err as Error).message },
       { status: 500 },
