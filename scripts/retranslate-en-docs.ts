@@ -91,10 +91,27 @@ function looksDutch(text: unknown): boolean {
   return hits >= 1
 }
 
+/**
+ * Recurses into arrays/objects (portable text bodies, nested field groups,
+ * textArray fields) instead of only checking top-level string values.
+ * A doc whose only top-level string is its (translated) `title` but whose
+ * `body` portable text is 100% Dutch previously slipped past this check
+ * entirely — `typeof value === 'string'` is false for an array, so the
+ * Dutch text inside it was never inspected.
+ */
+function containsDutch(value: unknown, depth = 0): boolean {
+  if (depth > 8) return false
+  if (typeof value === 'string') return looksDutch(value)
+  if (Array.isArray(value)) return value.some((v) => containsDutch(v, depth + 1))
+  if (value && typeof value === 'object') {
+    return Object.values(value).some((v) => containsDutch(v, depth + 1))
+  }
+  return false
+}
+
 function docIsLikelyDutch(doc: SanityDocument): boolean {
-  // Walk top-level string fields and check for Dutch hallmarks.
   for (const value of Object.values(doc)) {
-    if (typeof value === 'string' && looksDutch(value)) return true
+    if (containsDutch(value)) return true
   }
   return false
 }

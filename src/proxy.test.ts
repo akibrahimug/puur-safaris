@@ -361,5 +361,17 @@ describe('proxy — locale routing', () => {
       expect(res.status).toBe(200)
       expect(res.headers.get('location')).toBeNull()
     })
+
+    it('passes /monitoring (Sentry tunnel route) straight through with no redirect', () => {
+      // Regression guard: Sentry's tunnelRoute (next.config.ts) rewrites this
+      // path to its ingest API. If the locale proxy redirects it first, the
+      // rewrite never runs and client-side error/replay events are dropped.
+      const req = makeRequest('http://localhost/monitoring?o=123&p=456', {
+        acceptLanguage: 'en-US',
+      })
+      const res = proxy(req)
+      expect(res.status).toBe(200)
+      expect(res.headers.get('location')).toBeNull()
+    })
   })
 })

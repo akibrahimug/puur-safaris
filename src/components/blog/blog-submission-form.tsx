@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { Calendar, User, CheckCircle2, X, Camera, Pencil, Plus, Trash2, ImageIcon, LayoutGrid } from 'lucide-react'
+import { trackEvent } from '@/lib/analytics/gtm'
 import { validateBlogSubmission } from './blog-submission-form.validation'
 
 /* ── Types ── */
@@ -381,6 +382,7 @@ export function BlogSubmissionForm({ labels, dict }: BlogSubmissionFormProps) {
         return
       }
 
+      trackEvent('blog_submission', { title })
       setIsSuccess(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch {

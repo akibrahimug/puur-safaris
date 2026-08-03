@@ -7,6 +7,7 @@
  */
 
 import translate from 'google-translate-api-x'
+import * as Sentry from '@sentry/nextjs'
 import type { TranslatableFieldConfig } from './config'
 import { applyGlossary, restoreGlossary } from './glossary'
 
@@ -48,7 +49,11 @@ async function translateTexts(
     }
   } catch (error) {
     console.error('[translation] Google Translate error:', (error as Error).message)
-    // Return originals on failure
+    // Return originals on failure. Captured (not just logged) because this
+    // is the exact silent-failure path that lands untranslated NL content
+    // in EN docs during bulk seeding — see CLAUDE.md's retranslate-en-docs
+    // note. Without this, the only way to notice is a manual repair-script run.
+    Sentry.captureException(error, { tags: { module: 'translation-service' } })
   }
 
   return results

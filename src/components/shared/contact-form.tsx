@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { CheckCircle2, AlertCircle, Send, ChevronDown } from 'lucide-react'
+import { trackEvent } from '@/lib/analytics/gtm'
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 
@@ -167,6 +168,7 @@ export function ContactForm({ prefilledSafari, dict }: ContactFormProps) {
         body: JSON.stringify(data),
       })
       if (!res.ok) throw new Error(f?.errorSend ?? 'Fout bij versturen')
+      trackEvent('contact_form_submit', { subject: data.onderwerp })
       setStatus('success')
       reset()
     } catch {

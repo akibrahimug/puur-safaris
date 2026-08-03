@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import * as Sentry from '@sentry/nextjs'
 import { Resend } from 'resend'
 import { z } from 'zod'
 import { writeClient } from '@/sanity/write-client'
@@ -128,6 +129,7 @@ export async function POST(req: NextRequest) {
       // Booking is in Sanity, customer has confirmation. Admin can recover
       // the lead from the CMS (filter by createdAt) or these logs.
       console.error('Booking form: admin notification failed', { bookingNumber, email: data.email, error: adminMailError })
+      Sentry.captureException(adminMailError, { tags: { route: 'booking', stage: 'admin-notification' } })
     }
 
     return NextResponse.json({ success: true, bookingNumber })
@@ -136,6 +138,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Ongeldige invoer', details: error.issues }, { status: 400 })
     }
     console.error('Booking form error:', error)
+    Sentry.captureException(error, { tags: { route: 'booking' } })
     return NextResponse.json({ error: 'Versturen mislukt' }, { status: 500 })
   }
 }

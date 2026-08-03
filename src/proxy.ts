@@ -56,6 +56,11 @@ const IGNORED_PREFIXES = [
   '/favicon.ico',
   '/sitemap.xml',
   '/robots.txt',
+  // Sentry's tunnelRoute (next.config.ts) — proxies client-side error/replay
+  // events through this same-origin path to dodge ad-blockers. If the locale
+  // proxy redirects it, the tunnel dead-ends and client-side events are
+  // silently dropped.
+  '/monitoring',
 ]
 
 function getPathnameLocale(pathname: string): string | null {

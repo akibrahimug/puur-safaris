@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import * as Sentry from '@sentry/nextjs'
 import { Resend } from 'resend'
 import { z } from 'zod'
 import { writeClient } from '@/sanity/write-client'
@@ -281,6 +282,7 @@ export async function POST(req: NextRequest) {
       )
     }
     console.error('Blog submission error:', error)
+    Sentry.captureException(error, { tags: { route: 'blog-submit' } })
     return NextResponse.json(
       { error: 'Er is iets misgegaan. Probeer het later opnieuw.' },
       { status: 500 },
