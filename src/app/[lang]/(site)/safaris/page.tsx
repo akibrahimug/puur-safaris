@@ -3,7 +3,7 @@ import { hasLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { localePath } from '@/i18n/routes'
 import { getSiteSettings, getTrips, getSafariListingPage } from '@/lib/data'
-import { buildMetadata } from '@/lib/seo'
+import { buildMetadata, getBaseUrl } from '@/lib/seo'
 import { stegaClean } from '@sanity/client/stega'
 import { PageHero } from '@/components/shared/page-hero'
 import { SafariFilterGrid } from '@/components/safari/safari-filter-grid'
@@ -38,6 +38,7 @@ export default async function SafariReizenPage({ params }: Props) {
 
   const [allTrips, safariListingPage, settings] = await Promise.all([getTrips(lang), getSafariListingPage(lang), getSiteSettings(lang)])
 
+  const baseUrl = getBaseUrl()
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -47,7 +48,7 @@ export default async function SafariReizenPage({ params }: Props) {
       '@type': 'ListItem',
       position: i + 1,
       name: stegaClean(t.title),
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/${lang}/safaris/${stegaClean(t.slug)}`,
+      url: `${baseUrl}${localePath(locale, 'safariDetail', stegaClean(t.slug)!)}`,
     })),
   }
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { localePath, cmsPathToLocale, getNlRewrites } from './routes'
+import { localePath, cmsPathToLocale, getNlRewrites, getNlCanonicalRedirects } from './routes'
 
 describe('localePath', () => {
   it('uses the Dutch segment for nl locale on routes where nl/en segments differ', () => {
@@ -65,6 +65,40 @@ describe('getNlRewrites', () => {
     expect(rewrites).toContainEqual({
       source: '/nl/safari-reizen/:slug/boeken',
       destination: '/nl/safaris/:slug/book',
+    })
+  })
+})
+
+describe('getNlCanonicalRedirects', () => {
+  it('is the mirror image of getNlRewrites: every rewrite destination redirects back to its source', () => {
+    const rewrites = getNlRewrites()
+    const redirects = getNlCanonicalRedirects()
+    expect(redirects).toHaveLength(rewrites.length)
+    for (const rewrite of rewrites) {
+      expect(redirects).toContainEqual({
+        source: rewrite.destination,
+        destination: rewrite.source,
+        permanent: true,
+      })
+    }
+  })
+
+  it('redirects the English-segment duplicate under /nl back to the Dutch canonical URL', () => {
+    const redirects = getNlCanonicalRedirects()
+    expect(redirects).toContainEqual({
+      source: '/nl/safaris/:slug',
+      destination: '/nl/safari-reizen/:slug',
+      permanent: true,
+    })
+    expect(redirects).toContainEqual({
+      source: '/nl/destinations',
+      destination: '/nl/bestemmingen',
+      permanent: true,
+    })
+    expect(redirects).toContainEqual({
+      source: '/nl/safaris/:slug/book',
+      destination: '/nl/safari-reizen/:slug/boeken',
+      permanent: true,
     })
   })
 })

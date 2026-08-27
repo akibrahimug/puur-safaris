@@ -113,3 +113,44 @@ export function getNlRewrites(): Array<{ source: string; destination: string }> 
 
   return rewrites
 }
+
+/**
+ * Redirect table for the mirror-image problem `getNlRewrites` creates: since
+ * every NL page is physically served from an English-named file under
+ * `src/app/[lang]/(site)/`, the rewrite *destination* (e.g. `/nl/safaris`) is
+ * itself a directly reachable, fully-rendering URL — a duplicate of the
+ * canonical `/nl/safari-reizen`. Google indexed both and had to pick a
+ * canonical Search Console disagreed with ("Duplicate, Google chose
+ * different canonical than user"). A permanent redirect from the English
+ * segment back to the Dutch one under `/nl` closes that gap structurally,
+ * rather than relying on `<link rel=canonical>` alone.
+ */
+export function getNlCanonicalRedirects(): Array<{ source: string; destination: string; permanent: boolean }> {
+  const redirects: Array<{ source: string; destination: string; permanent: boolean }> = []
+  const seen = new Set<string>()
+
+  const push = (source: string, destination: string) => {
+    if (seen.has(source)) return
+    seen.add(source)
+    redirects.push({ source, destination, permanent: true })
+  }
+
+  for (const route of Object.values(routeMap)) {
+    if (route.nl === route.en) continue
+
+    if ('slugTail' in route && route.slugTail) {
+      push(
+        `/nl${route.en}/:slug${route.slugTail.en}`,
+        `/nl${route.nl}/:slug${route.slugTail.nl}`,
+      )
+      continue
+    }
+
+    push(`/nl${route.en}`, `/nl${route.nl}`)
+    if (route.list) {
+      push(`/nl${route.en}/:slug`, `/nl${route.nl}/:slug`)
+    }
+  }
+
+  return redirects
+}
