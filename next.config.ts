@@ -1,6 +1,6 @@
 import { withSentryConfig } from '@sentry/nextjs';
 import type { NextConfig } from 'next'
-import { getNlRewrites } from './src/i18n/routes'
+import { getNlRewrites, getNlCanonicalRedirects } from './src/i18n/routes'
 
 const nextConfig: NextConfig = {
   images: {
@@ -23,6 +23,9 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return getNlRewrites()
+  },
+  async redirects() {
+    return getNlCanonicalRedirects()
   },
   async headers() {
     return [

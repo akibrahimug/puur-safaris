@@ -46,7 +46,7 @@ export default async function BestemmingListPage({ params }: Props) {
       '@type': 'ListItem',
       position: i + 1,
       name: d.name,
-      url: `${baseUrl}/${lang}/destinations/${d.slug}`,
+      url: `${baseUrl}${localePath(locale, 'destinationDetail', d.slug)}`,
     })),
   }
 

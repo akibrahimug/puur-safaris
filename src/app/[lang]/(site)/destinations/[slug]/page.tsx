@@ -65,7 +65,7 @@ export default async function DestinationDetailPage({ params }: Props) {
   const breadcrumbSchema = breadcrumbJsonLd([
     { name: dict.common.home, path: `/${lang}` },
     { name: dict.nav.destinations, path: localePath(locale, 'destinations') },
-    { name: stegaClean(destination.name)!, path: `/${lang}/destinations/${stegaClean(slug)}` },
+    { name: stegaClean(destination.name)!, path: localePath(locale, 'destinationDetail', stegaClean(slug)!) },
   ])
 
   const destinationSchema = {
@@ -73,7 +73,7 @@ export default async function DestinationDetailPage({ params }: Props) {
     '@type': 'TouristDestination',
     name: stegaClean(destination.name),
     description: stegaClean(destination.excerpt),
-    url: `${baseUrl}/${lang}/destinations/${stegaClean(slug)}`,
+    url: `${baseUrl}${localePath(locale, 'destinationDetail', stegaClean(slug)!)}`,
     inLanguage: lang,
     ...(heroUrl && { image: stegaClean(heroUrl) }),
     ...(destination.coordinates && {

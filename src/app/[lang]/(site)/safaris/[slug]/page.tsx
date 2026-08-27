@@ -76,8 +76,8 @@ export default async function SafariDetailPage({ params }: Props) {
 
   const breadcrumbSchema = breadcrumbJsonLd([
     { name: dict.common.home, path: `/${lang}` },
-    { name: safarisCrumbName, path: `/${lang}/safaris` },
-    { name: stegaClean(trip.title)!, path: `/${lang}/safaris/${stegaClean(slug)}` },
+    { name: safarisCrumbName, path: localePath(locale, 'safaris') },
+    { name: stegaClean(trip.title)!, path: localePath(locale, 'safariDetail', stegaClean(slug)!) },
   ])
 
   const tourSchema = {
@@ -85,7 +85,7 @@ export default async function SafariDetailPage({ params }: Props) {
     '@type': 'TouristTrip',
     name: stegaClean(trip.title),
     description: stegaClean(trip.excerpt),
-    url: `${baseUrl}/${lang}/safaris/${stegaClean(slug)}`,
+    url: `${baseUrl}${localePath(locale, 'safariDetail', stegaClean(slug)!)}`,
     ...(heroUrl && { image: stegaClean(heroUrl) }),
     ...(trip.destination && {
       touristType: trip.category ? categoryLabel(stegaClean(trip.category)!, locale) : undefined,
